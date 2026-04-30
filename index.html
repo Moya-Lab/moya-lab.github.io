@@ -1,1 +1,1378 @@
-<h1>Hola!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOYA-LAB // Terminal</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:   #00ff41;
+  --green2:  #00cc33;
+  --green3:  rgba(0,255,65,0.12);
+  --cyan:    #00ffff;
+  --amber:   #ffb000;
+  --red:     #ff3333;
+  --violet:  #bf5fff;
+  --bg:      #0a0a0a;
+  --bg2:     #111111;
+  --bg3:     #0d0d0d;
+  --border:  rgba(0,255,65,0.2);
+  --dim:     #3a5a3a;
+  --mono:    'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* ── SCANLINES ── */
+body {
+  font-family: var(--mono);
+  background: var(--bg);
+  color: var(--green);
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: default;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.15) 2px,
+    rgba(0,0,0,0.15) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* CRT flicker */
+@keyframes flicker {
+  0%,100% { opacity: 1; }
+  92%      { opacity: 1; }
+  93%      { opacity: 0.85; }
+  94%      { opacity: 1; }
+  96%      { opacity: 0.9; }
+  97%      { opacity: 1; }
+}
+body { animation: flicker 8s infinite; }
+
+/* ── BOOT SCREEN ── */
+#boot {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 60px;
+  transition: opacity 0.6s;
+}
+#boot.fade-out { opacity: 0; pointer-events: none; }
+#boot-log {
+  font-size: 12px;
+  line-height: 2;
+  color: var(--green);
+  max-width: 700px;
+}
+#boot-log .ok   { color: #00ff41; }
+#boot-log .warn { color: var(--amber); }
+#boot-log .info { color: var(--cyan); }
+#boot-bar-wrap {
+  width: 400px;
+  height: 3px;
+  background: #1a1a1a;
+  border: 1px solid var(--border);
+  margin-top: 24px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+#boot-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--green);
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px var(--green);
+}
+
+/* ── MAIN TERMINAL ── */
+#terminal {
+  display: none;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+/* ── TERMINAL WINDOW ── */
+.term-window {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0,255,65,0.05), inset 0 0 60px rgba(0,0,0,0.5);
+}
+
+/* title bar */
+.term-titlebar {
+  background: #161616;
+  border-bottom: 1px solid var(--border);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.term-dots { display: flex; gap: 6px; }
+.term-dot  { width: 10px; height: 10px; border-radius: 50%; }
+.dot-red   { background: #ff5f57; }
+.dot-yellow{ background: #febc2e; }
+.dot-green { background: #28c840; }
+.term-title {
+  font-size: 11px;
+  color: #3a3a3a;
+  margin-left: 8px;
+  letter-spacing: 1px;
+}
+.term-body { padding: 20px 24px; }
+
+/* ── ASCII LOGO ── */
+.ascii-logo {
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--green);
+  white-space: pre;
+  text-shadow: 0 0 10px var(--green);
+  margin-bottom: 16px;
+  display: block;
+  overflow-x: auto;
+}
+@media (max-width:600px) { .ascii-logo { font-size: 7px; } }
+
+.tagline {
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.tagline span { color: var(--green2); }
+
+/* ── PROMPT ── */
+.prompt-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  margin-bottom: 6px;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+.prompt-user  { color: var(--green); }
+.prompt-at    { color: #2a4a2a; }
+.prompt-host  { color: var(--cyan); }
+.prompt-colon { color: #2a4a2a; }
+.prompt-path  { color: var(--violet); }
+.prompt-sym   { color: var(--green); margin-right: 8px; }
+.prompt-cmd   { color: #e0e0e0; }
+.prompt-arg   { color: var(--amber); }
+.prompt-flag  { color: var(--cyan); }
+
+/* ── OUTPUT BLOCKS ── */
+.output {
+  padding-left: 0;
+  margin-bottom: 20px;
+  font-size: 12px;
+  line-height: 1.9;
+}
+.output .comment { color: var(--dim); }
+.output .ok      { color: var(--green); }
+.output .info    { color: var(--cyan); }
+.output .warn    { color: var(--amber); }
+.output .err     { color: var(--red); }
+.output .val     { color: #e0e0e0; }
+.output .hl      { color: var(--violet); }
+
+/* ── STATUS BADGE ── */
+.sys-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  background: var(--green3);
+  padding: 4px 14px;
+  border-radius: 2px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--green);
+  margin-bottom: 20px;
+}
+.blink-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: blink 1.2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; box-shadow: 0 0 6px var(--green); }
+  50%      { opacity: 0.2; box-shadow: none; }
+}
+
+/* ── TABLE STYLE ── */
+.term-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.term-table th {
+  color: var(--cyan);
+  border-bottom: 1px solid var(--border);
+  padding: 4px 12px 4px 0;
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 11px;
+}
+.term-table td {
+  padding: 5px 12px 5px 0;
+  color: #b0b0b0;
+  border-bottom: 1px solid rgba(0,255,65,0.04);
+  vertical-align: top;
+}
+.term-table td.key   { color: var(--dim); width: 140px; white-space: nowrap; }
+.term-table td.val   { color: #e0e0e0; }
+.term-table td.green { color: var(--green); font-weight: 600; }
+.term-table td.cyan  { color: var(--cyan); }
+.term-table td.amber { color: var(--amber); }
+.term-table td.violet{ color: var(--violet); }
+.term-table td.red   { color: var(--red); }
+
+/* ── COUNTERS ── */
+.counters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.cnt-block {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px;
+}
+.cnt-block:nth-child(2) { border-color: rgba(0,255,255,0.2); }
+.cnt-block:nth-child(3) { border-color: rgba(40,200,130,0.2); }
+.cnt-block:nth-child(4) { border-color: rgba(255,176,0,0.2); }
+
+.cnt-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 6px;
+}
+.cnt-block:nth-child(1) .cnt-label { color: #1a4a1a; }
+.cnt-block:nth-child(2) .cnt-label { color: #1a3a3a; }
+.cnt-block:nth-child(3) .cnt-label { color: #1a3a2a; }
+.cnt-block:nth-child(4) .cnt-label { color: #3a3010; }
+
+.cnt-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 1px;
+  min-height: 28px;
+  text-shadow: 0 0 12px var(--green);
+}
+.cnt-block:nth-child(2) .cnt-value { color: var(--cyan); text-shadow: 0 0 12px var(--cyan); }
+.cnt-block:nth-child(3) .cnt-value { color: #28c882; text-shadow: 0 0 12px #28c882; }
+.cnt-block:nth-child(4) .cnt-value { color: var(--amber); text-shadow: 0 0 12px var(--amber); }
+
+.cnt-src {
+  font-size: 9px;
+  color: #1e2e1e;
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+
+/* progress bar inline */
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.progress-label {
+  font-size: 11px;
+  color: var(--dim);
+  width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+.progress-track {
+  flex: 1;
+  height: 14px;
+  background: #0d0d0d;
+  border: 1px solid #1a2a1a;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 1px;
+  transition: width 1.4s cubic-bezier(0.4,0,0.2,1);
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
+  font-size: 9px;
+  color: rgba(0,0,0,0.8);
+  font-weight: 700;
+}
+.progress-num {
+  font-size: 11px;
+  color: var(--dim);
+  width: 60px;
+  text-align: right;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.progress-rank {
+  font-size: 11px;
+  color: var(--amber);
+  width: 18px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* ── PAPER CARDS ── */
+.paper-entry {
+  border-left: 2px solid #1a3a1a;
+  padding: 8px 0 8px 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.paper-entry:hover { border-color: var(--green); }
+.paper-title-t {
+  font-size: 12px;
+  color: #d0d0d0;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+.paper-meta-t {
+  font-size: 10px;
+  color: var(--dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.paper-meta-t .journal { color: var(--cyan); }
+.paper-meta-t .authors { color: #3a5a4a; font-style: italic; }
+.paper-meta-t .date    { color: #2a4a2a; }
+.paper-meta-t .link    { color: var(--violet); margin-left: auto; text-decoration: none; }
+.paper-meta-t .link:hover { text-decoration: underline; }
+
+/* ── PROTEIN ── */
+.protein-layout-t {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+@media(max-width:500px){ .protein-layout-t { grid-template-columns: 1fr; } }
+
+.protein-img-t {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #0d0d0d;
+  display: block;
+}
+.protein-img-t.hidden { display: none; }
+.protein-placeholder-t {
+  width: 130px;
+  height: 130px;
+  background: #0d0d0d;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+/* ── SPOTLIGHT ── */
+.spotlight-img {
+  width: 90px; height: 90px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.spotlight-img.hidden { display: none; }
+.spotlight-layout {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+@media(max-width:500px){ .spotlight-layout { flex-direction: column; } }
+
+/* ── BUTTONS ── */
+.btn-term {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 5px 16px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--green);
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-term:hover {
+  background: var(--green3);
+  box-shadow: 0 0 12px rgba(0,255,65,0.2);
+}
+.btn-term.cyan { color: var(--cyan); border-color: rgba(0,255,255,0.2); }
+.btn-term.cyan:hover { background: rgba(0,255,255,0.06); }
+.btn-term.violet { color: var(--violet); border-color: rgba(191,95,255,0.2); }
+.btn-term.violet:hover { background: rgba(191,95,255,0.06); }
+
+/* ── LOADING / ERROR ── */
+.loading-t {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--dim);
+  font-size: 11px;
+  padding: 16px 0;
+}
+.spinner-t {
+  width: 12px; height: 12px;
+  border: 1.5px solid #1a3a1a;
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+.error-t { color: var(--red); font-size: 11px; padding: 12px 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── GAME ── */
+#gameCanvas {
+  background: #060606;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: block;
+  max-width: 100%;
+}
+.game-instr {
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 1px;
+  margin-top: 10px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.key-t {
+  display: inline-block;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 2px;
+  padding: 1px 5px;
+  font-size: 9px;
+  color: #555;
+}
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 40px;
+  padding: 0 0 20px;
+  font-size: 10px;
+  color: #1a2a1a;
+  letter-spacing: 2px;
+  text-align: center;
+}
+footer span { color: #2a4a2a; }
+
+/* ── CURSOR ── */
+.cursor-t {
+  display: inline-block;
+  width: 8px; height: 14px;
+  background: var(--green);
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 0.8s step-end infinite;
+}
+
+/* ── NAV ── */
+.nav-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+  font-size: 11px;
+  color: var(--dim);
+  align-items: center;
+}
+.nav-line .sep { color: #1a2a1a; }
+.nav-link {
+  color: var(--cyan);
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+.nav-link:hover { color: var(--green); }
+</style>
+</head>
+<body>
+
+<!-- ═══ BOOT SCREEN ═══ -->
+<div id="boot">
+  <div id="boot-log"></div>
+  <div id="boot-bar-wrap"><div id="boot-bar"></div></div>
+</div>
+
+<!-- ═══ MAIN TERMINAL ═══ -->
+<div id="terminal">
+
+  <!-- HEADER WINDOW -->
+  <div class="term-window">
+    <div class="term-titlebar">
+      <div class="term-dots">
+        <div class="term-dot dot-red"></div>
+        <div class="term-dot dot-yellow"></div>
+        <div class="term-dot dot-green"></div>
+      </div>
+      <span class="term-title">bash — moya-lab@github.io — 120×40</span>
+    </div>
+    <div class="term-body">
+
+      <pre class="ascii-logo">
+ ███╗   ███╗ ██████╗ ██╗   ██╗ █████╗       ██╗      █████╗ ██████╗
+ ████╗ ████║██╔═══██╗╚██╗ ██╔╝██╔══██╗      ██║     ██╔══██╗██╔══██╗
+ ██╔████╔██║██║   ██║ ╚████╔╝ ███████║      ██║     ███████║██████╔╝
+ ██║╚██╔╝██║██║   ██║  ╚██╔╝  ██╔══██║      ██║     ██╔══██║██╔══██╗
+ ██║ ╚═╝ ██║╚██████╔╝   ██║   ██║  ██║      ███████╗██║  ██║██████╔╝
+ ╚═╝     ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝      ╚══════╝╚═╝  ╚═╝╚═════╝</pre>
+
+      <div class="tagline">
+        <span>M</span>odelling <span>O</span>mics <span>Y</span>ielding <span>A</span>nalytics
+        &nbsp;·&nbsp; Computational Biology Research Group
+      </div>
+
+      <br>
+      <div class="sys-status">
+        <span class="blink-dot"></span>
+        SYSTEM ONLINE · PLATFORM IN DEVELOPMENT · 2026
+      </div>
+
+      <div class="nav-line">
+        <span>~/moya-lab$</span>
+        <span class="sep">ls</span>
+        <span class="sep">·</span>
+        <a class="nav-link" href="#stats">[stats]</a>
+        <a class="nav-link" href="#trending">[trending]</a>
+        <a class="nav-link" href="#protein">[protein]</a>
+        <a class="nav-link" href="#spotlight">[spotlight]</a>
+        <a class="nav-link" href="#papers">[papers]</a>
+        <a class="nav-link" href="#game">[game]</a>
+      </div>
+
+      <div class="prompt-line">
+        <span class="prompt-user">researcher</span>
+        <span class="prompt-at">@</span>
+        <span class="prompt-host">moya-lab</span>
+        <span class="prompt-colon">:</span>
+        <span class="prompt-path">~/moya-lab</span>
+        <span class="prompt-sym">$ </span>
+        <span class="prompt-cmd">cat </span>
+        <span class="prompt-arg">about.txt</span>
+      </div>
+      <div class="output">
+        <div class="comment"># Research Group — Universidad de Chile</div>
+        <div class="val">Building a computational biology platform focused on</div>
+        <div class="val">AI-driven omics analysis, microbiome systems, and</div>
+        <div class="val">data-intensive biological research.</div>
+        <br>
+        <div><span class="comment">STATUS&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="ok">▶ Active · Recruiting · Accepting collaborations</span></div>
+        <div><span class="comment">FOCUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="info">Metagenomics · Multi-omics · ML for Genomics</span></div>
+        <div><span class="comment">CONTACT&nbsp;&nbsp;&nbsp;</span><span class="hl">contact@moya-lab.github.io</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DATABASE STATS ═══ -->
+  <div id="stats" class="term-window">
+    <div class="term-titlebar">
+      <div class="term-dots">
+        <div class="term-dot dot-red"></div>
+        <div class="term-dot dot-yellow"></div>
+        <div class="term-dot dot-green"></div>
+      </div>
+      <span class="term-title">ncbi-query.sh — Public Database Stats</span>
+    </div>
+    <div class="term-body">
+      <div class="prompt-line">
+        <span class="prompt-user">researcher</span><span class="prompt-at">@</span><span class="prompt-host">moya-lab</span><span class="prompt-colon">:</span><span class="prompt-path">~/moya-lab</span><span class="prompt-sym">$ </span>
+        <span class="prompt-cmd">python </span><span class="prompt-arg">query_ncbi.py</span>
+        <span class="prompt-flag"> --dbs nuccore protein assembly pubmed</span>
+      </div>
+      <div class="output">
+        <div class="comment"># Connecting to NCBI eutils API…</div>
+      </div>
+      <div class="counters-grid">
+        <div class="cnt-block">
+          <div class="cnt-label">🧬 Nucleotide Seqs</div>
+          <div class="cnt-value" id="cntNucleotide">…</div>
+          <div class="cnt-src">NCBI GenBank / nuccore</div>
+        </div>
+        <div class="cnt-block">
+          <div class="cnt-label">🔗 Protein Seqs</div>
+          <div class="cnt-value" id="cntProtein">…</div>
+          <div class="cnt-src">NCBI Protein</div>
+        </div>
+        <div class="cnt-block">
+          <div class="cnt-label">🦠 Genome Assemblies</div>
+          <div class="cnt-value" id="cntGenome">…</div>
+          <div class="cnt-src">NCBI Assembly</div>
+        </div>
+        <div class="cnt-block">
+          <div class="cnt-label">📰 PubMed Articles</div>
+          <div class="cnt-value" id="cntPubmed">…</div>
+          <div class="cnt-src">NCBI PubMed</div>
+        </div>
+      </div>
+      <div class="output" style="margin-top:8px; margin-bottom:0">
+        <div id="statsStatus" class="comment"># Fetching live data…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PUBMED TRENDING ═══ -->
+  <div id="trending" class="term-window">
+    <div class="term-titlebar">
+      <div class="term-dots">
+        <div class="term-dot dot-red"></div>
+        <div class="term-dot dot-yellow"></div>
+        <div class="term-dot dot-green"></div>
+      </div>
+      <span class="term-title">pubmed-trending.sh — Last 12 months</span>
+    </div>
+    <div class="term-body">
+      <div class="prompt-line">
+        <span class="prompt-user">researcher</span><span class="prompt-at">@</span><span class="prompt-host">moya-lab</span><span class="prompt-colon">:</span><span class="prompt-path">~/moya-lab</span><span class="prompt-sym">$ </span>
+        <span class="prompt-cmd">bash </span><span class="prompt-arg">pubmed_trends.sh</span>
+        <span class="prompt-flag"> --sort desc --limit 8 --year 2024-2025</span>
+      </div>
+      <div class="output">
+        <div class="comment"># Publications per topic · NCBI PubMed · last 365 days</div>
+      </div>
+      <div id="trendingContainer">
+        <div class="loading-t"><div class="spinner-t"></div> Querying PubMed API…</div>
+      </div>
+      <div class="output" style="margin-bottom:0">
+        <div id="trendingNote" class="comment"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PROTEIN OF THE DAY ═══ -->
+  <div id="protein" class="term-window">
+    <div class="term-titlebar">
+      <div class="term-dots">
+        <div class="term-dot dot-red"></div>
+        <div class="term-dot dot-yellow"></div>
+        <div class="term-dot dot-green"></div>
+      </div>
+      <span class="term-title">rcsb-fetch.py — Protein of the Day</span>
+    </div>
+    <div class="term-body">
+      <div class="prompt-line">
+        <span class="prompt-user">researcher</span><span class="prompt-at">@</span><span class="prompt-host">moya-lab</span><span class="prompt-colon">:</span><span class="prompt-path">~/moya-lab</span><span class="prompt-sym">$ </span>
+        <span class="prompt-cmd">python </span><span class="prompt-arg">fetch_protein.py</span>
+        <span class="prompt-flag"> --db rcsb --random</span>
+      </div>
+      <div class="output">
+        <div id="proteinStatus" class="comment"># Loading protein data from RCSB PDB…</div>
+      </div>
+      <div class="protein-layout-t">
+        <div>
+          <img id="proteinImage" class="protein-img-t hidden" alt="protein structure" />
+          <div id="proteinPlaceholder" class="protein-placeholder-t">🧬</div>
+        </div>
+        <div>
+          <div id="proteinId" class="output"><span class="comment">PDB_ID&nbsp;&nbsp;&nbsp; </span><span class="cyan">———</span></div>
+          <div id="proteinName" class="output" style="font-size:15px; font-weight:700; color:#e0e0e0; margin-bottom:8px; margin-top:-8px;">Loading…</div>
+          <div id="proteinDesc" class="output" style="color:#5a7a5a; font-size:12px; margin-bottom:12px;"></div>
+          <table class="term-table" id="proteinTable">
+            <thead><tr>
+              <th>FIELD</th><th>VALUE</th>
+            </tr></thead>
+            <tbody id="proteinTbody">
+              <tr><td class="key">METHOD</td><td class="val">—</td></tr>
+            </tbody>
+          </table>
+          <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+            <a id="proteinLink" class="btn-term violet" href="#" target="_blank">→ View in RCSB PDB</a>
+            <button class="btn-term" onclick="loadNextProtein()">↻ next protein</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SPOTLIGHT ═══ -->
+  <div id="spotlight" class="term-window">
+    <div class="term-titlebar">
+      <div class="term-dots">
+        <div class="term-dot dot-red"></div>
+        <div class="term-dot dot-yellow"></div>
+        <div class="term-dot dot-green"></div>
+      </div>
+      <span class="term-title">wikipedia-fetch.sh — Bioinformatics Spotlight</span>
+    </div>
+    <div class="term-body">
+      <div class="prompt-line">
+        <span class="prompt-user">researcher</span><span class="prompt-at">@</span><span class="prompt-host">moya-lab</span><span class="prompt-colon">:</span><span class="prompt-path">~/moya-lab</span><span class="prompt-sym">$ </span>
+        <span class="prompt-cmd">curl </span>
+        <span class="prompt-flag">-s </span>
+        <span class="prompt-arg">en.wikipedia.org/api/rest_v1/page/summary/</span><span id="factTopicDisplay" class="prompt-flag">…</span>
+      </div>
+      <div class="output">
+        <div class="comment"># Bioinformatics concept of the moment</div>
+      </div>
+      <div class="spotlight-layout">
+        <img id="factImage" class="spotlight-img hidden" alt="topic" />
+        <div style="flex:1">
+          <div style="margin-bottom:8px">
+            <span style="font-size:9px; letter-spacing:2px; color:var(--cyan); text-transform:uppercase; border:1px solid rgba(0,255,255,0.2); padding:2px 10px; border-radius:2px;" id="factTag">…</span>
+          </div>
+          <div id="factText" style="font-size:12px; color:#5a7a5a; line-height:1.9; min-height:60px; transition:opacity 0.4s;">
+            <div class="loading-t"><div class="spinner-t"></div> Fetching from Wikipedia…</div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;">
+            <a id="factLink" class="btn-term violet" href="#" target="_blank">→ Read full article</a>
+            <button class="btn-term" onclick="loadNextFact()">↻ next topic</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PAPERS ═══ -->
+  <div id="papers" class="term-window">
+    <div class="term-titlebar">
+      <div class="term-dots">
+        <div class="term-dot dot-red"></div>
+        <div class="term-dot dot-yellow"></div>
+        <div class="term-dot dot-green"></div>
+      </div>
+      <span class="term-title">crossref-search.py — Latest Research</span>
+    </div>
+    <div class="term-body">
+      <div class="prompt-line">
+        <span class="prompt-user">researcher</span><span class="prompt-at">@</span><span class="prompt-host">moya-lab</span><span class="prompt-colon">:</span><span class="prompt-path">~/moya-lab</span><span class="prompt-sym">$ </span>
+        <span class="prompt-cmd">python </span><span class="prompt-arg">search_papers.py</span>
+        <span class="prompt-flag"> --query </span><span id="paperQueryDisplay" class="prompt-arg">"microbiome omics"</span>
+        <span class="prompt-flag"> --sort recent</span>
+      </div>
+      <div id="papersContainer">
+        <div class="loading-t"><div class="spinner-t"></div> Fetching recent publications…</div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; flex-wrap:wrap; gap:8px;">
+        <div id="papersMeta" class="output" style="margin-bottom:0; font-size:10px; color:#1a3a1a;"></div>
+        <button class="btn-term cyan" onclick="fetchPapers()">↻ refresh papers</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ GAME ═══ -->
+  <div id="game" class="term-window">
+    <div class="term-titlebar">
+      <div class="term-dots">
+        <div class="term-dot dot-red"></div>
+        <div class="term-dot dot-yellow"></div>
+        <div class="term-dot dot-green"></div>
+      </div>
+      <span class="term-title">simulation.exe — Mini Exploration Game</span>
+    </div>
+    <div class="term-body">
+      <div class="prompt-line">
+        <span class="prompt-user">researcher</span><span class="prompt-at">@</span><span class="prompt-host">moya-lab</span><span class="prompt-colon">:</span><span class="prompt-path">~/moya-lab</span><span class="prompt-sym">$ </span>
+        <span class="prompt-cmd">./run_simulation</span>
+        <span class="prompt-flag"> --mode exploration --agent player</span>
+      </div>
+      <div class="output">
+        <div class="comment"># Collect data nodes · Avoid toxins · Press R to restart</div>
+      </div>
+      <canvas id="gameCanvas" width="540" height="300"></canvas>
+      <div class="game-instr">
+        <span><span class="key-t">↑↓←→</span> / <span class="key-t">WASD</span> — move</span>
+        <span>🟢 Collect data nodes</span>
+        <span>🔴 Avoid toxins</span>
+        <span><span class="key-t">R</span> — restart</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div style="color:#1a2a1a; margin-bottom:6px;">─────────────────────────────────────────────────</div>
+    <div>© 2026 <span>MOYA-LAB</span> · Computational Biology Research · <span>moya-lab.github.io</span></div>
+    <div style="margin-top:4px; color:#0f1f0f;">Modelling Omics Yielding Analytics</div>
+  </footer>
+
+</div><!-- /terminal -->
+
+<script>
+/* ════════════════════════════════════════════
+   BOOT SEQUENCE
+════════════════════════════════════════════ */
+const bootLines = [
+  { txt: "MOYA-LAB OS v2.6.0 — Computational Biology Platform",        cls: "ok",   delay: 0   },
+  { txt: "Copyright (c) 2026 MOYA Research Group",                    cls: "info", delay: 120 },
+  { txt: "",                                                            cls: "",     delay: 200 },
+  { txt: "[ OK ] Initializing kernel modules…",                        cls: "ok",   delay: 320 },
+  { txt: "[ OK ] Loading genome indexer (BWA-MEM2 backend)…",          cls: "ok",   delay: 480 },
+  { txt: "[ OK ] Mounting microbiome reference database…",             cls: "ok",   delay: 640 },
+  { txt: "[ ** ] Checking NCBI eutils connection…",                    cls: "warn", delay: 800 },
+  { txt: "[ OK ] NCBI connection established.",                         cls: "ok",   delay: 960 },
+  { txt: "[ OK ] Loading protein structure library…",                  cls: "ok",   delay: 1080},
+  { txt: "[ OK ] Starting PubMed trend analyzer…",                     cls: "ok",   delay: 1200},
+  { txt: "[ OK ] AI inference engine ready.",                           cls: "ok",   delay: 1340},
+  { txt: "",                                                            cls: "",     delay: 1420},
+  { txt: "All systems nominal. Welcome, researcher.",                   cls: "info", delay: 1500},
+];
+
+const bootLog  = document.getElementById("boot-log");
+const bootBar  = document.getElementById("boot-bar");
+const bootEl   = document.getElementById("boot");
+const termEl   = document.getElementById("terminal");
+
+let bootDone = false;
+bootLines.forEach((line, i) => {
+  setTimeout(() => {
+    const d = document.createElement("div");
+    d.className = line.cls;
+    d.textContent = line.txt;
+    bootLog.appendChild(d);
+    bootBar.style.width = ((i + 1) / bootLines.length * 100) + "%";
+  }, line.delay);
+});
+
+setTimeout(() => {
+  bootEl.classList.add("fade-out");
+  setTimeout(() => {
+    bootEl.style.display = "none";
+    termEl.style.display = "block";
+  }, 650);
+}, 2200);
+
+
+/* ════════════════════════════════════════════
+   GENBANK COUNTERS (fixed)
+════════════════════════════════════════════ */
+function animateCounter(el, target) {
+  const dur = 1800, start = performance.now();
+  (function step(now) {
+    const t = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.floor(ease * target).toLocaleString("en-US");
+    if (t < 1) requestAnimationFrame(step);
+    else el.textContent = target.toLocaleString("en-US");
+  })(performance.now());
+}
+
+async function fetchDBCount(db) {
+  const url = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi`
+    + `?db=${db}&retmode=json&tool=moya-lab&email=lab@moya-lab.github.io`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  const dbinfo = Array.isArray(data.einforesult?.dbinfo)
+    ? data.einforesult.dbinfo[0]
+    : data.einforesult?.dbinfo;
+  const count = parseInt(dbinfo?.count ?? "0", 10);
+  if (!count) throw new Error("empty count");
+  return count;
+}
+
+async function loadCounters() {
+  const dbs = [
+    { db:"nuccore",  el:"cntNucleotide" },
+    { db:"protein",  el:"cntProtein"    },
+    { db:"assembly", el:"cntGenome"     },
+    { db:"pubmed",   el:"cntPubmed"     },
+  ];
+  const status = document.getElementById("statsStatus");
+
+  const results = await Promise.allSettled(dbs.map(({ db, el }) =>
+    fetchDBCount(db).then(count => ({ el, count }))
+  ));
+
+  let errors = 0;
+  results.forEach(r => {
+    if (r.status === "fulfilled") {
+      animateCounter(document.getElementById(r.value.el), r.value.count);
+    } else {
+      const dbConf = dbs.find(d => r.reason?.message);
+      errors++;
+    }
+  });
+
+  // Mark failed ones as N/A
+  dbs.forEach(({ el }) => {
+    const node = document.getElementById(el);
+    if (node.textContent === "…") node.textContent = "N/A";
+  });
+
+  status.textContent = errors === 0
+    ? `# Done. Live data from NCBI eutils · ${new Date().toLocaleTimeString()}`
+    : `# Partial data loaded (${errors} error(s)) · Check console for details`;
+  status.className = errors === 0 ? "ok" : "warn";
+}
+loadCounters();
+
+
+/* ════════════════════════════════════════════
+   PUBMED TRENDING
+════════════════════════════════════════════ */
+const TREND_TOPICS = [
+  { label:"Microbiome",         term:"microbiome"                },
+  { label:"Metagenomics",       term:"metagenomics"              },
+  { label:"scRNA-seq",          term:"single cell RNA sequencing"},
+  { label:"CRISPR",             term:"CRISPR Cas9"               },
+  { label:"Proteomics",         term:"proteomics"                },
+  { label:"Multi-omics",        term:"multi-omics integration"   },
+  { label:"Deep Learning / AI", term:"deep learning genomics"    },
+  { label:"Metabolomics",       term:"metabolomics"              },
+];
+
+async function fetchTrendCount(term) {
+  const url = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi`
+    + `?db=pubmed&term=${encodeURIComponent(term)}&datetype=pdat&reldate=365`
+    + `&retmode=json&retmax=0&tool=moya-lab&email=lab@moya-lab.github.io`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error();
+  const data = await res.json();
+  return parseInt(data.esearchresult?.count ?? "0", 10);
+}
+
+const FILL_COLORS = [
+  "var(--green)","var(--cyan)","#28c882","var(--amber)",
+  "var(--green)","var(--cyan)","#28c882","var(--amber)",
+];
+const MEDALS = ["①","②","③"];
+
+async function loadTrending() {
+  const container = document.getElementById("trendingContainer");
+  const note      = document.getElementById("trendingNote");
+  try {
+    const results = await Promise.all(
+      TREND_TOPICS.map(async t => ({ ...t, count: await fetchTrendCount(t.term) }))
+    );
+    results.sort((a,b) => b.count - a.count);
+    const max = Math.max(...results.map(r => r.count), 1);
+
+    container.innerHTML = results.map((r, i) => {
+      const pct   = ((r.count / max) * 100).toFixed(1);
+      const color = FILL_COLORS[i];
+      const rank  = i < 3
+        ? `<span style="color:var(--amber); font-size:11px; width:18px; text-align:center; flex-shrink:0;">${MEDALS[i]}</span>`
+        : `<span style="color:var(--dim); font-size:11px; width:18px; text-align:center; flex-shrink:0;">${i+1}</span>`;
+      return `
+        <div class="progress-wrap">
+          ${rank}
+          <span class="progress-label">${r.label}</span>
+          <div class="progress-track">
+            <div class="progress-fill" data-pct="${pct}"
+              style="background:linear-gradient(90deg,${color},${color}88)">
+              ${r.count.toLocaleString()}
+            </div>
+          </div>
+          <span class="progress-num">${r.count.toLocaleString()}</span>
+        </div>`;
+    }).join("");
+
+    requestAnimationFrame(() => {
+      document.querySelectorAll(".progress-fill").forEach(b => {
+        b.style.width = b.dataset.pct + "%";
+      });
+    });
+
+    note.textContent = `# Publications in the last 12 months · NCBI PubMed · ${new Date().toLocaleDateString("en-US",{month:"short",year:"numeric"})}`;
+  } catch(e) {
+    container.innerHTML = `<div class="error-t">⚠ Could not load PubMed trending data.</div>`;
+  }
+}
+loadTrending();
+
+
+/* ════════════════════════════════════════════
+   PROTEIN OF THE DAY
+════════════════════════════════════════════ */
+const PROTEINS = [
+  { id:"1HHO", label:"Hemoglobin",              desc:"Oxygen-transport protein in red blood cells. Its cooperative O₂ binding is a cornerstone of structural biochemistry." },
+  { id:"6VXX", label:"SARS-CoV-2 Spike Protein",desc:"The spike protein of SARS-CoV-2 responsible for binding human ACE2 receptors. Central target for COVID-19 vaccines." },
+  { id:"6VPC", label:"CRISPR-Cas9 Nuclease",    desc:"Molecular scissors guided by a 20-nt sgRNA to introduce precise double-strand breaks in genomic DNA." },
+  { id:"1TUP", label:"p53 Tumor Suppressor",    desc:"'Guardian of the genome'. Mutated in >50% of human cancers; regulates cell cycle arrest and apoptosis." },
+  { id:"1AON", label:"GroEL-GroES Chaperonin",  desc:"Molecular chaperone assisting protein folding inside a barrel-like cage, preventing polypeptide aggregation." },
+  { id:"1GFL", label:"Green Fluorescent Protein",desc:"Isolated from Aequorea victoria jellyfish. GFP revolutionized cell biology as a genetically encoded fluorescent reporter." },
+  { id:"1MBO", label:"Myoglobin",               desc:"First protein solved by X-ray crystallography (Kendrew, 1958). Stores and diffuses O₂ in muscle tissue." },
+  { id:"2HBS", label:"Sickle-cell Hemoglobin",  desc:"Hemoglobin S (Glu→Val at β6) causing sickle-cell disease through polymerization under low-oxygen conditions." },
+];
+
+let lastProteinIdx = -1;
+
+async function loadNextProtein() {
+  let idx;
+  do { idx = Math.floor(Math.random() * PROTEINS.length); } while (idx === lastProteinIdx);
+  lastProteinIdx = idx;
+  const p = PROTEINS[idx];
+
+  document.getElementById("proteinStatus").textContent = `# Fetching ${p.id} from RCSB PDB…`;
+  document.getElementById("proteinStatus").className   = "comment";
+  document.getElementById("proteinName").textContent   = "Loading…";
+  document.getElementById("proteinDesc").textContent   = "";
+  document.getElementById("proteinTbody").innerHTML    = "";
+  document.getElementById("proteinId").innerHTML       = `<span class="comment">PDB_ID&nbsp;&nbsp;&nbsp; </span><span class="cyan">${p.id}</span>`;
+  document.getElementById("proteinLink").href          = `https://www.rcsb.org/structure/${p.id}`;
+  document.getElementById("proteinImage").classList.add("hidden");
+  document.getElementById("proteinPlaceholder").style.display = "flex";
+
+  try {
+    const res  = await fetch(`https://data.rcsb.org/rest/v1/core/entry/${p.id}`);
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+
+    const method     = data.exptl?.[0]?.method ?? "—";
+    const year       = data.rcsb_accession_info?.deposit_date?.slice(0,4) ?? "—";
+    const resolution = data.refine?.[0]?.ls_d_res_high
+      ? data.refine[0].ls_d_res_high.toFixed(2) + " Å" : "—";
+    const chains     = data.rcsb_entry_info?.polymer_entity_count ?? "—";
+    const mw         = data.rcsb_entry_info?.molecular_weight
+      ? (data.rcsb_entry_info.molecular_weight / 1000).toFixed(1) + " kDa" : "—";
+    const atoms      = data.rcsb_entry_info?.deposited_atom_count?.toLocaleString() ?? "—";
+
+    document.getElementById("proteinName").textContent = p.label;
+    document.getElementById("proteinDesc").textContent = p.desc;
+    document.getElementById("proteinStatus").textContent = `# Entry loaded successfully.`;
+    document.getElementById("proteinStatus").className   = "ok";
+
+    document.getElementById("proteinTbody").innerHTML = [
+      ["RESOLUTION", resolution, "green"],
+      ["CHAINS",     chains,     "val"  ],
+      ["MOL_WEIGHT", mw,         "cyan" ],
+      ["ATOMS",      atoms,      "val"  ],
+      ["METHOD",     method,     "amber"],
+      ["DEPOSITED",  year,       "val"  ],
+    ].map(([k,v,cls]) => `<tr><td class="key">${k}</td><td class="${cls}">${v}</td></tr>`).join("");
+
+    const idL = p.id.toLowerCase();
+    const imgEl = document.getElementById("proteinImage");
+    imgEl.src = `https://cdn.rcsb.org/images/structures/${idL}/${idL}_assembly-1.jpeg`;
+    imgEl.onload = () => {
+      imgEl.classList.remove("hidden");
+      document.getElementById("proteinPlaceholder").style.display = "none";
+    };
+    imgEl.onerror = () => imgEl.classList.add("hidden");
+
+  } catch {
+    document.getElementById("proteinName").textContent = p.label;
+    document.getElementById("proteinDesc").textContent = p.desc;
+    document.getElementById("proteinStatus").textContent = "# Could not fetch metadata. Showing local data.";
+    document.getElementById("proteinStatus").className   = "warn";
+  }
+}
+loadNextProtein();
+setInterval(loadNextProtein, 30000);
+
+
+/* ════════════════════════════════════════════
+   WIKIPEDIA SPOTLIGHT
+════════════════════════════════════════════ */
+const WIKI_TOPICS = [
+  "Metagenomics","Microbiome","CRISPR","AlphaFold","RNA-Seq",
+  "Proteomics","Single-cell_sequencing","Human_genome",
+  "Systems_biology","Genome-wide_association_study","Bioinformatics",
+  "16S_ribosomal_RNA","Transcriptomics","Metabolomics",
+  "Shotgun_sequencing","Phylogenetics","BLAST_(biotechnology)",
+];
+let lastFactIdx = -1;
+
+async function loadNextFact() {
+  let idx;
+  do { idx = Math.floor(Math.random() * WIKI_TOPICS.length); } while (idx === lastFactIdx);
+  lastFactIdx = idx;
+
+  const topic  = WIKI_TOPICS[idx];
+  const textEl = document.getElementById("factText");
+  const imgEl  = document.getElementById("factImage");
+  const tagEl  = document.getElementById("factTag");
+  const linkEl = document.getElementById("factLink");
+  const topicD = document.getElementById("factTopicDisplay");
+
+  const label = topic.replace(/_/g," ").replace(/\(.*?\)/,"").trim();
+  textEl.style.opacity = "0";
+  imgEl.classList.add("hidden");
+  tagEl.textContent   = label;
+  topicD.textContent  = label;
+
+  try {
+    const res  = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic)}`);
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    setTimeout(() => {
+      const ex = data.extract ?? "No summary available.";
+      textEl.textContent   = ex.length > 340 ? ex.slice(0,337)+"…" : ex;
+      textEl.style.opacity = "1";
+      if (data.thumbnail?.source) { imgEl.src = data.thumbnail.source; imgEl.classList.remove("hidden"); }
+      linkEl.href = data.content_urls?.desktop?.page ?? "#";
+    }, 250);
+  } catch {
+    setTimeout(() => {
+      textEl.textContent   = "⚠ Could not load Wikipedia summary.";
+      textEl.style.opacity = "1";
+    }, 250);
+  }
+}
+loadNextFact();
+setInterval(loadNextFact, 20000);
+
+
+/* ════════════════════════════════════════════
+   PAPERS
+════════════════════════════════════════════ */
+const QUERIES = [
+  "microbiome omics","metagenomics machine learning",
+  "computational biology AI","single cell sequencing analysis","microbiome dysbiosis",
+];
+
+async function fetchCrossRef(query) {
+  const res  = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(query)}&rows=5&sort=published&order=desc&select=title,author,published,DOI,container-title`);
+  if (!res.ok) throw new Error();
+  const data = await res.json();
+  const items = data.message?.items ?? [];
+  if (!items.length) throw new Error();
+  return items.map(p => ({
+    title:   Array.isArray(p.title) ? p.title[0] : (p.title ?? "Untitled"),
+    journal: Array.isArray(p["container-title"]) ? p["container-title"][0] : "",
+    href:    p.DOI ? `https://doi.org/${p.DOI}` : "#",
+    date:    p.published?.["date-parts"]?.[0]?.join("-") ?? "",
+    authors: (p.author ?? []).slice(0,3).map(a => `${a.given?.[0]??""}. ${a.family??""}`.trim()).join(", "),
+  }));
+}
+
+async function fetchSemanticScholar(query) {
+  const res  = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=5&fields=title,authors,year,venue,externalIds`);
+  if (!res.ok) throw new Error();
+  const data = await res.json();
+  return (data.data ?? []).map(p => ({
+    title:   p.title ?? "Untitled",
+    journal: p.venue ?? "",
+    href:    p.externalIds?.DOI ? `https://doi.org/${p.externalIds.DOI}` : `https://www.semanticscholar.org/paper/${p.paperId}`,
+    date:    p.year ? String(p.year) : "",
+    authors: (p.authors ?? []).slice(0,3).map(a => a.name).join(", "),
+  }));
+}
+
+async function fetchPapers() {
+  const container = document.getElementById("papersContainer");
+  const meta      = document.getElementById("papersMeta");
+  const queryDisp = document.getElementById("paperQueryDisplay");
+  container.innerHTML = `<div class="loading-t"><div class="spinner-t"></div> Fetching recent publications…</div>`;
+  meta.textContent = "";
+
+  const query = QUERIES[Math.floor(Math.random() * QUERIES.length)];
+  queryDisp.textContent = `"${query}"`;
+  let results = [], source = "";
+  try {
+    results = await fetchCrossRef(query);        source = "CrossRef";
+  } catch {
+    try {
+      results = await fetchSemanticScholar(query); source = "Semantic Scholar";
+    } catch(err) {
+      container.innerHTML = `<div class="error-t">⚠ Could not load papers. ${err.message}</div>`;
+      return;
+    }
+  }
+
+  container.innerHTML = results.map(p => `
+    <div class="paper-entry" onclick="window.open('${p.href}','_blank')">
+      <div class="paper-title-t">${p.title}</div>
+      <div class="paper-meta-t">
+        ${p.journal ? `<span class="journal">${p.journal}</span>` : ""}
+        ${p.authors ? `<span class="authors">${p.authors}</span>` : ""}
+        <span class="date">${p.date}</span>
+        <a class="link" href="${p.href}" target="_blank" onclick="event.stopPropagation()">→ view</a>
+      </div>
+    </div>`).join("");
+
+  meta.textContent = `# source: ${source} · query: "${query}" · ${new Date().toLocaleTimeString()}`;
+}
+fetchPapers();
+
+
+/* ════════════════════════════════════════════
+   MINI GAME
+════════════════════════════════════════════ */
+const canvas  = document.getElementById("gameCanvas");
+const ctx     = canvas.getContext("2d");
+const CW = canvas.width, CH = canvas.height;
+
+let player = { x:CW/2, y:CH/2, size:9 };
+let nodes=[], toxins=[], score=0, lives=3, gameOver=false, invincible=0, glitchT=0;
+const keys = {};
+
+document.addEventListener("keydown", e => {
+  keys[e.key] = true;
+  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)) e.preventDefault();
+  if((e.key==="r"||e.key==="R") && gameOver) resetGame();
+});
+document.addEventListener("keyup", e => keys[e.key] = false);
+
+function spawnNodes() {
+  nodes = Array.from({length:6}, () => ({
+    x: 20 + Math.random()*(CW-40),
+    y: 28 + Math.random()*(CH-48),
+    pulse: Math.random()*Math.PI*2,
+  }));
+}
+function spawnToxins() {
+  toxins = Array.from({length:3}, () => ({
+    x:  20 + Math.random()*(CW-40),
+    y:  28 + Math.random()*(CH-48),
+    vx: (Math.random()-.5)*1.8,
+    vy: (Math.random()-.5)*1.8,
+    angle: 0,
+  }));
+}
+function resetGame() {
+  player={x:CW/2,y:CH/2,size:9};
+  score=0; lives=3; gameOver=false; invincible=0; glitchT=0;
+  spawnNodes(); spawnToxins();
+}
+function dist(a,b){ return Math.hypot(a.x-b.x,a.y-b.y); }
+spawnNodes(); spawnToxins();
+
+function gameLoop() {
+  ctx.clearRect(0,0,CW,CH);
+
+  if(!gameOver){
+    const S=3;
+    if((keys["ArrowLeft"]||keys["a"]||keys["A"])&&player.x>player.size)    player.x-=S;
+    if((keys["ArrowRight"]||keys["d"]||keys["D"])&&player.x<CW-player.size) player.x+=S;
+    if((keys["ArrowUp"]||keys["w"]||keys["W"])&&player.y>player.size)       player.y-=S;
+    if((keys["ArrowDown"]||keys["s"]||keys["S"])&&player.y<CH-player.size)  player.y+=S;
+
+    toxins.forEach(t=>{ t.x+=t.vx; t.y+=t.vy; t.angle+=0.05;
+      if(t.x<10||t.x>CW-10) t.vx*=-1;
+      if(t.y<22||t.y>CH-10) t.vy*=-1;
+    });
+    nodes.forEach(n=>n.pulse+=0.07);
+    nodes=nodes.filter(n=>{if(dist(player,n)<player.size+8){score++;return false;}return true;});
+    if(!nodes.length) spawnNodes();
+
+    if(invincible<=0){
+      toxins.forEach(t=>{if(dist(player,t)<player.size+8){lives--;invincible=90;if(lives<=0)gameOver=true;}});
+    } else invincible--;
+  }
+
+  /* grid */
+  ctx.strokeStyle="rgba(0,255,65,0.04)"; ctx.lineWidth=1;
+  for(let x=0;x<CW;x+=36){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,CH);ctx.stroke();}
+  for(let y=0;y<CH;y+=36){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(CW,y);ctx.stroke();}
+
+  /* nodes */
+  nodes.forEach(n=>{
+    const r=5+Math.sin(n.pulse)*1.5;
+    ctx.save();
+    ctx.shadowColor="#00ff41"; ctx.shadowBlur=14;
+    ctx.fillStyle="#00ff41";
+    ctx.beginPath(); ctx.arc(n.x,n.y,r,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=`rgba(0,255,65,${0.2+0.1*Math.sin(n.pulse)})`; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(n.x,n.y,r+5,0,Math.PI*2); ctx.stroke();
+    ctx.restore();
+  });
+
+  /* toxins */
+  toxins.forEach(t=>{
+    ctx.save(); ctx.translate(t.x,t.y); ctx.rotate(t.angle);
+    ctx.shadowColor="#ff3333"; ctx.shadowBlur=12;
+    ctx.fillStyle="#ff3333";
+    ctx.beginPath(); ctx.moveTo(0,-9); ctx.lineTo(7,0); ctx.lineTo(0,9); ctx.lineTo(-7,0); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle="rgba(255,50,50,0.4)"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(0,0,13,0,Math.PI*2); ctx.stroke();
+    ctx.restore();
+  });
+
+  /* player */
+  const alpha=(invincible>0&&Math.floor(invincible/6)%2===0)?0.25:1;
+  ctx.save(); ctx.globalAlpha=alpha;
+  ctx.shadowColor="#00ffff"; ctx.shadowBlur=16; ctx.fillStyle="#00ffff";
+  ctx.beginPath(); ctx.arc(player.x,player.y,player.size,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle="rgba(0,0,0,0.5)"; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(player.x-5,player.y); ctx.lineTo(player.x+5,player.y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(player.x,player.y-5); ctx.lineTo(player.x,player.y+5); ctx.stroke();
+  ctx.restore();
+
+  /* HUD */
+  ctx.fillStyle="rgba(6,6,6,0.75)"; ctx.fillRect(0,0,CW,24);
+  ctx.font="bold 10px 'JetBrains Mono',monospace";
+  ctx.fillStyle="#00ff41";
+  ctx.fillText("DATA_COLLECTED:", 10, 16);
+  ctx.fillStyle="#e0e0e0";
+  ctx.fillText(String(score).padStart(4,"0"), 130, 16);
+
+  for(let i=0;i<3;i++){
+    ctx.save();
+    ctx.shadowColor=i<lives?"#ff3333":"transparent";
+    ctx.shadowBlur=i<lives?6:0;
+    ctx.fillStyle=i<lives?"#ff3333":"#1a1a1a";
+    ctx.beginPath(); ctx.arc(CW-16-i*20,12,5,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+  ctx.fillStyle="#1a3a1a"; ctx.font="9px 'JetBrains Mono',monospace";
+  ctx.fillText("HP", CW-78, 16);
+
+  /* game over */
+  if(gameOver){
+    glitchT++;
+    ctx.fillStyle="rgba(6,6,6,0.88)"; ctx.fillRect(0,0,CW,CH);
+    if(glitchT%10<3){
+      ctx.fillStyle="rgba(0,255,65,0.05)";
+      ctx.fillRect(0,Math.random()*CH,CW,2+Math.random()*6);
+    }
+    const gx=glitchT%8<2?(Math.random()-.5)*5:0;
+    ctx.textAlign="center";
+    ctx.save(); ctx.translate(gx,0);
+    ctx.font="bold 20px 'JetBrains Mono',monospace";
+    ctx.fillStyle="#ff3333";
+    ctx.fillText("SIMULATION FAILED", CW/2, CH/2-20);
+    ctx.restore();
+    ctx.fillStyle="#3a5a3a"; ctx.font="11px 'JetBrains Mono',monospace";
+    ctx.fillText(`dataset_collected = ${String(score).padStart(4,"0")}`, CW/2, CH/2+6);
+    ctx.fillStyle="#00ff41"; ctx.font="10px 'JetBrains Mono',monospace";
+    ctx.fillText("[ press R to reinitialize ]", CW/2, CH/2+28);
+    ctx.textAlign="left";
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+gameLoop();
+</script>
+</body>
+</html>
