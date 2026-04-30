@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOYA-LAB</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top, #020617, #000000);
+  color: #e2e8f0;
+  overflow-x: hidden;
+}
+
+/* ANIMACIÓN FONDO */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* CONTENEDOR */
+.container {
+  text-align: center;
+  padding: 80px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* LOGO */
+.logo {
+  font-size: 30px;
+  letter-spacing: 6px;
+}
+
+.logo span {
+  color: #22d3ee;
+}
+
+/* TITULO */
+h1 {
+  font-size: 52px;
+  margin: 20px 0;
+  background: linear-gradient(90deg, #22d3ee, #a78bfa);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* SUBTITULO CONSTRUCCIÓN */
+.status {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid #22d3ee;
+  border-radius: 20px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #22d3ee;
+  margin-bottom: 20px;
+}
+
+/* TEXTO */
+p {
+  color: #94a3b8;
+  line-height: 1.7;
+}
+
+/* TAGLINE */
+.tagline {
+  margin-top: 20px;
+  letter-spacing: 2px;
+  color: #22d3ee;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
+  margin-top: 60px;
+}
+
+.card {
+  background: rgba(255,255,255,0.03);
+  padding: 25px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: #22d3ee;
+}
+
+/* LOADER MÁS PRO */
+.loader {
+  margin: 50px auto;
+  width: 70px;
+  height: 70px;
+  position: relative;
+}
+
+.loader div {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #22d3ee;
+  border-radius: 50%;
+  animation: orbit 1.8s linear infinite;
+}
+
+.loader div:nth-child(2) { animation-delay: -0.4s; }
+.loader div:nth-child(3) { animation-delay: -0.8s; }
+
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(28px); }
+  100% { transform: rotate(360deg) translateX(28px); }
+}
+
+/* FOOTER */
+footer {
+  margin-top: 70px;
+  font-size: 12px;
+  color: #475569;
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+
+  <div class="logo">
+    M<span>O</span>Y<span>A</span>-LAB
+  </div>
+
+  <div class="status">RESEARCH PLATFORM IN DEVELOPMENT</div>
+
+  <h1>Under Construction</h1>
+
+  <p>
+    MOYA-LAB is currently under active development.  
+    We are building a research platform focused on computational biology, 
+    artificial intelligence, and omics data analysis.
+  </p>
+
+  <div class="tagline">
+    Modeling Omics, Yielding Analytics
+  </div>
+
+  <div class="loader">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <!-- ÁREAS -->
+  <div class="grid">
+
+    <div class="card">
+      <h3>🧬 Bioinformatics</h3>
+      <p>Genome analysis, sequence modeling, and computational pipelines.</p>
+    </div>
+
+    <div class="card">
+      <h3>🤖 Artificial Intelligence</h3>
+      <p>Machine learning models applied to biological data.</p>
+    </div>
+
+    <div class="card">
+      <h3>🦠 Microbiome Systems</h3>
+      <p>Data-driven exploration of microbial communities.</p>
+    </div>
+
+    <div class="card">
+      <h3>📊 Data Science</h3>
+      <p>Integration of large-scale biological datasets.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2026 MOYA-LAB — All rights reserved
+  </footer>
+
+</div>
+
+<script>
+
+/* FONDO TIPO RED NEURONAL */
+
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 90; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+    ctx.fillStyle = "#22d3ee";
+    ctx.fillRect(p.x, p.y, 2, 2);
+  });
+
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      let dx = particles[i].x - particles[j].x;
+      let dy = particles[i].y - particles[j].y;
+      let dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 110) {
+        ctx.strokeStyle = "rgba(34,211,238,0.08)";
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+
+</script>
+
+</body>
+</html>
