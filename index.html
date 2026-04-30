@@ -102,16 +102,17 @@ h1 {
   background: linear-gradient(90deg, #a78bfa44, transparent);
 }
 
-/* ── DATO DEL DÍA ── */
+/* ── WIKIPEDIA FACT ── */
 .fact-box {
   margin: 40px auto 0;
   max-width: 700px;
   background: rgba(34, 211, 238, 0.05);
   border: 1px solid #22d3ee33;
   border-radius: 14px;
-  padding: 22px 28px;
+  padding: 24px 28px;
   position: relative;
   overflow: hidden;
+  text-align: left;
 }
 .fact-box::before {
   content: "";
@@ -121,29 +122,76 @@ h1 {
   background: linear-gradient(180deg, #22d3ee, #a78bfa);
   border-radius: 4px 0 0 4px;
 }
-.fact-icon { font-size: 26px; margin-bottom: 8px; }
-#factText {
-  font-size: 15px;
-  line-height: 1.7;
-  color: #cbd5e1;
-  min-height: 48px;
-  transition: opacity 0.5s ease;
-}
-.fact-counter {
-  margin-top: 12px;
+.fact-inner {
   display: flex;
-  justify-content: center;
-  gap: 6px;
+  gap: 18px;
+  align-items: flex-start;
 }
-.fact-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #1e293b;
-  border: 1px solid #334155;
-  transition: background 0.3s;
+.fact-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #22d3ee33;
+  flex-shrink: 0;
+  background: #0f172a;
+}
+.fact-image.hidden { display: none; }
+.fact-content { flex: 1; }
+.fact-tag {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #22d3ee;
+  background: rgba(34,211,238,0.1);
+  border: 1px solid #22d3ee44;
+  border-radius: 20px;
+  padding: 2px 10px;
+  margin-bottom: 8px;
+}
+#factText {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #cbd5e1;
+  min-height: 60px;
+  transition: opacity 0.4s ease;
+}
+.fact-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.fact-read-more {
+  font-size: 11px;
+  color: #a78bfa;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+.fact-read-more:hover { text-decoration: underline; }
+.fact-next-btn {
+  font-size: 11px;
+  color: #22d3ee;
+  background: transparent;
+  border: 1px solid #22d3ee44;
+  border-radius: 20px;
+  padding: 4px 14px;
   cursor: pointer;
+  letter-spacing: 1px;
+  transition: background 0.2s;
 }
-.fact-dot.active { background: #22d3ee; border-color: #22d3ee; }
+.fact-next-btn:hover { background: rgba(34,211,238,0.08); }
+.fact-loading {
+  font-size: 13px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 60px;
+}
 
 /* ── PAPERS ── */
 .papers-box {
@@ -151,7 +199,6 @@ h1 {
   max-width: 700px;
   text-align: left;
 }
-
 .paper-card {
   background: rgba(167, 139, 250, 0.05);
   border: 1px solid #a78bfa22;
@@ -185,6 +232,7 @@ h1 {
   font-weight: 500;
 }
 .paper-date { color: #475569; }
+.paper-authors { color: #64748b; font-style: italic; }
 .paper-link {
   color: #a78bfa;
   text-decoration: none;
@@ -192,7 +240,6 @@ h1 {
   margin-left: auto;
 }
 .paper-link:hover { text-decoration: underline; }
-
 .papers-loading {
   text-align: center;
   color: #475569;
@@ -203,21 +250,21 @@ h1 {
   justify-content: center;
   gap: 10px;
 }
-.spinner {
-  width: 16px; height: 16px;
-  border: 2px solid #334155;
-  border-top-color: #22d3ee;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
 .papers-error {
   text-align: center;
   color: #ef4444;
   font-size: 13px;
   padding: 20px 0;
 }
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid #334155;
+  border-top-color: #22d3ee;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .refresh-btn {
   display: inline-flex;
@@ -282,12 +329,22 @@ footer {
   </p>
   <div class="tagline">Modeling Omics · Yielding Analytics</div>
 
-  <!-- DATO DEL DÍA -->
+  <!-- WIKIPEDIA FACT -->
   <div class="fact-box" style="margin-top:50px;">
-    <div class="section-title">🔬 Bioinformatics Fact</div>
-    <div class="fact-icon" id="factIcon">🧬</div>
-    <div id="factText">Loading...</div>
-    <div class="fact-counter" id="factCounter"></div>
+    <div class="section-title">🔬 Bioinformatics Spotlight</div>
+    <div class="fact-inner">
+      <img id="factImage" class="fact-image hidden" alt="topic image" />
+      <div class="fact-content">
+        <div id="factTag" class="fact-tag">Loading…</div>
+        <div id="factText">
+          <div class="fact-loading"><div class="spinner"></div> Fetching from Wikipedia…</div>
+        </div>
+        <div class="fact-footer">
+          <a id="factLink" class="fact-read-more" href="#" target="_blank">Read full article →</a>
+          <button class="fact-next-btn" onclick="loadNextFact()">Next topic ↻</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- PAPERS -->
@@ -307,7 +364,7 @@ footer {
   <div class="game-box">
     <div class="section-title">🧫 Mini Exploration Game</div>
     <canvas id="gameCanvas" width="500" height="320"></canvas>
-    <div class="instructions">Arrow keys / WASD · Collect data nodes 🟢 · Avoid toxins 🔴</div>
+    <div class="instructions">Arrow keys / WASD · Collect data nodes 🟢 · Avoid toxins 🔴 · Press R to restart</div>
   </div>
 
   <footer>© 2026 MOYA-LAB &nbsp;·&nbsp; Computational Biology Platform</footer>
@@ -317,7 +374,7 @@ footer {
 /* ═══════════════════════════════════════
    BACKGROUND NETWORK
 ═══════════════════════════════════════ */
-const bg = document.getElementById("bg");
+const bg   = document.getElementById("bg");
 const bctx = bg.getContext("2d");
 
 function resizeBG() {
@@ -328,8 +385,8 @@ resizeBG();
 window.addEventListener("resize", resizeBG);
 
 const particles = Array.from({ length: 90 }, () => ({
-  x: Math.random() * bg.width,
-  y: Math.random() * bg.height,
+  x:  Math.random() * bg.width,
+  y:  Math.random() * bg.height,
   vx: (Math.random() - 0.5) * 0.8,
   vy: (Math.random() - 0.5) * 0.8,
 }));
@@ -337,20 +394,18 @@ const particles = Array.from({ length: 90 }, () => ({
 function animateBG() {
   bctx.clearRect(0, 0, bg.width, bg.height);
   particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
+    p.x += p.vx; p.y += p.vy;
     if (p.x < 0 || p.x > bg.width)  p.vx *= -1;
     if (p.y < 0 || p.y > bg.height) p.vy *= -1;
   });
-  // draw connections
   for (let i = 0; i < particles.length; i++) {
     for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
+      const dx   = particles[i].x - particles[j].x;
+      const dy   = particles[i].y - particles[j].y;
       const dist = Math.sqrt(dx*dx + dy*dy);
       if (dist < 100) {
         bctx.strokeStyle = `rgba(34,211,238,${0.15 * (1 - dist/100)})`;
-        bctx.lineWidth = 0.5;
+        bctx.lineWidth   = 0.5;
         bctx.beginPath();
         bctx.moveTo(particles[i].x, particles[i].y);
         bctx.lineTo(particles[j].x, particles[j].y);
@@ -370,198 +425,250 @@ animateBG();
 
 
 /* ═══════════════════════════════════════
-   DATO DEL DÍA
+   WIKIPEDIA BIOINFORMATICS SPOTLIGHT
 ═══════════════════════════════════════ */
-const FACTS = [
-  { icon:"🧬", text:"The human gut microbiome contains approximately 38 trillion bacterial cells — roughly equal to the number of human cells in the body." },
-  { icon:"💾", text:"A single human genome contains ~3.2 billion base pairs. Storing just one genome in raw FASTQ format requires about 200 GB of disk space." },
-  { icon:"🦠", text:"Metagenomics allows scientists to sequence the collective genome of entire microbial communities without culturing individual species — less than 1% of microbes can be grown in a lab." },
-  { icon:"📊", text:"The NCBI GenBank database doubles in size roughly every 18 months, currently holding over 2 billion sequences from hundreds of thousands of organisms." },
-  { icon:"🤖", text:"AlphaFold2 (DeepMind, 2021) predicted structures for over 200 million proteins — more than all structures solved experimentally in the previous 50 years." },
-  { icon:"🔬", text:"16S rRNA gene sequencing targets a ~1,500 bp gene conserved across bacteria, enabling taxonomic classification without full genome sequencing." },
-  { icon:"🌿", text:"The oak tree microbiome (rhizosphere) can contain more than 10,000 distinct bacterial species in just one gram of soil." },
-  { icon:"📈", text:"RNA-seq can detect gene expression across the entire transcriptome simultaneously — a task that previously required thousands of individual PCR reactions." },
-  { icon:"🧪", text:"CRISPR-Cas9 relies on a guide RNA of just 20 nucleotides to locate and cut a specific site in a genome of billions of base pairs." },
-  { icon:"🌐", text:"The Human Microbiome Project (HMP) profiled microbial communities at 18 body sites across 300 volunteers, generating over 10 TB of sequencing data." },
+const WIKI_TOPICS = [
+  "Metagenomics",
+  "Microbiome",
+  "CRISPR",
+  "AlphaFold",
+  "RNA-Seq",
+  "Proteomics",
+  "Single-cell_sequencing",
+  "Human_genome",
+  "Systems_biology",
+  "Genome-wide_association_study",
+  "Bioinformatics",
+  "16S_ribosomal_RNA",
+  "Transcriptomics",
+  "Metabolomics",
+  "Shotgun_sequencing",
+  "De_novo_sequence_assembly",
+  "Phylogenetics",
+  "BLAST_(biotechnology)",
 ];
 
-let currentFact = 0;
-let factTimer;
+let lastTopicIndex = -1;
 
-function buildFactDots() {
-  const counter = document.getElementById("factCounter");
-  counter.innerHTML = "";
-  FACTS.forEach((_, i) => {
-    const dot = document.createElement("span");
-    dot.className = "fact-dot" + (i === currentFact ? " active" : "");
-    dot.addEventListener("click", () => showFact(i));
-    counter.appendChild(dot);
-  });
+async function loadNextFact() {
+  let idx;
+  do { idx = Math.floor(Math.random() * WIKI_TOPICS.length); }
+  while (idx === lastTopicIndex);
+  lastTopicIndex = idx;
+
+  const topic  = WIKI_TOPICS[idx];
+  const tagEl  = document.getElementById("factTag");
+  const textEl = document.getElementById("factText");
+  const imgEl  = document.getElementById("factImage");
+  const linkEl = document.getElementById("factLink");
+
+  textEl.style.opacity = "0";
+  imgEl.classList.add("hidden");
+
+  const displayName = topic.replace(/_/g, " ").replace(/\(.*?\)/, "").trim();
+  tagEl.textContent  = displayName;
+
+  try {
+    const res  = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic)}`);
+    if (!res.ok) throw new Error("Wikipedia API error");
+    const data = await res.json();
+
+    setTimeout(() => {
+      const extract     = data.extract ?? "No summary available.";
+      textEl.textContent = extract.length > 300 ? extract.slice(0, 297) + "…" : extract;
+      textEl.style.opacity = "1";
+
+      if (data.thumbnail?.source) {
+        imgEl.src = data.thumbnail.source;
+        imgEl.classList.remove("hidden");
+      }
+
+      linkEl.href = data.content_urls?.desktop?.page ?? "#";
+    }, 250);
+
+  } catch (err) {
+    setTimeout(() => {
+      textEl.textContent   = "⚠️ Could not load Wikipedia summary.";
+      textEl.style.opacity = "1";
+    }, 250);
+  }
 }
 
-function showFact(index) {
-  currentFact = index;
-  const el = document.getElementById("factText");
-  const icon = document.getElementById("factIcon");
-  el.style.opacity = 0;
-  setTimeout(() => {
-    el.textContent = FACTS[index].text;
-    icon.textContent = FACTS[index].icon;
-    el.style.opacity = 1;
-  }, 300);
-  document.querySelectorAll(".fact-dot").forEach((d, i) => {
-    d.classList.toggle("active", i === index);
-  });
-  clearInterval(factTimer);
-  startFactTimer();
-}
-
-function startFactTimer() {
-  factTimer = setInterval(() => {
-    showFact((currentFact + 1) % FACTS.length);
-  }, 7000);
-}
-
-buildFactDots();
-showFact(Math.floor(Math.random() * FACTS.length));
-startFactTimer();
+loadNextFact();
+setInterval(loadNextFact, 20000);
 
 
 /* ═══════════════════════════════════════
-   PAPERS — Europe PMC API
+   PAPERS — CrossRef API (primary)
+         + Semantic Scholar (fallback)
 ═══════════════════════════════════════ */
-const QUERIES = ["microbiome omics", "metagenomics machine learning", "computational biology AI"];
+const QUERIES = [
+  "microbiome omics",
+  "metagenomics machine learning",
+  "computational biology AI",
+  "single cell sequencing analysis",
+  "microbiome dysbiosis",
+];
+
+async function fetchCrossRef(query) {
+  const url = `https://api.crossref.org/works?query=${encodeURIComponent(query)}&rows=5&sort=published&order=desc&select=title,author,published,DOI,container-title`;
+  const res  = await fetch(url);
+  if (!res.ok) throw new Error("CrossRef error");
+  const data = await res.json();
+  const items = data.message?.items ?? [];
+  if (!items.length) throw new Error("No CrossRef results");
+
+  return items.map(p => {
+    const title   = Array.isArray(p.title) ? p.title[0] : (p.title ?? "Untitled");
+    const journal = Array.isArray(p["container-title"]) ? p["container-title"][0] : "";
+    const doi     = p.DOI ?? "";
+    const href    = doi ? `https://doi.org/${doi}` : "#";
+    const dateParts = p.published?.["date-parts"]?.[0];
+    const date    = dateParts ? dateParts.join("-") : "";
+    const authors = (p.author ?? [])
+      .slice(0, 3)
+      .map(a => `${a.given?.[0] ?? ""}. ${a.family ?? ""}`.trim())
+      .join(", ");
+    return { title, journal, href, date, authors };
+  });
+}
+
+async function fetchSemanticScholar(query) {
+  const url = `https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=5&fields=title,authors,year,venue,externalIds`;
+  const res  = await fetch(url);
+  if (!res.ok) throw new Error("Semantic Scholar error");
+  const data = await res.json();
+  const items = data.data ?? [];
+  if (!items.length) throw new Error("No Semantic Scholar results");
+
+  return items.map(p => {
+    const doi  = p.externalIds?.DOI ?? "";
+    const href = doi
+      ? `https://doi.org/${doi}`
+      : `https://www.semanticscholar.org/paper/${p.paperId}`;
+    const authors = (p.authors ?? [])
+      .slice(0, 3)
+      .map(a => a.name)
+      .join(", ");
+    return {
+      title:   p.title ?? "Untitled",
+      journal: p.venue ?? "",
+      href,
+      date:    p.year ? String(p.year) : "",
+      authors,
+    };
+  });
+}
 
 async function fetchPapers() {
   const container = document.getElementById("papersContainer");
   container.innerHTML = `<div class="papers-loading"><div class="spinner"></div> Fetching recent publications…</div>`;
 
   const query = QUERIES[Math.floor(Math.random() * QUERIES.length)];
-  const url = `https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=${encodeURIComponent(query)}&format=json&resultType=lite&pageSize=5&sort=date&cursorMark=*`;
+  let results = [];
+  let source  = "";
 
   try {
-    const res  = await fetch(url);
-    if (!res.ok) throw new Error("API error");
-    const data = await res.json();
-    const results = data.resultList?.result ?? [];
-
-    if (!results.length) throw new Error("No results");
-
-    container.innerHTML = results.map(p => {
-      const title   = p.title?.replace(/<[^>]+>/g,"") ?? "Untitled";
-      const journal = p.journalTitle ?? p.source ?? "";
-      const date    = p.firstPublicationDate ?? p.pubYear ?? "";
-      const pmid    = p.pmid ?? "";
-      const doi     = p.doi  ?? "";
-      const href    = doi
-        ? `https://doi.org/${doi}`
-        : pmid
-          ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`
-          : "#";
-
-      return `
-        <div class="paper-card" onclick="window.open('${href}','_blank')">
-          <div class="paper-title">${title}</div>
-          <div class="paper-meta">
-            <span class="paper-journal">${journal}</span>
-            <span class="paper-date">${date}</span>
-            <a class="paper-link" href="${href}" target="_blank" onclick="event.stopPropagation()">
-              View →
-            </a>
-          </div>
-        </div>`;
-    }).join("");
-
-    // subtitle showing query used
-    const sub = document.createElement("p");
-    sub.style.cssText = "font-size:11px;color:#334155;text-align:center;margin-top:6px;letter-spacing:1px;";
-    sub.textContent = `Query: "${query}" via Europe PMC`;
-    container.appendChild(sub);
-
-  } catch (err) {
-    container.innerHTML = `<div class="papers-error">⚠️ Could not load papers. Check your connection.<br><small>${err.message}</small></div>`;
+    results = await fetchCrossRef(query);
+    source  = "CrossRef";
+  } catch {
+    try {
+      results = await fetchSemanticScholar(query);
+      source  = "Semantic Scholar";
+    } catch (err) {
+      container.innerHTML = `<div class="papers-error">⚠️ Could not load papers. Check your connection.<br><small>${err.message}</small></div>`;
+      return;
+    }
   }
+
+  container.innerHTML = results.map(p => `
+    <div class="paper-card" onclick="window.open('${p.href}','_blank')">
+      <div class="paper-title">${p.title}</div>
+      <div class="paper-meta">
+        <span class="paper-journal">${p.journal}</span>
+        ${p.authors ? `<span class="paper-authors">${p.authors}</span>` : ""}
+        <span class="paper-date">${p.date}</span>
+        <a class="paper-link" href="${p.href}" target="_blank" onclick="event.stopPropagation()">View →</a>
+      </div>
+    </div>`
+  ).join("");
+
+  const sub = document.createElement("p");
+  sub.style.cssText = "font-size:11px;color:#334155;text-align:center;margin-top:6px;letter-spacing:1px;";
+  sub.textContent   = `Query: "${query}" via ${source}`;
+  container.appendChild(sub);
 }
 
 fetchPapers();
 
 
 /* ═══════════════════════════════════════
-   GAME — improved
+   GAME
 ═══════════════════════════════════════ */
 const canvas = document.getElementById("gameCanvas");
 const ctx    = canvas.getContext("2d");
-const CW = canvas.width;
-const CH = canvas.height;
+const CW     = canvas.width;
+const CH     = canvas.height;
 
 const PLAYER_SPEED = 3;
 const NODE_COUNT   = 6;
 const TOXIN_COUNT  = 3;
 
-let player = { x: CW/2, y: CH/2, size: 10 };
-let nodes   = [];
-let toxins  = [];
-let score   = 0;
-let lives   = 3;
+let player   = { x: CW/2, y: CH/2, size: 10 };
+let nodes    = [];
+let toxins   = [];
+let score    = 0;
+let lives    = 3;
 let gameOver = false;
 let invincible = 0;
 
 const keys = {};
 document.addEventListener("keydown", e => {
   keys[e.key] = true;
-  // prevent page scroll on arrow keys only when canvas is in view
-  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)) e.preventDefault();
+  if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)) e.preventDefault();
 });
-document.addEventListener("keyup",  e => keys[e.key] = false);
+document.addEventListener("keyup", e => keys[e.key] = false);
 
 function spawnNodes() {
-  nodes = [];
-  for (let i = 0; i < NODE_COUNT; i++) {
-    nodes.push({ x: 20 + Math.random()*(CW-40), y: 30 + Math.random()*(CH-50) });
-  }
+  nodes = Array.from({ length: NODE_COUNT }, () => ({
+    x: 20 + Math.random() * (CW - 40),
+    y: 30 + Math.random() * (CH - 50),
+  }));
 }
 function spawnToxins() {
-  toxins = [];
-  for (let i = 0; i < TOXIN_COUNT; i++) {
-    toxins.push({
-      x: 20 + Math.random()*(CW-40),
-      y: 30 + Math.random()*(CH-50),
-      vx: (Math.random()-0.5)*1.5,
-      vy: (Math.random()-0.5)*1.5,
-    });
-  }
+  toxins = Array.from({ length: TOXIN_COUNT }, () => ({
+    x:  20 + Math.random() * (CW - 40),
+    y:  30 + Math.random() * (CH - 50),
+    vx: (Math.random() - 0.5) * 1.5,
+    vy: (Math.random() - 0.5) * 1.5,
+  }));
 }
 spawnNodes();
 spawnToxins();
 
-function dist(a, b) {
-  return Math.hypot(a.x - b.x, a.y - b.y);
-}
+function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
 
 function gameLoop() {
   ctx.clearRect(0, 0, CW, CH);
 
   if (!gameOver) {
-    // move player
-    if ((keys["ArrowLeft"]  || keys["a"] || keys["A"]) && player.x > player.size)  player.x -= PLAYER_SPEED;
-    if ((keys["ArrowRight"] || keys["d"] || keys["D"]) && player.x < CW-player.size) player.x += PLAYER_SPEED;
-    if ((keys["ArrowUp"]    || keys["w"] || keys["W"]) && player.y > player.size)  player.y -= PLAYER_SPEED;
-    if ((keys["ArrowDown"]  || keys["s"] || keys["S"]) && player.y < CH-player.size) player.y += PLAYER_SPEED;
+    if ((keys["ArrowLeft"]  || keys["a"] || keys["A"]) && player.x > player.size)       player.x -= PLAYER_SPEED;
+    if ((keys["ArrowRight"] || keys["d"] || keys["D"]) && player.x < CW - player.size)  player.x += PLAYER_SPEED;
+    if ((keys["ArrowUp"]    || keys["w"] || keys["W"]) && player.y > player.size)        player.y -= PLAYER_SPEED;
+    if ((keys["ArrowDown"]  || keys["s"] || keys["S"]) && player.y < CH - player.size)  player.y += PLAYER_SPEED;
 
-    // move toxins
     toxins.forEach(t => {
       t.x += t.vx; t.y += t.vy;
-      if (t.x < 10 || t.x > CW-10) t.vx *= -1;
-      if (t.y < 25 || t.y > CH-10) t.vy *= -1;
+      if (t.x < 10 || t.x > CW - 10) t.vx *= -1;
+      if (t.y < 25 || t.y > CH - 10) t.vy *= -1;
     });
 
-    // collect nodes
     nodes = nodes.filter(n => {
       if (dist(player, n) < player.size + 6) { score++; return false; }
       return true;
     });
+    if (nodes.length === 0) spawnNodes();
 
-    // hit toxins
     if (invincible <= 0) {
       toxins.forEach(t => {
         if (dist(player, t) < player.size + 7) {
@@ -573,18 +680,15 @@ function gameLoop() {
     } else {
       invincible--;
     }
-
-    // respawn nodes
-    if (nodes.length === 0) spawnNodes();
   }
 
-  /* — draw grid lines — */
+  /* grid */
   ctx.strokeStyle = "rgba(34,211,238,0.04)";
-  ctx.lineWidth = 1;
+  ctx.lineWidth   = 1;
   for (let x = 0; x < CW; x += 40) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,CH); ctx.stroke(); }
   for (let y = 0; y < CH; y += 40) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(CW,y); ctx.stroke(); }
 
-  /* — data nodes — */
+  /* nodes */
   nodes.forEach(n => {
     ctx.save();
     ctx.shadowColor = "#4ade80";
@@ -596,7 +700,7 @@ function gameLoop() {
     ctx.restore();
   });
 
-  /* — toxins — */
+  /* toxins */
   toxins.forEach(t => {
     ctx.save();
     ctx.shadowColor = "#f87171";
@@ -605,16 +709,15 @@ function gameLoop() {
     ctx.beginPath();
     ctx.arc(t.x, t.y, 7, 0, Math.PI*2);
     ctx.fill();
-    // X
     ctx.strokeStyle = "#fff";
     ctx.lineWidth   = 2;
-    ctx.beginPath(); ctx.moveTo(t.x-3,t.y-3); ctx.lineTo(t.x+3,t.y+3); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(t.x+3,t.y-3); ctx.lineTo(t.x-3,t.y+3); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(t.x-3, t.y-3); ctx.lineTo(t.x+3, t.y+3); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(t.x+3, t.y-3); ctx.lineTo(t.x-3, t.y+3); ctx.stroke();
     ctx.restore();
   });
 
-  /* — player — */
-  const alpha = (invincible > 0 && Math.floor(invincible/6)%2 === 0) ? 0.3 : 1;
+  /* player */
+  const alpha = (invincible > 0 && Math.floor(invincible/6) % 2 === 0) ? 0.3 : 1;
   ctx.save();
   ctx.globalAlpha = alpha;
   ctx.shadowColor = "#22d3ee";
@@ -625,12 +728,10 @@ function gameLoop() {
   ctx.fill();
   ctx.restore();
 
-  /* — HUD — */
+  /* HUD */
   ctx.fillStyle = "#94a3b8";
-  ctx.font = "12px Inter, sans-serif";
+  ctx.font      = "12px Inter, sans-serif";
   ctx.fillText(`Data: ${score}`, 12, 20);
-
-  // lives
   for (let i = 0; i < 3; i++) {
     ctx.fillStyle = i < lives ? "#f87171" : "#1e293b";
     ctx.beginPath();
@@ -638,19 +739,19 @@ function gameLoop() {
     ctx.fill();
   }
 
-  /* — game over screen — */
+  /* game over */
   if (gameOver) {
     ctx.fillStyle = "rgba(2,6,23,0.75)";
     ctx.fillRect(0, 0, CW, CH);
-    ctx.fillStyle = "#ef4444";
-    ctx.font = "bold 26px Inter, sans-serif";
     ctx.textAlign = "center";
+    ctx.fillStyle = "#ef4444";
+    ctx.font      = "bold 26px Inter, sans-serif";
     ctx.fillText("SIMULATION FAILED", CW/2, CH/2 - 20);
     ctx.fillStyle = "#94a3b8";
-    ctx.font = "14px Inter, sans-serif";
+    ctx.font      = "14px Inter, sans-serif";
     ctx.fillText(`Data collected: ${score}`, CW/2, CH/2 + 12);
     ctx.fillStyle = "#22d3ee";
-    ctx.font = "12px Inter, sans-serif";
+    ctx.font      = "12px Inter, sans-serif";
     ctx.fillText("Press R to restart", CW/2, CH/2 + 38);
     ctx.textAlign = "left";
   }
@@ -660,9 +761,13 @@ function gameLoop() {
 
 document.addEventListener("keydown", e => {
   if ((e.key === "r" || e.key === "R") && gameOver) {
-    player = { x: CW/2, y: CH/2, size: 10 };
-    score = 0; lives = 3; gameOver = false; invincible = 0;
-    spawnNodes(); spawnToxins();
+    player     = { x: CW/2, y: CH/2, size: 10 };
+    score      = 0;
+    lives      = 3;
+    gameOver   = false;
+    invincible = 0;
+    spawnNodes();
+    spawnToxins();
   }
 });
 
