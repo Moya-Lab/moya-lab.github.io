@@ -1265,13 +1265,203 @@ loadPubs();
 /* ════════════════════════════════════════════
    WIKIPEDIA SPOTLIGHT
 ════════════════════════════════════════════ */
-const WIKI_TOPICS=[
-  'Metagenomics','Microbiome','CRISPR','AlphaFold','RNA-Seq','Proteomics',
-  'Single-cell_sequencing','Acidithiobacillus','Systems_biology',
-  'Genome-wide_association_study','Bioinformatics','16S_ribosomal_RNA',
-  'Transcriptomics','Metabolomics','Shotgun_sequencing',
-  'Phylogenetics','BLAST_(biotechnology)','Pangenomics','Biomining',
-  'Comparative_genomics','Horizontal_gene_transfer','Extremophile',
+const WIKI_TOPICS = [
+
+  // ========================
+  // 🔵 CORE BIOINFORMATICS
+  // ========================
+  'Bioinformatics',
+  'Computational_biology',
+  'Biological_data_analysis',
+  'Biological_databases',
+  'Biological_data_mining',
+  'Scientific_workflows',
+  'Workflow_management_system',
+  'Ontology_(information_science)',
+  'Data_integration',
+  'Data_visualization',
+  'Big_data',
+  'High-performance_computing',
+  'Cloud_computing_bioinformatics',
+
+  // ========================
+  // 🟢 COMPUTER SCIENCE SIDE
+  // ========================
+  'Algorithms',
+  'Machine_learning',
+  'Deep_learning',
+  'Artificial_neural_network',
+  'Natural_language_processing',
+  'Pattern_recognition',
+  'Graph_theory',
+  'Network_science',
+  'Database',
+  'Distributed_computing',
+  'Parallel_computing',
+
+  // ========================
+  // 🧬 SEQUENCE ANALYSIS
+  // ========================
+  'Sequence_analysis',
+  'Sequence_alignment',
+  'Multiple_sequence_alignment',
+  'BLAST_(biotechnology)',
+  'Hidden_Markov_model',
+  'Motif_(biology)',
+  'Gene_prediction',
+  'ORF_finding',
+  'Sequence_assembly',
+
+  // ========================
+  // 🧬 GENOMICS
+  // ========================
+  'Genomics',
+  'Comparative_genomics',
+  'Functional_genomics',
+  'Structural_genomics',
+  'Population_genomics',
+  'Genome_annotation',
+  'Genome_assembly',
+  'Genome_scaffolding',
+  'Genome_resequencing',
+  'Pan-genome',
+  'Metagenomics',
+  'Metatranscriptomics',
+
+  // ========================
+  // 🧬 TRANSCRIPTOMICS
+  // ========================
+  'Transcriptomics',
+  'RNA-Seq',
+  'Alternative_splicing',
+  'Gene_expression',
+  'Differential_expression',
+  'Single-cell_sequencing',
+  'Single-cell_RNA-seq',
+
+  // ========================
+  // 🧬 PROTEOMICS
+  // ========================
+  'Proteomics',
+  'Protein_identification',
+  'Protein_quantification',
+  'Mass_spectrometry',
+  'Protein_domains',
+  'Protein_family',
+
+  // ========================
+  // 🧬 STRUCTURAL BIOINFORMATICS
+  // ========================
+  'Structural_bioinformatics',
+  'Protein_structure',
+  'Protein_structure_prediction',
+  'Protein_folding',
+  'Molecular_modeling',
+  'Molecular_dynamics',
+  'Homology_modeling',
+  'Docking_(molecular)',
+  'Protein-ligand_interaction',
+
+  // ========================
+  // 🧬 SYSTEMS BIOLOGY
+  // ========================
+  'Systems_biology',
+  'Gene_regulatory_network',
+  'Protein-protein_interaction',
+  'Metabolic_network',
+  'Biological_pathway',
+  'Network_biology',
+  'Pathway_analysis',
+
+  // ========================
+  // 🧬 EVOLUTION & PHYLOGENY
+  // ========================
+  'Phylogenetics',
+  'Phylogenomics',
+  'Molecular_evolution',
+  'Population_genetics',
+  'Genetic_variation',
+  'Horizontal_gene_transfer',
+  'Evolutionary_biology',
+
+  // ========================
+  // 🧬 OMICS INTEGRATION
+  // ========================
+  'Multi-omics',
+  'Data_integration_biology',
+  'Systems_genomics',
+  'Integrative_bioinformatics',
+
+  // ========================
+  // 🧬 EPIGENOMICS
+  // ========================
+  'Epigenomics',
+  'DNA_methylation',
+  'Histone_modification',
+  'Chromatin_structure',
+
+  // ========================
+  // 🧬 MICROBIOME / ENVIRONMENT
+  // ========================
+  'Microbiome',
+  'Microbial_ecology',
+  'Environmental_genomics',
+  '16S_ribosomal_RNA',
+  'Shotgun_sequencing',
+  'Extremophile',
+  'Acidithiobacillus',
+  'Biomining',
+
+  // ========================
+  // 🧬 MEDICAL / HEALTH
+  // ========================
+  'Medical_informatics',
+  'Clinical_bioinformatics',
+  'Precision_medicine',
+  'Cancer_genomics',
+  'Pharmacogenomics',
+  'Drug_discovery',
+  'Drug_design',
+  'Pharmaceutical_bioinformatics',
+
+  // ========================
+  // 🧬 CHEMINFORMATICS
+  // ========================
+  'Cheminformatics',
+  'Quantitative_structure-activity_relationship',
+  'Chemical_informatics',
+  'Ligand-based_drug_design',
+
+  // ========================
+  // 🧬 MATHEMATICS / STATS
+  // ========================
+  'Biostatistics',
+  'Mathematical_biology',
+  'Bayesian_inference',
+  'Statistical_model',
+  'Probability_distribution',
+  'Clustering',
+  'Principal_component_analysis',
+
+  // ========================
+  // 🧬 PIPELINES & INFRASTRUCTURE
+  // ========================
+  'Bioinformatics_pipeline',
+  'Next-generation_sequencing',
+  'Variant_calling',
+  'Data_preprocessing',
+  'Quality_control_(sequencing)',
+
+  // ========================
+  // 🧬 SPECIAL / MODERN
+  // ========================
+  'CRISPR',
+  'Genome_editing',
+  'Synthetic_biology',
+  'AlphaFold',
+  'Artificial_intelligence_in_biology',
+  'Digital_biology',
+  'Computational_drug_repositioning'
 ];
 let lastFact=-1;
 
