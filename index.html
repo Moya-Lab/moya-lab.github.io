@@ -18,17 +18,26 @@
 html{scroll-behavior:smooth}
 body{font-family:var(--mono);background:var(--bg);color:var(--green);min-height:100vh;overflow-x:hidden;padding-top:22px;cursor:none;animation:flicker 12s infinite}
 @keyframes flicker{0%,100%{opacity:1}93%{opacity:.93}94%{opacity:1}97%{opacity:.96}98%{opacity:1}}
-#cursor{position:fixed;width:18px;height:18px;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
+
+/* cursor */
+#cursor{position:fixed;width:18px;height:18px;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:opacity .2s}
 #cursor::before,#cursor::after{content:'';position:absolute;background:var(--cyan)}
 #cursor::before{width:1px;height:100%;left:50%;top:0}
 #cursor::after{width:100%;height:1px;top:50%;left:0}
 .cursor-ring{position:fixed;width:34px;height:34px;border:1px solid rgba(0,255,255,.25);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:transform .12s ease,width .15s,height .15s}
+
+/* scanlines */
 body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.08) 2px,rgba(0,0,0,.08) 4px);pointer-events:none;z-index:9000}
+
 #matrixCanvas{position:fixed;inset:0;z-index:0;opacity:.18;pointer-events:none}
+
+/* DNA ticker */
 #dna-ticker{position:fixed;top:0;left:0;right:0;height:22px;background:#030303;border-bottom:1px solid rgba(0,255,65,.1);overflow:hidden;z-index:500;display:flex;align-items:center}
 .dna-track{display:flex;white-space:nowrap;font-size:9px;letter-spacing:1.5px;opacity:.65;animation:dnaScroll 50s linear infinite}
 @keyframes dnaScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .dA{color:#00ff41}.dT{color:#ff4444}.dC{color:#4488ff}.dG{color:#ffb000}.dSep{color:#111;margin:0 10px}
+
+/* boot */
 #boot{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:40px clamp(20px,6vw,80px);transition:opacity .7s}
 #boot.fade-out{opacity:0;pointer-events:none}
 #boot-ascii{font-size:clamp(5.5px,1.2vw,10px);line-height:1.2;color:var(--green);white-space:pre;text-shadow:0 0 14px rgba(0,255,65,.45);margin-bottom:22px}
@@ -36,16 +45,23 @@ body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradie
 #boot-log .ok{color:var(--green)}#boot-log .info{color:var(--cyan)}#boot-log .warn{color:var(--amber)}
 .boot-bar-wrap{width:min(420px,80vw);height:2px;background:#111;margin-top:20px;overflow:hidden}
 #boot-bar{height:100%;width:0%;background:var(--green);box-shadow:0 0 8px var(--green);transition:width .08s linear}
+
+/* sidebar */
 #sidebar{position:fixed;left:0;top:22px;bottom:0;width:var(--sidebar-w);background:rgba(3,3,3,.92);border-right:1px solid rgba(0,255,65,.08);display:none;flex-direction:column;align-items:center;padding:14px 0;gap:4px;z-index:400;backdrop-filter:blur(10px)}
 .sb-item{width:42px;height:42px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:1px solid transparent;border-radius:4px;cursor:none;text-decoration:none;transition:border-color .2s,background .2s;color:var(--dim)}
 .sb-item:hover{border-color:var(--border);background:rgba(0,255,65,.05);color:var(--green)}
 .sb-item.active{color:var(--green);border-color:var(--border)}
 .sb-icon{font-size:14px;line-height:1}.sb-label{font-size:7px;letter-spacing:.5px;text-transform:uppercase;font-family:var(--mono)}
 .sb-divider{width:28px;height:1px;background:rgba(0,255,65,.07);margin:4px 0}
+
+/* layout */
 #terminal{display:none;max-width:1100px;margin:0 auto;padding:20px 16px 60px calc(var(--sidebar-w) + 16px);position:relative;z-index:1}
 .win-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.win-row.thirds{grid-template-columns:1fr 1fr 1fr}
 .win-row>.win{margin-bottom:0}
-@media(max-width:760px){.win-row{grid-template-columns:1fr}#terminal{padding-left:16px}#sidebar{display:none!important}}
+@media(max-width:760px){.win-row,.win-row.thirds{grid-template-columns:1fr}#terminal{padding-left:16px}#sidebar{display:none!important}}
+
+/* windows */
 .win{background:var(--bg2);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:6px;margin-bottom:16px;overflow:hidden;box-shadow:0 4px 28px rgba(0,0,0,.7),0 0 0 1px rgba(0,255,65,.03),inset 0 1px 0 rgba(0,255,65,.04);transition:box-shadow .25s,border-color .25s}
 .win:hover{border-color:rgba(0,255,65,.22);box-shadow:0 6px 36px rgba(0,0,0,.75),0 0 20px rgba(0,255,65,.04),inset 0 1px 0 rgba(0,255,65,.06)}
 .win-bar{background:rgba(8,8,8,.9);border-bottom:1px solid var(--border);padding:7px 14px;display:flex;align-items:center;gap:8px;user-select:none;position:relative}
@@ -54,14 +70,21 @@ body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradie
 .dot-r{background:#ff5f57}.dot-y{background:#febc2e}.dot-g{background:#28c840}
 .win-title{font-size:10px;color:#2a3a2a;letter-spacing:1px;margin-left:6px}
 .win-body{padding:18px 22px}
+
+/* prompt */
 .prompt{font-size:12px;margin-bottom:14px;line-height:1.7;word-break:break-all}
 .p-user{color:var(--green)}.p-at{color:#1a2a1a}.p-host{color:var(--cyan)}.p-colon{color:#1a2a1a}.p-path{color:var(--violet)}.p-sym{color:var(--green)}.p-cmd{color:#d0d0d0}.p-arg{color:var(--amber)}.p-flag{color:var(--cyan)}
 .p-typed{border-right:2px solid var(--green)}
+
+/* output */
 .out{font-size:12px;line-height:1.9;margin-bottom:12px}
 .out .c{color:var(--dim)}.out .ok{color:var(--green)}.out .i{color:var(--cyan)}.out .w{color:var(--amber)}.out .e{color:var(--red)}.out .v{color:#c0c0c0}.out .hl{color:var(--violet)}
+
+/* PI */
 .pi-grid{display:grid;grid-template-columns:96px 1fr;gap:20px;align-items:start}
 @media(max-width:520px){.pi-grid{grid-template-columns:1fr}}
 .pi-avatar{width:90px;height:90px;border-radius:50%;border:2px solid rgba(0,255,65,.2);background:#0a0a0a;display:flex;align-items:center;justify-content:center;font-size:38px;position:relative;overflow:hidden;box-shadow:0 0 24px rgba(0,255,65,.12);flex-shrink:0}
+.pi-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 @keyframes ring{0%,100%{box-shadow:0 0 8px rgba(0,255,65,.1)}50%{box-shadow:0 0 22px rgba(0,255,65,.28)}}
 .pi-ring{position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(0,255,65,.18);animation:ring 3.5s ease-in-out infinite}
 .pi-name{font-size:16px;font-weight:700;color:#e0e0e0;margin-bottom:2px}
@@ -76,6 +99,8 @@ body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradie
 .kk{color:var(--dim);width:130px;flex-shrink:0}
 .kv-val{color:#a0a0a0}.kv-val a{color:var(--cyan);text-decoration:none}.kv-val a:hover{text-decoration:underline}
 .pi-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+
+/* db stats */
 .db-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px}
 .db-card{background:rgba(6,6,6,.8);border:1px solid var(--border);border-radius:4px;padding:12px 14px;backdrop-filter:blur(8px)}
 .db-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
@@ -85,6 +110,8 @@ body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradie
 .db-card:nth-child(2) .db-val{color:var(--cyan);text-shadow:0 0 10px rgba(0,255,255,.25)}
 .db-card:nth-child(3) .db-val{color:#28c882;text-shadow:0 0 10px rgba(40,200,130,.3)}
 .db-card:nth-child(4) .db-val{color:var(--amber);text-shadow:0 0 10px rgba(255,176,0,.3)}
+
+/* publications */
 .pub-entry{border-left:2px solid rgba(0,255,65,.1);padding:7px 0 7px 14px;margin-bottom:10px;cursor:none;transition:border-color .2s,background .2s;border-radius:0 4px 4px 0}
 .pub-entry:hover{border-color:var(--green);background:rgba(0,255,65,.025)}
 .pub-hash{font-size:10px;color:var(--violet);margin-bottom:2px}
@@ -92,12 +119,26 @@ body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradie
 .pub-meta{font-size:10px;color:var(--dim);display:flex;flex-wrap:wrap;gap:10px}
 .pub-meta .jnl{color:var(--cyan)}.pub-meta .auth{color:#3a5a3a;font-style:italic}.pub-meta .yr{color:var(--amber)}.pub-meta .cit{color:var(--violet)}
 .pub-meta .lnk{color:var(--violet);text-decoration:none;margin-left:auto}.pub-meta .lnk:hover{text-decoration:underline}
+
+/* pub pagination controls */
+.pub-pager{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,255,65,.06)}
+.pub-pager-info{font-size:9px;color:var(--dim);letter-spacing:1px}
+.pub-pager-dots{display:flex;gap:5px;align-items:center}
+.pub-dot{width:6px;height:6px;border-radius:50%;border:1px solid rgba(0,255,65,.25);background:transparent;transition:background .2s,border-color .2s;cursor:none}
+.pub-dot.active{background:var(--green);border-color:var(--green);box-shadow:0 0 6px rgba(0,255,65,.4)}
+.pub-pager-btns{display:flex;gap:6px}
+.pub-progress{width:100%;height:1px;background:rgba(0,255,65,.07);margin-top:8px;position:relative;overflow:hidden}
+.pub-progress-bar{height:100%;background:var(--green);box-shadow:0 0 6px var(--green);transition:width .3s linear;width:0%}
+
+/* spotlight */
 .spot-layout{display:flex;gap:16px;align-items:flex-start}
 @media(max-width:500px){.spot-layout{flex-direction:column}}
 .spot-img{width:70px;height:70px;object-fit:cover;border:1px solid var(--border);border-radius:4px;flex-shrink:0;background:#0a0a0a}
 .spot-img.hidden{display:none}
 .spot-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,255,255,.2);padding:2px 10px;border-radius:2px;display:inline-block;margin-bottom:8px}
 #factText{font-size:11px;color:var(--muted);line-height:1.9;min-height:50px;transition:opacity .4s}
+
+/* members */
 .members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
 .mem-card{background:rgba(6,6,6,.8);border:1px solid var(--border);border-radius:4px;padding:14px 10px;text-align:center;cursor:none;transition:border-color .2s,transform .2s,box-shadow .2s}
 .mem-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.5),0 0 12px rgba(0,255,65,.06)}
@@ -105,18 +146,23 @@ body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradie
 .mem-handle{font-size:11px;color:var(--green);margin-bottom:2px}
 .mem-role{font-size:9px;color:var(--dim);letter-spacing:1px}
 .mem-area{font-size:9px;color:#2a4a2a;margin-top:2px}
+
+/* contact */
 .contact-grid{display:grid;grid-template-columns:1fr;gap:10px}
 .contact-card{background:rgba(6,6,6,.8);border:1px solid var(--border);border-radius:4px;padding:14px 16px}
 .contact-name{font-size:13px;color:#d0d0d0;font-weight:600;margin-bottom:2px}
 .contact-role{font-size:10px;color:var(--dim);letter-spacing:1px;margin-bottom:8px}
 .contact-link{font-size:11px;color:var(--green);text-decoration:none;display:block;padding:5px 10px;border:1px solid rgba(0,255,65,.18);border-radius:2px;background:rgba(0,255,65,.03);transition:background .15s}
 .contact-link:hover{background:rgba(0,255,65,.08)}
+
+/* buttons */
 .btn{font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:5px 14px;border:1px solid var(--border);border-radius:2px;background:transparent;color:var(--green);cursor:none;transition:background .15s,box-shadow .15s;text-decoration:none;display:inline-block}
 .btn:hover{background:var(--green3);box-shadow:0 0 10px rgba(0,255,65,.12)}
-.btn:disabled{opacity:.35;pointer-events:none}
 .btn.cyan{color:var(--cyan);border-color:rgba(0,255,255,.18)}.btn.cyan:hover{background:rgba(0,255,255,.05)}
 .btn.violet{color:var(--violet);border-color:rgba(191,95,255,.18)}.btn.violet:hover{background:rgba(191,95,255,.05)}
 .btn.amber{color:var(--amber);border-color:rgba(255,176,0,.18)}.btn.amber:hover{background:rgba(255,176,0,.05)}
+
+/* misc */
 .ld{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:11px;padding:14px 0}
 .sp{width:10px;height:10px;border:1.5px solid #1a2a1a;border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -126,13 +172,18 @@ body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradie
 .blink-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.3s ease-in-out infinite}
 .sec-note{font-size:10px;color:#243424;text-align:right;margin-top:8px}
 hr.tl{border:none;border-top:1px solid rgba(0,255,65,.05);margin:14px 0}
-#gameCanvas{background:#020408;border:1px solid var(--border);border-radius:4px;display:block;width:100%;height:auto;max-width:100%}
+
+/* game */
+#gameCanvas{background:#040404;border:1px solid var(--border);border-radius:4px;display:block;width:100%;height:auto;max-width:100%}
 .game-keys{font-size:10px;color:var(--dim);margin-top:10px;display:flex;gap:16px;flex-wrap:wrap}
 .key{display:inline-block;background:#0e0e0e;border:1px solid #1a1a1a;border-radius:2px;padding:1px 5px;font-size:9px;color:#444}
-.game-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:9px;color:var(--dim);margin-top:7px}
-.game-legend span{display:flex;align-items:center;gap:5px}
+.game-powerup-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:9px;color:var(--dim);margin-top:7px}
+.game-powerup-legend span{display:flex;align-items:center;gap:4px}
+
+/* footer */
 footer{margin-top:30px;padding-bottom:20px;font-size:10px;color:#1a2a1a;letter-spacing:1.5px;text-align:center;line-height:2.2}
 footer .hi{color:#2a4a2a}
+
 @media(max-width:500px){.win-body{padding:14px}.db-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
@@ -141,8 +192,11 @@ footer .hi{color:#2a4a2a}
 <div id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 <canvas id="matrixCanvas"></canvas>
+
+<!-- DNA TICKER -->
 <div id="dna-ticker"><div class="dna-track" id="dnaTrack"></div></div>
 
+<!-- SIDEBAR -->
 <nav id="sidebar">
   <a class="sb-item active" href="#sec-pi"      title="Principal Investigator"><span class="sb-icon">👩‍🔬</span><span class="sb-label">PI</span></a>
   <a class="sb-item"        href="#sec-diasma"  title="DIASMA PhD Program"><span class="sb-icon">🎓</span><span class="sb-label">PhD</span></a>
@@ -154,18 +208,20 @@ footer .hi{color:#2a4a2a}
   <a class="sb-item"        href="#sec-members" title="Lab Members"><span class="sb-icon">👥</span><span class="sb-label">Team</span></a>
   <a class="sb-item"        href="#sec-contact" title="Contact"><span class="sb-icon">📬</span><span class="sb-label">Mail</span></a>
   <div class="sb-divider"></div>
-  <a class="sb-item"        href="#sec-game"    title="BioAI Simulation"><span class="sb-icon">🧬</span><span class="sb-label">Sim</span></a>
+  <a class="sb-item"        href="#sec-game"    title="Simulation"><span class="sb-icon">🎮</span><span class="sb-label">Sim</span></a>
 </nav>
 
+<!-- BOOT -->
 <div id="boot">
   <pre id="boot-ascii"></pre>
   <div id="boot-log"></div>
   <div class="boot-bar-wrap"><div id="boot-bar"></div></div>
 </div>
 
+<!-- MAIN -->
 <div id="terminal">
 
-  <!-- PI -->
+  <!-- PI PROFILE -->
   <div id="sec-pi" class="win">
     <div class="win-bar">
       <div class="win-dots"><div class="win-dot dot-r"></div><div class="win-dot dot-y"></div><div class="win-dot dot-g"></div></div>
@@ -262,7 +318,7 @@ footer .hi{color:#2a4a2a}
     </div>
   </div>
 
-  <!-- ROW: Stats + Spotlight -->
+  <!-- ROW: DB Stats + Spotlight -->
   <div class="win-row">
     <div id="sec-stats" class="win">
       <div class="win-bar">
@@ -283,6 +339,7 @@ footer .hi{color:#2a4a2a}
         <div class="out" id="statsLog"><div class="c"># Connecting to eutils.ncbi.nlm.nih.gov…</div></div>
       </div>
     </div>
+
     <div id="sec-spot" class="win">
       <div class="win-bar">
         <div class="win-dots"><div class="win-dot dot-r"></div><div class="win-dot dot-y"></div><div class="win-dot dot-g"></div></div>
@@ -308,8 +365,10 @@ footer .hi{color:#2a4a2a}
     </div>
   </div>
 
-  <!-- ROW: Pubs + Field Papers -->
+  <!-- ROW: Lab Pubs + Latest Research -->
   <div class="win-row">
+
+    <!-- LAB PUBLICATIONS -->
     <div id="sec-pubs" class="win">
       <div class="win-bar">
         <div class="win-dots"><div class="win-dot dot-r"></div><div class="win-dot dot-y"></div><div class="win-dot dot-g"></div></div>
@@ -323,15 +382,20 @@ footer .hi{color:#2a4a2a}
         </div>
         <div class="out"><div class="c"># Fetching all publications via ORCID public API…</div></div>
         <div id="pubContainer"><div class="ld"><div class="sp"></div> Querying ORCID API…</div></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;flex-wrap:wrap;gap:8px;">
-          <div class="sec-note" id="pubMeta"></div>
-          <div style="display:flex;gap:6px;">
-            <button class="btn" id="pubPrev" onclick="pubPage=Math.max(0,pubPage-1);renderPubPage()" disabled>← prev</button>
-            <button class="btn" id="pubNext" onclick="pubPage++;renderPubPage()">next →</button>
+        <div id="pubPager" class="pub-pager" style="display:none">
+          <div class="pub-pager-dots" id="pubDots"></div>
+          <div class="pub-pager-info" id="pubPageInfo"></div>
+          <div class="pub-pager-btns">
+            <button class="btn" id="pubPrev" onclick="stepPubs(-1)">← prev</button>
+            <button class="btn cyan" id="pubNext" onclick="stepPubs(1)">next →</button>
           </div>
         </div>
+        <div class="pub-progress" id="pubProgressWrap" style="display:none"><div class="pub-progress-bar" id="pubProgressBar"></div></div>
+        <div class="sec-note" id="pubMeta"></div>
       </div>
     </div>
+
+    <!-- LATEST RESEARCH -->
     <div class="win">
       <div class="win-bar">
         <div class="win-dots"><div class="win-dot dot-r"></div><div class="win-dot dot-y"></div><div class="win-dot dot-g"></div></div>
@@ -350,6 +414,7 @@ footer .hi{color:#2a4a2a}
         </div>
       </div>
     </div>
+
   </div>
 
   <!-- ROW: Members + Contact -->
@@ -369,6 +434,7 @@ footer .hi{color:#2a4a2a}
         <div class="sec-note" id="membersMeta"></div>
       </div>
     </div>
+
     <div id="sec-contact" class="win">
       <div class="win-bar">
         <div class="win-dots"><div class="win-dot dot-r"></div><div class="win-dot dot-y"></div><div class="win-dot dot-g"></div></div>
@@ -401,31 +467,24 @@ footer .hi{color:#2a4a2a}
   <div id="sec-game" class="win">
     <div class="win-bar">
       <div class="win-dots"><div class="win-dot dot-r"></div><div class="win-dot dot-y"></div><div class="win-dot dot-g"></div></div>
-      <span class="win-title">bioai_sim.py — Microbial Metagenome Explorer · AI Agent</span>
+      <span class="win-title">simulation.exe — Acid Mine Drainage Explorer</span>
     </div>
     <div class="win-body">
       <div class="prompt">
         <span class="p-user">researcher</span><span class="p-at">@</span><span class="p-host">moya-lab</span><span class="p-colon">:</span><span class="p-path">~/moya-lab</span><span class="p-sym">$ </span>
-        <span class="p-cmd">python </span><span class="p-arg">bioai_sim.py</span>
-        <span class="p-flag"> --env acid-mine-drainage --agent neural --mode explore</span>
+        <span class="p-cmd">./run_simulation</span><span class="p-flag"> --mode exploration --env acid-mine-drainage --levels ∞</span>
       </div>
-      <div class="out"><div class="c"># BioAI Agent · Collect reads &amp; ORFs · Dodge pathogens &amp; sequencing errors · Deploy tools</div></div>
-      <canvas id="gameCanvas" width="900" height="340"></canvas>
+      <div class="out"><div class="c"># Collect data nodes · Avoid toxins · Level up · Use powerups · Press R to restart</div></div>
+      <canvas id="gameCanvas" width="860" height="300"></canvas>
       <div class="game-keys">
         <span><span class="key">↑↓←→</span> / <span class="key">WASD</span> move</span>
-        <span><span class="key">R</span> restart</span>
+        <span>🟢 data node (+1)</span><span>🟡 bonus node (+3)</span>
+        <span>🔴 avoid toxins</span><span><span class="key">R</span> restart</span>
       </div>
-      <div class="game-legend">
-        <span><span style="color:#00ff41">●</span> read +1</span>
-        <span><span style="color:#ffb000">◆</span> ORF +3</span>
-        <span><span style="color:#bf5fff">★</span> contig +5</span>
-        <span><span style="color:#ff4444">◈</span> pathogen</span>
-        <span><span style="color:#ff6600">⚠</span> seq error</span>
-        <span><span style="color:#ff0088">☠</span> phage hunter</span>
-        <span style="color:var(--cyan)">🔬 BLAST — collect nearby</span>
-        <span style="color:var(--amber)">⚡ GPU — speed boost</span>
-        <span style="color:var(--violet)">🛡 CRISPR — shield</span>
-        <span style="color:#28c882">🧬 ASSEMBLE — auto-collect wave</span>
+      <div class="game-powerup-legend">
+        <span><span style="color:var(--cyan)">🛡 SHIELD</span> — invincibility burst</span>
+        <span><span style="color:var(--amber)">⚡ BOOST</span> — speed + magnet range</span>
+        <span><span style="color:var(--violet)">🧲 PULSE</span> — collect nearby nodes</span>
       </div>
     </div>
   </div>
@@ -433,23 +492,23 @@ footer .hi{color:#2a4a2a}
   <footer>
     <div style="color:#0d150d;margin-bottom:4px">─────────────────────────────────────────────────────</div>
     <div>© 2026 <span class="hi">MOYA-LAB</span> &nbsp;·&nbsp; <span class="hi">Modelling Omics Yielding Analytics</span> &nbsp;·&nbsp; <span class="hi">UTEM · Santiago, Chile</span></div>
-    <div style="margin-top:4px;color:#0d150d">session_uptime: <span id="uptime">00:00:00</span> &nbsp;·&nbsp; host: moya-lab.github.io &nbsp;·&nbsp; kernel: research-os v2.6.0</div>
+    <div style="margin-top:4px;color:#0d150d">
+      session_uptime: <span id="uptime">00:00:00</span> &nbsp;·&nbsp;
+      host: moya-lab.github.io &nbsp;·&nbsp;
+      kernel: research-os v2.6.0
+    </div>
   </footer>
 
-</div>
+</div><!-- /terminal -->
 
 <script>
-/* ══════════════════════════════════════════
-   CURSOR
-══════════════════════════════════════════ */
+/* ── CURSOR ── */
 const curEl=document.getElementById('cursor'),ringEl=document.getElementById('cursorRing');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curEl.style.left=mx+'px';curEl.style.top=my+'px';});
 (function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';requestAnimationFrame(animRing);})();
 
-/* ══════════════════════════════════════════
-   MATRIX RAIN
-══════════════════════════════════════════ */
+/* ── MATRIX RAIN ── */
 (function(){
   const c=document.getElementById('matrixCanvas'),ctx=c.getContext('2d');
   const BIO='ATCGMFHILPQRSVWYATCGATCG□○●◇';
@@ -463,15 +522,15 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curEl.style.
     drops.forEach((d,i)=>{
       const ch=BIO[Math.floor(Math.random()*BIO.length)];
       ctx.fillStyle=d<2?'#ccffcc':COLORS[Math.floor(Math.random()*COLORS.length)];
-      ctx.globalAlpha=d<2?.9:.45;ctx.fillText(ch,i*18,d*18);ctx.globalAlpha=1;
+      ctx.globalAlpha=d<2?.9:.45;
+      ctx.fillText(ch,i*18,d*18);
+      ctx.globalAlpha=1;
       if(d*18>c.height&&Math.random()>.975)drops[i]=0;else drops[i]++;
     });
   },55);
 })();
 
-/* ══════════════════════════════════════════
-   DNA TICKER
-══════════════════════════════════════════ */
+/* ── DNA TICKER ── */
 (function(){
   const seq='ATCGATCGGCTAGCTATCGATCGATAATCGATCGGCTAGCTATCGATCGATCGATCGATCGGCTAGCTATCGATCG';
   const map={A:'dA',T:'dT',C:'dC',G:'dG'};
@@ -480,18 +539,14 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curEl.style.
   document.getElementById('dnaTrack').innerHTML=h;
 })();
 
-/* ══════════════════════════════════════════
-   UPTIME
-══════════════════════════════════════════ */
+/* ── UPTIME ── */
 const T0=Date.now();
 setInterval(()=>{
   const s=Math.floor((Date.now()-T0)/1000),el=document.getElementById('uptime');
   if(el)el.textContent=[Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(n=>String(n).padStart(2,'0')).join(':');
 },1000);
 
-/* ══════════════════════════════════════════
-   BOOT
-══════════════════════════════════════════ */
+/* ── BOOT ── */
 document.getElementById('boot-ascii').textContent=
 ` ███╗   ███╗ ██████╗ ██╗   ██╗ █████╗       ██╗      █████╗ ██████╗
  ████╗ ████║██╔═══██╗╚██╗ ██╔╝██╔══██╗      ██║     ██╔══██╗██╔══██╗
@@ -505,16 +560,16 @@ const BOOT_LINES=[
   {t:'Modelling Omics Yielding Analytics · UTEM · Chile',     c:'info',d:100},
   {t:'DIASMA · Doctorado en Informática Aplicada a Salud y Medio Ambiente',c:'info',d:180},
   {t:'',c:'',d:240},
-  {t:'[ OK ] Loading genome indexer…',      c:'ok', d:340},
-  {t:'[ OK ] Mounting reference databases (NCBI · RCSB)…',c:'ok',d:460},
-  {t:'[ ** ] Checking NCBI eutils connection…',c:'warn',d:580},
-  {t:'[ OK ] NCBI eutils: active',           c:'ok', d:720},
-  {t:'[ OK ] ORCID public API: ready',       c:'ok', d:840},
-  {t:'[ OK ] GitHub org Moya-Lab: detected', c:'ok', d:960},
-  {t:'[ OK ] BioAI simulation engine: loaded',c:'ok',d:1060},
-  {t:'[ OK ] All systems nominal.',          c:'ok', d:1160},
+  {t:'[ OK ] Loading genome indexer…',                        c:'ok', d:340},
+  {t:'[ OK ] Mounting reference databases (NCBI · RCSB)…',   c:'ok', d:460},
+  {t:'[ ** ] Checking NCBI eutils connection…',               c:'warn',d:580},
+  {t:'[ OK ] NCBI eutils: active',                            c:'ok', d:720},
+  {t:'[ OK ] ORCID public API: ready',                        c:'ok', d:840},
+  {t:'[ OK ] GitHub org Moya-Lab: detected',                  c:'ok', d:960},
+  {t:'[ OK ] DIASMA doctoral program: linked',                c:'ok', d:1060},
+  {t:'[ OK ] All systems nominal.',                           c:'ok', d:1160},
   {t:'',c:'',d:1220},
-  {t:'Welcome, researcher. Launching interface…',c:'info',d:1300},
+  {t:'Welcome, researcher. Launching interface…',             c:'info',d:1300},
 ];
 const bootLog=document.getElementById('boot-log'),bootBar=document.getElementById('boot-bar');
 const bootEl=document.getElementById('boot'),termEl=document.getElementById('terminal'),sideEl=document.getElementById('sidebar');
@@ -533,9 +588,7 @@ setTimeout(()=>{
   },700);
 },2200);
 
-/* ══════════════════════════════════════════
-   SIDEBAR
-══════════════════════════════════════════ */
+/* ── SIDEBAR ── */
 function initSidebarObserver(){
   const sections=['sec-pi','sec-diasma','sec-stats','sec-spot','sec-pubs','sec-members','sec-contact','sec-game'];
   const links=document.querySelectorAll('.sb-item');
@@ -551,9 +604,7 @@ function initSidebarObserver(){
   sections.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el);});
 }
 
-/* ══════════════════════════════════════════
-   TYPEWRITER
-══════════════════════════════════════════ */
+/* ── TYPEWRITER ── */
 function typeInto(id,text,speed=38,cb){
   const el=document.getElementById(id);if(!el){cb&&cb();return;}
   let i=0;el.textContent='';el.classList.add('p-typed');
@@ -563,9 +614,7 @@ function typeInto(id,text,speed=38,cb){
   },speed);
 }
 
-/* ══════════════════════════════════════════
-   NCBI COUNTERS
-══════════════════════════════════════════ */
+/* ── NCBI COUNTERS ── */
 const FALLBACK={nuccore:263000000,protein:763000000,assembly:4200000,pubmed:37000000};
 function animateNum(el,n){
   const dur=1800,t0=performance.now();
@@ -598,67 +647,121 @@ async function loadCounters(){
 }
 loadCounters();
 
-/* ══════════════════════════════════════════
-   LAB PUBLICATIONS — ORCID + SS fallback, page 3
-══════════════════════════════════════════ */
-let pubsAll=[],pubPage=0;
-const PUB_PAGE_SIZE=3;
-function renderPubPage(){
-  const box=document.getElementById('pubContainer'),meta=document.getElementById('pubMeta');
-  const total=pubsAll.length;if(!total)return;
-  const start=pubPage*PUB_PAGE_SIZE,slice=pubsAll.slice(start,start+PUB_PAGE_SIZE);
-  const totalPages=Math.ceil(total/PUB_PAGE_SIZE);
-  box.innerHTML=slice.map(p=>{
-    const hash='#'+Math.random().toString(16).slice(2,9).toUpperCase(),href=p.href||'#';
-    return `<div class="pub-entry" onclick="window.open('${href}','_blank')">
-      <div class="pub-hash">commit ${hash} · ${p.year||'—'}</div>
-      <div class="pub-title">${p.title}</div>
-      <div class="pub-meta">
-        ${p.journal?`<span class="jnl">${p.journal}</span>`:''}
-        ${p.authors?`<span class="auth">${p.authors}</span>`:''}
-        <span class="yr">${p.year||''}</span>
-        ${p.cit?`<span class="cit">⭐ ${p.cit} cit.</span>`:''}
-        <a class="lnk" href="${href}" target="_blank" onclick="event.stopPropagation()">→ view</a>
-      </div></div>`;
-  }).join('');
-  meta.textContent=`# ORCID 0000-0002-6924-5087 · ${total} works · page ${pubPage+1}/${totalPages}`;
-  document.getElementById('pubPrev').disabled=pubPage===0;
-  document.getElementById('pubNext').disabled=pubPage>=totalPages-1;
+/* ── LAB PUBLICATIONS — groups of 3, rotating ── */
+let _allPubs=[], _pubPage=0, _pubTimer=null, _pubAutoMs=9000;
+
+function renderPubPage(page){
+  const box=document.getElementById('pubContainer');
+  const pager=document.getElementById('pubPager');
+  const dots=document.getElementById('pubDots');
+  const info=document.getElementById('pubPageInfo');
+  const progressBar=document.getElementById('pubProgressBar');
+  const progressWrap=document.getElementById('pubProgressWrap');
+
+  const PAGE_SIZE=3;
+  const total=_allPubs.length;
+  const pages=Math.ceil(total/PAGE_SIZE);
+  _pubPage=((page%pages)+pages)%pages;
+
+  const slice=_allPubs.slice(_pubPage*PAGE_SIZE,_pubPage*PAGE_SIZE+PAGE_SIZE);
+
+  // fade out/in
+  box.style.opacity='0';
+  box.style.transition='opacity .25s';
+  setTimeout(()=>{
+    box.innerHTML=slice.map(p=>{
+      const hash='#'+Math.random().toString(16).slice(2,9).toUpperCase();
+      const href=p.href||'#';
+      return `
+        <div class="pub-entry" onclick="window.open('${href}','_blank')">
+          <div class="pub-hash">commit ${hash} · ${p.year||'—'}</div>
+          <div class="pub-title">${p.title}</div>
+          <div class="pub-meta">
+            ${p.journal?`<span class="jnl">${p.journal}</span>`:''}
+            ${p.authors?`<span class="auth">${p.authors}</span>`:''}
+            <span class="yr">${p.year||''}</span>
+            ${p.cit?`<span class="cit">⭐ ${p.cit} cit.</span>`:''}
+            <a class="lnk" href="${href}" target="_blank" onclick="event.stopPropagation()">→ view</a>
+          </div>
+        </div>`;
+    }).join('');
+    box.style.opacity='1';
+  },250);
+
+  // dots
+  dots.innerHTML=Array.from({length:pages},(_,i)=>`<div class="pub-dot${i===_pubPage?' active':''}" onclick="jumpPubs(${i})" title="Page ${i+1}"></div>`).join('');
+  info.textContent=`${_pubPage*PAGE_SIZE+1}–${Math.min((_pubPage+1)*PAGE_SIZE,total)} / ${total}`;
+  pager.style.display='flex';
+  progressWrap.style.display='block';
+
+  // restart auto-rotate progress bar
+  clearInterval(_pubTimer);
+  progressBar.style.transition='none';
+  progressBar.style.width='0%';
+  setTimeout(()=>{
+    progressBar.style.transition=`width ${_pubAutoMs}ms linear`;
+    progressBar.style.width='100%';
+  },50);
+  _pubTimer=setInterval(()=>renderPubPage(_pubPage+1),_pubAutoMs);
 }
+
+function stepPubs(dir){ renderPubPage(_pubPage+dir); }
+function jumpPubs(page){ renderPubPage(page); }
+
 async function loadPubs(){
   const box=document.getElementById('pubContainer');
+  const meta=document.getElementById('pubMeta');
+
   async function fromORCID(){
-    const r=await fetch('https://pub.orcid.org/v3.0/0000-0002-6924-5087/works',{headers:{Accept:'application/json'},signal:AbortSignal.timeout(10000)});
+    const r=await fetch('https://pub.orcid.org/v3.0/0000-0002-6924-5087/works',
+      {headers:{Accept:'application/json'},signal:AbortSignal.timeout(10000)});
     if(!r.ok)throw new Error(`ORCID ${r.status}`);
-    const data=await r.json();const groups=data.group||[];if(!groups.length)throw new Error('no works');
+    const data=await r.json();
+    const groups=data.group||[];
+    if(!groups.length)throw new Error('no works');
     return groups.map(g=>{
       const s=g['work-summary'][0];
-      const title=s.title?.title?.value||'Untitled',year=s['publication-date']?.year?.value||'',journal=s['journal-title']?.value||'';
+      const title=s.title?.title?.value||'Untitled';
+      const year=s['publication-date']?.year?.value||'';
+      const journal=s['journal-title']?.value||'';
       const extIds=s['external-ids']?.['external-id']||[];
       const doi=extIds.find(e=>e['external-id-type']==='doi')?.['external-id-value'];
       const href=doi?`https://doi.org/${doi}`:(s.url?.value||'#');
-      return{title,year,journal,href};
+      return {title,year,journal,href};
     }).sort((a,b)=>(b.year||0)-(a.year||0));
   }
+
   async function fromSemanticScholar(){
-    const s=await fetch('https://api.semanticscholar.org/graph/v1/author/search?query=Ana+Moya-Beltr%C3%A1n&fields=name,paperCount,citationCount,externalIds,authorId',{signal:AbortSignal.timeout(9000)});
+    const s=await fetch('https://api.semanticscholar.org/graph/v1/author/search?query=Ana+Moya-Beltr%C3%A1n&fields=name,paperCount,citationCount,externalIds,authorId',
+      {signal:AbortSignal.timeout(9000)});
     if(!s.ok)throw new Error('author search failed');
     const sd=await s.json();
     const author=(sd.data||[]).find(a=>a.externalIds?.ORCID==='0000-0002-6924-5087'||(a.name||'').toLowerCase().includes('moya-beltr'));
-    if(!author)throw new Error('not found');
-    const p=await fetch(`https://api.semanticscholar.org/graph/v1/author/${author.authorId}/papers?fields=title,year,venue,authors,externalIds,citationCount&limit=50`,{signal:AbortSignal.timeout(9000)});
-    if(!p.ok)throw new Error('papers failed');
+    if(!author)throw new Error('author not found');
+    const p=await fetch(`https://api.semanticscholar.org/graph/v1/author/${author.authorId}/papers?fields=title,year,venue,authors,externalIds,citationCount&limit=50`,
+      {signal:AbortSignal.timeout(9000)});
+    if(!p.ok)throw new Error('papers fetch failed');
     const pd=await p.json();
-    return(pd.data||[]).sort((a,b)=>(b.year||0)-(a.year||0)).map(p=>{
-      const doi=p.externalIds?.DOI,href=doi?`https://doi.org/${doi}`:`https://www.semanticscholar.org/paper/${p.paperId}`;
-      return{title:p.title||'Untitled',year:p.year,journal:p.venue,href,authors:(p.authors||[]).slice(0,3).map(a=>a.name).join(', '),cit:p.citationCount||0};
+    return (pd.data||[]).sort((a,b)=>(b.year||0)-(a.year||0)).map(p=>{
+      const doi=p.externalIds?.DOI;
+      const href=doi?`https://doi.org/${doi}`:`https://www.semanticscholar.org/paper/${p.paperId}`;
+      return {title:p.title||'Untitled',year:p.year,journal:p.venue,href,authors:(p.authors||[]).slice(0,3).map(a=>a.name).join(', '),cit:p.citationCount||0};
     });
   }
+
   try{
-    pubsAll=await fromORCID().catch(async()=>{console.warn('ORCID failed, trying SS…');return await fromSemanticScholar();});
-    pubPage=0;renderPubPage();
+    const papers=await fromORCID().catch(async()=>{
+      console.warn('ORCID failed, trying Semantic Scholar…');
+      return await fromSemanticScholar();
+    });
+    if(!papers.length)throw new Error('empty');
+    _allPubs=papers;
+    _pubPage=0;
+    meta.textContent=`# ORCID 0000-0002-6924-5087 · ${papers.length} works · 3 per page`;
+    renderPubPage(0);
   }catch(e){
-    box.innerHTML=`<div class="er">⚠ Could not load publications. ${e.message}</div>
+    box.innerHTML=`
+      <div class="er">⚠ Could not load publications. ${e.message}</div>
       <div class="out" style="margin-top:4px">
         <div><a href="https://scholar.google.com/citations?user=vYrLnT4AAAAJ" target="_blank" style="color:var(--cyan);text-decoration:none">→ Google Scholar</a></div>
         <div><a href="https://www.researchgate.net/profile/Ana-Moya-Beltran" target="_blank" style="color:var(--cyan);text-decoration:none">→ ResearchGate</a></div>
@@ -667,13 +770,12 @@ async function loadPubs(){
 }
 loadPubs();
 
-/* ══════════════════════════════════════════
-   WIKIPEDIA SPOTLIGHT
-══════════════════════════════════════════ */
-const WIKI_TOPICS=['Bioinformatics','Computational_biology','Metagenomics','Genomics','Transcriptomics','Proteomics','Multi-omics','Systems_biology','Machine_learning','Deep_learning','Protein_structure_prediction','AlphaFold','CRISPR','Genome_editing','Synthetic_biology','Microbiome','Microbial_ecology','Extremophile','Acidithiobacillus','Biomining','Phylogenetics','Phylogenomics','Molecular_evolution','Population_genetics','Horizontal_gene_transfer','RNA-Seq','Single-cell_sequencing','Sequence_alignment','BLAST_(biotechnology)','Pan-genome','Genome_assembly','Gene_regulatory_network','Epigenomics','DNA_methylation','Cheminformatics','Drug_discovery','Precision_medicine','Cancer_genomics','Biostatistics','Mathematical_biology','Bayesian_inference','Next-generation_sequencing','Molecular_dynamics','Structural_bioinformatics','Artificial_intelligence_in_biology'];
+/* ── WIKIPEDIA SPOTLIGHT ── */
+const WIKI_TOPICS=['Bioinformatics','Computational_biology','Metagenomics','Genomics','Transcriptomics','Proteomics','Multi-omics','Systems_biology','Machine_learning','Deep_learning','Protein_structure_prediction','AlphaFold','CRISPR','Genome_editing','Synthetic_biology','Microbiome','Microbial_ecology','Extremophile','Acidithiobacillus','Biomining','Phylogenetics','Phylogenomics','Molecular_evolution','Population_genetics','Horizontal_gene_transfer','RNA-Seq','Single-cell_sequencing','Sequence_alignment','BLAST_(biotechnology)','Hidden_Markov_model','Pan-genome','Genome_assembly','Gene_regulatory_network','Protein-protein_interaction','Metabolic_network','Epigenomics','DNA_methylation','Cheminformatics','Drug_discovery','Precision_medicine','Cancer_genomics','Pharmacogenomics','Biostatistics','Mathematical_biology','Bayesian_inference','Principal_component_analysis','Next-generation_sequencing','Molecular_dynamics','Structural_bioinformatics','Artificial_intelligence_in_biology','Digital_biology'];
 let lastFact=-1;
 async function loadNextFact(){
-  let i;do{i=Math.floor(Math.random()*WIKI_TOPICS.length);}while(i===lastFact);lastFact=i;
+  let i;do{i=Math.floor(Math.random()*WIKI_TOPICS.length);}while(i===lastFact);
+  lastFact=i;
   const topic=WIKI_TOPICS[i];
   const textEl=document.getElementById('factText'),imgEl=document.getElementById('factImage');
   const tagEl=document.getElementById('factTag'),linkEl=document.getElementById('factLink'),topEl=document.getElementById('spotTopic');
@@ -685,36 +787,46 @@ async function loadNextFact(){
     const d=await r.json();
     setTimeout(()=>{
       const ex=d.extract??'No summary available.';
-      textEl.textContent=ex.length>300?ex.slice(0,297)+'…':ex;textEl.style.opacity='1';
+      textEl.textContent=ex.length>300?ex.slice(0,297)+'…':ex;
+      textEl.style.opacity='1';
       if(d.thumbnail?.source){imgEl.src=d.thumbnail.source;imgEl.classList.remove('hidden');}
       linkEl.href=d.content_urls?.desktop?.page??'#';
     },280);
   }catch{setTimeout(()=>{textEl.textContent='⚠ Could not load summary.';textEl.style.opacity='1';},280);}
 }
-loadNextFact();setInterval(loadNextFact,22000);
+loadNextFact();
+setInterval(loadNextFact,22000);
 
-/* ══════════════════════════════════════════
-   LATEST RESEARCH — 3 random from pool
-══════════════════════════════════════════ */
+/* ── LATEST RESEARCH — 3 random from CrossRef ── */
 const QUERIES=['multi-omics data integration systems biology','single cell RNA sequencing analysis','metagenomics machine learning classification','extremophile genomics acid mine drainage','computational biology deep learning','protein structure prediction neural network','AI drug discovery molecular docking','genome assembly annotation pipeline','long-read sequencing nanopore metagenomics','pangenomics bacterial evolution','comparative genomics evolutionary analysis','RNA-seq differential expression analysis','phylogenomics microbial diversity','horizontal gene transfer bacteria','systems biology network analysis','cancer genomics precision medicine bioinformatics','CRISPR genomic editing computational design','synthetic biology computational modeling','biomining acidithiobacillus genomics','bioinformatics pipeline methods','microbiome omics integration','environmental metagenomics bioinformatics','epigenomics DNA methylation analysis','proteomics mass spectrometry analysis'];
+
+function shuffleArr(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
 async function fetchPapers(){
   const box=document.getElementById('papersContainer'),meta=document.getElementById('papersMeta'),qEl=document.getElementById('paperQuery');
   box.innerHTML=`<div class="ld"><div class="sp"></div> Fetching…</div>`;
-  const q=QUERIES[Math.floor(Math.random()*QUERIES.length)];qEl.textContent=`"${q}"`;
+  const q=QUERIES[Math.floor(Math.random()*QUERIES.length)];
+  qEl.textContent=`"${q}"`;
   try{
-    const r=await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(q)}&rows=10&sort=published&order=desc&select=title,author,published,DOI,container-title`);
+    // fetch more rows so we have a good pool to sample 3 from
+    const r=await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(q)}&rows=12&sort=published&order=desc&select=title,author,published,DOI,container-title`);
     if(!r.ok)throw new Error();
     const d=await r.json();
-    const all=(d.message?.items??[]).map(p=>({
+    let items=(d.message?.items??[]).map(p=>({
       title:Array.isArray(p.title)?p.title[0]:(p.title??'Untitled'),
       journal:Array.isArray(p['container-title'])?p['container-title'][0]:'',
       href:p.DOI?`https://doi.org/${p.DOI}`:'#',
       date:p.published?.['date-parts']?.[0]?.join('-')?? '',
       authors:(p.author??[]).slice(0,3).map(a=>`${a.given?.[0]??''}. ${a.family??''}`.trim()).join(', '),
     }));
-    if(!all.length)throw new Error('empty');
-    const shuffled=all.sort(()=>Math.random()-.5).slice(0,3);
-    box.innerHTML=shuffled.map(p=>`
+    if(!items.length)throw new Error('empty');
+    // pick 3 random
+    items=shuffleArr(items).slice(0,3);
+    box.innerHTML=items.map(p=>`
       <div class="pub-entry" onclick="window.open('${p.href}','_blank')">
         <div class="pub-title">${p.title}</div>
         <div class="pub-meta">
@@ -722,36 +834,38 @@ async function fetchPapers(){
           ${p.authors?`<span class="auth">${p.authors}</span>`:''}
           <span class="yr">${p.date}</span>
           <a class="lnk" href="${p.href}" target="_blank" onclick="event.stopPropagation()">→ view</a>
-        </div></div>`).join('');
-    meta.textContent=`# CrossRef · "${q}" · 3 of ${all.length} · ${new Date().toLocaleTimeString()}`;
+        </div>
+      </div>`).join('');
+    meta.textContent=`# CrossRef · "${q}" · 3 random · ${new Date().toLocaleTimeString()}`;
   }catch{box.innerHTML=`<div class="er">⚠ Could not load papers.</div>`;}
 }
 fetchPapers();
 
-/* ══════════════════════════════════════════
-   GITHUB MEMBERS
-══════════════════════════════════════════ */
+/* ── GITHUB MEMBERS ── */
 async function loadMembers(){
   const box=document.getElementById('membersContainer'),meta=document.getElementById('membersMeta');
   try{
     const r=await fetch('https://api.github.com/orgs/Moya-Lab/members',{headers:{Accept:'application/vnd.github+json'},signal:AbortSignal.timeout(8000)});
     if(!r.ok)throw new Error(`GitHub API ${r.status}`);
     const members=await r.json();
-    if(!Array.isArray(members)||!members.length){box.innerHTML=`<div class="out"><div class="w"># No public members.</div><div class="c"># Set membership to Public on GitHub.</div></div>`;return;}
+    if(!Array.isArray(members)||!members.length){
+      box.innerHTML=`<div class="out"><div class="w"># No public members found.</div><div class="c"># Set membership to Public on GitHub.</div></div>`;return;
+    }
     box.innerHTML=`<div class="members-grid">${members.map(m=>`
       <div class="mem-card" onclick="window.open('${m.html_url}','_blank')" title="@${m.login}">
         <img class="mem-avatar" src="${m.avatar_url}&s=80" alt="${m.login}" loading="lazy"/>
         <div class="mem-handle">@${m.login}</div>
-        <div class="mem-role">Lab Member</div><div class="mem-area">MOYA-LAB</div>
+        <div class="mem-role">Lab Member</div>
+        <div class="mem-area">MOYA-LAB</div>
       </div>`).join('')}</div>`;
     meta.textContent=`# ${members.length} public member(s) · github.com/Moya-Lab`;
-  }catch(e){box.innerHTML=`<div class="er">⚠ ${e.message}</div><div class="out" style="margin-top:4px"><div class="c"># Set org membership to Public on GitHub.</div></div>`;}
+  }catch(e){
+    box.innerHTML=`<div class="er">⚠ ${e.message}</div><div class="out" style="margin-top:4px"><div class="c"># Set org membership to Public on GitHub.</div></div>`;
+  }
 }
 loadMembers();
 
-/* ══════════════════════════════════════════
-   CONTACT
-══════════════════════════════════════════ */
+/* ── CONTACT ── */
 const CONTACTS=[
   {name:'Ana Rosa Moya Beltrán',role:'PI · Principal Investigator · DIASMA Supervisor',e64:btoa('amoya@utem.cl')},
   {name:'Fausto Cabezas',       role:'PhD Student · DIASMA · Biología Computacional',  e64:btoa('fcabezasme@utem.cl')},
@@ -761,601 +875,179 @@ document.getElementById('contactGrid').innerHTML=CONTACTS.map(c=>{
   return `<div class="contact-card"><div class="contact-name">${c.name}</div><div class="contact-role">${c.role}</div><a class="contact-link" href="mailto:${email}">✉ ${email}</a></div>`;
 }).join('');
 
-/* ══════════════════════════════════════════
-   BIOAI GAME — Microbial Metagenome Explorer
-══════════════════════════════════════════ */
-(function(){
-const canvas=document.getElementById('gameCanvas');
-const ctx=canvas.getContext('2d');
-const CW=canvas.width, CH=canvas.height;
-const HUD_H=28;
-const FIELD_TOP=HUD_H;
-const FIELD_H=CH-HUD_H;
-
-// ── Pallete ──
-const C={
-  bg:'#020408', grid:'rgba(0,255,65,0.03)',
-  green:'#00ff41', cyan:'#00ffff', amber:'#ffb000',
-  violet:'#bf5fff', red:'#ff4444', orange:'#ff6600',
-  pink:'#ff0088', teal:'#00cc88', white:'#e0e0e0',
-  dimGreen:'#0a1a0a', hudBg:'rgba(2,4,8,0.95)',
-  // nucleotide colors
-  A:'#00ff41', T:'#ff4444', C:'#4488ff', G:'#ffb000',
-};
-
-// ── Environment themes per level ──
-const ENVS=[
-  {name:'ACID MINE DRAINAGE',   bg:'#020408', grid:'rgba(0,255,65,0.03)',  accent:'#00ff41'},
-  {name:'HYDROTHERMAL VENT',    bg:'#040208', grid:'rgba(255,100,0,0.04)', accent:'#ff6600'},
-  {name:'DEEP METAGENOME',      bg:'#02040c', grid:'rgba(0,150,255,0.04)', accent:'#4488ff'},
-  {name:'BIOFILM MATRIX',       bg:'#040802', grid:'rgba(0,255,100,0.04)', accent:'#00cc88'},
-  {name:'EXTREME ALKALINE LAKE',bg:'#080204', grid:'rgba(200,0,255,0.04)', accent:'#bf5fff'},
-];
-
-// ── Floating DNA bases (background decoration) ──
-let bgBases=[];
-function initBgBases(){
-  bgBases=Array.from({length:28},()=>({
-    x:Math.random()*CW, y:FIELD_TOP+Math.random()*FIELD_H,
-    base:'ATCG'[Math.floor(Math.random()*4)],
-    vx:(Math.random()-.5)*.18, vy:(Math.random()-.5)*.12,
-    alpha:Math.random()*.18+.04, size:8+Math.random()*6
-  }));
-}
-initBgBases();
-
-// ── Game state ──
-let G={};
+/* ── MINI GAME ── */
+const canvas=document.getElementById('gameCanvas'),ctx=canvas.getContext('2d');
+const CW=canvas.width,CH=canvas.height;
+let GAME={},player,nodes,toxins,powerups,particles;
 const keys={};
-
-// Node types: read(+1), orf(+3), contig(+5)
-const NODE_TYPES=[
-  {type:'read',   pts:1, col:C.green,  r:5,  symbol:'●', label:'READ'},
-  {type:'orf',    pts:3, col:C.amber,  r:7,  symbol:'◆', label:'ORF'},
-  {type:'contig', pts:5, col:C.violet, r:9,  symbol:'★', label:'CONTIG'},
-];
-// Enemy types: pathogen, seqerror, phage
-const ENEMY_TYPES=[
-  {type:'pathogen',  col:C.red,    size:9,  symbol:'◈', speed:1.0, hunt:0,   wobble:false, label:'PATHOGEN'},
-  {type:'seqerror',  col:C.orange, size:7,  symbol:'⚠', speed:1.4, hunt:0,   wobble:true,  label:'SEQ_ERR'},
-  {type:'phage',     col:C.pink,   size:10, symbol:'☠', speed:0.7, hunt:0.6, wobble:false, label:'PHAGE'},
-];
-// Powerup types
-const PU_TYPES=[
-  {type:'blast',    col:C.cyan,   icon:'🔬', label:'BLAST',    dur:220},
-  {type:'gpu',      col:C.amber,  icon:'⚡', label:'GPU',      dur:180},
-  {type:'crispr',   col:C.violet, icon:'🛡', label:'CRISPR',   dur:200},
-  {type:'assemble', col:C.teal,   icon:'🧬', label:'ASSEMBLE', dur:0},
-];
-
-function envIdx(){ return Math.min((G.level-1)%ENVS.length, ENVS.length-1); }
-function env(){ return ENVS[envIdx()]; }
-function playerSpeed(){ return G.gpu>0?5.8:3.4; }
-function targetNodeCount(){ return Math.min(6+G.level,14); }
-function targetEnemyCount(){ return Math.min(2+G.level,11); }
-function readsForLevel(){ return 8+G.level*3; }
-
-// ── Spawn helpers ──
-function makeNode(){
-  const w=Math.random();
-  const t=w<.6?NODE_TYPES[0]:w<.88?NODE_TYPES[1]:NODE_TYPES[2];
-  return{...t, x:30+Math.random()*(CW-60), y:FIELD_TOP+14+Math.random()*(FIELD_H-24), phase:Math.random()*Math.PI*2, pulse:0};
-}
-function makeEnemy(){
-  const t=ENEMY_TYPES[Math.floor(Math.random()*ENEMY_TYPES.length)];
-  let x,y;
-  do{x=20+Math.random()*(CW-40);y=FIELD_TOP+10+Math.random()*(FIELD_H-20);}
-  while(Math.hypot(x-G.px,y-G.py)<90);
-  const baseSpd=(1.2+G.level*.2)*(t.speed);
-  const ang=Math.random()*Math.PI*2;
-  const sp=baseSpd*(.7+Math.random()*.6);
-  return{...t, x, y, vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp, angle:0, wPhase:Math.random()*Math.PI*2};
-}
-function makePowerup(){
-  const t=PU_TYPES[Math.floor(Math.random()*PU_TYPES.length)];
-  return{...t, x:40+Math.random()*(CW-80), y:FIELD_TOP+14+Math.random()*(FIELD_H-28), phase:0, life:380};
-}
-
-// ── Particles ──
-let particles=[];
-function burst(x,y,col,n=10,opts={}){
-  for(let i=0;i<n;i++){
-    const a=(Math.PI*2/n)*i+(Math.random()-.5)*.8;
-    const spd=(opts.spd||2)+Math.random()*(opts.spread||2.5);
-    particles.push({
-      x,y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,
-      life:0,maxLife:opts.life||35,
-      col,size:(opts.size||2)+Math.random()*1.5,
-      type:opts.type||'dot'
-    });
-  }
-}
-function burstText(x,y,text,col){
-  particles.push({type:'text',x,y,vy:-.9,life:0,maxLife:50,col,text,size:11});
-}
-function burstDNA(x,y){
-  const bases='ATCG';
-  const bcols={A:C.A,T:C.T,C:C.C,G:C.G};
-  for(let i=0;i<6;i++){
-    const b=bases[Math.floor(Math.random()*4)];
-    const a=Math.random()*Math.PI*2,spd=1.5+Math.random()*2;
-    particles.push({type:'text',x,y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,life:0,maxLife:40,col:bcols[b],text:b,size:10});
-  }
-}
-
-// ── Floating sequence reads (ambient) ──
-let floatReads=[];
-function spawnFloatRead(){
-  floatReads.push({
-    x:CW+10, y:FIELD_TOP+Math.random()*FIELD_H,
-    text:Array.from({length:8+Math.floor(Math.random()*8)},()=>'ATCG'[Math.floor(Math.random()*4)]).join(''),
-    speed:.4+Math.random()*.5, alpha:.07+Math.random()*.08
+function playerSpeed(){return GAME.boost>0?5.5:3.2;}
+function toxinBaseSpeed(){return 1.3+GAME.level*.22;}
+function nodeCount(){return Math.min(5+GAME.level,13);}
+function toxinCount(){return Math.min(2+GAME.level,10);}
+function spawnNodes(){nodes=Array.from({length:nodeCount()},()=>({x:30+Math.random()*(CW-60),y:32+Math.random()*(CH-52),p:Math.random()*Math.PI*2,bonus:Math.random()<.15}));}
+function spawnToxins(){
+  const spd=toxinBaseSpeed();
+  toxins=Array.from({length:toxinCount()},()=>{
+    let tx,ty;
+    do{tx=30+Math.random()*(CW-60);ty=32+Math.random()*(CH-52);}while(Math.hypot(tx-player.x,ty-player.y)<80);
+    const angle=Math.random()*Math.PI*2,v=spd*(.7+Math.random()*.6);
+    return{x:tx,y:ty,vx:Math.cos(angle)*v,vy:Math.sin(angle)*v,a:0,size:8+Math.random()*3};
   });
 }
-
-// ── Reset ──
-function resetGame(){
-  G={
-    px:CW/2, py:FIELD_TOP+FIELD_H/2,
-    score:0, reads:0, readsNeeded:readsForLevel(),
-    lives:3, level:1, over:false,
-    inv:0, glt:0, levelAnim:0, levelMsg:'',
-    blast:0, gpu:0, crispr:0,
-    highScore:G?.highScore||0,
-    coverage:0,
-    nodes:[], enemies:[], powerups:[],
-    assembleAnim:0,
-  };
-  particles=[];floatReads=[];
-  for(let i=0;i<targetNodeCount();i++) G.nodes.push(makeNode());
-  for(let i=0;i<targetEnemyCount();i++) G.enemies.push(makeEnemy());
-  if(Math.random()<.5) G.powerups.push(makePowerup());
-  initBgBases();
+function trySpawnPowerup(){
+  if(powerups.length<1&&Math.random()<.4){
+    const types=['shield','boost','pulse'],cols={shield:'#00ffff',boost:'#ffb000',pulse:'#bf5fff'};
+    const t=types[Math.floor(Math.random()*3)];
+    powerups.push({x:40+Math.random()*(CW-80),y:32+Math.random()*(CH-62),type:t,color:cols[t],p:0,life:360});
+  }
 }
-
-function dist(ax,ay,bx,by){return Math.hypot(ax-bx,ay-by);}
-
-// ── Input ──
+function spawnParticles(x,y,color,count=8){
+  for(let i=0;i<count;i++){
+    const a=(Math.PI*2/count)*i+(Math.random()-.5)*.6;
+    particles.push({x,y,vx:Math.cos(a)*(1.5+Math.random()*2.5),vy:Math.sin(a)*(1.5+Math.random()*2.5),life:0,maxLife:30+Math.random()*25,color,size:1.5+Math.random()*2});
+  }
+}
+function resetGame(){
+  GAME={score:0,lives:3,level:1,nodesCollected:0,nodesPerLevel:8,over:false,inv:0,glt:0,levelAnim:0,shield:0,boost:0,highScore:GAME?.highScore||0};
+  player={x:CW/2,y:CH/2,size:9};nodes=[];toxins=[];powerups=[];particles=[];
+  spawnNodes();spawnToxins();
+}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
 document.addEventListener('keydown',e=>{
   keys[e.key]=true;
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))e.preventDefault();
-  if((e.key==='r'||e.key==='R')&&G.over)resetGame();
+  if((e.key==='r'||e.key==='R')&&GAME.over)resetGame();
 });
 document.addEventListener('keyup',e=>keys[e.key]=false);
 resetGame();
 
-// ── Neural network decoration (background) ──
-let nnNodes=[];
-function buildNN(){
-  nnNodes=Array.from({length:12},()=>({
-    x:Math.random()*CW, y:FIELD_TOP+Math.random()*FIELD_H,
-    phase:Math.random()*Math.PI*2, r:2+Math.random()*3
-  }));
-}
-buildNN();
-
-// ── Main loop ──
 function gameLoop(){
-  /* ── UPDATE ── */
-  if(!G.over){
+  ctx.clearRect(0,0,CW,CH);
+  if(!GAME.over){
     const S=playerSpeed();
-    const pR=9;
-    if((keys['ArrowLeft']||keys['a']||keys['A'])&&G.px>pR)           G.px-=S;
-    if((keys['ArrowRight']||keys['d']||keys['D'])&&G.px<CW-pR)       G.px+=S;
-    if((keys['ArrowUp']||keys['w']||keys['W'])&&G.py>FIELD_TOP+pR)   G.py-=S;
-    if((keys['ArrowDown']||keys['s']||keys['S'])&&G.py<CH-pR)        G.py+=S;
-
-    // move bg bases
-    bgBases.forEach(b=>{b.x+=b.vx;b.y+=b.vy;if(b.x<0)b.x=CW;if(b.x>CW)b.x=0;if(b.y<FIELD_TOP)b.y=CH;if(b.y>CH)b.y=FIELD_TOP;});
-
-    // float reads
-    if(Math.random()<.04)spawnFloatRead();
-    floatReads.forEach(r=>r.x-=r.speed);
-    floatReads=floatReads.filter(r=>r.x>-200);
-
-    // pulse nodes
-    G.nodes.forEach(n=>{n.phase+=.06;n.pulse=(n.pulse||0)+.08;});
-
-    // move enemies
-    G.enemies.forEach(e=>{
-      if(e.type==='phage'){
-        const dx=G.px-e.x,dy=G.py-e.y,dd=Math.hypot(dx,dy)||1;
-        const hunt=e.hunt*(1+G.level*.08);
-        e.vx=e.vx*.92+dx/dd*hunt*.18;
-        e.vy=e.vy*.92+dy/dd*hunt*.18;
-        const spd=Math.hypot(e.vx,e.vy);
-        if(spd>3+G.level*.15){e.vx=e.vx/spd*(3+G.level*.15);e.vy=e.vy/spd*(3+G.level*.15);}
-      }
-      if(e.wobble){
-        e.wPhase+=.12;
-        e.vx+=Math.sin(e.wPhase)*.15;
-        e.vy+=Math.cos(e.wPhase*.7)*.12;
-        const spd=Math.hypot(e.vx,e.vy);
-        if(spd>3)e.vx=e.vx/spd*3;
-      }
-      e.x+=e.vx;e.y+=e.vy;e.angle+=.05;
-      if(e.x<e.size||e.x>CW-e.size)e.vx*=-1;
-      if(e.y<FIELD_TOP+e.size||e.y>CH-e.size)e.vy*=-1;
-    });
-
-    // collect nodes
-    const blastRange=G.blast>0?G.px+55:pR+9;
-    const magnetRange=G.gpu>0?pR+30:pR+10;
-    G.nodes=G.nodes.filter(n=>{
-      const d=dist(G.px,G.py,n.x,n.y);
-      const range=G.blast>0?blastRange:magnetRange;
-      if(d<range){
-        G.score+=n.pts;G.reads+=n.pts;
-        G.coverage=Math.min(100,G.coverage+n.pts*2);
-        burst(n.x,n.y,n.col,n.pts===1?8:n.pts===3?12:16,{spd:2.5,spread:2.5,life:30+n.pts*5});
-        burstDNA(n.x,n.y);
-        burstText(n.x,n.y-12,`+${n.pts}`,n.col);
-        if(G.reads>=G.readsNeeded){
-          G.level++;G.reads=0;G.readsNeeded=readsForLevel();
-          G.levelAnim=130;G.assembleAnim=60;
-          G.levelMsg=`ENV: ${env().name}`;
-          G.coverage=0;
-          // respawn enemies
-          G.enemies=[];
-          for(let i=0;i<targetEnemyCount();i++)G.enemies.push(makeEnemy());
-          // chance powerup
-          if(G.powerups.length<2&&Math.random()<.65)G.powerups.push(makePowerup());
-          buildNN();
-        }
+    if((keys['ArrowLeft']||keys['a']||keys['A'])&&player.x>player.size)player.x-=S;
+    if((keys['ArrowRight']||keys['d']||keys['D'])&&player.x<CW-player.size)player.x+=S;
+    if((keys['ArrowUp']||keys['w']||keys['W'])&&player.y>player.size+22)player.y-=S;
+    if((keys['ArrowDown']||keys['s']||keys['S'])&&player.y<CH-player.size)player.y+=S;
+    toxins.forEach(t=>{t.x+=t.vx;t.y+=t.vy;t.a+=.065;if(t.x<10||t.x>CW-10)t.vx*=-1;if(t.y<26||t.y>CH-10)t.vy*=-1;});
+    nodes.forEach(n=>n.p+=.07);
+    const magnetRange=GAME.boost>0?player.size+26:player.size+9;
+    nodes=nodes.filter(n=>{
+      if(dist(player,n)<magnetRange){
+        GAME.score+=n.bonus?3:1;GAME.nodesCollected++;
+        spawnParticles(n.x,n.y,n.bonus?'#ffb000':'#00ff41',n.bonus?14:8);
+        if(GAME.nodesCollected>=GAME.nodesPerLevel){GAME.level++;GAME.nodesCollected=0;GAME.nodesPerLevel=Math.ceil(GAME.nodesPerLevel*1.25);GAME.levelAnim=100;trySpawnPowerup();spawnToxins();}
         return false;
       }return true;
     });
-    while(G.nodes.length<targetNodeCount())G.nodes.push(makeNode());
-    if(Math.random()<.015&&G.powerups.length<2)G.powerups.push(makePowerup());
-
-    // powerups
-    G.powerups=G.powerups.filter(pu=>{
-      pu.phase+=.08;pu.life--;
-      if(pu.life<=0)return false;
-      if(dist(G.px,G.py,pu.x,pu.y)<pR+16){
-        burst(pu.x,pu.y,pu.col,18,{spd:3,spread:3,life:40});
-        burstText(pu.x,pu.y-18,pu.label,pu.col);
-        if(pu.type==='blast')G.blast=pu.dur;
-        else if(pu.type==='gpu')G.gpu=pu.dur;
-        else if(pu.type==='crispr')G.crispr=pu.dur;
-        else if(pu.type==='assemble'){
-          // collect all nodes within 120px
-          let collected=0;
-          G.nodes=G.nodes.filter(n=>{
-            if(dist(G.px,G.py,n.x,n.y)<120){
-              G.score+=n.pts;G.reads+=n.pts;G.coverage=Math.min(100,G.coverage+n.pts*2);
-              burst(n.x,n.y,n.col,8);collected+=n.pts;return false;
-            }return true;
-          });
-          if(collected)burstText(G.px,G.py-20,`ASSEMBLED +${collected}`,C.teal);
-        }
-        return false;
+    if(!nodes.length){spawnNodes();if(Math.random()<.3)trySpawnPowerup();}
+    powerups=powerups.filter(pu=>{
+      pu.p+=.09;pu.life--;if(pu.life<=0)return false;
+      if(dist(player,pu)<player.size+14){
+        if(pu.type==='shield')GAME.shield=200;
+        else if(pu.type==='boost')GAME.boost=160;
+        else if(pu.type==='pulse'){nodes=nodes.filter(n=>{if(dist(player,n)<100){GAME.score++;spawnParticles(n.x,n.y,'#bf5fff',6);return false;}return true;});}
+        spawnParticles(pu.x,pu.y,pu.color,14);return false;
       }return true;
     });
-
-    // timers
-    if(G.blast>0)G.blast--;if(G.gpu>0)G.gpu--;if(G.crispr>0)G.crispr--;
-    if(G.levelAnim>0)G.levelAnim--;if(G.assembleAnim>0)G.assembleAnim--;
-
-    // collision
-    if(G.inv<=0&&G.crispr<=0){
-      for(const e of G.enemies){
-        if(dist(G.px,G.py,e.x,e.y)<pR+e.size-3){
-          G.lives--;G.inv=120;
-          burst(G.px,G.py,C.red,22,{spd:3.5,life:45});
-          burstText(G.px,G.py-16,'CORRUPTED!',C.red);
-          if(G.lives<=0){G.over=true;G.highScore=Math.max(G.highScore,G.score);}
-          break;
+    if(GAME.shield>0)GAME.shield--;if(GAME.boost>0)GAME.boost--;if(GAME.levelAnim>0)GAME.levelAnim--;
+    if(GAME.inv<=0&&GAME.shield<=0){
+      for(const t of toxins){
+        if(dist(player,t)<player.size+t.size-3){
+          GAME.lives--;GAME.inv=100;spawnParticles(player.x,player.y,'#ff4444',18);
+          if(GAME.lives<=0){GAME.over=true;GAME.highScore=Math.max(GAME.highScore,GAME.score);}break;
         }
       }
-    }else if(G.inv>0)G.inv--;
-
-    // particles
-    particles=particles.filter(p=>{
-      p.x+=(p.vx||0);p.y+=(p.vy||0);
-      if(p.vx)p.vx*=.90;if(p.vy)p.vy*=.90;
-      p.life++;return p.life<p.maxLife;
-    });
+    }else if(GAME.inv>0)GAME.inv--;
+    particles=particles.filter(p=>{p.x+=p.vx;p.y+=p.vy;p.vx*=.91;p.vy*=.91;p.life++;return p.life<p.maxLife;});
   }
 
-  /* ── DRAW ── */
-  // background
-  const e=env();
-  ctx.fillStyle=e.bg;ctx.fillRect(0,FIELD_TOP,CW,FIELD_H);
+  ctx.strokeStyle='rgba(0,255,65,0.035)';ctx.lineWidth=1;
+  for(let x=0;x<CW;x+=36){ctx.beginPath();ctx.moveTo(x,22);ctx.lineTo(x,CH);ctx.stroke();}
+  for(let y=22;y<CH;y+=36){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(CW,y);ctx.stroke();}
 
-  // grid
-  ctx.strokeStyle=e.grid;ctx.lineWidth=1;
-  for(let x=0;x<CW;x+=40){ctx.beginPath();ctx.moveTo(x,FIELD_TOP);ctx.lineTo(x,CH);ctx.stroke();}
-  for(let y=FIELD_TOP;y<CH;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(CW,y);ctx.stroke();}
-
-  // neural net decoration
-  ctx.save();ctx.globalAlpha=.045;
-  nnNodes.forEach((n,i)=>{
-    nnNodes.forEach((m,j)=>{
-      if(j>i&&Math.hypot(n.x-m.x,n.y-m.y)<180){
-        ctx.strokeStyle=e.accent;ctx.lineWidth=.5;
-        ctx.beginPath();ctx.moveTo(n.x,n.y);ctx.lineTo(m.x,m.y);ctx.stroke();
-      }
-    });
-    const pulse=.5+.5*Math.sin(n.phase+(Date.now()/900));
-    ctx.fillStyle=e.accent;ctx.globalAlpha=.06*pulse;
-    ctx.beginPath();ctx.arc(n.x,n.y,n.r+pulse*2,0,Math.PI*2);ctx.fill();
-  });
-  ctx.restore();
-
-  // floating DNA reads
-  ctx.save();
-  floatReads.forEach(r=>{
-    ctx.globalAlpha=r.alpha;
-    ctx.fillStyle=C.green;ctx.font=`8px "JetBrains Mono"`;
-    for(let i=0;i<r.text.length;i++){
-      const bc={A:C.A,T:C.T,C:C.C,G:C.G}[r.text[i]];
-      ctx.fillStyle=bc;ctx.fillText(r.text[i],r.x+i*8,r.y);
-    }
-  });
-  ctx.restore();
-
-  // floating bg bases
-  ctx.save();
-  bgBases.forEach(b=>{
-    const bc={A:C.A,T:C.T,C:C.C,G:C.G}[b.base];
-    ctx.globalAlpha=b.alpha;ctx.fillStyle=bc;
-    ctx.font=`${b.size}px "JetBrains Mono"`;ctx.fillText(b.base,b.x,b.y);
-  });
-  ctx.restore();
-
-  // assemble ring
-  if(G.assembleAnim>0){
-    const p=G.assembleAnim/60;
-    ctx.save();ctx.globalAlpha=p*.4;ctx.strokeStyle=C.teal;ctx.lineWidth=2;ctx.shadowColor=C.teal;ctx.shadowBlur=20;
-    ctx.beginPath();ctx.arc(G.px,G.py,120*(1-p),0,Math.PI*2);ctx.stroke();ctx.restore();
-  }
-
-  // particles
   particles.forEach(p=>{
-    const alpha=(1-p.life/p.maxLife);
-    ctx.save();ctx.globalAlpha=alpha*.9;
-    if(p.type==='text'){
-      ctx.fillStyle=p.col;ctx.font=`bold ${p.size}px "JetBrains Mono"`;ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.shadowColor=p.col;ctx.shadowBlur=8;ctx.fillText(p.text,p.x,p.y);
-    }else{
-      ctx.fillStyle=p.col;ctx.shadowColor=p.col;ctx.shadowBlur=6;
-      ctx.beginPath();ctx.arc(p.x,p.y,Math.max(.3,p.size*(1-p.life/p.maxLife*.4)),0,Math.PI*2);ctx.fill();
-    }
+    ctx.save();ctx.globalAlpha=(1-p.life/p.maxLife)*.85;ctx.fillStyle=p.color;ctx.shadowColor=p.color;ctx.shadowBlur=5;
+    ctx.beginPath();ctx.arc(p.x,p.y,Math.max(.5,p.size*(1-p.life/p.maxLife*.5)),0,Math.PI*2);ctx.fill();ctx.restore();
+  });
+
+  nodes.forEach(n=>{
+    const r=5+Math.sin(n.p)*1.6,col=n.bonus?'#ffb000':'#00ff41';
+    ctx.save();ctx.shadowColor=col;ctx.shadowBlur=n.bonus?18:12;ctx.fillStyle=col;
+    ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=n.bonus?`rgba(255,176,0,${.25+.1*Math.sin(n.p)})`:`rgba(0,255,65,${.25+.1*Math.sin(n.p)})`;
+    ctx.lineWidth=1;ctx.beginPath();ctx.arc(n.x,n.y,r+6,0,Math.PI*2);ctx.stroke();
+    if(n.bonus){ctx.font='bold 8px "JetBrains Mono"';ctx.fillStyle='#080808';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('×3',n.x,n.y);}
     ctx.restore();
   });
 
-  // nodes
-  G.nodes.forEach(n=>{
-    const pulse=.7+.3*Math.sin(n.phase);
-    const r=n.r*pulse;
-    ctx.save();ctx.shadowColor=n.col;ctx.shadowBlur=14+8*pulse;ctx.fillStyle=n.col;
-    if(n.type==='read'){
-      ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);ctx.fill();
-    }else if(n.type==='orf'){
-      ctx.translate(n.x,n.y);ctx.rotate(n.phase*.3);
-      ctx.beginPath();ctx.moveTo(0,-r*1.2);ctx.lineTo(r*1.1,r*.8);ctx.lineTo(-r*1.1,r*.8);ctx.closePath();ctx.fill();
-    }else{
-      ctx.translate(n.x,n.y);ctx.rotate(n.phase*.2);
-      for(let i=0;i<4;i++){ctx.save();ctx.rotate(Math.PI/2*i);ctx.beginPath();ctx.moveTo(0,-r*1.3);ctx.lineTo(r*.5,-r*.5);ctx.lineTo(0,0);ctx.lineTo(-r*.5,-r*.5);ctx.closePath();ctx.fill();ctx.restore();}
-    }
-    // orbit ring
-    ctx.strokeStyle=n.col+'55';ctx.lineWidth=1;
-    ctx.beginPath();ctx.arc(0,0,n.r+6+4*pulse,0,Math.PI*2);ctx.stroke();
-    // label
-    ctx.font=`bold 7px "JetBrains Mono"`;ctx.fillStyle=n.col;ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.shadowBlur=0;ctx.fillText(n.label,0,n.r+14);
-    ctx.restore();
+  powerups.forEach(pu=>{
+    const pulse=.65+.35*Math.sin(pu.p*3),icons={shield:'🛡',boost:'⚡',pulse:'🧲'};
+    ctx.save();ctx.globalAlpha=Math.min(1,(360-pu.life)/25)*pulse;ctx.shadowColor=pu.color;ctx.shadowBlur=20;
+    ctx.strokeStyle=pu.color;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(pu.x,pu.y,15,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(pu.x,pu.y,9,0,Math.PI*2);ctx.fillStyle=pu.color+'18';ctx.fill();
+    ctx.globalAlpha=Math.min(1,(360-pu.life)/20);ctx.font='13px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(icons[pu.type],pu.x,pu.y);ctx.restore();
   });
 
-  // powerups
-  G.powerups.forEach(pu=>{
-    const pulse=.6+.4*Math.sin(pu.phase*2.5);
-    const fadeIn=Math.min(1,(380-pu.life)/30);
-    ctx.save();ctx.globalAlpha=fadeIn*pulse;
-    ctx.shadowColor=pu.col;ctx.shadowBlur=22;
-    // hexagon
-    ctx.strokeStyle=pu.col;ctx.lineWidth=1.5;
-    ctx.beginPath();
-    for(let i=0;i<6;i++){const a=Math.PI/3*i+pu.phase*.4;ctx.lineTo(pu.x+Math.cos(a)*18,pu.y+Math.sin(a)*18);}
-    ctx.closePath();ctx.stroke();
-    ctx.fillStyle=pu.col+'12';ctx.fill();
-    // icon
-    ctx.globalAlpha=fadeIn;ctx.font='14px serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(pu.icon,pu.x,pu.y);
-    // label
-    ctx.font='7px "JetBrains Mono"';ctx.fillStyle=pu.col;ctx.shadowBlur=0;
-    ctx.fillText(pu.label,pu.x,pu.y+24);
-    ctx.restore();
+  toxins.forEach(t=>{
+    ctx.save();ctx.translate(t.x,t.y);ctx.rotate(t.a);ctx.shadowColor='#ff4444';ctx.shadowBlur=12;ctx.fillStyle='#ff4444';
+    ctx.beginPath();ctx.moveTo(0,-t.size);ctx.lineTo(t.size*.75,0);ctx.lineTo(0,t.size);ctx.lineTo(-t.size*.75,0);ctx.closePath();ctx.fill();
+    ctx.strokeStyle='rgba(255,68,68,.25)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,0,t.size+6,0,Math.PI*2);ctx.stroke();ctx.restore();
   });
 
-  // enemies
-  G.enemies.forEach(e=>{
-    ctx.save();ctx.translate(e.x,e.y);ctx.rotate(e.angle);
-    ctx.shadowColor=e.col;ctx.shadowBlur=14;ctx.fillStyle=e.col;
-    if(e.type==='pathogen'){
-      // spiky circle
-      ctx.beginPath();
-      for(let i=0;i<12;i++){
-        const a=Math.PI/6*i,spike=i%2===0?e.size:e.size*.55;
-        const x=Math.cos(a)*spike,y=Math.sin(a)*spike;
-        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
-      }
-      ctx.closePath();ctx.fill();
-    }else if(e.type==='seqerror'){
-      // glitchy square
-      ctx.fillRect(-e.size,-e.size,e.size*2,e.size*2);
-      ctx.fillStyle='#000';ctx.fillRect(-e.size*.4,-e.size*.6,e.size*.8,e.size*.4);
-      ctx.fillRect(-e.size*.4,e.size*.2,e.size*.8,e.size*.3);
-    }else{
-      // phage: T4 bacteriophage shape
-      ctx.fillStyle=e.col;
-      ctx.beginPath();ctx.arc(0,-e.size*.3,e.size*.8,0,Math.PI*2);ctx.fill();
-      ctx.fillRect(-e.size*.15,-e.size*.3,e.size*.3,e.size);
-      for(let i=0;i<6;i++){
-        const a=Math.PI/3*i;ctx.strokeStyle=e.col;ctx.lineWidth=1.5;
-        ctx.shadowBlur=6;ctx.beginPath();ctx.moveTo(Math.cos(a)*e.size*.2,e.size*.7+Math.sin(a)*e.size*.15);
-        ctx.lineTo(Math.cos(a)*e.size*1.1,e.size*.7+Math.sin(a)*e.size*.55);ctx.stroke();
-      }
-    }
-    // enemy label
-    ctx.rotate(-e.angle);ctx.font='7px "JetBrains Mono"';ctx.fillStyle=e.col;ctx.textAlign='center';
-    ctx.shadowBlur=0;ctx.fillText(e.label,0,e.size+12);
-    ctx.restore();
-  });
+  const shielded=GAME.shield>0,boosted=GAME.boost>0,blink=(GAME.inv>0&&Math.floor(GAME.inv/5)%2===0);
+  ctx.save();ctx.globalAlpha=blink?.22:1;
+  if(shielded){const sa=.45+.3*Math.sin(Date.now()/180);ctx.strokeStyle=`rgba(0,255,255,${sa})`;ctx.lineWidth=2;ctx.shadowColor='#00ffff';ctx.shadowBlur=18;ctx.beginPath();ctx.arc(player.x,player.y,player.size+10,0,Math.PI*2);ctx.stroke();}
+  const pCol=boosted?'#ffb000':'#00ffff';
+  ctx.shadowColor=pCol;ctx.shadowBlur=boosted?22:16;ctx.fillStyle=pCol;
+  ctx.beginPath();ctx.arc(player.x,player.y,player.size,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.6)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(player.x-5,player.y);ctx.lineTo(player.x+5,player.y);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(player.x,player.y-5);ctx.lineTo(player.x,player.y+5);ctx.stroke();
+  ctx.restore();
 
-  // player — BioAI agent
-  {
-    const shielded=G.crispr>0,boosted=G.gpu>0,blasting=G.blast>0;
-    const blink=G.inv>0&&Math.floor(G.inv/6)%2===0;
-    const pCol=boosted?C.amber:blasting?C.cyan:C.cyan;
-    const t=Date.now();
-    ctx.save();ctx.globalAlpha=blink?.15:1;
+  ctx.fillStyle='rgba(4,4,4,.9)';ctx.fillRect(0,0,CW,22);
+  ctx.font='bold 10px "JetBrains Mono",monospace';ctx.textAlign='left';
+  ctx.fillStyle='#2a4a2a';ctx.fillText('DATA:',10,15);ctx.fillStyle='#d0d0d0';ctx.fillText(String(GAME.score).padStart(4,'0'),57,15);
+  ctx.fillStyle='#1a3a3a';ctx.fillText('LVL:',105,15);ctx.fillStyle='#00ffff';ctx.fillText(String(GAME.level).padStart(2,'0'),139,15);
+  const xp=GAME.nodesCollected/GAME.nodesPerLevel;
+  ctx.fillStyle='#0a0a0a';ctx.fillRect(162,7,70,8);
+  ctx.fillStyle=`rgba(0,255,65,${.55+.45*Math.sin(Date.now()/280)})`;ctx.fillRect(162,7,70*xp,8);
+  ctx.strokeStyle='rgba(0,255,65,.18)';ctx.lineWidth=1;ctx.strokeRect(162,7,70,8);
+  ctx.fillStyle='#1a2a1a';ctx.font='7px "JetBrains Mono"';ctx.textAlign='center';ctx.fillText('XP',197,14);ctx.textAlign='left';
+  ctx.font='bold 10px "JetBrains Mono"';
+  let px=242;
+  if(GAME.shield>0){const a=.5+.5*Math.sin(Date.now()/140);ctx.fillStyle=`rgba(0,255,255,${a})`;ctx.fillText('🛡',px,15);px+=20;ctx.fillStyle='rgba(0,255,255,.2)';ctx.fillRect(px,9,30,5);ctx.fillStyle='rgba(0,255,255,.7)';ctx.fillRect(px,9,30*(GAME.shield/200),5);px+=36;}
+  if(GAME.boost>0){ctx.fillStyle='#ffb000';ctx.fillText('⚡',px,15);px+=20;ctx.fillStyle='rgba(255,176,0,.2)';ctx.fillRect(px,9,30,5);ctx.fillStyle='rgba(255,176,0,.7)';ctx.fillRect(px,9,30*(GAME.boost/160),5);px+=36;}
+  if(GAME.highScore>0){ctx.fillStyle='#1a2a1a';ctx.font='9px "JetBrains Mono"';ctx.fillText(`HI:${String(GAME.highScore).padStart(4,'0')}`,CW/2-30,15);}
+  for(let i=0;i<3;i++){ctx.save();ctx.shadowColor=i<GAME.lives?'#ff4444':'transparent';ctx.shadowBlur=i<GAME.lives?6:0;ctx.fillStyle=i<GAME.lives?'#ff4444':'#1a1a1a';ctx.beginPath();ctx.arc(CW-14-i*20,11,5,0,Math.PI*2);ctx.fill();ctx.restore();}
+  ctx.fillStyle='#2a4a2a';ctx.font='9px "JetBrains Mono"';ctx.textAlign='left';ctx.fillText('HP',CW-76,15);
 
-    // CRISPR shield bubble
-    if(shielded){
-      const sa=.3+.25*Math.sin(t/160);
-      ctx.strokeStyle=`rgba(191,95,255,${sa})`;ctx.lineWidth=2;ctx.shadowColor=C.violet;ctx.shadowBlur=24;
-      ctx.setLineDash([4,4]);ctx.beginPath();ctx.arc(G.px,G.py,22,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
-    }
-    // blast aura
-    if(blasting){
-      const ba=.15+.1*Math.sin(t/100);
-      ctx.fillStyle=`rgba(0,255,255,${ba})`;ctx.beginPath();ctx.arc(G.px,G.py,55,0,Math.PI*2);ctx.fill();
-      ctx.strokeStyle=`rgba(0,255,255,0.3)`;ctx.lineWidth=1;ctx.setLineDash([3,5]);
-      ctx.beginPath();ctx.arc(G.px,G.py,55,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
-    }
-    // outer ring
-    ctx.shadowColor=pCol;ctx.shadowBlur=boosted?26:18;ctx.strokeStyle=pCol;ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.arc(G.px,G.py,14,0,Math.PI*2);ctx.stroke();
-    // spinning orbit dot
-    const orbitA=t/600;
-    ctx.fillStyle=pCol;ctx.shadowBlur=8;
-    ctx.beginPath();ctx.arc(G.px+Math.cos(orbitA)*14,G.py+Math.sin(orbitA)*14,2.5,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(G.px+Math.cos(orbitA+Math.PI)*14,G.py+Math.sin(orbitA+Math.PI)*14,2.5,0,Math.PI*2);ctx.fill();
-    // core hexagon
-    ctx.fillStyle=pCol+'22';ctx.strokeStyle=pCol;ctx.lineWidth=2;ctx.shadowBlur=14;
-    ctx.beginPath();
-    for(let i=0;i<6;i++){const a=Math.PI/3*i+t/1500;ctx.lineTo(G.px+Math.cos(a)*9,G.py+Math.sin(a)*9);}
-    ctx.closePath();ctx.fill();ctx.stroke();
-    // center dot
-    ctx.fillStyle=C.white;ctx.shadowBlur=6;ctx.beginPath();ctx.arc(G.px,G.py,2.5,0,Math.PI*2);ctx.fill();
-    // crosshair
-    ctx.strokeStyle=pCol+'99';ctx.lineWidth=1;ctx.shadowBlur=0;
-    ctx.beginPath();ctx.moveTo(G.px-18,G.py);ctx.lineTo(G.px-10,G.py);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(G.px+10,G.py);ctx.lineTo(G.px+18,G.py);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(G.px,G.py-18);ctx.lineTo(G.px,G.py-10);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(G.px,G.py+10);ctx.lineTo(G.px,G.py+18);ctx.stroke();
-    ctx.restore();
+  if(GAME.levelAnim>0){
+    const fade=Math.min(1,GAME.levelAnim/20)*Math.min(1,GAME.levelAnim/80),glitch=GAME.levelAnim>80?(Math.random()-.5)*7:0;
+    ctx.save();ctx.globalAlpha=fade;ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(0,CH/2-28,CW,54);
+    ctx.font='bold 18px "JetBrains Mono"';ctx.textAlign='center';ctx.shadowColor='#00ffff';ctx.shadowBlur=24;ctx.fillStyle='#00ffff';
+    ctx.fillText(`── LEVEL ${GAME.level} REACHED ──`,CW/2+glitch,CH/2-8);
+    ctx.shadowBlur=0;ctx.font='9px "JetBrains Mono"';ctx.fillStyle='#2a5a5a';
+    const msgs=[`toxin_velocity += 0.22  |  toxin_count = ${toxinCount()}`,`node_wave_size = ${nodeCount()}  |  xp_needed = ${GAME.nodesPerLevel}`,'new powerups unlocked  |  difficulty++'];
+    ctx.fillText(msgs[(GAME.level-2)%msgs.length]||'difficulty++',CW/2,CH/2+12);ctx.restore();
   }
 
-  /* ── HUD ── */
-  ctx.fillStyle=C.hudBg;ctx.fillRect(0,0,CW,HUD_H);
-  ctx.strokeStyle='rgba(0,255,65,0.08)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,HUD_H);ctx.lineTo(CW,HUD_H);ctx.stroke();
-
-  const hudFont='bold 10px "JetBrains Mono"';
-  ctx.textBaseline='middle';
-
-  // SCORE
-  ctx.font=hudFont;ctx.textAlign='left';
-  ctx.fillStyle=C.dimGreen;ctx.fillText('SCORE',8,HUD_H/2);
-  ctx.fillStyle=C.white;ctx.fillText(String(G.score).padStart(5,'0'),58,HUD_H/2);
-
-  // LEVEL + ENV
-  ctx.fillStyle='#1a3a3a';ctx.fillText('LVL',108,HUD_H/2);
-  ctx.fillStyle=C.cyan;ctx.fillText(String(G.level).padStart(2,'0'),138,HUD_H/2);
-
-  // ENV name
-  ctx.font='7px "JetBrains Mono"';ctx.fillStyle=env().accent+'99';
-  ctx.fillText(env().name,165,HUD_H/2);
-
-  // GENOME COVERAGE bar
-  const covX=330,covW=90;
-  ctx.fillStyle='#0a0a0a';ctx.fillRect(covX,8,covW,12);
-  ctx.fillStyle=env().accent;ctx.fillRect(covX,8,covW*(G.coverage/100),12);
-  ctx.strokeStyle=env().accent+'44';ctx.lineWidth=1;ctx.strokeRect(covX,8,covW,12);
-  ctx.font='7px "JetBrains Mono"';ctx.fillStyle=env().accent+'aa';ctx.textAlign='center';
-  ctx.fillText(`COV ${Math.floor(G.coverage)}%`,covX+covW/2,14);
-
-  // READS progress bar
-  const rdX=435,rdW=70;
-  ctx.fillStyle='#0a0a0a';ctx.fillRect(rdX,8,rdW,12);
-  ctx.fillStyle='#00ff4188';ctx.fillRect(rdX,8,rdW*Math.min(1,G.reads/G.readsNeeded),12);
-  ctx.strokeStyle='rgba(0,255,65,0.2)';ctx.lineWidth=1;ctx.strokeRect(rdX,8,rdW,12);
-  ctx.font='7px "JetBrains Mono"';ctx.fillStyle='#2a5a2a';ctx.textAlign='center';
-  ctx.fillText(`${G.reads}/${G.readsNeeded}`,rdX+rdW/2,14);
-
-  // Active powerup indicators
-  ctx.textAlign='left';let px2=518;
-  const puIndicators=[
-    {active:G.blast>0, max:220, val:G.blast, col:C.cyan,   icon:'🔬', lbl:'BLAST'},
-    {active:G.gpu>0,   max:180, val:G.gpu,   col:C.amber,  icon:'⚡', lbl:'GPU'},
-    {active:G.crispr>0,max:200, val:G.crispr,col:C.violet, icon:'🛡', lbl:'CRISPR'},
-  ];
-  puIndicators.forEach(pi=>{
-    if(!pi.active)return;
-    const bw=28;
-    ctx.font='9px serif';ctx.fillText(pi.icon,px2,HUD_H/2);px2+=16;
-    ctx.fillStyle='#0a0a0a';ctx.fillRect(px2,9,bw,10);
-    ctx.fillStyle=pi.col+'bb';ctx.fillRect(px2,9,bw*(pi.val/pi.max),10);
-    ctx.strokeStyle=pi.col+'44';ctx.lineWidth=1;ctx.strokeRect(px2,9,bw,10);
-    px2+=bw+6;
-  });
-
-  // HI-SCORE
-  if(G.highScore>0){
-    ctx.font='9px "JetBrains Mono"';ctx.fillStyle='#1a2a1a';ctx.textAlign='center';
-    ctx.fillText(`HI:${String(G.highScore).padStart(5,'0')}`,CW/2+60,HUD_H/2);
+  if(GAME.over){
+    GAME.glt++;ctx.fillStyle='rgba(4,4,4,.9)';ctx.fillRect(0,0,CW,CH);
+    if(GAME.glt%10<3){ctx.fillStyle='rgba(0,255,65,.03)';ctx.fillRect(0,Math.random()*CH,CW,2+Math.random()*7);}
+    const gx=GAME.glt%8<2?(Math.random()-.5)*6:0;
+    ctx.save();ctx.translate(gx,0);ctx.textAlign='center';ctx.font='bold 20px "JetBrains Mono"';ctx.fillStyle='#ff4444';ctx.shadowColor='#ff4444';ctx.shadowBlur=18;
+    ctx.fillText('SIMULATION FAILED',CW/2,CH/2-28);ctx.restore();
+    ctx.shadowBlur=0;ctx.font='11px "JetBrains Mono"';ctx.fillStyle='#2a4a2a';ctx.textAlign='center';
+    ctx.fillText(`data_collected = ${String(GAME.score).padStart(4,'0')}   max_level = ${GAME.level}`,CW/2,CH/2+2);
+    if(GAME.highScore>0&&GAME.score>=GAME.highScore){ctx.fillStyle='#ffb000';ctx.font='10px "JetBrains Mono"';ctx.fillText('★ NEW HIGH SCORE ★',CW/2,CH/2+20);}
+    ctx.fillStyle='#00ff41';ctx.font='10px "JetBrains Mono"';ctx.fillText('[ press R to reinitialize ]',CW/2,CH/2+38);ctx.textAlign='left';
   }
-
-  // LIVES (DNA double helix dots)
-  for(let i=0;i<3;i++){
-    ctx.save();
-    ctx.shadowColor=i<G.lives?C.red:'transparent';ctx.shadowBlur=i<G.lives?8:0;
-    ctx.fillStyle=i<G.lives?C.red:'#1a0a0a';
-    ctx.beginPath();ctx.arc(CW-18-i*22,HUD_H/2,5,0,Math.PI*2);ctx.fill();
-    ctx.restore();
-  }
-  ctx.font=hudFont;ctx.fillStyle='#2a2a1a';ctx.textAlign='left';
-  ctx.fillText('HP',CW-88,HUD_H/2);
-
-  /* ── LEVEL-UP BANNER ── */
-  if(G.levelAnim>0){
-    const fade=Math.min(1,G.levelAnim/25)*Math.min(1,G.levelAnim/100);
-    const glitch=G.levelAnim>100?(Math.random()-.5)*8:0;
-    ctx.save();ctx.globalAlpha=fade;
-    ctx.fillStyle='rgba(0,0,0,.75)';ctx.fillRect(0,FIELD_TOP+FIELD_H*.3,CW,FIELD_H*.38);
-    ctx.font='bold 20px "JetBrains Mono"';ctx.textAlign='center';
-    ctx.shadowColor=env().accent;ctx.shadowBlur=28;ctx.fillStyle=env().accent;
-    ctx.fillText(`── LEVEL ${G.level} ──`,CW/2+glitch,FIELD_TOP+FIELD_H*.45);
-    ctx.font='9px "JetBrains Mono"';ctx.fillStyle=env().accent+'88';ctx.shadowBlur=0;
-    ctx.fillText(G.levelMsg,CW/2,FIELD_TOP+FIELD_H*.55);
-    ctx.fillText(`enemies: ${targetEnemyCount()} · reads_needed: ${G.readsNeeded}`,CW/2,FIELD_TOP+FIELD_H*.63);
-    ctx.restore();
-  }
-
-  /* ── GAME OVER ── */
-  if(G.over){
-    G.glt++;
-    ctx.fillStyle='rgba(2,4,8,0.93)';ctx.fillRect(0,FIELD_TOP,CW,FIELD_H);
-    if(G.glt%12<4){ctx.fillStyle='rgba(0,255,65,.025)';ctx.fillRect(0,FIELD_TOP+Math.random()*FIELD_H,CW,1+Math.random()*5);}
-    const gx=G.glt%8<2?(Math.random()-.5)*7:0;
-    ctx.save();ctx.translate(gx,0);ctx.textAlign='center';
-    ctx.font='bold 22px "JetBrains Mono"';ctx.fillStyle=C.red;ctx.shadowColor=C.red;ctx.shadowBlur=22;
-    ctx.fillText('── PIPELINE FAILED ──',CW/2,FIELD_TOP+FIELD_H*.35);
-    ctx.restore();
-    ctx.shadowBlur=0;ctx.font='11px "JetBrains Mono"';ctx.textAlign='center';
-    ctx.fillStyle='#2a4a2a';ctx.fillText(`sequences_recovered: ${String(G.score).padStart(5,'0')} · max_level: ${G.level}`,CW/2,FIELD_TOP+FIELD_H*.48);
-    if(G.highScore>0&&G.score>=G.highScore){ctx.fillStyle=C.amber;ctx.font='10px "JetBrains Mono"';ctx.fillText('★ NEW HIGH SCORE ★',CW/2,FIELD_TOP+FIELD_H*.57);}
-    ctx.fillStyle=C.green;ctx.font='10px "JetBrains Mono"';
-    ctx.fillText('[ press R to reinitialize pipeline ]',CW/2,FIELD_TOP+FIELD_H*.66);
-    ctx.textAlign='left';
-  }
-
   requestAnimationFrame(gameLoop);
 }
 gameLoop();
-})();
 </script>
 </body>
 </html>
