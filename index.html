@@ -11,360 +11,398 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --green:#00ff41;--green3:rgba(0,255,65,.07);
-  --cyan:#00ffff;--amber:#ffb000;--red:#ff4444;--violet:#bf5fff;
+  --g:#00ff41;--g3:rgba(0,255,65,.07);
+  --cy:#00ffff;--am:#ffb000;--rd:#ff4444;--vi:#bf5fff;
   --bg:#060808;--bg2:rgba(10,14,12,.97);
-  --border:rgba(0,255,65,.12);--dim:#4a7a4a;--muted:#5a8a5a;
+  --br:rgba(0,255,65,.12);--dim:#4a7a4a;--mu:#5a8a5a;
   --mono:'JetBrains Mono',monospace;--sw:52px;
 }
 html{scroll-behavior:smooth}
-
-/* ── BACKGROUND: gradient mesh + dot grid ── */
-body{
-  font-family:var(--mono);color:var(--green);min-height:100vh;
-  overflow-x:hidden;padding-top:22px;cursor:none;
-  background-color:var(--bg);
+body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
+  padding-top:22px;cursor:none;background-color:var(--bg);
   background-image:
     radial-gradient(ellipse 90% 55% at 0% 0%,   rgba(0,45,18,.7)  0%,transparent 65%),
     radial-gradient(ellipse 70% 50% at 100% 100%,rgba(0,18,35,.75) 0%,transparent 60%),
     radial-gradient(ellipse 50% 40% at 100% 0%,  rgba(0,10,25,.45) 0%,transparent 55%),
-    radial-gradient(ellipse 40% 35% at 0% 100%,  rgba(0,30,12,.4)  0%,transparent 50%),
-    radial-gradient(circle at 1px 1px, rgba(0,255,65,.04) 1px, transparent 0);
+    radial-gradient(ellipse 40% 35% at 0%  100%, rgba(0,30,12,.4)  0%,transparent 50%),
+    radial-gradient(circle at 1px 1px,rgba(0,255,65,.04) 1px,transparent 0);
   background-size:100% 100%,100% 100%,100% 100%,100% 100%,30px 30px;
-  background-attachment:fixed;
-}
+  background-attachment:fixed}
 
-/* ── OVERLAY ── */
 #overlay{position:fixed;inset:0;pointer-events:none;z-index:8000;
   background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.055) 2px,rgba(0,0,0,.055) 4px);
   animation:flicker 16s infinite}
 @keyframes flicker{0%,100%{opacity:1}92%{opacity:.95}93%{opacity:1}97%{opacity:.97}98%{opacity:1}}
 
-/* ── CURSOR ── */
 #cursor{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
-#cursor::before,#cursor::after{content:'';position:absolute;background:var(--cyan)}
+#cursor::before,#cursor::after{content:'';position:absolute;background:var(--cy)}
 #cursor::before{width:1px;height:100%;left:50%;top:0}
 #cursor::after{width:100%;height:1px;top:50%;left:0}
 
-/* ── DNA TICKER ── */
+/* DNA TICKER */
 #dna-ticker{position:fixed;top:0;left:0;right:0;height:22px;
   background:rgba(4,6,5,.97);border-bottom:1px solid rgba(0,255,65,.08);
   overflow:hidden;z-index:500;display:flex;align-items:center}
-.dna-track{display:flex;white-space:nowrap;font-size:9px;letter-spacing:1.2px;opacity:.48;animation:dnaScroll 90s linear infinite}
+.dna-track{display:flex;white-space:nowrap;font-size:9px;letter-spacing:1.2px;
+  opacity:.46;animation:dnaScroll 90s linear infinite}
 @keyframes dnaScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .dA{color:#00ff41}.dT{color:#ff4444}.dC{color:#4488ff}.dG{color:#ffb000}
 .dSep{color:#0d1a0d;margin:0 14px;font-size:8px}
 
-/* ── BOOT ── */
-#boot{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;
-  justify-content:center;align-items:flex-start;padding:40px clamp(20px,6vw,80px);transition:opacity .7s}
+/* BOOT */
+#boot{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;
+  flex-direction:column;justify-content:center;align-items:flex-start;
+  padding:40px clamp(20px,6vw,80px);transition:opacity .7s}
 #boot.fade-out{opacity:0;pointer-events:none}
-#boot-ascii{font-size:clamp(5.5px,1.2vw,10px);line-height:1.2;color:var(--green);white-space:pre;
+#boot-ascii{font-size:clamp(5.5px,1.2vw,10px);line-height:1.2;color:var(--g);white-space:pre;
   text-shadow:0 0 14px rgba(0,255,65,.4);margin-bottom:22px}
-#boot-log{font-size:12px;line-height:2.1;color:var(--green);max-width:600px}
-#boot-log .ok{color:var(--green)}#boot-log .info{color:var(--cyan)}#boot-log .warn{color:var(--amber)}
-.boot-bar-wrap{width:min(420px,80vw);height:2px;background:#111;margin-top:20px;overflow:hidden}
-#boot-bar{height:100%;width:0%;background:var(--green);transition:width .08s linear}
+#boot-log{font-size:12px;line-height:2.1;max-width:600px}
+#boot-log .ok{color:var(--g)}#boot-log .info{color:var(--cy)}#boot-log .warn{color:var(--am)}
+.bbar-wrap{width:min(420px,80vw);height:2px;background:#111;margin-top:20px;overflow:hidden}
+#boot-bar{height:100%;width:0%;background:var(--g);transition:width .08s linear}
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 #sidebar{position:fixed;left:0;top:22px;bottom:0;width:var(--sw);
   background:rgba(4,6,5,.97);border-right:1px solid rgba(0,255,65,.07);
   display:none;flex-direction:column;align-items:center;padding:12px 0;gap:3px;z-index:400}
-.sb-item{width:40px;height:40px;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:3px;border:1px solid transparent;border-radius:4px;cursor:none;
-  text-decoration:none;transition:border-color .15s,background .15s;color:var(--dim)}
-.sb-item:hover{border-color:var(--border);background:rgba(0,255,65,.05);color:var(--green)}
-.sb-item.active{color:var(--green);border-color:var(--border)}
-.sb-icon{font-size:13px;line-height:1}.sb-label{font-size:7px;letter-spacing:.5px;text-transform:uppercase}
-.sb-div{width:26px;height:1px;background:rgba(0,255,65,.06);margin:3px 0}
+.sbi{width:40px;height:40px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:3px;border:1px solid transparent;border-radius:4px;
+  cursor:none;text-decoration:none;transition:border-color .15s,background .15s;color:var(--dim)}
+.sbi:hover,.sbi.active{border-color:var(--br);background:rgba(0,255,65,.05);color:var(--g)}
+.si{font-size:13px;line-height:1}.sl{font-size:7px;letter-spacing:.5px;text-transform:uppercase}
+.sdiv{width:26px;height:1px;background:rgba(0,255,65,.06);margin:3px 0}
 
-/* ── LAYOUT ── */
+/* LAYOUT */
 #terminal{display:none;max-width:1080px;margin:0 auto;
   padding:16px 14px 48px calc(var(--sw)+14px);position:relative;z-index:1}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .row>.win{margin-bottom:0}
 @media(max-width:720px){.row{grid-template-columns:1fr}#terminal{padding-left:14px}#sidebar{display:none!important}}
 
-/* ── WINDOWS ── */
-.win{background:var(--bg2);border:1px solid var(--border);border-radius:5px;
-  margin-bottom:14px;overflow:hidden;
-  box-shadow:0 3px 16px rgba(0,0,0,.45),inset 0 1px 0 rgba(0,255,65,.03);
+/* WINDOWS */
+.win{background:var(--bg2);border:1px solid var(--br);border-radius:5px;margin-bottom:14px;
+  overflow:hidden;box-shadow:0 3px 16px rgba(0,0,0,.45),inset 0 1px 0 rgba(0,255,65,.03);
   transition:border-color .15s}
 .win:hover{border-color:rgba(0,255,65,.2)}
-.win-bar{background:rgba(4,5,4,.99);border-bottom:1px solid var(--border);
+.wbar{background:rgba(4,5,4,.99);border-bottom:1px solid var(--br);
   padding:6px 13px;display:flex;align-items:center;gap:7px;user-select:none}
 .dots{display:flex;gap:5px}
 .dot{width:9px;height:9px;border-radius:50%}
 .dr{background:#ff5f57}.dy{background:#febc2e}.dg{background:#28c840}
-.wt{font-size:10px;color:#233223;letter-spacing:1px;margin-left:5px}
+.wt{font-size:10px;color:#233223;letter-spacing:1px;margin-left:4px;
+  flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.wbadge{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--am);
+  border:1px solid rgba(255,176,0,.22);padding:1px 6px;border-radius:2px;
+  background:rgba(255,176,0,.04);white-space:nowrap;margin-left:auto}
 .wb{padding:16px 20px}
 
-/* ── PROMPT (compact) ── */
-.prompt{font-size:11px;margin-bottom:12px;line-height:1.6;word-break:break-all;color:var(--dim)}
-.pu{color:var(--green)}.pat,.pcl{color:#182818}.ph{color:var(--cyan)}.pp{color:var(--violet)}
-.ps{color:var(--green)}.pc{color:#d0d0d0}.pa{color:var(--amber)}.pf{color:var(--cyan)}
-.ptyped{border-right:2px solid var(--green)}
+/* PROMPT */
+.pr{font-size:11px;margin-bottom:11px;line-height:1.6;word-break:break-all;color:var(--dim)}
+.pu{color:var(--g)}.pat,.pcl{color:#182818}.ph{color:var(--cy)}.ps{color:var(--g)}
+.pc{color:#d0d0d0}.pa{color:var(--am)}.pf{color:var(--cy)}
+.ptyped{border-right:2px solid var(--g)}
 
-/* ── PI HERO — compact single card ── */
-.pi-hero{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:start}
-@media(max-width:500px){.pi-hero{grid-template-columns:1fr}}
-.pi-av{width:68px;height:68px;border-radius:50%;border:2px solid rgba(0,255,65,.16);
+/* LAB MISSION BANNER */
+.lab-banner{display:flex;align-items:center;gap:14px;padding:13px 16px;margin-bottom:14px;
+  background:rgba(0,255,65,.025);border:1px solid rgba(0,255,65,.13);border-radius:5px}
+.lab-logo{font-size:28px;flex-shrink:0}
+.lab-name{font-size:14px;font-weight:700;color:#e0e0e0;letter-spacing:.3px;margin-bottom:3px}
+.lab-tag{font-size:10px;color:var(--mu);line-height:1.6;margin-bottom:7px}
+.lab-chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font-size:8px;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;
+  border-radius:2px;border:1px solid;color:var(--g);
+  border-color:rgba(0,255,65,.2);background:rgba(0,255,65,.04)}
+.chip.cy{color:var(--cy);border-color:rgba(0,255,255,.2);background:rgba(0,255,255,.03)}
+.chip.am{color:var(--am);border-color:rgba(255,176,0,.2);background:rgba(255,176,0,.03)}
+.chip.vi{color:var(--vi);border-color:rgba(191,95,255,.2);background:rgba(191,95,255,.03)}
+.lab-status{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.sc{font-size:8px;letter-spacing:1.2px;text-transform:uppercase;padding:3px 9px;
+  border-radius:2px;border:1px solid;white-space:nowrap}
+.sc.wip{color:var(--am);border-color:rgba(255,176,0,.28);background:rgba(255,176,0,.04)}
+.sc.on{color:var(--g);border-color:rgba(0,255,65,.22);background:rgba(0,255,65,.04);
+  display:flex;align-items:center;gap:5px}
+@media(max-width:560px){.lab-status{display:none}}
+
+/* PI */
+.pi-grid{display:grid;grid-template-columns:62px 1fr;gap:14px;align-items:start}
+@media(max-width:460px){.pi-grid{grid-template-columns:1fr}}
+.pi-av{width:58px;height:58px;border-radius:50%;border:2px solid rgba(0,255,65,.15);
   background:#080808;display:flex;align-items:center;justify-content:center;
-  font-size:30px;position:relative;flex-shrink:0}
-@keyframes ring{0%,100%{opacity:.25}50%{opacity:.6}}
+  font-size:25px;position:relative;flex-shrink:0}
+@keyframes ring{0%,100%{opacity:.2}50%{opacity:.5}}
 .pi-ring{position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(0,255,65,.18);
   animation:ring 4s ease-in-out infinite;will-change:opacity}
-.pi-name{font-size:15px;font-weight:700;color:#e0e0e0;margin-bottom:1px}
-.pi-role{font-size:10px;color:var(--cyan);letter-spacing:.8px;margin-bottom:8px}
-.badges{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
-.badge{font-size:8px;letter-spacing:1.2px;text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid}
-.bg-g{color:var(--green);border-color:rgba(0,255,65,.2);background:rgba(0,255,65,.04)}
-.bg-c{color:var(--cyan);border-color:rgba(0,255,255,.2);background:rgba(0,255,255,.03)}
-.bg-a{color:var(--amber);border-color:rgba(255,176,0,.2);background:rgba(255,176,0,.03)}
-.bg-v{color:var(--violet);border-color:rgba(191,95,255,.2);background:rgba(191,95,255,.03)}
-
-/* key-value pairs compact */
+.pi-name{font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:1px}
+.pi-role{font-size:9px;color:var(--cy);letter-spacing:.7px;margin-bottom:7px}
 .kv{display:flex;margin-bottom:2px;font-size:10px}
-.kk{color:var(--dim);width:80px;flex-shrink:0;font-size:9px;letter-spacing:.5px}
-.kv-v{color:#909090}.kv-v a{color:var(--cyan);text-decoration:none}.kv-v a:hover{text-decoration:underline}
+.kk{color:var(--dim);width:74px;flex-shrink:0;font-size:9px}
+.kv-v{color:#909090}.kv-v a{color:var(--cy);text-decoration:none}.kv-v a:hover{text-decoration:underline}
+.lnks{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
 
-/* link row */
-.lnks{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+/* DIASMA */
+.diasma{margin-top:12px;padding-top:11px;border-top:1px solid rgba(0,255,65,.07)}
+.diasma-head{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px}
+.dbadge{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--cy);
+  border:1px solid rgba(0,255,255,.17);padding:2px 7px;border-radius:2px;flex-shrink:0;margin-top:2px}
+.dtitle{font-size:11px;color:#d0d0d0;font-weight:700;line-height:1.4}
+.dsub{font-size:9px;color:var(--mu);margin-top:2px;line-height:1.5}
 
-/* DIASMA sub-block */
-.diasma-block{margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,255,65,.07)}
-.diasma-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.diasma-badge{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--cyan);border:1px solid rgba(0,255,255,.18);padding:2px 8px;border-radius:2px}
-.diasma-title{font-size:12px;color:#d0d0d0;font-weight:700}
-.diasma-sub{font-size:9px;color:var(--muted);margin-top:1px}
-.diasma-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  padding:7px 12px;background:rgba(5,8,6,.95);border:1px solid var(--border);
-  border-radius:3px;margin-bottom:6px}
-.diasma-name{font-size:10px;color:#d0d0d0;font-weight:600}
-.diasma-role{font-size:8px;color:var(--cyan);letter-spacing:.8px;margin-top:1px}
-.em-link{font-size:9px;color:var(--green);text-decoration:none;
-  border:1px solid rgba(0,255,65,.14);padding:2px 8px;border-radius:2px;
-  background:rgba(0,255,65,.025);margin-left:auto;white-space:nowrap;transition:background .15s}
-.em-link:hover{background:rgba(0,255,65,.06)}
+/* MEMBERS */
+.mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(116px,1fr));gap:10px}
+.mem-card{background:rgba(5,8,6,.95);border:1px solid var(--br);border-radius:4px;
+  padding:14px 10px;text-align:center;cursor:none;transition:border-color .15s,transform .15s}
+.mem-card:hover{border-color:var(--g);transform:translateY(-2px)}
+.mem-av{width:46px;height:46px;border-radius:50%;border:1px solid var(--br);
+  margin:0 auto 8px;display:flex;align-items:center;justify-content:center;
+  font-size:20px;background:#080808;overflow:hidden}
+.mem-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.mem-name{font-size:10px;color:var(--g);margin-bottom:2px;font-weight:600;line-height:1.3}
+.mem-role{font-size:8px;color:var(--dim);letter-spacing:.6px;line-height:1.4}
+.mem-email{font-size:8px;color:var(--cy);text-decoration:none;margin-top:4px;display:block;opacity:.7}
+.mem-email:hover{opacity:1}
+.mem-join{border-style:dashed;opacity:.55}
+.mem-join:hover{opacity:1}
 
-/* ── STATS STRIP — 4 horizontal chips ── */
-.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-@media(max-width:600px){.stats-strip{grid-template-columns:repeat(2,1fr)}}
-.stat-chip{background:rgba(5,8,6,.95);border:1px solid var(--border);border-radius:4px;padding:10px 12px}
-.stat-lbl{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
-.stat-val{font-size:16px;font-weight:700;letter-spacing:.5px;min-height:22px}
-.stat-src{font-size:8px;color:#1c2c1c;margin-top:2px}
-.stat-chip:nth-child(1) .stat-val{color:var(--green)}
-.stat-chip:nth-child(2) .stat-val{color:var(--cyan)}
+/* STATS 2x2 */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat-chip{background:rgba(5,8,6,.95);border:1px solid var(--br);border-radius:4px;padding:11px 13px}
+.stat-lbl{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+.stat-val{font-size:22px;font-weight:700;letter-spacing:-.5px;min-height:26px;line-height:1}
+.stat-unit{font-size:13px;font-weight:400;opacity:.65}
+.stat-src{font-size:7px;color:#1c2c1c;margin-top:3px}
+.stat-chip:nth-child(1) .stat-val{color:var(--g)}
+.stat-chip:nth-child(2) .stat-val{color:var(--cy)}
 .stat-chip:nth-child(3) .stat-val{color:#28c882}
-.stat-chip:nth-child(4) .stat-val{color:var(--amber)}
+.stat-chip:nth-child(4) .stat-val{color:var(--am)}
 
-/* ── PUBLICATIONS ── */
+/* PUBLICATIONS */
 .pub-entry{border-left:2px solid rgba(0,255,65,.1);padding:6px 0 6px 12px;margin-bottom:8px;
   cursor:none;transition:border-color .15s;border-radius:0 3px 3px 0}
-.pub-entry:hover{border-color:var(--green);background:rgba(0,255,65,.016)}
-.pub-hash{font-size:9px;color:var(--violet);margin-bottom:1px}
+.pub-entry:hover{border-color:var(--g);background:rgba(0,255,65,.016)}
+.pub-hash{font-size:9px;color:var(--vi);margin-bottom:1px}
 .pub-title{font-size:11px;color:#d0d0d0;line-height:1.45;margin-bottom:3px}
 .pub-meta{font-size:9px;color:var(--dim);display:flex;flex-wrap:wrap;gap:8px}
-.pub-meta .jnl{color:var(--cyan)}.pub-meta .auth{color:#3a5a3a;font-style:italic}
-.pub-meta .yr{color:var(--amber)}.pub-meta .cit{color:var(--violet)}
-.pub-meta .lnk{color:var(--violet);text-decoration:none;margin-left:auto}
+.pub-meta .jnl{color:var(--cy)}.pub-meta .auth{color:#3a5a3a;font-style:italic}
+.pub-meta .yr{color:var(--am)}.pub-meta .cit{color:var(--vi)}
+.pub-meta .lnk{color:var(--vi);text-decoration:none;margin-left:auto}
 .pub-meta .lnk:hover{text-decoration:underline}
 .pub-pager{display:flex;align-items:center;justify-content:space-between;
   margin-top:10px;padding-top:8px;border-top:1px solid rgba(0,255,65,.05)}
-.pub-dots{display:flex;gap:4px}
+.pub-dots-wrap{display:flex;gap:4px}
 .pdot{width:5px;height:5px;border-radius:50%;border:1px solid rgba(0,255,65,.2);
   transition:background .15s;cursor:none}
-.pdot.active{background:var(--green);border-color:var(--green)}
+.pdot.active{background:var(--g);border-color:var(--g)}
 .pub-info{font-size:8px;color:var(--dim)}
 .pub-btns{display:flex;gap:5px}
 .pub-bar{width:100%;height:1px;background:rgba(0,255,65,.05);margin-top:6px;overflow:hidden}
-.pub-bar-fill{height:100%;background:var(--green);width:0%}
+.pub-bar-fill{height:100%;background:var(--g);width:0%}
 
-/* ── SPOTLIGHT ── */
-.spot-layout{display:flex;gap:14px;align-items:flex-start}
-.spot-img{width:64px;height:64px;object-fit:cover;border:1px solid var(--border);border-radius:3px;flex-shrink:0}
+/* SPOTLIGHT */
+.spot-layout{display:flex;gap:12px;align-items:flex-start}
+.spot-img{width:58px;height:58px;object-fit:cover;border:1px solid var(--br);
+  border-radius:3px;flex-shrink:0;background:#080808}
 .spot-img.hidden{display:none}
-.spot-tag{font-size:8px;letter-spacing:1.8px;text-transform:uppercase;color:var(--cyan);
-  border:1px solid rgba(0,255,255,.16);padding:2px 8px;border-radius:2px;display:inline-block;margin-bottom:6px}
-#factText{font-size:10px;color:var(--muted);line-height:1.8;min-height:46px;transition:opacity .3s}
+.spot-tag{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cy);
+  border:1px solid rgba(0,255,255,.16);padding:2px 7px;border-radius:2px;
+  display:inline-block;margin-bottom:6px}
+#factText{font-size:10px;color:var(--mu);line-height:1.8;min-height:40px;transition:opacity .3s}
 
-/* ── BUTTONS ── */
-.btn{font-family:var(--mono);font-size:9px;letter-spacing:.8px;padding:4px 12px;
-  border:1px solid var(--border);border-radius:2px;background:transparent;
-  color:var(--green);cursor:none;transition:background .12s;text-decoration:none;display:inline-block}
-.btn:hover{background:var(--green3)}
-.btn.cy{color:var(--cyan);border-color:rgba(0,255,255,.15)}.btn.cy:hover{background:rgba(0,255,255,.04)}
-.btn.vi{color:var(--violet);border-color:rgba(191,95,255,.15)}.btn.vi:hover{background:rgba(191,95,255,.04)}
-.btn.am{color:var(--amber);border-color:rgba(255,176,0,.15)}.btn.am:hover{background:rgba(255,176,0,.04)}
+/* BUTTONS */
+.btn{font-family:var(--mono);font-size:9px;letter-spacing:.7px;padding:4px 11px;
+  border:1px solid var(--br);border-radius:2px;background:transparent;
+  color:var(--g);cursor:none;transition:background .12s;text-decoration:none;display:inline-block}
+.btn:hover{background:var(--g3)}
+.btn.cy{color:var(--cy);border-color:rgba(0,255,255,.15)}.btn.cy:hover{background:rgba(0,255,255,.04)}
+.btn.vi{color:var(--vi);border-color:rgba(191,95,255,.15)}.btn.vi:hover{background:rgba(191,95,255,.04)}
+.btn.am{color:var(--am);border-color:rgba(255,176,0,.15)}.btn.am:hover{background:rgba(255,176,0,.04)}
 
-/* ── MISC ── */
-.ld{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:10px;padding:12px 0}
-.sp{width:9px;height:9px;border:1.5px solid #182818;border-top-color:var(--green);
+/* MISC */
+.ld{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:10px;padding:10px 0}
+.sp{width:9px;height:9px;border:1.5px solid #182818;border-top-color:var(--g);
   border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;will-change:transform}
 @keyframes spin{to{transform:rotate(360deg)}}
-.er{color:var(--red);font-size:10px;padding:8px 0}
+.er{color:var(--rd);font-size:10px;padding:8px 0}
 .sys-line{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,255,65,.11);
   background:rgba(0,255,65,.03);padding:3px 12px;border-radius:2px;
-  font-size:9px;letter-spacing:1.8px;color:var(--green);margin-bottom:14px}
+  font-size:9px;letter-spacing:1.5px;color:var(--g);margin-bottom:12px}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
-.blink-dot{width:5px;height:5px;border-radius:50%;background:var(--green);
-  animation:blink 1.5s ease-in-out infinite;will-change:opacity}
+.blink-dot{width:5px;height:5px;border-radius:50%;background:var(--g);
+  animation:blink 1.5s ease-in-out infinite;will-change:opacity;display:inline-block}
 .snote{font-size:9px;color:#1c2c1c;text-align:right;margin-top:6px}
-.out{font-size:11px;line-height:1.8;margin-bottom:10px}
-.out .c{color:var(--dim)}
 
-/* content-visibility for off-screen sections */
+/* content-visibility for below-fold sections */
 #sec-pubs,#sec-game{content-visibility:auto;contain-intrinsic-size:0 400px}
 
-/* ── GAME ── */
-#gameCanvas{background:#030505;border:1px solid var(--border);border-radius:3px;
+/* GAME */
+#gameCanvas{background:#030505;border:1px solid var(--br);border-radius:3px;
   display:block;width:100%;height:auto;max-width:100%}
 .game-keys{font-size:9px;color:var(--dim);margin-top:8px;display:flex;gap:14px;flex-wrap:wrap}
-.key{display:inline-block;background:#0a0a0a;border:1px solid #181818;border-radius:2px;padding:1px 5px;font-size:8px;color:#3a3a3a}
+.key{display:inline-block;background:#0a0a0a;border:1px solid #181818;border-radius:2px;
+  padding:1px 5px;font-size:8px;color:#3a3a3a}
 
-/* ── FOOTER ── */
+/* FOOTER */
 footer{margin-top:24px;padding-bottom:16px;font-size:9px;color:#162016;
   letter-spacing:1.2px;text-align:center;line-height:2}
 footer .hi{color:#223222}
 
-@media(max-width:480px){.wb{padding:12px 14px}.stats-strip{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.wb{padding:12px 14px}}
 </style>
 </head>
 <body>
-
 <div id="cursor"></div>
 <div id="overlay"></div>
 <div id="dna-ticker"><div class="dna-track" id="dnaTrack"></div></div>
 
-<!-- SIDEBAR: 5 items only -->
 <nav id="sidebar">
-  <a class="sb-item active" href="#sec-pi"    title="Principal Investigator"><span class="sb-icon">👩‍🔬</span><span class="sb-label">PI</span></a>
-  <div class="sb-div"></div>
-  <a class="sb-item"        href="#sec-stats" title="DB Stats"><span class="sb-icon">📊</span><span class="sb-label">Stats</span></a>
-  <a class="sb-item"        href="#sec-spot"  title="Spotlight"><span class="sb-icon">🔬</span><span class="sb-label">Spot</span></a>
-  <div class="sb-div"></div>
-  <a class="sb-item"        href="#sec-pubs"  title="Publications"><span class="sb-icon">📄</span><span class="sb-label">Pubs</span></a>
-  <div class="sb-div"></div>
-  <a class="sb-item"        href="#sec-game"  title="Simulation"><span class="sb-icon">🎮</span><span class="sb-label">Sim</span></a>
+  <a class="sbi active" href="#sec-about"   title="About the Lab"><span class="si">🧬</span><span class="sl">Lab</span></a>
+  <a class="sbi"        href="#sec-members" title="Team"><span class="si">👥</span><span class="sl">Team</span></a>
+  <div class="sdiv"></div>
+  <a class="sbi"        href="#sec-stats"   title="Stats"><span class="si">📊</span><span class="sl">Stats</span></a>
+  <a class="sbi"        href="#sec-spot"    title="Spotlight"><span class="si">🔬</span><span class="sl">Spot</span></a>
+  <div class="sdiv"></div>
+  <a class="sbi"        href="#sec-pubs"    title="Publications"><span class="si">📄</span><span class="sl">Pubs</span></a>
+  <div class="sdiv"></div>
+  <a class="sbi"        href="#sec-game"    title="Simulation"><span class="si">🎮</span><span class="sl">Sim</span></a>
 </nav>
 
-<!-- BOOT -->
 <div id="boot">
   <pre id="boot-ascii"></pre>
   <div id="boot-log"></div>
-  <div class="boot-bar-wrap"><div id="boot-bar"></div></div>
+  <div class="bbar-wrap"><div id="boot-bar"></div></div>
 </div>
 
-<!-- MAIN -->
 <div id="terminal">
 
-  <!-- ══ 1. PI HERO + DIASMA (fusionadas) ══ -->
-  <div id="sec-pi" class="win">
-    <div class="win-bar">
+  <!-- ══ MISSION BANNER ══ -->
+  <div class="lab-banner">
+    <div class="lab-logo">🧬</div>
+    <div>
+      <div class="lab-name">MOYA-LAB — Modelling Omics Yielding Analytics</div>
+      <div class="lab-tag">Computational biology research group · Fac. Ingeniería, UTEM · Santiago, Chile<br>
+      Integrating genomics, metagenomics and AI/ML to understand microbial systems in extreme environments.</div>
+      <div class="lab-chips">
+        <span class="chip">Computational Microbiology</span>
+        <span class="chip cy">Genomics · Metagenomics</span>
+        <span class="chip am">Multi-omics · AI/ML</span>
+        <span class="chip vi">Acid Mine Drainage</span>
+        <span class="chip">DIASMA · UTEM</span>
+      </div>
+    </div>
+    <div class="lab-status">
+      <span class="sc wip">🚧 In Construction</span>
+      <span class="sc on"><span class="blink-dot"></span>Systems Online</span>
+    </div>
+  </div>
+
+  <!-- ══ 1. ABOUT: PI + DIASMA ══ -->
+  <div id="sec-about" class="win">
+    <div class="wbar">
       <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
-      <span class="wt">moya-lab.json — PI · DIASMA · UTEM</span>
+      <span class="wt">lab_info.json — Leadership · Doctoral Program</span>
+      <span class="wbadge">🚧 beta</span>
     </div>
     <div class="wb">
-      <div class="prompt">
-        <span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="pp">~/</span><span class="ps">$ </span>
-        <span class="pc">cat </span><span class="pa" id="tw-pi"></span>
-      </div>
+      <div class="pr"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">cat </span><span class="pa" id="tw-pi"></span></div>
       <div class="sys-line"><span class="blink-dot"></span>&nbsp;MOYA-LAB · ONLINE · UTEM · SANTIAGO, CHILE</div>
 
-      <!-- PI row -->
-      <div class="pi-hero">
+      <div class="pi-grid">
         <div class="pi-av"><span>👩‍🔬</span><div class="pi-ring"></div></div>
         <div>
           <div class="pi-name">Ana Rosa Moya Beltrán</div>
           <div class="pi-role">Principal Investigator · Research Assistant Professor</div>
-          <div class="badges">
-            <span class="badge bg-g">Computational Microbiology</span>
-            <span class="badge bg-c">Bioinformatics</span>
-            <span class="badge bg-a">Data Science</span>
-            <span class="badge bg-v">AI · ML</span>
-            <span class="badge bg-g">Genomics</span>
-            <span class="badge bg-c">Evolution</span>
-          </div>
           <div class="kv"><span class="kk">INSTITUTION</span><span class="kv-v">Universidad Tecnológica Metropolitana (UTEM)</span></div>
           <div class="kv"><span class="kk">LOCATION</span><span class="kv-v">Fac. Ingeniería · Ñuñoa, Santiago, Chile</span></div>
           <div class="kv"><span class="kk">PhD</span><span class="kv-v">Biotecnología · Univ. Andrés Bello · 2020</span></div>
           <div class="kv"><span class="kk">ORCID</span><span class="kv-v"><a href="https://orcid.org/0000-0002-6924-5087" target="_blank">0000-0002-6924-5087</a></span></div>
           <div class="kv"><span class="kk">CONTACT</span><span class="kv-v"><a href="mailto:amoya@utem.cl">amoya@utem.cl</a></span></div>
           <div class="lnks">
-            <a class="btn cy"   href="https://scholar.google.com/citations?user=vYrLnT4AAAAJ" target="_blank">→ Scholar</a>
-            <a class="btn"      href="https://www.researchgate.net/profile/Ana-Moya-Beltran" target="_blank">→ ResearchGate</a>
-            <a class="btn vi"   href="https://orcid.org/0000-0002-6924-5087" target="_blank">→ ORCID</a>
-            <a class="btn am"   href="https://github.com/Moya-Lab" target="_blank">→ GitHub</a>
+            <a class="btn cy" href="https://scholar.google.com/citations?user=vYrLnT4AAAAJ" target="_blank">→ Scholar</a>
+            <a class="btn"    href="https://www.researchgate.net/profile/Ana-Moya-Beltran" target="_blank">→ ResearchGate</a>
+            <a class="btn vi" href="https://orcid.org/0000-0002-6924-5087" target="_blank">→ ORCID</a>
+            <a class="btn am" href="https://github.com/Moya-Lab" target="_blank">→ GitHub</a>
           </div>
         </div>
       </div>
 
-      <!-- DIASMA block -->
-      <div class="diasma-block">
+      <div class="diasma">
         <div class="diasma-head">
-          <span class="diasma-badge">DIASMA · UTEM</span>
+          <span class="dbadge">DIASMA</span>
           <div>
-            <div class="diasma-title">Doctorado en Informática Aplicada a Salud y Medio Ambiente</div>
-            <div class="diasma-sub">Acreditado CNA · 3 años · Fac. Ingeniería · Línea: Biología Computacional — Genomics · Metagenomics · AI/ML</div>
+            <div class="dtitle">Doctorado en Informática Aplicada a Salud y Medio Ambiente · UTEM</div>
+            <div class="dsub">Acreditado CNA · 3 años · 8 semestres · Fac. Ingeniería<br>
+            Research line: Biología Computacional — Genomics · Metagenomics · Multi-omics · AI/ML · Microbial Systems</div>
           </div>
         </div>
-        <div class="diasma-row">
-          <span style="font-size:16px">👩‍🔬</span>
-          <div><div class="diasma-name">Ana Rosa Moya Beltrán</div><div class="diasma-role">SUPERVISOR · BIOLOGÍA COMPUTACIONAL</div></div>
-          <a href="mailto:amoya@utem.cl" class="em-link">✉ amoya@utem.cl</a>
-        </div>
-        <div class="diasma-row">
-          <span style="font-size:16px">🧑‍💻</span>
-          <div><div class="diasma-name">Fausto Cabezas</div><div class="diasma-role">ESTUDIANTE DOCTORAL · BIOLOGÍA COMPUTACIONAL</div></div>
-          <a href="mailto:fcabezasme@utem.cl" class="em-link">✉ fcabezasme@utem.cl</a>
-        </div>
-        <div class="lnks" style="margin-top:10px">
+        <div class="lnks">
           <a class="btn cy" href="https://postgrado.utem.cl/doctorado-iasma/" target="_blank">→ DIASMA Web</a>
           <a class="btn"    href="https://fing.utem.cl" target="_blank">→ Fac. Ingeniería</a>
           <a class="btn vi" href="https://postgrado.utem.cl" target="_blank">→ Postgrado UTEM</a>
           <a class="btn am" href="https://www.instagram.com/doctorado.iasma/" target="_blank">→ @doctorado.iasma</a>
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- ══ 2. STATS STRIP | SPOTLIGHT (row) ══ -->
+  <!-- ══ 2. MEMBERS ══ -->
+  <div id="sec-members" class="win">
+    <div class="wbar">
+      <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
+      <span class="wt">team.json — Lab Members</span>
+    </div>
+    <div class="wb">
+      <div class="pr"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">cat </span><span class="pa">team.json</span><span class="pf"> | jq '.members[]'</span></div>
+      <div id="membersContainer"><div class="ld"><div class="sp"></div> Loading team…</div></div>
+    </div>
+  </div>
+
+  <!-- ══ 3. STATS (2×2) | SPOTLIGHT ══ -->
   <div class="row">
 
-    <!-- Stats: 4 horizontal chips -->
     <div id="sec-stats" class="win">
-      <div class="win-bar">
+      <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
-        <span class="wt">ncbi_query.py — Live DB Stats</span>
+        <span class="wt">ncbi_query.py — Research Footprint</span>
       </div>
       <div class="wb">
-        <div class="prompt"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">python </span><span class="pa">ncbi_query.py</span><span class="pf"> --live</span></div>
-        <div class="stats-strip">
-          <div class="stat-chip"><div class="stat-lbl">🧬 Nucleotide</div><div class="stat-val" id="cntNucleotide">…</div><div class="stat-src">NCBI nuccore</div></div>
-          <div class="stat-chip"><div class="stat-lbl">🔗 Protein</div><div class="stat-val" id="cntProtein">…</div><div class="stat-src">NCBI Protein</div></div>
-          <div class="stat-chip"><div class="stat-lbl">🦠 Genomes</div><div class="stat-val" id="cntGenome">…</div><div class="stat-src">NCBI Assembly</div></div>
-          <div class="stat-chip"><div class="stat-lbl">📰 PubMed</div><div class="stat-val" id="cntPubmed">…</div><div class="stat-src">NCBI PubMed</div></div>
+        <div class="pr"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">python </span><span class="pa">ncbi_query.py</span><span class="pf"> --live --fmt abbr</span></div>
+        <div class="stats-grid">
+          <div class="stat-chip">
+            <div class="stat-lbl">🧬 Nucleotide Seqs</div>
+            <div class="stat-val" id="cntNucleotide">…</div>
+            <div class="stat-src">NCBI GenBank · nuccore</div>
+          </div>
+          <div class="stat-chip">
+            <div class="stat-lbl">🔗 Protein Seqs</div>
+            <div class="stat-val" id="cntProtein">…</div>
+            <div class="stat-src">NCBI Protein</div>
+          </div>
+          <div class="stat-chip">
+            <div class="stat-lbl">🦠 Genome Assemblies</div>
+            <div class="stat-val" id="cntGenome">…</div>
+            <div class="stat-src">NCBI Assembly</div>
+          </div>
+          <div class="stat-chip">
+            <div class="stat-lbl">📰 PubMed Articles</div>
+            <div class="stat-val" id="cntPubmed">…</div>
+            <div class="stat-src">NCBI PubMed</div>
+          </div>
         </div>
-        <div class="out" id="statsLog" style="margin-top:8px;margin-bottom:0"><div class="c"># Connecting to eutils.ncbi.nlm.nih.gov…</div></div>
+        <div id="statsLog" style="margin-top:9px;font-size:9px;color:var(--dim)"># Connecting to eutils.ncbi.nlm.nih.gov…</div>
       </div>
     </div>
 
-    <!-- Spotlight -->
     <div id="sec-spot" class="win">
-      <div class="win-bar">
+      <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
-        <span class="wt">wikipedia_fetch.sh — Spotlight · <span id="spotTopic" style="color:var(--cyan)">…</span></span>
+        <span class="wt">wiki_spotlight · <span id="spotTopic" style="color:var(--cy);font-size:9px">…</span></span>
       </div>
       <div class="wb">
-        <div class="prompt"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">curl -s </span><span class="pf">wiki/random --field bioinformatics</span></div>
+        <div class="pr"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">curl -s </span><span class="pf">wiki/random --field bioinformatics</span></div>
         <div class="spot-layout">
           <img id="factImage" class="spot-img hidden" alt="topic" loading="lazy"/>
           <div style="flex:1">
             <div id="factTag" class="spot-tag">…</div>
-            <div id="factText"><div class="ld"><div class="sp"></div> Fetching from Wikipedia…</div></div>
+            <div id="factText"><div class="ld"><div class="sp"></div> Fetching…</div></div>
             <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
               <a id="factLink" class="btn vi" href="#" target="_blank">→ Full article</a>
               <button class="btn" onclick="loadNextFact()">↻ next</button>
@@ -374,22 +412,20 @@ footer .hi{color:#223222}
       </div>
     </div>
 
-  </div><!-- /row stats+spotlight -->
+  </div>
 
-  <!-- ══ 3. LAB PUBS | FIELD PAPERS (row) ══ -->
+  <!-- ══ 4. PUBS | FIELD PAPERS ══ -->
   <div id="sec-pubs" class="row">
-
-    <!-- Lab Publications -->
     <div class="win">
-      <div class="win-bar">
+      <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
         <span class="wt">orcid_fetch.py — Lab Publications</span>
       </div>
       <div class="wb">
-        <div class="prompt"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">python </span><span class="pa">fetch_papers.py</span><span class="pf"> --orcid 0000-0002-6924-5087</span></div>
+        <div class="pr"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">python </span><span class="pa">fetch_papers.py</span><span class="pf"> --orcid 0000-0002-6924-5087</span></div>
         <div id="pubContainer"><div class="ld"><div class="sp"></div> Querying ORCID API…</div></div>
         <div id="pubPager" class="pub-pager" style="display:none">
-          <div class="pub-dots" id="pubDots"></div>
+          <div class="pub-dots-wrap" id="pubDots"></div>
           <div class="pub-info" id="pubInfo"></div>
           <div class="pub-btns">
             <button class="btn" onclick="stepPubs(-1)">← prev</button>
@@ -401,39 +437,35 @@ footer .hi{color:#223222}
       </div>
     </div>
 
-    <!-- Field Papers -->
     <div class="win">
-      <div class="win-bar">
+      <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
-        <span class="wt">crossref.py — Field · <span id="paperQuery" style="color:var(--amber);font-size:9px">…</span></span>
+        <span class="wt">crossref.py — Field · <span id="paperQuery" style="color:var(--am);font-size:9px">…</span></span>
       </div>
       <div class="wb">
-        <div class="prompt"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">python </span><span class="pa">crossref_search.py</span><span class="pf"> --random</span></div>
-        <div id="papersContainer"><div class="ld"><div class="sp"></div> Fetching publications…</div></div>
+        <div class="pr"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">python </span><span class="pa">crossref_search.py</span><span class="pf"> --random --n 3</span></div>
+        <div id="papersContainer"><div class="ld"><div class="sp"></div> Fetching…</div></div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
           <div class="snote" id="papersMeta"></div>
           <button class="btn cy" onclick="fetchPapers()">↻ refresh</button>
         </div>
       </div>
     </div>
+  </div>
 
-  </div><!-- /row pubs -->
-
-  <!-- ══ 4. GAME ══ -->
+  <!-- ══ 5. GAME ══ -->
   <div id="sec-game" class="win">
-    <div class="win-bar">
+    <div class="wbar">
       <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
       <span class="wt">amd_sim.exe — AI Nanoprobe · Acid Mine Drainage</span>
     </div>
     <div class="wb">
-      <div class="prompt"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">./amd_sim</span><span class="pf"> --agent nanoprobe --collect sequences --avoid ions</span></div>
+      <div class="pr"><span class="pu">researcher</span><span class="pat">@</span><span class="ph">moya-lab</span><span class="pcl">:</span><span class="ps">$ </span><span class="pc">./amd_sim</span><span class="pf"> --agent nanoprobe --collect sequences --avoid ions</span></div>
       <canvas id="gameCanvas" width="860" height="260"></canvas>
       <div class="game-keys">
         <span><span class="key">↑↓←→</span>/<span class="key">WASD</span> move</span>
-        <span>🟢 DNA seq +1</span>
-        <span>🔷 Protein +3</span>
-        <span>🔴 Toxic ion — avoid</span>
-        <span><span class="key">R</span> restart</span>
+        <span>🟢 DNA +1</span><span>🔷 Protein +3</span>
+        <span>🔴 Avoid toxic ions</span><span><span class="key">R</span> restart</span>
       </div>
     </div>
   </div>
@@ -441,10 +473,9 @@ footer .hi{color:#223222}
   <footer>
     <div style="color:#0b140b;margin-bottom:3px">───────────────────────────────────────────────</div>
     <div>© 2026 <span class="hi">MOYA-LAB</span> · <span class="hi">Modelling Omics Yielding Analytics</span> · <span class="hi">UTEM · Santiago, Chile</span></div>
-    <div style="margin-top:3px;color:#0b140b">uptime: <span id="uptime">00:00:00</span> · host: moya-lab.github.io · kernel: research-os v2.8.0</div>
+    <div style="margin-top:3px;color:#0b140b">uptime: <span id="uptime">00:00:00</span> · moya-lab.github.io · research-os v2.8.0</div>
   </footer>
-
-</div><!-- /terminal -->
+</div>
 
 <script>
 'use strict';
@@ -453,12 +484,12 @@ footer .hi{color:#223222}
 const curEl=document.getElementById('cursor');
 document.addEventListener('mousemove',e=>{curEl.style.left=e.clientX+'px';curEl.style.top=e.clientY+'px'},{passive:true});
 
-/* ── DNA TICKER: 600 chars per half — no gaps ── */
+/* ── DNA TICKER: 600 chars × 2 = never gaps ── */
 (()=>{
   const BASE='ATCGATCGGCTAGCTATCGATCGATAATCGGCTATCGATCGATCGGCTAGCTATCGATCGATAATCGATCG';
   const MAP={A:'dA',T:'dT',C:'dC',G:'dG'};
-  const N=600;
-  let unit='';while(unit.length<N)unit+=BASE;unit=unit.slice(0,N);
+  const N=600; let unit='';
+  while(unit.length<N)unit+=BASE; unit=unit.slice(0,N);
   const SEP='<span class="dSep">///</span>';
   let h='';
   for(let k=0;k<2;k++){for(const c of unit)h+=`<span class="${MAP[c]}">${c}</span>`;h+=SEP;}
@@ -482,17 +513,17 @@ document.getElementById('boot-ascii').textContent=
  ╚═╝     ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝      ╚══════╝╚═╝  ╚═╝╚═════╝`;
 
 const BLOG=[
-  {t:'MOYA-LAB OS v2.8.0  //  Computational Biology Platform',c:'ok',d:0},
+  {t:'MOYA-LAB OS v2.8.0  //  Computational Biology Lab',c:'ok',d:0},
   {t:'Modelling Omics Yielding Analytics · UTEM · Chile',c:'info',d:100},
-  {t:'',c:'',d:200},
-  {t:'[ OK ] Genome indexer loaded',c:'ok',d:320},
-  {t:'[ OK ] NCBI eutils: active',c:'ok',d:440},
-  {t:'[ OK ] ORCID public API: ready',c:'ok',d:560},
-  {t:'[ OK ] DIASMA program: linked',c:'ok',d:660},
-  {t:'[ OK ] AMD simulation engine: loaded',c:'ok',d:760},
-  {t:'[ OK ] All systems nominal.',c:'ok',d:860},
-  {t:'',c:'',d:920},
-  {t:'Welcome, researcher. Launching interface…',c:'info',d:1000},
+  {t:'',c:'',d:170},
+  {t:'[ OK ] Genome indexer loaded',c:'ok',d:280},
+  {t:'[ OK ] NCBI eutils: active',c:'ok',d:390},
+  {t:'[ OK ] ORCID API: ready',c:'ok',d:490},
+  {t:'[ OK ] DIASMA program: linked',c:'ok',d:580},
+  {t:'[ OK ] AMD simulation: loaded',c:'ok',d:670},
+  {t:'[ OK ] All systems nominal.',c:'ok',d:760},
+  {t:'',c:'',d:820},
+  {t:'Welcome, researcher. Launching interface…',c:'info',d:900},
 ];
 const bLog=document.getElementById('boot-log'),bBar=document.getElementById('boot-bar');
 BLOG.forEach((l,i)=>{
@@ -508,20 +539,20 @@ setTimeout(()=>{
     bootEl.style.display='none';
     document.getElementById('terminal').style.display='block';
     document.getElementById('sidebar').style.display='flex';
-    typeInto('tw-pi','moya-lab.json | jq',36);
+    typeInto('tw-pi','lab_info.json | jq',36);
     initSidebar();
   },700);
-},1800);
+},1700);
 
 /* ── SIDEBAR ── */
 function initSidebar(){
-  const ids=['sec-pi','sec-stats','sec-spot','sec-pubs','sec-game'];
-  const links=document.querySelectorAll('.sb-item');
+  const ids=['sec-about','sec-members','sec-stats','sec-spot','sec-pubs','sec-game'];
+  const links=document.querySelectorAll('.sbi');
   const obs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(!e.isIntersecting)return;
       links.forEach(l=>l.classList.remove('active'));
-      const a=document.querySelector(`.sb-item[href="#${e.target.id}"]`);
+      const a=document.querySelector(`.sbi[href="#${e.target.id}"]`);
       if(a)a.classList.add('active');
     });
   },{threshold:.3});
@@ -535,49 +566,148 @@ function typeInto(id,text,speed=36,cb){
   const t=setInterval(()=>{el.textContent+=text[i++];if(i>=text.length){clearInterval(t);el.classList.remove('ptyped');cb&&cb();}},speed);
 }
 
-/* ── NCBI COUNTERS ── */
-const FB={nuccore:263000000,protein:763000000,assembly:4200000,pubmed:37000000};
+/* ── NCBI STATS: live, abbreviated numbers ──
+   Abbreviates: 263000000 → "263M", 4200000 → "4.2M", 763000000 → "763M"
+   Animates counting up, then shows abbreviated final value.
+── */
+function abbrNum(n){
+  if(n>=1e9)return{val:(n/1e9).toFixed(1).replace(/\.0$/,''),unit:'B'};
+  if(n>=1e6)return{val:(n/1e6).toFixed(1).replace(/\.0$/,''),unit:'M'};
+  if(n>=1e3)return{val:(n/1e3).toFixed(1).replace(/\.0$/,''),unit:'K'};
+  return{val:String(n),unit:''};
+}
 function animNum(el,n){
-  const dur=1400,t0=performance.now();
-  (function s(now){
-    const p=Math.min((now-t0)/dur,1),e=1-Math.pow(1-p,3);
-    el.textContent=Math.floor(e*n).toLocaleString('en-US');
-    if(p<1)requestAnimationFrame(s);else el.textContent=n.toLocaleString('en-US');
+  const a=abbrNum(n), dur=1600, t0=performance.now();
+  (function step(now){
+    const p=Math.min((now-t0)/dur,1), ease=1-Math.pow(1-p,3);
+    const cur=abbrNum(Math.floor(ease*n));
+    el.innerHTML=`${cur.val}<span class="stat-unit">${cur.unit}</span>`;
+    if(p<1)requestAnimationFrame(step);
+    else el.innerHTML=`${a.val}<span class="stat-unit">${a.unit}</span>`;
   })(performance.now());
 }
+
+const FB={nuccore:263000000,protein:763000000,assembly:4200000,pubmed:37000000};
 (async()=>{
   const dbs=[{db:'nuccore',el:'cntNucleotide'},{db:'protein',el:'cntProtein'},{db:'assembly',el:'cntGenome'},{db:'pubmed',el:'cntPubmed'}];
   const log=document.getElementById('statsLog');
+  log.textContent='# Fetching live data from eutils.ncbi.nlm.nih.gov…';
+
   const res=await Promise.allSettled(dbs.map(async({db})=>{
-    const r=await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi?db=${db}&retmode=json&tool=moya-lab&email=amoya@utem.cl`,{signal:AbortSignal.timeout(8000)});
-    if(!r.ok)throw 0;
+    const r=await fetch(
+      `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi?db=${db}&retmode=json&tool=moya-lab&email=amoya@utem.cl`,
+      {signal:AbortSignal.timeout(8000)}
+    );
+    if(!r.ok)throw new Error(`HTTP ${r.status}`);
     const d=await r.json();
     const info=Array.isArray(d.einforesult?.dbinfo)?d.einforesult.dbinfo[0]:d.einforesult?.dbinfo;
-    const c=parseInt(info?.count??'0',10);if(!c)throw 0;return c;
+    const c=parseInt(info?.count??'0',10);
+    if(!c)throw new Error('count=0');
+    return c;
   }));
+
   let live=0;
   res.forEach((r,i)=>{
     const el=document.getElementById(dbs[i].el);
-    if(r.status==='fulfilled'){animNum(el,r.value);live++;}
-    else{animNum(el,FB[dbs[i].db]);el.title='cached ≈ 2025';}
+    if(r.status==='fulfilled'){
+      animNum(el,r.value); live++;
+    } else {
+      animNum(el,FB[dbs[i].db]);
+      el.title=`Live fetch failed: ${r.reason?.message||'timeout'} — showing cached ≈ 2025`;
+    }
   });
-  log.innerHTML=live===4
-    ?`<div style="color:var(--green);font-size:10px"># Live · NCBI eutils · ${new Date().toLocaleTimeString()}</div>`
-    :`<div style="color:var(--amber);font-size:10px"># ${live}/4 live · remaining cached ≈ 2025</div>`;
+
+  const ts=new Date().toLocaleTimeString();
+  if(live===4)
+    log.innerHTML=`<span style="color:var(--g)"># ✓ Live · NCBI eutils · ${ts}</span>`;
+  else if(live>0)
+    log.innerHTML=`<span style="color:var(--am)"># ${live}/4 live · ${4-live} cached ≈ 2025 · ${ts}</span>`;
+  else
+    log.innerHTML=`<span style="color:var(--dim)"># Cached data ≈ 2025 (NCBI unreachable)</span>`;
 })();
 
-/* ── LAB PUBLICATIONS ── */
-let _pubs=[],_pubPage=0,_pubTimer=null;
-const PUB_N=3,PUB_MS=9000;
+/* ── MEMBERS: hardcoded core team + GitHub public members appended ── */
+const CORE_MEMBERS=[
+  {name:'Ana Rosa Moya Beltrán',role:'Principal Investigator',sub:'Research Assistant Professor · UTEM',email:'amoya@utem.cl',emoji:'👩‍🔬',url:'https://orcid.org/0000-0002-6924-5087'},
+  {name:'Fausto Cabezas',       role:'PhD Student',          sub:'DIASMA · Biología Computacional',   email:'fcabezasme@utem.cl',emoji:'🧑‍💻',url:'https://github.com/Moya-Lab'},
+];
+(async()=>{
+  const box=document.getElementById('membersContainer');
+  // render core members first
+  function renderCore(){
+    return CORE_MEMBERS.map(m=>`
+      <div class="mem-card" onclick="window.open('${m.url}','_blank')" title="${m.name}">
+        <div class="mem-av"><span>${m.emoji}</span></div>
+        <div class="mem-name">${m.name}</div>
+        <div class="mem-role">${m.role}<br><span style="color:var(--dim);font-size:7px">${m.sub}</span></div>
+        <a class="mem-email" href="mailto:${m.email}">✉ ${m.email}</a>
+      </div>`).join('');
+  }
+  // try to append GitHub public members not already in core
+  let ghExtra='';
+  try{
+    const r=await fetch('https://api.github.com/orgs/Moya-Lab/members',{headers:{Accept:'application/vnd.github+json'},signal:AbortSignal.timeout(7000)});
+    if(r.ok){
+      const members=await r.json();
+      const coreEmails=CORE_MEMBERS.map(m=>m.email);
+      (members||[]).forEach(m=>{
+        if(CORE_MEMBERS.some(c=>c.name.toLowerCase().includes(m.login.toLowerCase())||m.login.toLowerCase().includes('moya')||m.login.toLowerCase().includes('cabezas')))return;
+        ghExtra+=`
+          <div class="mem-card" onclick="window.open('${m.html_url}','_blank')" title="@${m.login}">
+            <div class="mem-av"><img src="${m.avatar_url}&s=80" alt="${m.login}" loading="lazy"/></div>
+            <div class="mem-name">@${m.login}</div>
+            <div class="mem-role">Lab Member<br><span style="color:var(--dim);font-size:7px">MOYA-LAB</span></div>
+          </div>`;
+      });
+    }
+  }catch{}
+  // join the lab card
+  const joinCard=`
+    <div class="mem-card mem-join" onclick="window.open('mailto:amoya@utem.cl','_blank')" title="Join the lab">
+      <div class="mem-av" style="border-style:dashed;font-size:16px">➕</div>
+      <div class="mem-name" style="color:var(--dim)">Join the Lab</div>
+      <div class="mem-role" style="color:#2a4a2a">Open positions<br><span style="font-size:7px">amoya@utem.cl</span></div>
+    </div>`;
+  box.innerHTML=`<div class="mem-grid">${renderCore()}${ghExtra}${joinCard}</div>`;
+})();
 
+/* ── SPOTLIGHT ── */
+const WIKI=['Bioinformatics','Computational_biology','Metagenomics','Genomics','Transcriptomics','Proteomics','Multi-omics','Systems_biology','Machine_learning','Deep_learning','Protein_structure_prediction','AlphaFold','CRISPR','Genome_editing','Synthetic_biology','Microbiome','Microbial_ecology','Extremophile','Acidithiobacillus','Biomining','Phylogenetics','Phylogenomics','Molecular_evolution','Horizontal_gene_transfer','RNA-Seq','Single-cell_sequencing','BLAST_(biotechnology)','Pan-genome','Genome_assembly','Epigenomics','Next-generation_sequencing','Artificial_intelligence_in_biology'];
+let _lastF=-1;
+async function loadNextFact(){
+  let i;do{i=Math.floor(Math.random()*WIKI.length);}while(i===_lastF);
+  _lastF=i;
+  const topic=WIKI[i],label=topic.replace(/_/g,' ').replace(/\(.*?\)/,'').trim();
+  const te=document.getElementById('factText'),im=document.getElementById('factImage');
+  document.getElementById('factTag').textContent=label;
+  document.getElementById('spotTopic').textContent=label;
+  te.style.opacity='0';im.classList.add('hidden');
+  try{
+    const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic)}`);
+    if(!r.ok)throw 0;
+    const d=await r.json();
+    setTimeout(()=>{
+      const ex=d.extract??'';
+      te.textContent=ex.length>270?ex.slice(0,267)+'…':ex;
+      te.style.opacity='1';
+      if(d.thumbnail?.source){im.src=d.thumbnail.source;im.classList.remove('hidden');}
+      document.getElementById('factLink').href=d.content_urls?.desktop?.page??'#';
+    },240);
+  }catch{setTimeout(()=>{te.textContent='⚠ Could not load summary.';te.style.opacity='1';},240);}
+}
+loadNextFact();
+setInterval(loadNextFact,28000);
+
+/* ── LAB PUBLICATIONS ── */
+let _pubs=[],_pp=0,_pt=null;
+const PUB_N=3,PUB_MS=9000;
 function renderPubs(page){
   const box=document.getElementById('pubContainer'),pager=document.getElementById('pubPager');
   const dots=document.getElementById('pubDots'),info=document.getElementById('pubInfo');
-  const fill=document.getElementById('pubBarFill'),barW=document.getElementById('pubBarWrap');
+  const fill=document.getElementById('pubBarFill'),bw=document.getElementById('pubBarWrap');
   const pages=Math.ceil(_pubs.length/PUB_N);
-  _pubPage=((page%pages)+pages)%pages;
-  const slice=_pubs.slice(_pubPage*PUB_N,(_pubPage+1)*PUB_N);
-
+  _pp=((page%pages)+pages)%pages;
+  const slice=_pubs.slice(_pp*PUB_N,(_pp+1)*PUB_N);
   box.style.opacity='0';
   setTimeout(()=>{
     box.innerHTML=slice.map(p=>{
@@ -596,17 +726,15 @@ function renderPubs(page){
     }).join('');
     box.style.opacity='1';
   },200);
-
-  dots.innerHTML=Array.from({length:pages},(_,i)=>`<div class="pdot${i===_pubPage?' active':''}" onclick="renderPubs(${i})"></div>`).join('');
-  info.textContent=`${_pubPage*PUB_N+1}–${Math.min((_pubPage+1)*PUB_N,_pubs.length)} / ${_pubs.length}`;
-  pager.style.display='flex';barW.style.display='block';
-  clearInterval(_pubTimer);
+  dots.innerHTML=Array.from({length:pages},(_,i)=>`<div class="pdot${i===_pp?' active':''}" onclick="renderPubs(${i})"></div>`).join('');
+  info.textContent=`${_pp*PUB_N+1}–${Math.min((_pp+1)*PUB_N,_pubs.length)} / ${_pubs.length}`;
+  pager.style.display='flex';bw.style.display='block';
+  clearInterval(_pt);
   fill.style.transition='none';fill.style.width='0%';
   requestAnimationFrame(()=>requestAnimationFrame(()=>{fill.style.transition=`width ${PUB_MS}ms linear`;fill.style.width='100%';}));
-  _pubTimer=setInterval(()=>renderPubs(_pubPage+1),PUB_MS);
+  _pt=setInterval(()=>renderPubs(_pp+1),PUB_MS);
 }
-function stepPubs(dir){renderPubs(_pubPage+dir);}
-
+function stepPubs(dir){renderPubs(_pp+dir);}
 (async()=>{
   const box=document.getElementById('pubContainer'),meta=document.getElementById('pubMeta');
   async function fromORCID(){
@@ -640,43 +768,15 @@ function stepPubs(dir){renderPubs(_pubPage+dir);}
   }catch{
     box.innerHTML=`<div class="er">⚠ Could not load publications.</div>
       <div style="margin-top:6px;font-size:10px">
-        <div><a href="https://scholar.google.com/citations?user=vYrLnT4AAAAJ" target="_blank" style="color:var(--cyan);text-decoration:none">→ Google Scholar</a></div>
-        <div><a href="https://www.researchgate.net/profile/Ana-Moya-Beltran" target="_blank" style="color:var(--cyan);text-decoration:none">→ ResearchGate</a></div>
+        <a href="https://scholar.google.com/citations?user=vYrLnT4AAAAJ" target="_blank" style="color:var(--cy);text-decoration:none;display:block">→ Google Scholar</a>
+        <a href="https://www.researchgate.net/profile/Ana-Moya-Beltran" target="_blank" style="color:var(--cy);text-decoration:none;display:block">→ ResearchGate</a>
       </div>`;
   }
 })();
 
-/* ── SPOTLIGHT ── */
-const WIKI=['Bioinformatics','Computational_biology','Metagenomics','Genomics','Transcriptomics','Proteomics','Multi-omics','Systems_biology','Machine_learning','Deep_learning','Protein_structure_prediction','AlphaFold','CRISPR','Genome_editing','Synthetic_biology','Microbiome','Microbial_ecology','Extremophile','Acidithiobacillus','Biomining','Phylogenetics','Phylogenomics','Molecular_evolution','Horizontal_gene_transfer','RNA-Seq','Single-cell_sequencing','BLAST_(biotechnology)','Pan-genome','Genome_assembly','Epigenomics','Next-generation_sequencing','Artificial_intelligence_in_biology'];
-let _lastFact=-1;
-async function loadNextFact(){
-  let i;do{i=Math.floor(Math.random()*WIKI.length);}while(i===_lastFact);
-  _lastFact=i;
-  const topic=WIKI[i],label=topic.replace(/_/g,' ').replace(/\(.*?\)/,'').trim();
-  const te=document.getElementById('factText'),im=document.getElementById('factImage');
-  document.getElementById('factTag').textContent=label;
-  document.getElementById('spotTopic').textContent=label;
-  te.style.opacity='0';im.classList.add('hidden');
-  try{
-    const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic)}`);
-    if(!r.ok)throw 0;
-    const d=await r.json();
-    setTimeout(()=>{
-      const ex=d.extract??'No summary available.';
-      te.textContent=ex.length>280?ex.slice(0,277)+'…':ex;
-      te.style.opacity='1';
-      if(d.thumbnail?.source){im.src=d.thumbnail.source;im.classList.remove('hidden');}
-      document.getElementById('factLink').href=d.content_urls?.desktop?.page??'#';
-    },240);
-  }catch{setTimeout(()=>{te.textContent='⚠ Could not load summary.';te.style.opacity='1';},240);}
-}
-loadNextFact();
-setInterval(loadNextFact,28000);
-
 /* ── FIELD PAPERS ── */
 const QUERIES=['multi-omics data integration','metagenomics machine learning','extremophile genomics acid mine drainage','computational biology deep learning','pangenomics bacterial evolution','RNA-seq differential expression','horizontal gene transfer bacteria','biomining acidithiobacillus genomics','microbiome omics integration','environmental metagenomics','epigenomics DNA methylation','protein structure prediction AI'];
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-
 async function fetchPapers(){
   const box=document.getElementById('papersContainer'),meta=document.getElementById('papersMeta'),qEl=document.getElementById('paperQuery');
   box.innerHTML=`<div class="ld"><div class="sp"></div> Fetching…</div>`;
@@ -708,44 +808,33 @@ async function fetchPapers(){
 }
 fetchPapers();
 
-/* ── GAME: simple AMD nanoprobe ── */
+/* ── GAME ── */
 (()=>{
   const gc=document.getElementById('gameCanvas'),gx=gc.getContext('2d');
   const W=gc.width,H=gc.height;
   const keys={};
   let G,P,nodes,toxins,parts;
   const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
-
   function spawnNodes(){
-    const n=Math.min(5+G.gen,11);
-    nodes=Array.from({length:n},()=>({
+    nodes=Array.from({length:Math.min(5+G.gen,11)},()=>({
       x:26+Math.random()*(W-52),y:26+Math.random()*(H-40),
-      t:Math.random()<.18?'p':'d',a:Math.random()*Math.PI*2
-    }));
+      t:Math.random()<.18?'p':'d',a:Math.random()*Math.PI*2}));
   }
   function spawnToxins(){
     const sp=1.1+G.gen*.2,n=Math.min(2+G.gen,9);
     toxins=Array.from({length:n},()=>{
-      let tx,ty;
-      do{tx=26+Math.random()*(W-52);ty=26+Math.random()*(H-40);}
-      while(dist({x:tx,y:ty},P)<80);
+      let tx,ty;do{tx=26+Math.random()*(W-52);ty=26+Math.random()*(H-40);}while(dist({x:tx,y:ty},P)<80);
       const a=Math.random()*Math.PI*2,v=sp*(.65+Math.random()*.7);
       return{x:tx,y:ty,vx:Math.cos(a)*v,vy:Math.sin(a)*v,rot:0,sz:7+Math.random()*3};
     });
   }
   function pfx(x,y,col,n=5){
-    for(let i=0;i<n;i++){
-      const a=(Math.PI*2/n)*i;
-      parts.push({x,y,vx:Math.cos(a)*(1+Math.random()*1.8),vy:Math.sin(a)*(1+Math.random()*1.8),life:0,max:20+Math.random()*14,col});
-    }
+    for(let i=0;i<n;i++){const a=(Math.PI*2/n)*i;parts.push({x,y,vx:Math.cos(a)*(1+Math.random()*1.8),vy:Math.sin(a)*(1+Math.random()*1.8),life:0,max:20+Math.random()*14,col});}
   }
   function reset(){
     G={score:0,lives:3,gen:1,seqs:0,need:7,over:false,inv:0,glt:0,ganim:0,hi:G?.hi||0};
-    P={x:W/2,y:H/2,sz:8};
-    nodes=[];toxins=[];parts=[];
-    spawnNodes();spawnToxins();
+    P={x:W/2,y:H/2,sz:8};nodes=[];toxins=[];parts=[];spawnNodes();spawnToxins();
   }
-
   document.addEventListener('keydown',e=>{
     keys[e.key]=true;
     if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))e.preventDefault();
@@ -753,90 +842,55 @@ fetchPapers();
   },{passive:false});
   document.addEventListener('keyup',e=>{keys[e.key]=false;},{passive:true});
   reset();
-
   function hex(x,y,r,rot){
     gx.beginPath();
     for(let i=0;i<6;i++){const a=rot+(Math.PI/3)*i;i?gx.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r):gx.moveTo(x+Math.cos(a)*r,y+Math.sin(a)*r);}
     gx.closePath();
   }
-
   function loop(){
     gx.clearRect(0,0,W,H);
-
     if(!G.over){
       const sp=3.0;
-      if((keys['ArrowLeft'] ||keys['a']||keys['A'])&&P.x>P.sz)    P.x-=sp;
-      if((keys['ArrowRight']||keys['d']||keys['D'])&&P.x<W-P.sz)   P.x+=sp;
-      if((keys['ArrowUp']   ||keys['w']||keys['W'])&&P.y>P.sz+19)  P.y-=sp;
-      if((keys['ArrowDown'] ||keys['s']||keys['S'])&&P.y<H-P.sz)   P.y+=sp;
-
-      toxins.forEach(t=>{
-        t.x+=t.vx;t.y+=t.vy;t.rot+=.07;
-        if(t.x<8||t.x>W-8)t.vx*=-1;
-        if(t.y<22||t.y>H-8)t.vy*=-1;
-      });
+      if((keys['ArrowLeft'] ||keys['a']||keys['A'])&&P.x>P.sz)   P.x-=sp;
+      if((keys['ArrowRight']||keys['d']||keys['D'])&&P.x<W-P.sz) P.x+=sp;
+      if((keys['ArrowUp']   ||keys['w']||keys['W'])&&P.y>P.sz+19)P.y-=sp;
+      if((keys['ArrowDown'] ||keys['s']||keys['S'])&&P.y<H-P.sz) P.y+=sp;
+      toxins.forEach(t=>{t.x+=t.vx;t.y+=t.vy;t.rot+=.07;if(t.x<8||t.x>W-8)t.vx*=-1;if(t.y<22||t.y>H-8)t.vy*=-1;});
       nodes.forEach(n=>n.a+=.05);
-
       nodes=nodes.filter(n=>{
         if(dist(P,n)<P.sz+8){
-          G.score+=n.t==='p'?3:1;G.seqs++;
-          pfx(n.x,n.y,n.t==='p'?'#ffb000':'#00ff41',n.t==='p'?7:4);
+          G.score+=n.t==='p'?3:1;G.seqs++;pfx(n.x,n.y,n.t==='p'?'#ffb000':'#00ff41',n.t==='p'?7:4);
           if(G.seqs>=G.need){G.gen++;G.seqs=0;G.need=Math.ceil(G.need*1.35);G.ganim=100;spawnToxins();}
           return false;
         }return true;
       });
       if(!nodes.length)spawnNodes();
-
-      if(G.inv<=0){
-        for(const t of toxins){
-          if(dist(P,t)<P.sz+t.sz-3){G.lives--;G.inv=90;pfx(P.x,P.y,'#ff4444',9);if(G.lives<=0){G.over=true;G.hi=Math.max(G.hi,G.score);}break;}
-        }
-      }else G.inv--;
+      if(G.inv<=0){for(const t of toxins){if(dist(P,t)<P.sz+t.sz-3){G.lives--;G.inv=90;pfx(P.x,P.y,'#ff4444',9);if(G.lives<=0){G.over=true;G.hi=Math.max(G.hi,G.score);}break;}}}else G.inv--;
       if(G.ganim>0)G.ganim--;
       parts=parts.filter(p=>{p.x+=p.vx;p.y+=p.vy;p.vx*=.88;p.vy*=.88;p.life++;return p.life<p.max;});
     }
-
-    /* grid */
     gx.strokeStyle='rgba(0,70,20,.05)';gx.lineWidth=1;
     for(let x=0;x<W;x+=38){gx.beginPath();gx.moveTo(x,19);gx.lineTo(x,H);gx.stroke();}
     for(let y=19;y<H;y+=38){gx.beginPath();gx.moveTo(0,y);gx.lineTo(W,y);gx.stroke();}
-
-    /* particles */
-    parts.forEach(p=>{
-      gx.save();gx.globalAlpha=(1-p.life/p.max)*.7;
-      gx.fillStyle=p.col;gx.beginPath();gx.arc(p.x,p.y,2,0,Math.PI*2);gx.fill();gx.restore();
-    });
-
-    /* DNA nodes */
+    parts.forEach(p=>{gx.save();gx.globalAlpha=(1-p.life/p.max)*.7;gx.fillStyle=p.col;gx.beginPath();gx.arc(p.x,p.y,2,0,Math.PI*2);gx.fill();gx.restore();});
     nodes.filter(n=>n.t==='d').forEach(n=>{
       const r=4.2+Math.sin(n.a)*1.1;
       gx.save();gx.fillStyle='#00ff41';gx.shadowColor='#00ff41';gx.shadowBlur=8;
       gx.beginPath();gx.arc(n.x,n.y,r,0,Math.PI*2);gx.fill();
-      gx.strokeStyle='rgba(0,255,65,.28)';gx.lineWidth=1;
-      gx.beginPath();gx.arc(n.x,n.y,r+5,0,Math.PI*2);gx.stroke();
+      gx.strokeStyle='rgba(0,255,65,.28)';gx.lineWidth=1;gx.beginPath();gx.arc(n.x,n.y,r+5,0,Math.PI*2);gx.stroke();
       gx.restore();
     });
-
-    /* Protein nodes (hex) */
     nodes.filter(n=>n.t==='p').forEach(n=>{
       const r=5.5+Math.sin(n.a)*.9;
-      gx.save();gx.shadowColor='#ffb000';gx.shadowBlur=9;
-      gx.strokeStyle='#ffb000';gx.lineWidth=1.5;gx.fillStyle='rgba(255,176,0,.09)';
+      gx.save();gx.shadowColor='#ffb000';gx.shadowBlur=9;gx.strokeStyle='#ffb000';gx.lineWidth=1.5;gx.fillStyle='rgba(255,176,0,.09)';
       hex(n.x,n.y,r,n.a*.3);gx.fill();gx.stroke();
-      gx.font='bold 7px "JetBrains Mono"';gx.fillStyle='#ffb000';gx.shadowBlur=0;
-      gx.textAlign='center';gx.textBaseline='middle';gx.fillText('+3',n.x,n.y);
+      gx.font='bold 7px "JetBrains Mono"';gx.fillStyle='#ffb000';gx.shadowBlur=0;gx.textAlign='center';gx.textBaseline='middle';gx.fillText('+3',n.x,n.y);
       gx.restore();
     });
-
-    /* Toxins */
     toxins.forEach(t=>{
-      gx.save();gx.translate(t.x,t.y);gx.rotate(t.rot);
-      gx.fillStyle='#ff4444';gx.shadowColor='#ff4444';gx.shadowBlur=7;
-      gx.beginPath();gx.moveTo(0,-t.sz);gx.lineTo(t.sz*.7,0);gx.lineTo(0,t.sz);gx.lineTo(-t.sz*.7,0);gx.closePath();gx.fill();
-      gx.restore();
+      gx.save();gx.translate(t.x,t.y);gx.rotate(t.rot);gx.fillStyle='#ff4444';gx.shadowColor='#ff4444';gx.shadowBlur=7;
+      gx.beginPath();gx.moveTo(0,-t.sz);gx.lineTo(t.sz*.7,0);gx.lineTo(0,t.sz);gx.lineTo(-t.sz*.7,0);gx.closePath();gx.fill();gx.restore();
     });
-
-    /* Player */
     const blink=G.inv>0&&Math.floor(G.inv/5)%2===0;
     gx.save();gx.globalAlpha=blink?.2:1;
     gx.fillStyle='#00ffff';gx.shadowColor='#00ffff';gx.shadowBlur=13;
@@ -845,46 +899,31 @@ fetchPapers();
     gx.beginPath();gx.moveTo(P.x-4,P.y);gx.lineTo(P.x+4,P.y);gx.stroke();
     gx.beginPath();gx.moveTo(P.x,P.y-4);gx.lineTo(P.x,P.y+4);gx.stroke();
     gx.restore();
-
-    /* HUD */
     gx.fillStyle='rgba(3,5,4,.93)';gx.fillRect(0,0,W,19);
     gx.font='bold 9px "JetBrains Mono"';gx.textAlign='left';
-    gx.fillStyle='#1a4a1a';gx.fillText('SEQS:',7,13);
-    gx.fillStyle='#d0d0d0';gx.fillText(String(G.score).padStart(4,'0'),46,13);
-    gx.fillStyle='#1a3a3a';gx.fillText('GEN:',96,13);
-    gx.fillStyle='#00ffff';gx.fillText(String(G.gen).padStart(2,'0'),128,13);
-    gx.fillStyle='#080808';gx.fillRect(150,5,60,8);
-    gx.fillStyle='rgba(0,255,65,.65)';gx.fillRect(150,5,60*(G.seqs/G.need),8);
-    gx.strokeStyle='rgba(0,255,65,.14)';gx.lineWidth=1;gx.strokeRect(150,5,60,8);
+    gx.fillStyle='#1a4a1a';gx.fillText('SEQS:',7,13);gx.fillStyle='#d0d0d0';gx.fillText(String(G.score).padStart(4,'0'),46,13);
+    gx.fillStyle='#1a3a3a';gx.fillText('GEN:',96,13);gx.fillStyle='#00ffff';gx.fillText(String(G.gen).padStart(2,'0'),128,13);
+    gx.fillStyle='#080808';gx.fillRect(150,5,60,8);gx.fillStyle='rgba(0,255,65,.65)';gx.fillRect(150,5,60*(G.seqs/G.need),8);gx.strokeStyle='rgba(0,255,65,.14)';gx.lineWidth=1;gx.strokeRect(150,5,60,8);
     gx.font='6px "JetBrains Mono"';gx.fillStyle='#1a2a1a';gx.textAlign='center';gx.fillText('XP',180,11);
     if(G.hi>0){gx.fillStyle='#1a2a1a';gx.font='8px "JetBrains Mono"';gx.textAlign='center';gx.fillText(`BEST:${String(G.hi).padStart(4,'0')}`,W/2,13);}
     for(let i=0;i<3;i++){gx.save();gx.fillStyle=i<G.lives?'#ff4444':'#181818';gx.shadowColor=i<G.lives?'#ff4444':'transparent';gx.shadowBlur=i<G.lives?4:0;gx.beginPath();gx.arc(W-10-i*16,9,4,0,Math.PI*2);gx.fill();gx.restore();}
-
-    /* gen anim */
     if(G.ganim>0){
       const f=Math.min(1,G.ganim/16)*Math.min(1,G.ganim/82);
       gx.save();gx.globalAlpha=f;gx.fillStyle='rgba(0,0,0,.6)';gx.fillRect(0,H/2-24,W,46);
       gx.font='bold 15px "JetBrains Mono"';gx.textAlign='center';gx.fillStyle='#00ffff';gx.shadowColor='#00ffff';gx.shadowBlur=16;
       gx.fillText(`── GENERATION ${G.gen} EVOLVED ──`,W/2,H/2-8);
       gx.shadowBlur=0;gx.font='8px "JetBrains Mono"';gx.fillStyle='#2a5a5a';
-      gx.fillText(`ions=${toxins.length} · nodes_needed=${G.need} · omics_layer_${G.gen} integrated`,W/2,H/2+8);
-      gx.restore();
+      gx.fillText(`ions=${toxins.length} · nodes_needed=${G.need} · omics_layer_${G.gen} integrated`,W/2,H/2+8);gx.restore();
     }
-
-    /* game over */
     if(G.over){
       G.glt++;gx.fillStyle='rgba(3,5,4,.93)';gx.fillRect(0,0,W,H);
-      const goff=G.glt%8<2?(Math.random()-.5)*4:0;
-      gx.save();gx.translate(goff,0);gx.font='bold 16px "JetBrains Mono"';gx.textAlign='center';
-      gx.fillStyle='#ff4444';gx.shadowColor='#ff4444';gx.shadowBlur=12;
-      gx.fillText('BIOSYSTEM FAILURE',W/2,H/2-26);gx.restore();
-      gx.shadowBlur=0;gx.textAlign='center';
-      gx.font='9px "JetBrains Mono"';gx.fillStyle='#2a4a2a';
+      const go=G.glt%8<2?(Math.random()-.5)*4:0;
+      gx.save();gx.translate(go,0);gx.font='bold 16px "JetBrains Mono"';gx.textAlign='center';gx.fillStyle='#ff4444';gx.shadowColor='#ff4444';gx.shadowBlur=12;gx.fillText('BIOSYSTEM FAILURE',W/2,H/2-26);gx.restore();
+      gx.shadowBlur=0;gx.textAlign='center';gx.font='9px "JetBrains Mono"';gx.fillStyle='#2a4a2a';
       gx.fillText(`sequences=${G.score} · generation=${G.gen} · cells_lost=3`,W/2,H/2-8);
-      gx.fillStyle='#1a3a1a';gx.fillText('AMD: fatal heavy-metal saturation detected',W/2,H/2+6);
-      if(G.hi>0&&G.score>=G.hi){gx.fillStyle='#ffb000';gx.font='9px "JetBrains Mono"';gx.fillText('★ NEW GENOME RECORD ★',W/2,H/2+22);}
-      gx.fillStyle='#00ff41';gx.font='9px "JetBrains Mono"';gx.fillText('[ R — reinitialize simulation ]',W/2,H/2+38);
-      gx.textAlign='left';
+      gx.fillStyle='#1a3a1a';gx.fillText('AMD: fatal heavy-metal saturation detected',W/2,H/2+7);
+      if(G.hi>0&&G.score>=G.hi){gx.fillStyle='#ffb000';gx.font='9px "JetBrains Mono"';gx.fillText('★ NEW GENOME RECORD ★',W/2,H/2+23);}
+      gx.fillStyle='#00ff41';gx.font='9px "JetBrains Mono"';gx.fillText('[ R — reinitialize simulation ]',W/2,H/2+39);gx.textAlign='left';
     }
     requestAnimationFrame(loop);
   }
