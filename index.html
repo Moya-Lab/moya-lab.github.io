@@ -1309,25 +1309,114 @@ setInterval(loadNextFact,22000);
 /* ════════════════════════════════════════════
    LATEST RESEARCH — expanded query list
 ════════════════════════════════════════════ */
-const QUERIES=[
-  'microbiome omics integration',
-  'metagenomics machine learning classification',
-  'acidithiobacillus genomics biomining',
-  'computational biology deep learning',
+const QUERIES = [
+  // --- OMICS & MULTI-OMICS ---
+  'multi-omics data integration systems biology',
   'single cell RNA sequencing analysis',
-  'pangenomics bacterial evolution',
-  'multi-omics health environment',
-  'bioinformatics environmental microbiome',
-  'genome assembly annotation pipeline',
   'metabolomics metabolic modeling',
-  'RNA-seq differential expression analysis',
-  'protein structure prediction neural network',
-  'CRISPR genomic editing computational design',
-  'phylogenomics microbial diversity',
-  'systems biology network analysis',
-  'extremophile genomics acid mine drainage',
+  'proteomics mass spectrometry analysis',
+  'epigenomics DNA methylation analysis',
+
+  // --- GENOMICS & SEQUENCING ---
+  'genome assembly annotation pipeline',
   'long-read sequencing nanopore metagenomics',
+  'pangenomics bacterial evolution',
+  'comparative genomics evolutionary analysis',
+
+  // --- MICROBIOME & ENVIRONMENT ---
+  'microbiome omics integration',
+  'bioinformatics environmental microbiome',
+  'metagenomics machine learning classification',
+  'extremophile genomics acid mine drainage',
+
+  // --- MACHINE LEARNING & AI ---
+  'computational biology deep learning',
+  'protein structure prediction neural network',
+  'AI drug discovery molecular docking',
+
+  // --- STRUCTURAL BIOINFORMATICS ---
+  'protein structure modeling molecular dynamics',
+  'computational protein folding prediction',
+
+  // --- TRANSCRIPTOMICS ---
+  'RNA-seq differential expression analysis',
+
+  // --- EVOLUTION & PHYLOGENY ---
+  'phylogenomics microbial diversity',
   'horizontal gene transfer bacteria',
+  'population genetics genomic variation',
+
+  // --- SYSTEMS BIOLOGY ---
+  'systems biology network analysis',
+  'gene regulatory network inference',
+
+  // --- BIOMEDICAL / CLINICAL ---
+  'cancer genomics precision medicine bioinformatics',
+  'clinical variant calling genomics pipeline',
+
+   // --- CORE BIOINFORMATICS (muy generales) ---
+'bioinformatics',
+'computational biology',
+'bioinformatics methods',
+'bioinformatics algorithms',
+'bioinformatics data analysis',
+'biological data analysis computational',
+'computational genomics',
+'biological sequence analysis',
+'biological data mining',
+'biological databases and knowledge management',
+
+// --- FUNDAMENTALS ---
+'sequence alignment gene prediction',
+'genome analysis computational methods',
+'protein function prediction bioinformatics',
+'molecular evolution computational analysis',
+
+// --- INFRASTRUCTURE / METHODS ---
+'bioinformatics pipelines workflows',
+'high performance computing bioinformatics',
+'statistical methods bioinformatics',
+'mathematical modeling biological systems',
+
+// --- APPLICATIONS (broad) ---
+'bioinformatics applications medicine biotechnology',
+'computational biology systems modeling',
+'drug discovery computational biology',
+'precision medicine genomics bioinformatics',
+
+   // --- SEQUENCE & GENOMICS ---
+'sequence analysis genomics bioinformatics',
+'comparative genomics analysis',
+'genome variation population genomics',
+
+// --- STRUCTURAL ---
+'structural bioinformatics protein modeling',
+'protein structure function prediction',
+
+// --- SYSTEMS BIOLOGY ---
+'systems biology computational modeling',
+'biological network analysis modeling',
+
+// --- OMICS (general, no nicho) ---
+'genomics transcriptomics proteomics bioinformatics',
+'omics data analysis computational biology',
+
+// --- MEDICAL ---
+'clinical bioinformatics genomics medicine',
+'cancer bioinformatics genomic analysis',
+
+// --- DATA SCIENCE SIDE ---
+'machine learning biological data analysis',
+'data integration bioinformatics methods',
+
+// --- EVOLUTION ---
+'evolutionary genomics computational',
+'phylogenetic analysis computational biology',
+
+  // --- SPECIALIZED / NICHE ---
+  'CRISPR genomic editing computational design',
+  'synthetic biology computational modeling',
+  'biomining acidithiobacillus genomics'
 ];
 
 async function fetchPapers(){
