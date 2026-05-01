@@ -355,6 +355,63 @@ body { animation: flicker 12s infinite; }
 .db-card:nth-child(4) .db-val { color:var(--amber);  text-shadow:0 0 10px rgba(255,176,0,0.3); }
 
 /* ══════════════════════════════════════════
+   DIASMA SECTION
+══════════════════════════════════════════ */
+.diasma-lines {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 10px 0 14px;
+}
+@media(max-width:700px){ .diasma-lines { grid-template-columns: 1fr; } }
+
+.dl-card {
+  background: rgba(6,6,6,0.8);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px 14px;
+  transition: border-color 0.2s;
+}
+.dl-card.dl-active {
+  border-color: rgba(0,255,65,0.4);
+  background: rgba(0,255,65,0.04);
+  box-shadow: 0 0 16px rgba(0,255,65,0.06);
+}
+.dl-card:hover { border-color: rgba(0,255,65,0.25); }
+.dl-num  { font-size:9px; color:var(--dim); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:5px; }
+.dl-name { font-size:11px; color:#d0d0d0; margin-bottom:6px; font-weight:600; }
+.dl-desc { font-size:10px; color:var(--muted); line-height:1.65; }
+
+.diasma-team {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.diasma-member {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(6,6,6,0.8);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 9px 14px;
+  font-size: 11px;
+  transition: border-color 0.2s;
+}
+.diasma-member:hover { border-color: rgba(0,255,65,0.28); }
+.diasma-member .dm-name { color: #d0d0d0; font-weight: 600; }
+.diasma-member .dm-role { font-size: 9px; color: var(--cyan); letter-spacing: 1px; margin-top: 2px; }
+
+.diasma-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+@media(max-width:600px){ .diasma-stats-grid { grid-template-columns: repeat(2,1fr); } }
+
+/* ══════════════════════════════════════════
    PUBLICATION / PAPER CARDS
 ══════════════════════════════════════════ */
 .pub-entry {
@@ -375,6 +432,7 @@ body { animation: flicker 12s infinite; }
 .pub-meta .jnl  { color:var(--cyan); }
 .pub-meta .auth { color:#3a5a3a; font-style:italic; }
 .pub-meta .yr   { color:var(--amber); }
+.pub-meta .cit  { color:var(--violet); }
 .pub-meta .lnk  { color:var(--violet); text-decoration:none; margin-left:auto; }
 .pub-meta .lnk:hover { text-decoration:underline; }
 
@@ -508,6 +566,11 @@ hr.tl { border:none; border-top:1px solid rgba(0,255,65,0.05); margin:14px 0; }
   border:1px solid #1a1a1a; border-radius:2px;
   padding:1px 5px; font-size:9px; color:#444;
 }
+.game-powerup-legend {
+  display:flex; gap:14px; flex-wrap:wrap;
+  font-size:9px; color:var(--dim); margin-top:7px;
+}
+.game-powerup-legend span { display:flex; align-items:center; gap:4px; }
 
 /* ══════════════════════════════════════════
    FOOTER
@@ -543,6 +606,7 @@ footer .hi { color:#2a4a2a; }
 <!-- ─── SIDEBAR ─── -->
 <nav id="sidebar">
   <a class="sb-item active" href="#sec-pi"      title="Principal Investigator"><span class="sb-icon">👩‍🔬</span><span class="sb-label">PI</span></a>
+  <a class="sb-item"        href="#sec-diasma"  title="DIASMA PhD Program"><span class="sb-icon">🎓</span><span class="sb-label">PhD</span></a>
   <a class="sb-item"        href="#sec-stats"   title="Database Stats"><span class="sb-icon">📊</span><span class="sb-label">Stats</span></a>
   <div class="sb-divider"></div>
   <a class="sb-item"        href="#sec-pubs"    title="Publications"><span class="sb-icon">📄</span><span class="sb-label">Pubs</span></a>
@@ -598,8 +662,7 @@ footer .hi { color:#2a4a2a; }
           <div class="kv"><span class="kk">PhD</span><span class="kv-val">Biotecnología · Univ. Andrés Bello · 2020</span></div>
           <div class="kv"><span class="kk">BSc</span><span class="kv-val">Ingeniería en Bioinformática · Univ. de Talca · 2014</span></div>
           <div class="kv"><span class="kk">ORCID</span><span class="kv-val"><a href="https://orcid.org/0000-0002-6924-5087" target="_blank">0000-0002-6924-5087</a></span></div>
-          <div class="kv"><span class="kk">MODEL ORG.</span><span class="kv-val" style="color:var(--amber);font-style:italic;">Acidithiobacillus · biomining · pangenomics</span></div>
-          <div class="kv"><span class="kk">SCB</span><span class="kv-val">Secretaria · Soc. Bioinformática de Chile · 2024–2025</span></div>
+          <div class="kv"><span class="kk">DIASMA</span><span class="kv-val" style="color:var(--cyan)">Supervisor · Biología Computacional · UTEM</span></div>
           <div class="pi-links">
             <a class="btn cyan"   href="https://scholar.google.com/citations?user=vYrLnT4AAAAJ" target="_blank">→ Google Scholar</a>
             <a class="btn"        href="https://www.researchgate.net/profile/Ana-Moya-Beltran" target="_blank">→ ResearchGate</a>
@@ -607,6 +670,115 @@ footer .hi { color:#2a4a2a; }
             <a class="btn amber"  href="https://github.com/Moya-Lab" target="_blank">→ GitHub Org</a>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DIASMA (full width) ── -->
+  <div id="sec-diasma" class="win">
+    <div class="win-bar">
+      <div class="win-dots"><div class="win-dot dot-r"></div><div class="win-dot dot-y"></div><div class="win-dot dot-g"></div></div>
+      <span class="win-title">diasma.json — Doctoral Program · UTEM</span>
+    </div>
+    <div class="win-body">
+      <div class="prompt">
+        <span class="p-user">researcher</span><span class="p-at">@</span><span class="p-host">moya-lab</span><span class="p-colon">:</span><span class="p-path">~/moya-lab</span><span class="p-sym">$ </span>
+        <span class="p-cmd">cat </span><span class="p-arg">diasma.json</span><span class="p-flag"> | python -m json.tool</span>
+      </div>
+
+      <!-- Header -->
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap;">
+        <div style="font-size:32px;line-height:1">🎓</div>
+        <div style="flex:1;min-width:220px;">
+          <div style="font-size:16px;font-weight:700;color:#e0e0e0;letter-spacing:1px;">DIASMA</div>
+          <div style="font-size:11px;color:var(--cyan);letter-spacing:.8px;margin-top:2px;">Doctorado en Informática Aplicada a Salud y Medio Ambiente</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:3px;">Universidad Tecnológica Metropolitana · UTEM · Santiago, Chile</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;text-align:right;">
+          <span class="badge bg-g">Acreditado CNA · 3 años</span>
+          <span class="badge bg-c">8 Semestres · Presencial</span>
+          <span class="badge bg-a">Fac. de Ingeniería · UTEM</span>
+        </div>
+      </div>
+
+      <!-- Key stats -->
+      <div class="diasma-stats-grid">
+        <div class="db-card">
+          <div class="db-lbl">Directora</div>
+          <div class="db-val" style="font-size:10px;color:var(--cyan);line-height:1.4;min-height:auto;">Dra. Ana Montero Alejo</div>
+          <div class="db-src">Directora del programa</div>
+        </div>
+        <div class="db-card">
+          <div class="db-lbl">Dir. Postgrado</div>
+          <div class="db-val" style="font-size:10px;color:#28c882;line-height:1.4;min-height:auto;">Dr. Jorge Rodríguez B.</div>
+          <div class="db-src">Escuela de Postgrado UTEM</div>
+        </div>
+        <div class="db-card">
+          <div class="db-lbl">Acreditación CNA</div>
+          <div class="db-val" style="font-size:20px;color:var(--green);">3 años</div>
+          <div class="db-src">Máximo para programas nuevos sin egresados</div>
+        </div>
+        <div class="db-card">
+          <div class="db-lbl">Duración</div>
+          <div class="db-val" style="font-size:20px;color:var(--amber);">8 sem.</div>
+          <div class="db-src">Modalidad presencial · L–V 8:30–17:30</div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="out" style="margin-bottom:8px;">
+        <div class="c"># objective: formar capital humano avanzado en Informática Aplicada a Salud y Medio Ambiente</div>
+        <div class="v">El programa forma investigadores autónomos capaces de aplicar herramientas computacionales de vanguardia — Biología Computacional, Química Computacional y Tecnologías Habilitadoras Digitales — para resolver problemas relevantes en salud o medioambiente, contribuyendo al desarrollo tecnológico y sustentable del país.</div>
+      </div>
+
+      <!-- Research lines -->
+      <div class="out" style="margin-bottom:8px;">
+        <div class="c"># research_lines = 3  |  moya-lab_line = "Biología Computacional" [LINE_01]</div>
+      </div>
+      <div class="diasma-lines">
+        <div class="dl-card dl-active">
+          <div class="dl-num">LINE_01 · ★ OUR LINE</div>
+          <div class="dl-name">🧬 Biología Computacional</div>
+          <div class="dl-desc">Genomics, metagenomics, multi-omics integration and AI/ML applied to microbial systems. Focus on environmental and health problems using bioinformatic pipelines and computational models.</div>
+        </div>
+        <div class="dl-card">
+          <div class="dl-num">LINE_02</div>
+          <div class="dl-name">⚗️ Química Computacional</div>
+          <div class="dl-desc">Molecular simulation, ML-based force field generation, drug design, cheminformatics and medicinal chemistry. Bridging computational methods with molecular biology and pharmacology.</div>
+        </div>
+        <div class="dl-card">
+          <div class="dl-num">LINE_03</div>
+          <div class="dl-name">💻 Tecnologías Habilitadoras Digitales</div>
+          <div class="dl-desc">Smart systems, IoT, deep learning for medical imaging (PET reconstruction), intelligent data architectures and real-time processing for health and environmental monitoring applications.</div>
+        </div>
+      </div>
+
+      <!-- Our team in DIASMA -->
+      <div class="out" style="margin:4px 0 8px;">
+        <div class="c"># moya-lab_members_in_diasma:</div>
+      </div>
+      <div class="diasma-team">
+        <div class="diasma-member">
+          <span style="font-size:22px;">👩‍🔬</span>
+          <div>
+            <div class="dm-name">Ana Rosa Moya Beltrán</div>
+            <div class="dm-role">SUPERVISOR · BIOLOGÍA COMPUTACIONAL</div>
+          </div>
+        </div>
+        <div class="diasma-member">
+          <span style="font-size:22px;">🧑‍💻</span>
+          <div>
+            <div class="dm-name">Fausto Cabezas</div>
+            <div class="dm-role">ESTUDIANTE DOCTORAL · BIOLOGÍA COMPUTACIONAL</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;">
+        <a class="btn cyan"   href="https://postgrado.utem.cl/doctorado-iasma/" target="_blank">→ DIASMA Web</a>
+        <a class="btn"        href="https://fing.utem.cl" target="_blank">→ Facultad de Ingeniería</a>
+        <a class="btn violet" href="https://postgrado.utem.cl" target="_blank">→ Escuela de Postgrado</a>
+        <a class="btn amber"  href="https://www.instagram.com/doctorado.iasma/" target="_blank">→ @doctorado.iasma</a>
       </div>
     </div>
   </div>
@@ -694,6 +866,7 @@ footer .hi { color:#2a4a2a; }
           <span class="p-user">researcher</span><span class="p-at">@</span><span class="p-host">moya-lab</span><span class="p-colon">:</span><span class="p-path">~/moya-lab</span><span class="p-sym">$ </span>
           <span class="p-cmd">python </span><span class="p-arg">fetch_papers.py</span>
           <span class="p-flag"> --orcid </span><span class="p-arg">0000-0002-6924-5087</span>
+          <span class="p-flag"> --limit </span><span class="p-arg">12</span>
         </div>
         <div class="out"><div class="c"># Fetching publications via Semantic Scholar…</div></div>
         <div id="pubContainer"><div class="ld"><div class="sp"></div> Querying API…</div></div>
@@ -723,7 +896,7 @@ footer .hi { color:#2a4a2a; }
 
   </div><!-- /win-row -->
 
-  <!-- ── ROW: Members + Contact + Game ── -->
+  <!-- ── ROW: Members + Contact ── -->
   <div class="win-row">
 
     <!-- LAB MEMBERS -->
@@ -756,7 +929,7 @@ footer .hi { color:#2a4a2a; }
         </div>
         <div class="out">
           <div class="c"># Open to collaborations · project proposals · student inquiries</div>
-          <div class="c"># Areas: Computational Biology · Metagenomics · Multi-omics · AI/ML</div>
+          <div class="c"># Areas: Computational Biology · Metagenomics · Multi-omics · AI/ML · DIASMA</div>
         </div>
         <div class="contact-grid" id="contactGrid"></div>
         <hr class="tl">
@@ -765,6 +938,7 @@ footer .hi { color:#2a4a2a; }
           <div><span class="c">GITHUB&nbsp;&nbsp;&nbsp; </span><a href="https://github.com/Moya-Lab" target="_blank" style="color:var(--cyan);text-decoration:none">github.com/Moya-Lab</a></div>
           <div><span class="c">ORCID&nbsp;&nbsp;&nbsp;&nbsp; </span><a href="https://orcid.org/0000-0002-6924-5087" target="_blank" style="color:var(--cyan);text-decoration:none">orcid.org/0000-0002-6924-5087</a></div>
           <div><span class="c">SCHOLAR&nbsp; </span><a href="https://scholar.google.com/citations?user=vYrLnT4AAAAJ" target="_blank" style="color:var(--cyan);text-decoration:none">Google Scholar</a></div>
+          <div><span class="c">DIASMA&nbsp;&nbsp; </span><a href="https://postgrado.utem.cl/doctorado-iasma/" target="_blank" style="color:var(--cyan);text-decoration:none">postgrado.utem.cl/doctorado-iasma</a></div>
           <div><span class="c">UTEM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><a href="https://fing.utem.cl" target="_blank" style="color:var(--cyan);text-decoration:none">fing.utem.cl</a></div>
         </div>
       </div>
@@ -776,21 +950,27 @@ footer .hi { color:#2a4a2a; }
   <div id="sec-game" class="win">
     <div class="win-bar">
       <div class="win-dots"><div class="win-dot dot-r"></div><div class="win-dot dot-y"></div><div class="win-dot dot-g"></div></div>
-      <span class="win-title">simulation.exe — Mini Exploration Game</span>
+      <span class="win-title">simulation.exe — Acid Mine Drainage Explorer</span>
     </div>
     <div class="win-body">
       <div class="prompt">
         <span class="p-user">researcher</span><span class="p-at">@</span><span class="p-host">moya-lab</span><span class="p-colon">:</span><span class="p-path">~/moya-lab</span><span class="p-sym">$ </span>
         <span class="p-cmd">./run_simulation</span>
-        <span class="p-flag"> --mode exploration --env acid-mine-drainage</span>
+        <span class="p-flag"> --mode exploration --env acid-mine-drainage --levels ∞</span>
       </div>
-      <div class="out"><div class="c"># Collect data nodes · Avoid toxins · Press R to restart</div></div>
-      <canvas id="gameCanvas" width="860" height="280"></canvas>
+      <div class="out"><div class="c"># Collect data nodes · Avoid toxins · Level up · Use powerups · Press R to restart</div></div>
+      <canvas id="gameCanvas" width="860" height="300"></canvas>
       <div class="game-keys">
         <span><span class="key">↑↓←→</span> / <span class="key">WASD</span> move</span>
-        <span>🟢 collect data nodes</span>
+        <span>🟢 data node (+1)</span>
+        <span>🟡 bonus node (+3)</span>
         <span>🔴 avoid toxins</span>
         <span><span class="key">R</span> restart</span>
+      </div>
+      <div class="game-powerup-legend">
+        <span><span style="color:var(--cyan)">🛡 SHIELD</span> — invincibility burst</span>
+        <span><span style="color:var(--amber)">⚡ BOOST</span> — speed + magnet range</span>
+        <span><span style="color:var(--violet)">🧲 PULSE</span> — collect nearby nodes</span>
       </div>
     </div>
   </div>
@@ -811,57 +991,50 @@ footer .hi { color:#2a4a2a; }
 /* ════════════════════════════════════════════
    CUSTOM CURSOR
 ════════════════════════════════════════════ */
-const curEl   = document.getElementById('cursor');
-const ringEl  = document.getElementById('cursorRing');
-let mx=0, my=0, rx=0, ry=0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  curEl.style.left = mx+'px'; curEl.style.top = my+'px';
+const curEl  = document.getElementById('cursor');
+const ringEl = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  curEl.style.left=mx+'px';curEl.style.top=my+'px';
 });
 (function animRing(){
-  rx += (mx-rx)*0.12; ry += (my-ry)*0.12;
-  ringEl.style.left = rx+'px'; ringEl.style.top = ry+'px';
+  rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;
+  ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';
   requestAnimationFrame(animRing);
 })();
 
 
 /* ════════════════════════════════════════════
-   MATRIX RAIN — biological chars
+   MATRIX RAIN
 ════════════════════════════════════════════ */
 (function(){
-  const c   = document.getElementById('matrixCanvas');
-  const ctx = c.getContext('2d');
-  const BIO = 'ATCGMFHILPQRSVWYATCGATCG□○●◇';
-  let cols, drops;
-
+  const c=document.getElementById('matrixCanvas');
+  const ctx=c.getContext('2d');
+  const BIO='ATCGMFHILPQRSVWYATCGATCG□○●◇';
+  let cols,drops;
   function resize(){
-    c.width  = window.innerWidth;
-    c.height = window.innerHeight;
-    cols  = Math.floor(c.width / 18);
-    drops = Array.from({length:cols}, ()=> -Math.random()*60);
+    c.width=window.innerWidth;c.height=window.innerHeight;
+    cols=Math.floor(c.width/18);
+    drops=Array.from({length:cols},()=>-Math.random()*60);
   }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const COLORS = ['#00ff41','#00cc33','#009922','#00ffff','#ffb000'];
-
+  resize();window.addEventListener('resize',resize);
+  const COLORS=['#00ff41','#00cc33','#009922','#00ffff','#ffb000'];
   setInterval(()=>{
-    ctx.fillStyle = 'rgba(8,8,8,0.14)';
-    ctx.fillRect(0,0,c.width,c.height);
-    ctx.font = '13px "JetBrains Mono", monospace';
-
+    ctx.fillStyle='rgba(8,8,8,0.14)';ctx.fillRect(0,0,c.width,c.height);
+    ctx.font='13px "JetBrains Mono",monospace';
     drops.forEach((d,i)=>{
-      const ch  = BIO[Math.floor(Math.random()*BIO.length)];
-      const col = COLORS[Math.floor(Math.random()*COLORS.length)];
-      const yy  = d*18;
-      ctx.fillStyle = (d<2) ? '#ccffcc' : col;
-      ctx.globalAlpha = (d<2) ? 0.9 : 0.45;
-      ctx.fillText(ch, i*18, yy);
-      ctx.globalAlpha = 1;
-      if(yy > c.height && Math.random()>0.975) drops[i]=0;
+      const ch=BIO[Math.floor(Math.random()*BIO.length)];
+      const col=COLORS[Math.floor(Math.random()*COLORS.length)];
+      const yy=d*18;
+      ctx.fillStyle=(d<2)?'#ccffcc':col;
+      ctx.globalAlpha=(d<2)?0.9:0.45;
+      ctx.fillText(ch,i*18,yy);
+      ctx.globalAlpha=1;
+      if(yy>c.height&&Math.random()>0.975)drops[i]=0;
       else drops[i]++;
     });
-  }, 55);
+  },55);
 })();
 
 
@@ -873,7 +1046,7 @@ document.addEventListener('mousemove', e => {
   const map={A:'dA',T:'dT',C:'dC',G:'dG'};
   let h='';
   for(let k=0;k<2;k++){
-    for(const c of seq.repeat(3)) h+=`<span class="${map[c]}">${c}</span>`;
+    for(const c of seq.repeat(3))h+=`<span class="${map[c]}">${c}</span>`;
     h+='<span class="dSep"> /// </span>';
   }
   document.getElementById('dnaTrack').innerHTML=h;
@@ -887,7 +1060,7 @@ const T0=Date.now();
 setInterval(()=>{
   const s=Math.floor((Date.now()-T0)/1000);
   const el=document.getElementById('uptime');
-  if(el) el.textContent=[
+  if(el)el.textContent=[
     String(Math.floor(s/3600)).padStart(2,'0'),
     String(Math.floor((s%3600)/60)).padStart(2,'0'),
     String(s%60).padStart(2,'0'),
@@ -909,14 +1082,15 @@ document.getElementById('boot-ascii').textContent=
 const BOOT_LINES=[
   {t:'MOYA-LAB OS v2.6.0  //  Computational Biology Platform',c:'ok', d:0  },
   {t:'Modelling Omics Yielding Analytics · UTEM · Chile',     c:'info',d:100},
-  {t:'',                                                       c:'',   d:160},
-  {t:'[ OK ] Loading genome indexer…',                        c:'ok', d:280},
-  {t:'[ OK ] Mounting reference databases (NCBI · RCSB)…',   c:'ok', d:420},
-  {t:'[ ** ] Checking NCBI eutils connection…',               c:'warn',d:560},
-  {t:'[ OK ] NCBI eutils: active',                            c:'ok', d:700},
-  {t:'[ OK ] Semantic Scholar API: ready',                    c:'ok', d:820},
-  {t:'[ OK ] GitHub org Moya-Lab: detected',                  c:'ok', d:940},
-  {t:'[ OK ] AI inference modules: loaded',                   c:'ok', d:1060},
+  {t:'DIASMA · Doctorado en Informática Aplicada a Salud y Medio Ambiente',c:'info',d:180},
+  {t:'',                                                       c:'',   d:240},
+  {t:'[ OK ] Loading genome indexer…',                        c:'ok', d:340},
+  {t:'[ OK ] Mounting reference databases (NCBI · RCSB)…',   c:'ok', d:460},
+  {t:'[ ** ] Checking NCBI eutils connection…',               c:'warn',d:580},
+  {t:'[ OK ] NCBI eutils: active',                            c:'ok', d:720},
+  {t:'[ OK ] Semantic Scholar API: ready',                    c:'ok', d:840},
+  {t:'[ OK ] GitHub org Moya-Lab: detected',                  c:'ok', d:960},
+  {t:'[ OK ] DIASMA doctoral program: linked',                c:'ok', d:1060},
   {t:'[ OK ] All systems nominal.',                           c:'ok', d:1160},
   {t:'',                                                       c:'',   d:1220},
   {t:'Welcome, researcher. Launching interface…',             c:'info',d:1300},
@@ -931,7 +1105,7 @@ const sideEl =document.getElementById('sidebar');
 BOOT_LINES.forEach((l,i)=>{
   setTimeout(()=>{
     const d=document.createElement('div');
-    d.className=l.c; d.textContent=l.t;
+    d.className=l.c;d.textContent=l.t;
     bootLog.appendChild(d);
     bootBar.style.width=((i+1)/BOOT_LINES.length*100)+'%';
   },l.d);
@@ -946,25 +1120,25 @@ setTimeout(()=>{
     typeInto('tw-pi','researcher.json | python -m json.tool',38);
     initSidebarObserver();
   },700);
-},2100);
+},2200);
 
 
 /* ════════════════════════════════════════════
    SIDEBAR ACTIVE STATE
 ════════════════════════════════════════════ */
 function initSidebarObserver(){
-  const sections=['sec-pi','sec-stats','sec-spot','sec-pubs','sec-members','sec-contact','sec-game'];
+  const sections=['sec-pi','sec-diasma','sec-stats','sec-spot','sec-pubs','sec-members','sec-contact','sec-game'];
   const links=document.querySelectorAll('.sb-item');
   const obs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
         links.forEach(l=>l.classList.remove('active'));
         const target=document.querySelector(`.sb-item[href="#${e.target.id}"]`);
-        if(target) target.classList.add('active');
+        if(target)target.classList.add('active');
       }
     });
   },{threshold:0.3});
-  sections.forEach(id=>{ const el=document.getElementById(id); if(el) obs.observe(el); });
+  sections.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el);});
 }
 
 
@@ -974,7 +1148,7 @@ function initSidebarObserver(){
 function typeInto(id,text,speed=38,cb){
   const el=document.getElementById(id);
   if(!el){cb&&cb();return;}
-  let i=0; el.textContent=''; el.classList.add('p-typed');
+  let i=0;el.textContent='';el.classList.add('p-typed');
   const t=setInterval(()=>{
     el.textContent+=text[i++];
     if(i>=text.length){clearInterval(t);el.classList.remove('p-typed');cb&&cb();}
@@ -992,7 +1166,7 @@ function animateNum(el,n){
   (function step(now){
     const p=Math.min((now-t0)/dur,1),e=1-Math.pow(1-p,3);
     el.textContent=Math.floor(e*n).toLocaleString('en-US');
-    if(p<1) requestAnimationFrame(step);
+    if(p<1)requestAnimationFrame(step);
     else el.textContent=n.toLocaleString('en-US');
   })(performance.now());
 }
@@ -1002,11 +1176,11 @@ async function fetchDBCount(db){
     `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi?db=${db}&retmode=json&tool=moya-lab&email=amoya@utem.cl`,
     {signal:AbortSignal.timeout(8000)}
   );
-  if(!r.ok) throw new Error(`HTTP ${r.status}`);
+  if(!r.ok)throw new Error(`HTTP ${r.status}`);
   const d=await r.json();
   const info=Array.isArray(d.einforesult?.dbinfo)?d.einforesult.dbinfo[0]:d.einforesult?.dbinfo;
   const c=parseInt(info?.count??'0',10);
-  if(!c) throw new Error('empty');
+  if(!c)throw new Error('empty');
   return c;
 }
 
@@ -1033,7 +1207,7 @@ loadCounters();
 
 
 /* ════════════════════════════════════════════
-   LAB PUBLICATIONS
+   LAB PUBLICATIONS — limit 12, +citationCount
 ════════════════════════════════════════════ */
 async function loadPubs(){
   const box=document.getElementById('pubContainer');
@@ -1043,24 +1217,25 @@ async function loadPubs(){
       'https://api.semanticscholar.org/graph/v1/author/search?query=Ana+Moya-Beltr%C3%A1n&fields=name,affiliations,paperCount,citationCount,externalIds,authorId',
       {signal:AbortSignal.timeout(9000)}
     );
-    if(!s.ok) throw new Error('author search failed');
+    if(!s.ok)throw new Error('author search failed');
     const sd=await s.json();
     const author=(sd.data||[]).find(a=>
       a.externalIds?.ORCID==='0000-0002-6924-5087'||(a.name||'').toLowerCase().includes('moya-beltr')
     );
-    if(!author) throw new Error('author not found');
+    if(!author)throw new Error('author not found');
     const p=await fetch(
-      `https://api.semanticscholar.org/graph/v1/author/${author.authorId}/papers?fields=title,year,venue,authors,externalIds&limit=6&sort=year`,
+      `https://api.semanticscholar.org/graph/v1/author/${author.authorId}/papers?fields=title,year,venue,authors,externalIds,citationCount&limit=12`,
       {signal:AbortSignal.timeout(9000)}
     );
-    if(!p.ok) throw new Error('papers fetch failed');
+    if(!p.ok)throw new Error('papers fetch failed');
     const pd=await p.json();
     const papers=(pd.data||[]).sort((a,b)=>(b.year||0)-(a.year||0));
-    if(!papers.length) throw new Error('no papers');
+    if(!papers.length)throw new Error('no papers');
     box.innerHTML=papers.map(p=>{
       const hash='#'+Math.random().toString(16).slice(2,9).toUpperCase();
       const doi=p.externalIds?.DOI?`https://doi.org/${p.externalIds.DOI}`:`https://www.semanticscholar.org/paper/${p.paperId}`;
       const auths=(p.authors||[]).slice(0,3).map(a=>a.name).join(', ');
+      const cit=p.citationCount??0;
       return `
         <div class="pub-entry" onclick="window.open('${doi}','_blank')">
           <div class="pub-hash">commit ${hash} · ${p.year||'—'}</div>
@@ -1069,6 +1244,7 @@ async function loadPubs(){
             ${p.venue?`<span class="jnl">${p.venue}</span>`:''}
             ${auths?`<span class="auth">${auths}</span>`:''}
             <span class="yr">${p.year||''}</span>
+            ${cit?`<span class="cit">⭐ ${cit} cit.</span>`:''}
             <a class="lnk" href="${doi}" target="_blank" onclick="event.stopPropagation()">→ view</a>
           </div>
         </div>`;
@@ -1095,11 +1271,12 @@ const WIKI_TOPICS=[
   'Genome-wide_association_study','Bioinformatics','16S_ribosomal_RNA',
   'Transcriptomics','Metabolomics','Shotgun_sequencing',
   'Phylogenetics','BLAST_(biotechnology)','Pangenomics','Biomining',
+  'Comparative_genomics','Horizontal_gene_transfer','Extremophile',
 ];
 let lastFact=-1;
 
 async function loadNextFact(){
-  let i; do{i=Math.floor(Math.random()*WIKI_TOPICS.length);}while(i===lastFact);
+  let i;do{i=Math.floor(Math.random()*WIKI_TOPICS.length);}while(i===lastFact);
   lastFact=i;
   const topic=WIKI_TOPICS[i];
   const textEl=document.getElementById('factText');
@@ -1108,11 +1285,11 @@ async function loadNextFact(){
   const linkEl=document.getElementById('factLink');
   const topEl=document.getElementById('spotTopic');
   const label=topic.replace(/_/g,' ').replace(/\(.*?\)/,'').trim();
-  textEl.style.opacity='0'; imgEl.classList.add('hidden');
-  tagEl.textContent=label; topEl.textContent=label;
+  textEl.style.opacity='0';imgEl.classList.add('hidden');
+  tagEl.textContent=label;topEl.textContent=label;
   try{
     const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic)}`);
-    if(!r.ok) throw new Error();
+    if(!r.ok)throw new Error();
     const d=await r.json();
     setTimeout(()=>{
       const ex=d.extract??'No summary available.';
@@ -1130,12 +1307,27 @@ setInterval(loadNextFact,22000);
 
 
 /* ════════════════════════════════════════════
-   LATEST RESEARCH (CrossRef)
+   LATEST RESEARCH — expanded query list
 ════════════════════════════════════════════ */
 const QUERIES=[
-  'microbiome omics','metagenomics machine learning',
-  'acidithiobacillus genomics','computational biology AI',
-  'single cell sequencing analysis','pangenomics bacteria',
+  'microbiome omics integration',
+  'metagenomics machine learning classification',
+  'acidithiobacillus genomics biomining',
+  'computational biology deep learning',
+  'single cell RNA sequencing analysis',
+  'pangenomics bacterial evolution',
+  'multi-omics health environment',
+  'bioinformatics environmental microbiome',
+  'genome assembly annotation pipeline',
+  'metabolomics metabolic modeling',
+  'RNA-seq differential expression analysis',
+  'protein structure prediction neural network',
+  'CRISPR genomic editing computational design',
+  'phylogenomics microbial diversity',
+  'systems biology network analysis',
+  'extremophile genomics acid mine drainage',
+  'long-read sequencing nanopore metagenomics',
+  'horizontal gene transfer bacteria',
 ];
 
 async function fetchPapers(){
@@ -1149,7 +1341,7 @@ async function fetchPapers(){
     const r=await fetch(
       `https://api.crossref.org/works?query=${encodeURIComponent(q)}&rows=5&sort=published&order=desc&select=title,author,published,DOI,container-title`
     );
-    if(!r.ok) throw new Error();
+    if(!r.ok)throw new Error();
     const d=await r.json();
     const items=(d.message?.items??[]).map(p=>({
       title:  Array.isArray(p.title)?p.title[0]:(p.title??'Untitled'),
@@ -1158,7 +1350,7 @@ async function fetchPapers(){
       date:   p.published?.['date-parts']?.[0]?.join('-')?? '',
       authors:(p.author??[]).slice(0,3).map(a=>`${a.given?.[0]??''}. ${a.family??''}`.trim()).join(', '),
     }));
-    if(!items.length) throw new Error('empty');
+    if(!items.length)throw new Error('empty');
     box.innerHTML=items.map(p=>`
       <div class="pub-entry" onclick="window.open('${p.href}','_blank')">
         <div class="pub-title">${p.title}</div>
@@ -1190,7 +1382,7 @@ async function loadMembers(){
       headers:{Accept:'application/vnd.github+json'},
       signal:AbortSignal.timeout(8000),
     });
-    if(!r.ok) throw new Error(`GitHub API ${r.status}`);
+    if(!r.ok)throw new Error(`GitHub API ${r.status}`);
     const members=await r.json();
     if(!Array.isArray(members)||!members.length){
       box.innerHTML=`
@@ -1221,11 +1413,11 @@ loadMembers();
 
 
 /* ════════════════════════════════════════════
-   CONTACT
+   CONTACT — updated Fausto role with DIASMA
 ════════════════════════════════════════════ */
 const CONTACTS=[
-  {name:'Ana Rosa Moya Beltrán',role:'PI · Principal Investigator', e64:btoa('amoya@utem.cl')},
-  {name:'F. Cabezas',           role:'Research Collaborator',        e64:btoa('fcabezasme@utem.cl')},
+  {name:'Ana Rosa Moya Beltrán', role:'PI · Principal Investigator · DIASMA Supervisor', e64:btoa('amoya@utem.cl')},
+  {name:'Fausto Cabezas',        role:'PhD Student · DIASMA · Biología Computacional',   e64:btoa('fcabezasme@utem.cl')},
 ];
 document.getElementById('contactGrid').innerHTML=CONTACTS.map(c=>{
   const email=atob(c.e64);
@@ -1239,118 +1431,376 @@ document.getElementById('contactGrid').innerHTML=CONTACTS.map(c=>{
 
 
 /* ════════════════════════════════════════════
-   MINI GAME
+   MINI GAME — v2: Levels · Powerups · Particles
 ════════════════════════════════════════════ */
-const canvas=document.getElementById('gameCanvas');
-const ctx   =canvas.getContext('2d');
-const CW=canvas.width, CH=canvas.height;
-let player={x:CW/2,y:CH/2,size:9};
-let nodes=[],toxins=[],score=0,lives=3,over=false,inv=0,glt=0;
-const keys={};
+const canvas = document.getElementById('gameCanvas');
+const ctx    = canvas.getContext('2d');
+const CW = canvas.width, CH = canvas.height;
+
+// ── State ──
+let GAME = {};
+let player, nodes, toxins, powerups, particles;
+const keys = {};
+
+function playerSpeed(){ return GAME.boost > 0 ? 5.5 : 3.2; }
+function toxinBaseSpeed(){ return 1.3 + GAME.level * 0.22; }
+function nodeCount(){ return Math.min(5 + GAME.level, 13); }
+function toxinCount(){ return Math.min(2 + GAME.level, 10); }
+
+function spawnNodes(){
+  nodes = Array.from({length: nodeCount()}, ()=>({
+    x: 30 + Math.random()*(CW-60),
+    y: 32 + Math.random()*(CH-52),
+    p: Math.random()*Math.PI*2,
+    bonus: Math.random() < 0.15
+  }));
+}
+
+function spawnToxins(){
+  const spd = toxinBaseSpeed();
+  toxins = Array.from({length: toxinCount()}, ()=>{
+    let tx, ty;
+    // keep toxins away from player spawn area at start
+    do {
+      tx = 30 + Math.random()*(CW-60);
+      ty = 32 + Math.random()*(CH-52);
+    } while(Math.hypot(tx-player.x, ty-player.y) < 80);
+    const angle = Math.random()*Math.PI*2;
+    const v = spd * (0.7 + Math.random()*0.6);
+    return { x:tx, y:ty, vx:Math.cos(angle)*v, vy:Math.sin(angle)*v, a:0, size: 8+Math.random()*3 };
+  });
+}
+
+function trySpawnPowerup(){
+  if(powerups.length < 1 && Math.random() < 0.4){
+    const types = ['shield','boost','pulse'];
+    const cols  = {shield:'#00ffff', boost:'#ffb000', pulse:'#bf5fff'};
+    const t = types[Math.floor(Math.random()*3)];
+    powerups.push({
+      x: 40+Math.random()*(CW-80),
+      y: 32+Math.random()*(CH-62),
+      type:t, color:cols[t], p:0, life:360
+    });
+  }
+}
+
+function spawnParticles(x, y, color, count=8){
+  for(let i=0;i<count;i++){
+    const a = (Math.PI*2/count)*i + (Math.random()-.5)*0.6;
+    particles.push({
+      x,y,
+      vx: Math.cos(a)*(1.5+Math.random()*2.5),
+      vy: Math.sin(a)*(1.5+Math.random()*2.5),
+      life:0, maxLife: 30+Math.random()*25,
+      color, size: 1.5+Math.random()*2
+    });
+  }
+}
+
+function resetGame(){
+  GAME = {score:0, lives:3, level:1, nodesCollected:0, nodesPerLevel:8,
+          over:false, inv:0, glt:0, levelAnim:0, shield:0, boost:0,
+          highScore: GAME?.highScore||0};
+  player   = {x:CW/2, y:CH/2, size:9};
+  nodes=[]; toxins=[]; powerups=[]; particles=[];
+  spawnNodes(); spawnToxins();
+}
+
+function dist(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
 
 document.addEventListener('keydown',e=>{
   keys[e.key]=true;
-  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
-  if((e.key==='r'||e.key==='R')&&over) resetGame();
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))e.preventDefault();
+  if((e.key==='r'||e.key==='R')&&GAME.over)resetGame();
 });
 document.addEventListener('keyup',e=>keys[e.key]=false);
 
-function spawnNodes(){
-  nodes=Array.from({length:6},()=>({x:22+Math.random()*(CW-44),y:26+Math.random()*(CH-46),p:Math.random()*Math.PI*2}));
-}
-function spawnToxins(){
-  toxins=Array.from({length:3},()=>({x:22+Math.random()*(CW-44),y:26+Math.random()*(CH-46),vx:(Math.random()-.5)*1.8,vy:(Math.random()-.5)*1.8,a:0}));
-}
-function resetGame(){
-  player={x:CW/2,y:CH/2,size:9};score=0;lives=3;over=false;inv=0;glt=0;
-  spawnNodes();spawnToxins();
-}
-function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
-spawnNodes();spawnToxins();
+resetGame();
 
 function gameLoop(){
   ctx.clearRect(0,0,CW,CH);
-  if(!over){
-    const S=3;
-    if((keys['ArrowLeft']||keys['a']||keys['A'])&&player.x>player.size)      player.x-=S;
-    if((keys['ArrowRight']||keys['d']||keys['D'])&&player.x<CW-player.size)  player.x+=S;
-    if((keys['ArrowUp']||keys['w']||keys['W'])&&player.y>player.size)         player.y-=S;
-    if((keys['ArrowDown']||keys['s']||keys['S'])&&player.y<CH-player.size)   player.y+=S;
+
+  /* ── UPDATE ── */
+  if(!GAME.over){
+    const S = playerSpeed();
+    if((keys['ArrowLeft']||keys['a']||keys['A'])&&player.x>player.size)         player.x-=S;
+    if((keys['ArrowRight']||keys['d']||keys['D'])&&player.x<CW-player.size)     player.x+=S;
+    if((keys['ArrowUp']||keys['w']||keys['W'])&&player.y>player.size+22)        player.y-=S;
+    if((keys['ArrowDown']||keys['s']||keys['S'])&&player.y<CH-player.size)      player.y+=S;
+
+    // Move toxins
     toxins.forEach(t=>{
-      t.x+=t.vx;t.y+=t.vy;t.a+=0.05;
-      if(t.x<10||t.x>CW-10) t.vx*=-1;
-      if(t.y<22||t.y>CH-10) t.vy*=-1;
+      t.x+=t.vx; t.y+=t.vy; t.a+=0.065;
+      if(t.x<10||t.x>CW-10)  t.vx*=-1;
+      if(t.y<26||t.y>CH-10)  t.vy*=-1;
     });
+
+    // Pulse nodes
     nodes.forEach(n=>n.p+=0.07);
-    nodes=nodes.filter(n=>{if(dist(player,n)<player.size+8){score++;return false;}return true;});
-    if(!nodes.length) spawnNodes();
-    if(inv<=0){
-      toxins.forEach(t=>{if(dist(player,t)<player.size+8){lives--;inv=90;if(lives<=0)over=true;}});
-    }else inv--;
+
+    // Collect nodes
+    const magnetRange = GAME.boost>0 ? player.size+26 : player.size+9;
+    nodes = nodes.filter(n=>{
+      if(dist(player,n)<magnetRange){
+        const pts = n.bonus?3:1;
+        GAME.score+=pts;
+        GAME.nodesCollected++;
+        spawnParticles(n.x, n.y, n.bonus?'#ffb000':'#00ff41', n.bonus?14:8);
+        if(GAME.nodesCollected>=GAME.nodesPerLevel){
+          GAME.level++;
+          GAME.nodesCollected=0;
+          GAME.nodesPerLevel=Math.ceil(GAME.nodesPerLevel*1.25);
+          GAME.levelAnim=100;
+          trySpawnPowerup();
+          spawnToxins();
+        }
+        return false;
+      }
+      return true;
+    });
+    if(!nodes.length){spawnNodes();if(Math.random()<0.3)trySpawnPowerup();}
+
+    // Collect powerups
+    powerups = powerups.filter(pu=>{
+      pu.p+=0.09; pu.life--;
+      if(pu.life<=0)return false;
+      if(dist(player,pu)<player.size+14){
+        if(pu.type==='shield') GAME.shield=200;
+        else if(pu.type==='boost') GAME.boost=160;
+        else if(pu.type==='pulse'){
+          nodes=nodes.filter(n=>{
+            if(dist(player,n)<100){GAME.score++;spawnParticles(n.x,n.y,'#bf5fff',6);return false;}
+            return true;
+          });
+        }
+        spawnParticles(pu.x,pu.y,pu.color,14);
+        return false;
+      }
+      return true;
+    });
+
+    if(GAME.shield>0)GAME.shield--;
+    if(GAME.boost>0)GAME.boost--;
+    if(GAME.levelAnim>0)GAME.levelAnim--;
+
+    // Collision
+    if(GAME.inv<=0&&GAME.shield<=0){
+      for(const t of toxins){
+        if(dist(player,t)<player.size+t.size-3){
+          GAME.lives--;
+          GAME.inv=100;
+          spawnParticles(player.x,player.y,'#ff4444',18);
+          if(GAME.lives<=0){
+            GAME.over=true;
+            GAME.highScore=Math.max(GAME.highScore,GAME.score);
+          }
+          break;
+        }
+      }
+    } else if(GAME.inv>0) GAME.inv--;
+
+    // Update particles
+    particles=particles.filter(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vx*=0.91; p.vy*=0.91; p.life++;
+      return p.life<p.maxLife;
+    });
   }
 
-  ctx.strokeStyle='rgba(0,255,65,0.04)';ctx.lineWidth=1;
-  for(let x=0;x<CW;x+=36){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,CH);ctx.stroke();}
-  for(let y=0;y<CH;y+=36){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(CW,y);ctx.stroke();}
+  /* ── DRAW BACKGROUND GRID ── */
+  ctx.strokeStyle='rgba(0,255,65,0.035)'; ctx.lineWidth=1;
+  for(let x=0;x<CW;x+=36){ctx.beginPath();ctx.moveTo(x,22);ctx.lineTo(x,CH);ctx.stroke();}
+  for(let y=22;y<CH;y+=36){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(CW,y);ctx.stroke();}
 
-  nodes.forEach(n=>{
-    const r=5+Math.sin(n.p)*1.5;
+  /* ── PARTICLES ── */
+  particles.forEach(p=>{
+    const alpha=(1-p.life/p.maxLife)*0.85;
     ctx.save();
-    ctx.shadowColor='#00ff41';ctx.shadowBlur=14;ctx.fillStyle='#00ff41';
-    ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle=`rgba(0,255,65,${.2+.1*Math.sin(n.p)})`;ctx.lineWidth=1;
-    ctx.beginPath();ctx.arc(n.x,n.y,r+5,0,Math.PI*2);ctx.stroke();
+    ctx.globalAlpha=alpha;
+    ctx.fillStyle=p.color;
+    ctx.shadowColor=p.color; ctx.shadowBlur=5;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,Math.max(0.5, p.size*(1-p.life/p.maxLife*0.5)),0,Math.PI*2);
+    ctx.fill();
     ctx.restore();
   });
 
+  /* ── NODES ── */
+  nodes.forEach(n=>{
+    const r=5+Math.sin(n.p)*1.6;
+    const col=n.bonus?'#ffb000':'#00ff41';
+    ctx.save();
+    ctx.shadowColor=col; ctx.shadowBlur=n.bonus?18:12;
+    ctx.fillStyle=col;
+    ctx.beginPath(); ctx.arc(n.x,n.y,r,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=n.bonus?`rgba(255,176,0,${.25+.1*Math.sin(n.p)})`:`rgba(0,255,65,${.25+.1*Math.sin(n.p)})`;
+    ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(n.x,n.y,r+6,0,Math.PI*2); ctx.stroke();
+    if(n.bonus){
+      ctx.font='bold 8px "JetBrains Mono"';
+      ctx.fillStyle='#080808'; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('×3',n.x,n.y);
+    }
+    ctx.restore();
+  });
+
+  /* ── POWERUPS ── */
+  powerups.forEach(pu=>{
+    const pulse=0.65+0.35*Math.sin(pu.p*3);
+    const fadeIn=Math.min(1,1-pu.life/360+0.1);
+    const icons={shield:'🛡',boost:'⚡',pulse:'🧲'};
+    ctx.save();
+    ctx.globalAlpha=Math.min(1,(360-pu.life)/25)*pulse;
+    ctx.shadowColor=pu.color; ctx.shadowBlur=20;
+    ctx.strokeStyle=pu.color; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(pu.x,pu.y,15,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(pu.x,pu.y,9,0,Math.PI*2);
+    ctx.fillStyle=pu.color+'18'; ctx.fill();
+    ctx.globalAlpha=Math.min(1,(360-pu.life)/20);
+    ctx.font='13px serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(icons[pu.type],pu.x,pu.y);
+    ctx.restore();
+  });
+
+  /* ── TOXINS ── */
   toxins.forEach(t=>{
-    ctx.save();ctx.translate(t.x,t.y);ctx.rotate(t.a);
-    ctx.shadowColor='#ff4444';ctx.shadowBlur=12;ctx.fillStyle='#ff4444';
-    ctx.beginPath();ctx.moveTo(0,-9);ctx.lineTo(7,0);ctx.lineTo(0,9);ctx.lineTo(-7,0);ctx.closePath();ctx.fill();
-    ctx.strokeStyle='rgba(255,68,68,.3)';ctx.lineWidth=1;
-    ctx.beginPath();ctx.arc(0,0,13,0,Math.PI*2);ctx.stroke();
+    ctx.save(); ctx.translate(t.x,t.y); ctx.rotate(t.a);
+    ctx.shadowColor='#ff4444'; ctx.shadowBlur=12;
+    ctx.fillStyle='#ff4444';
+    ctx.beginPath();
+    ctx.moveTo(0,-t.size); ctx.lineTo(t.size*.75,0);
+    ctx.lineTo(0,t.size); ctx.lineTo(-t.size*.75,0);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='rgba(255,68,68,.25)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(0,0,t.size+6,0,Math.PI*2); ctx.stroke();
     ctx.restore();
   });
 
-  const alpha=(inv>0&&Math.floor(inv/6)%2===0)?.25:1;
-  ctx.save();ctx.globalAlpha=alpha;
-  ctx.shadowColor='#00ffff';ctx.shadowBlur=16;ctx.fillStyle='#00ffff';
-  ctx.beginPath();ctx.arc(player.x,player.y,player.size,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle='rgba(0,0,0,.5)';ctx.lineWidth=2;
-  ctx.beginPath();ctx.moveTo(player.x-5,player.y);ctx.lineTo(player.x+5,player.y);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(player.x,player.y-5);ctx.lineTo(player.x,player.y+5);ctx.stroke();
+  /* ── PLAYER ── */
+  const shielded=GAME.shield>0;
+  const boosted=GAME.boost>0;
+  const blink=(GAME.inv>0&&Math.floor(GAME.inv/5)%2===0);
+  ctx.save();
+  ctx.globalAlpha=blink?.22:1;
+  if(shielded){
+    const sa=0.45+0.3*Math.sin(Date.now()/180);
+    ctx.strokeStyle=`rgba(0,255,255,${sa})`;
+    ctx.lineWidth=2; ctx.shadowColor='#00ffff'; ctx.shadowBlur=18;
+    ctx.beginPath(); ctx.arc(player.x,player.y,player.size+10,0,Math.PI*2); ctx.stroke();
+  }
+  const pCol=boosted?'#ffb000':'#00ffff';
+  ctx.shadowColor=pCol; ctx.shadowBlur=boosted?22:16;
+  ctx.fillStyle=pCol;
+  ctx.beginPath(); ctx.arc(player.x,player.y,player.size,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.6)'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(player.x-5,player.y); ctx.lineTo(player.x+5,player.y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(player.x,player.y-5); ctx.lineTo(player.x,player.y+5); ctx.stroke();
   ctx.restore();
 
-  ctx.fillStyle='rgba(4,4,4,.85)';ctx.fillRect(0,0,CW,22);
-  ctx.font='bold 10px "JetBrains Mono",monospace';
-  ctx.fillStyle='#00ff41';ctx.fillText('DATA_COLLECTED:',10,15);
-  ctx.fillStyle='#d0d0d0';ctx.fillText(String(score).padStart(4,'0'),142,15);
+  /* ── HUD ── */
+  ctx.fillStyle='rgba(4,4,4,.9)'; ctx.fillRect(0,0,CW,22);
+  ctx.font='bold 10px "JetBrains Mono",monospace'; ctx.textAlign='left';
+
+  // Score
+  ctx.fillStyle='#2a4a2a'; ctx.fillText('DATA:',10,15);
+  ctx.fillStyle='#d0d0d0'; ctx.fillText(String(GAME.score).padStart(4,'0'),57,15);
+
+  // Level
+  ctx.fillStyle='#1a3a3a'; ctx.fillText('LVL:',105,15);
+  ctx.fillStyle='#00ffff'; ctx.fillText(String(GAME.level).padStart(2,'0'),139,15);
+
+  // XP bar
+  const xp=GAME.nodesCollected/GAME.nodesPerLevel;
+  ctx.fillStyle='#0a0a0a'; ctx.fillRect(162,7,70,8);
+  const xpGlow=0.55+0.45*Math.sin(Date.now()/280);
+  ctx.fillStyle=`rgba(0,255,65,${xpGlow})`; ctx.fillRect(162,7,70*xp,8);
+  ctx.strokeStyle='rgba(0,255,65,0.18)'; ctx.lineWidth=1; ctx.strokeRect(162,7,70,8);
+  ctx.fillStyle='#1a2a1a'; ctx.font='7px "JetBrains Mono"';
+  ctx.textAlign='center'; ctx.fillText('XP',197,14); ctx.textAlign='left';
+
+  // Active powerup icons
+  ctx.font='bold 10px "JetBrains Mono"';
+  let px=242;
+  if(GAME.shield>0){
+    const a=0.5+0.5*Math.sin(Date.now()/140);
+    ctx.fillStyle=`rgba(0,255,255,${a})`;
+    ctx.fillText('🛡',px,15); px+=20;
+    // shield bar
+    ctx.fillStyle='rgba(0,255,255,0.2)'; ctx.fillRect(px,9,30,5);
+    ctx.fillStyle='rgba(0,255,255,0.7)'; ctx.fillRect(px,9,30*(GAME.shield/200),5);
+    px+=36;
+  }
+  if(GAME.boost>0){
+    ctx.fillStyle='#ffb000'; ctx.fillText('⚡',px,15); px+=20;
+    ctx.fillStyle='rgba(255,176,0,0.2)'; ctx.fillRect(px,9,30,5);
+    ctx.fillStyle='rgba(255,176,0,0.7)'; ctx.fillRect(px,9,30*(GAME.boost/160),5);
+    px+=36;
+  }
+
+  // High score
+  if(GAME.highScore>0){
+    ctx.fillStyle='#1a2a1a'; ctx.font='9px "JetBrains Mono"';
+    ctx.fillText(`HI:${String(GAME.highScore).padStart(4,'0')}`, CW/2-30, 15);
+  }
+
+  // Lives
   for(let i=0;i<3;i++){
     ctx.save();
-    ctx.shadowColor=i<lives?'#ff4444':'transparent';
-    ctx.shadowBlur=i<lives?6:0;ctx.fillStyle=i<lives?'#ff4444':'#1a1a1a';
-    ctx.beginPath();ctx.arc(CW-14-i*19,11,5,0,Math.PI*2);ctx.fill();
+    ctx.shadowColor=i<GAME.lives?'#ff4444':'transparent';
+    ctx.shadowBlur=i<GAME.lives?6:0;
+    ctx.fillStyle=i<GAME.lives?'#ff4444':'#1a1a1a';
+    ctx.beginPath(); ctx.arc(CW-14-i*20,11,5,0,Math.PI*2); ctx.fill();
     ctx.restore();
   }
-  ctx.fillStyle='#2a4a2a';ctx.font='9px "JetBrains Mono",monospace';
-  ctx.fillText('HP',CW-70,15);
+  ctx.fillStyle='#2a4a2a'; ctx.font='9px "JetBrains Mono"';
+  ctx.textAlign='left'; ctx.fillText('HP',CW-76,15);
 
-  if(over){
-    glt++;
-    ctx.fillStyle='rgba(4,4,4,.88)';ctx.fillRect(0,0,CW,CH);
-    if(glt%10<3){ctx.fillStyle='rgba(0,255,65,.04)';ctx.fillRect(0,Math.random()*CH,CW,2+Math.random()*6);}
-    const gx=glt%8<2?(Math.random()-.5)*5:0;
-    ctx.textAlign='center';
-    ctx.save();ctx.translate(gx,0);
-    ctx.font='bold 20px "JetBrains Mono",monospace';ctx.fillStyle='#ff4444';
-    ctx.fillText('SIMULATION FAILED',CW/2,CH/2-20);
+  /* ── LEVEL-UP ANNOUNCEMENT ── */
+  if(GAME.levelAnim>0){
+    const fade=Math.min(1,GAME.levelAnim/20)*Math.min(1,(GAME.levelAnim/80));
+    const glitch=GAME.levelAnim>80?(Math.random()-.5)*7:0;
+    ctx.save(); ctx.globalAlpha=fade;
+    ctx.fillStyle='rgba(0,0,0,.55)'; ctx.fillRect(0,CH/2-28,CW,54);
+    ctx.font='bold 18px "JetBrains Mono"'; ctx.textAlign='center';
+    ctx.shadowColor='#00ffff'; ctx.shadowBlur=24; ctx.fillStyle='#00ffff';
+    ctx.fillText(`── LEVEL ${GAME.level} REACHED ──`,CW/2+glitch,CH/2-8);
+    ctx.shadowBlur=0; ctx.font='9px "JetBrains Mono"'; ctx.fillStyle='#2a5a5a';
+    const msgs=[
+      `toxin_velocity += 0.22  |  toxin_count = ${toxinCount()}`,
+      `node_wave_size = ${nodeCount()}  |  xp_needed = ${GAME.nodesPerLevel}`,
+      `new powerups unlocked  |  difficulty++`,
+    ];
+    ctx.fillText(msgs[(GAME.level-2)%msgs.length]||'difficulty++',CW/2,CH/2+12);
     ctx.restore();
-    ctx.fillStyle='#2a4a2a';ctx.font='11px "JetBrains Mono",monospace';
-    ctx.fillText(`dataset_collected = ${String(score).padStart(4,'0')}`,CW/2,CH/2+6);
-    ctx.fillStyle='#00ff41';ctx.font='10px "JetBrains Mono",monospace';
-    ctx.fillText('[ press R to reinitialize ]',CW/2,CH/2+28);
+  }
+
+  /* ── GAME OVER SCREEN ── */
+  if(GAME.over){
+    GAME.glt++;
+    ctx.fillStyle='rgba(4,4,4,.9)'; ctx.fillRect(0,0,CW,CH);
+    // Scanline glitch
+    if(GAME.glt%10<3){
+      ctx.fillStyle='rgba(0,255,65,.03)';
+      ctx.fillRect(0,Math.random()*CH,CW,2+Math.random()*7);
+    }
+    const gx=GAME.glt%8<2?(Math.random()-.5)*6:0;
+    ctx.save(); ctx.translate(gx,0);
+    ctx.textAlign='center';
+    ctx.font='bold 20px "JetBrains Mono"'; ctx.fillStyle='#ff4444';
+    ctx.shadowColor='#ff4444'; ctx.shadowBlur=18;
+    ctx.fillText('SIMULATION FAILED',CW/2,CH/2-28);
+    ctx.restore();
+    ctx.shadowBlur=0; ctx.font='11px "JetBrains Mono"'; ctx.fillStyle='#2a4a2a';
+    ctx.textAlign='center';
+    ctx.fillText(`data_collected = ${String(GAME.score).padStart(4,'0')}   max_level = ${GAME.level}`,CW/2,CH/2+2);
+    if(GAME.highScore>0&&GAME.score>=GAME.highScore){
+      ctx.fillStyle='#ffb000'; ctx.font='10px "JetBrains Mono"';
+      ctx.fillText('★ NEW HIGH SCORE ★',CW/2,CH/2+20);
+    }
+    ctx.fillStyle='#00ff41'; ctx.font='10px "JetBrains Mono"';
+    ctx.fillText('[ press R to reinitialize ]',CW/2,CH/2+38);
     ctx.textAlign='left';
   }
+
   requestAnimationFrame(gameLoop);
 }
 gameLoop();
