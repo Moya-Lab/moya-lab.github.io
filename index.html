@@ -74,6 +74,7 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
   border:1px solid rgba(255,176,0,.22);padding:1px 6px;border-radius:2px;
   background:rgba(255,176,0,.04);white-space:nowrap;margin-left:auto}
 .wb{padding:16px 20px}
+.sys-line{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,255,65,.11);background:rgba(0,255,65,.03);padding:3px 12px;border-radius:2px;font-size:9px;letter-spacing:1.5px;color:var(--g);margin-bottom:12px}
 #sec-about{
   display:flex;
   flex-direction:column;
@@ -108,7 +109,7 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .sc.on{color:var(--g);border-color:rgba(0,255,65,.22);background:rgba(0,255,65,.04);
   display:flex;align-items:center;gap:5px}
 @media(max-width:560px){.lab-status{display:none}}
-.pi-grid{display:grid;grid-template-columns:60px 1fr;gap:14px;align-items:start}
+.pi-grid{display:grid;grid-template-columns:60px 1fr;gap:14px;align-items:start;padding:8px 0}
 @media(max-width:460px){.pi-grid{grid-template-columns:1fr}}
 .pi-av{width:56px;height:56px;border-radius:50%;border:2px solid rgba(0,255,65,.15);
   background:#080808;display:flex;align-items:center;justify-content:center;
@@ -272,7 +273,8 @@ footer .hi{color:#223222}
         <span class="wbadge">🚧 beta</span>
       </div>
       <div class="wb">
-        <div class="pr"><span class="pu">moya-lab</span><span class="ps">$ </span><span class="pc">cat </span><span class="pa" id="tw-pi"></span></div>        
+        <div class="pr"><span class="pu">moya-lab</span><span class="ps">$ </span><span class="pc">cat </span><span class="pa" id="tw-pi"></span></div>  
+        <div class="sys-line"><span class="blink-dot"></span>&nbsp;MOYA-LAB · ONLINE · UTEM · SANTIAGO, CHILE</div>
         <div class="pi-grid">
           <div class="pi-av"><span>👑</span><div class="pi-ring"></div></div>
           <div>
