@@ -20,14 +20,11 @@
 html{scroll-behavior:smooth}
 body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
   padding-top:22px;cursor:none;background-color:var(--bg);
-  background-image: 
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(0,255,65,.01) 2px,
-      rgba(0,255,65,.01) 4px
-    );
+  background-image:
+    radial-gradient(ellipse 90% 55% at 0% 0%,rgba(0,45,18,.7) 0%,transparent 65%),
+    radial-gradient(ellipse 70% 50% at 100% 100%,rgba(0,18,35,.75) 0%,transparent 60%),
+    radial-gradient(circle at 1px 1px,rgba(0,255,65,.04) 1px,transparent 0);
+  background-size:100% 100%,100% 100%,30px 30px;
   background-attachment:fixed}
 #overlay{position:fixed;inset:0;pointer-events:none;z-index:8000;
   background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 4px);
