@@ -75,19 +75,9 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
   background:rgba(255,176,0,.04);white-space:nowrap;margin-left:auto}
 .wb{padding:16px 20px}
 .sys-line{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,255,65,.11);background:rgba(0,255,65,.03);padding:3px 12px;border-radius:2px;font-size:9px;letter-spacing:1.5px;color:var(--g);margin-bottom:12px}
-#sec-about{
-  display:flex;
-  flex-direction:column;
-}
-#sec-about .wb{
-  display:flex;
-  flex-direction:column;
-  flex:1;
-}
-
-#sec-about .diasma{
-  margin-top:auto;
-}
+#sec-about{display:flex;flex-direction:column}
+#sec-about .wb{display:flex;flex-direction:column;flex:1}
+#sec-about .diasma{margin-top:auto}
 .pr{font-size:11px;margin-bottom:11px;line-height:1.5;word-break:break-all;color:var(--dim)}
 .pu{color:var(--g)}.ps{color:var(--g)}.pc{color:#d0d0d0}.pa{color:var(--am)}.pf{color:var(--cy)}
 .ptyped{border-right:2px solid var(--g)}
@@ -129,6 +119,8 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
   border:1px solid rgba(0,255,255,.17);padding:2px 7px;border-radius:2px;flex-shrink:0;margin-top:2px}
 .dtitle{font-size:11px;color:#d0d0d0;font-weight:700;line-height:1.4}
 .dsub{font-size:9px;color:var(--mu);margin-top:2px;line-height:1.5}
+
+/* ── MEMBERS ── */
 .mem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .mem-card{background:rgba(5,8,6,.95);border:1px solid var(--br);border-radius:4px;
   padding:13px 10px;text-align:center;cursor:none;
@@ -142,14 +134,29 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .mem-card.pi-card .mem-role{color:var(--g)}
 .mem-av{width:44px;height:44px;border-radius:50%;border:1px solid var(--br);
   margin-bottom:7px;display:flex;align-items:center;justify-content:center;
-  font-size:19px;background:#080808;overflow:hidden;flex-shrink:0}
+  font-size:19px;background:#080808;overflow:hidden;flex-shrink:0;position:relative}
 .mem-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+/* avatar fallback emoji — shown if img fails */
+.mem-av .av-fallback{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:19px;pointer-events:none}
 .mem-name{font-size:10px;color:var(--g);margin-bottom:2px;font-weight:600;line-height:1.3}
 .mem-role{font-size:8px;color:var(--dim);letter-spacing:.5px;line-height:1.4}
 .mem-sub{font-size:7px;color:#2a3a2a;margin-top:1px}
+.mem-badge{font-size:7px;letter-spacing:.8px;text-transform:uppercase;
+  margin-top:5px;padding:1px 6px;border-radius:2px;border:1px solid}
+.mem-badge.pi{color:var(--g);border-color:rgba(0,255,65,.2);background:rgba(0,255,65,.04)}
+.mem-badge.phd{color:var(--cy);border-color:rgba(0,255,255,.2);background:rgba(0,255,255,.03)}
+.mem-badge.msc{color:var(--am);border-color:rgba(255,176,0,.2);background:rgba(255,176,0,.03)}
+.mem-badge.ra{color:var(--vi);border-color:rgba(191,95,255,.2);background:rgba(191,95,255,.03)}
+.mem-badge.extern{color:#888;border-color:rgba(128,128,128,.2);background:rgba(128,128,128,.03)}
 .mem-email{font-size:8px;color:var(--cy);text-decoration:none;margin-top:5px;opacity:.65;transition:opacity .15s}
 .mem-email:hover{opacity:1}
 .mem-join{border-style:dashed;opacity:.5}.mem-join:hover{opacity:1;border-color:var(--dim)}
+/* source tag on top-right of team window */
+.mem-source{font-size:7px;color:#1a3a1a;text-align:right;margin-top:8px;letter-spacing:.5px}
+.mem-source span{color:var(--dim)}
+.mem-error{font-size:9px;color:var(--rd);padding:6px 0}
+
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .stat-chip{background:rgba(5,8,6,.95);border:1px solid var(--br);border-radius:4px;padding:11px 13px}
 .stat-lbl{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
@@ -202,33 +209,20 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .snote{font-size:9px;color:#1c2c1c;text-align:right;margin-top:6px}
 #sec-pubs,#sec-game{content-visibility:auto;contain-intrinsic-size:0 420px}
 
-/* ── GAME CANVAS WRAPPER ── */
+/* ── GAME ── */
 #gameWrapper{position:relative;display:block;width:100%}
 #gameCanvas{background:#030505;border:1px solid var(--br);border-radius:3px;
   display:block;width:100%;height:auto;max-width:100%}
-#fsBtn{
-  position:absolute;top:28px;right:9px;
-  font-family:var(--mono);font-size:8px;letter-spacing:.8px;
-  padding:3px 9px;border:1px solid rgba(0,255,65,.18);
-  background:rgba(6,8,6,.88);color:var(--g);cursor:pointer;
-  border-radius:2px;z-index:10;transition:background .12s,border-color .12s;
-  user-select:none;
-}
+#fsBtn{position:absolute;top:28px;right:9px;font-family:var(--mono);font-size:8px;
+  letter-spacing:.8px;padding:3px 9px;border:1px solid rgba(0,255,65,.18);
+  background:rgba(6,8,6,.88);color:var(--g);cursor:pointer;border-radius:2px;
+  z-index:10;transition:background .12s,border-color .12s;user-select:none}
 #fsBtn:hover{background:rgba(0,255,65,.07);border-color:rgba(0,255,65,.35)}
-/* Fullscreen styles */
-#gameWrapper:fullscreen,#gameWrapper:-webkit-full-screen{
-  display:flex;align-items:center;justify-content:center;background:#060808;
-}
-#gameWrapper:fullscreen #gameCanvas,#gameWrapper:-webkit-full-screen #gameCanvas{
-  width:auto;height:auto;max-width:100vw;max-height:100vh;border:none;
-}
-#gameWrapper:fullscreen #fsBtn,#gameWrapper:-webkit-full-screen #fsBtn{
-  position:fixed;top:12px;right:12px;
-}
-
+#gameWrapper:fullscreen,#gameWrapper:-webkit-full-screen{display:flex;align-items:center;justify-content:center;background:#060808}
+#gameWrapper:fullscreen #gameCanvas,#gameWrapper:-webkit-full-screen #gameCanvas{width:auto;height:auto;max-width:100vw;max-height:100vh;border:none}
+#gameWrapper:fullscreen #fsBtn,#gameWrapper:-webkit-full-screen #fsBtn{position:fixed;top:12px;right:12px}
 .game-keys{font-size:9px;color:var(--dim);margin-top:8px;display:flex;gap:14px;flex-wrap:wrap}
 .key{display:inline-block;background:#0a0a0a;border:1px solid #181818;border-radius:2px;padding:1px 5px;font-size:8px;color:#3a3a3a}
-
 footer{margin-top:24px;padding-bottom:16px;font-size:9px;color:#162016;letter-spacing:1.2px;text-align:center;line-height:2}
 footer .hi{color:#223222}
 </style>
@@ -273,7 +267,7 @@ footer .hi{color:#223222}
         <span class="wbadge">🚧 beta</span>
       </div>
       <div class="wb">
-        <div class="pr"><span class="pu">moya-lab</span><span class="ps">$ </span><span class="pc">cat </span><span class="pa" id="tw-pi"></span></div>  
+        <div class="pr"><span class="pu">moya-lab</span><span class="ps">$ </span><span class="pc">cat </span><span class="pa" id="tw-pi"></span></div>
         <div class="sys-line"><span class="blink-dot"></span>&nbsp;LAB ONLINE · assembling team · building pipelines · chasing microbes</div>
         <div class="pi-grid">
           <div class="pi-av"><span>👑</span><div class="pi-ring"></div></div>
@@ -283,7 +277,7 @@ footer .hi{color:#223222}
             <div class="kv"><span class="kk">INSTITUTION</span><span class="kv-v">Universidad Tecnológica Metropolitana (UTEM)</span></div>
             <div class="kv"><span class="kk">AFFILIATION</span><span class="kv-v">Departamento de Informática y Computación, Fac. Ingeniería</span></div>
             <div class="kv"><span class="kk">PhD</span><span class="kv-v">Biotecnología · Univ. Andrés Bello · 2020</span></div>
-            <div class="kv"><span class="kk">LOCATION</span><span class="kv-v">Ñuñoa, Santiago, Chile</span></div>            
+            <div class="kv"><span class="kk">LOCATION</span><span class="kv-v">Ñuñoa, Santiago, Chile</span></div>
             <div class="lnks">
               <a class="btn cy" href="mailto:amoya@utem.cl" target="_blank">→ Contact</a>
               <a class="btn cy" href="https://scholar.google.com/citations?user=vYrLnT4AAAAJ" target="_blank">→ Scholar</a>
@@ -304,7 +298,7 @@ footer .hi{color:#223222}
           <div class="lnks">
             <a class="btn cy" href="https://postgrado.utem.cl/doctorado-iasma/" target="_blank">→ DIASMA</a>
             <a class="btn cy" href="https://investigacion.utem.cl/" target="_blank">→ Investigación</a>
-            <a class="btn"    href="https://informatica.utem.cl/" target="_blank">→ Computer Science </a>
+            <a class="btn"    href="https://informatica.utem.cl/" target="_blank">→ Computer Science</a>
             <a class="btn vi" href="https://postgrado.utem.cl" target="_blank">→ Postgrado</a>
             <a class="btn am" href="https://www.instagram.com/doctorado.iasma/" target="_blank">→ @doctorado.iasma</a>
           </div>
@@ -312,14 +306,21 @@ footer .hi{color:#223222}
       </div>
     </div>
 
+    <!-- ══ TEAM WINDOW ══ -->
     <div id="sec-team" class="win">
       <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
         <span class="wt">team.json — Lab Members</span>
+        <span class="wbadge" id="teamBadge">loading…</span>
       </div>
       <div class="wb">
-        <div class="pr"><span class="pu">moya-lab</span><span class="ps">$ </span><span class="pc">cat </span><span class="pa">team.json</span><span class="pf"> | jq '.members[]'</span></div>
-        <div id="membersContainer"><div class="ld"><div class="sp"></div> Loading…</div></div>
+        <div class="pr">
+          <span class="pu">moya-lab</span><span class="ps">$ </span>
+          <span class="pc">curl -s </span>
+          <span class="pf">raw.githubusercontent.com/Moya-Lab/.../team.json</span>
+        </div>
+        <div id="membersContainer"><div class="ld"><div class="sp"></div> Fetching team.json…</div></div>
+        <div class="mem-source" id="memberSource"></div>
       </div>
     </div>
   </div>
@@ -415,8 +416,7 @@ footer .hi{color:#223222}
       </div>
       <div class="game-keys">
         <span><span class="key">↑↓←→</span>/<span class="key">WASD</span> move</span>
-        <span id="leg1"></span>
-        <span id="leg2"></span>
+        <span id="leg1"></span><span id="leg2"></span>
         <span>🔴 avoid toxins &nbsp;🟣 shield power-up &nbsp;💚 +life pickup</span>
         <span><span class="key">R</span> restart / new mode &nbsp;<span class="key">⛶</span> fullscreen</span>
       </div>
@@ -442,8 +442,8 @@ document.addEventListener('mousemove', e => {
 /* ══ DNA TICKER ══ */
 (() => {
   const B = 'ATCGATCGGCTAGCTATCGATCGATAATCGGCTATCGATCGATCGGCTAGCTATCGATCGATAATCGATCG';
-  const M = { A: 'dA', T: 'dT', C: 'dC', G: 'dG' };
-  let u = ''; while (u.length < 600) u += B; u = u.slice(0, 600);
+  const M = { A:'dA', T:'dT', C:'dC', G:'dG' };
+  let u = ''; while (u.length < 600) u += B; u = u.slice(0,600);
   let h = '';
   for (let k = 0; k < 2; k++) { for (const c of u) h += `<span class="${M[c]}">${c}</span>`; h += '<span class="dSep">///</span>'; }
   document.getElementById('dnaTrack').innerHTML = h;
@@ -452,9 +452,9 @@ document.addEventListener('mousemove', e => {
 /* ══ UPTIME ══ */
 const _T0 = Date.now();
 setInterval(() => {
-  const s = Math.floor((Date.now() - _T0) / 1000), el = document.getElementById('uptime');
-  if (el) el.textContent = [Math.floor(s / 3600), Math.floor((s % 3600) / 60), s % 60].map(n => String(n).padStart(2, '0')).join(':');
-}, 1000);
+  const s = Math.floor((Date.now()-_T0)/1000), el = document.getElementById('uptime');
+  if (el) el.textContent = [Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(n=>String(n).padStart(2,'0')).join(':');
+},1000);
 
 /* ══ BOOT ══ */
 document.getElementById('boot-ascii').textContent =
@@ -465,203 +465,307 @@ document.getElementById('boot-ascii').textContent =
  ██║ ╚═╝ ██║╚██████╔╝   ██║   ██║  ██║      ███████╗██║  ██║██████╔╝
  ╚═╝     ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝      ╚══════╝╚═╝  ╚═╝╚═════╝`;
 
-[{ t: 'MOYA-LAB // Computational Biology Lab · UTEM', c: 'ok', d: 0 },
- { t: 'Modelling Omics Yielding Analytics · Santiago, Chile', c: 'info', d: 100 },
- { t: '', c: '', d: 170 },
- { t: '[ OK ] Genome indexer loaded', c: 'ok', d: 270 },
- { t: '[ OK ] NCBI eutils: connecting…', c: 'ok', d: 370 },
- { t: '[ OK ] ORCID API: ready', c: 'ok', d: 450 },
- { t: '[ OK ] DIASMA program: linked', c: 'ok', d: 530 },
- { t: '[ OK ] All systems nominal.', c: 'ok', d: 690 },
- { t: '', c: '', d: 750 },
- { t: 'Welcome, researcher.', c: 'info', d: 820 },
-].forEach((l, i, a) => {
-  setTimeout(() => {
-    const d = document.createElement('div');
-    d.className = l.c; d.textContent = l.t;
+[{t:'MOYA-LAB // Computational Biology Lab · UTEM',c:'ok',d:0},
+ {t:'Modelling Omics Yielding Analytics · Santiago, Chile',c:'info',d:100},
+ {t:'',c:'',d:170},
+ {t:'[ OK ] Genome indexer loaded',c:'ok',d:270},
+ {t:'[ OK ] NCBI eutils: connecting…',c:'ok',d:370},
+ {t:'[ OK ] ORCID API: ready',c:'ok',d:450},
+ {t:'[ OK ] team.json: fetching…',c:'ok',d:530},
+ {t:'[ OK ] All systems nominal.',c:'ok',d:690},
+ {t:'',c:'',d:750},
+ {t:'Welcome, researcher.',c:'info',d:820},
+].forEach((l,i,a)=>{
+  setTimeout(()=>{
+    const d=document.createElement('div'); d.className=l.c; d.textContent=l.t;
     document.getElementById('boot-log').appendChild(d);
-    document.getElementById('boot-bar').style.width = ((i + 1) / a.length * 100) + '%';
-  }, l.d);
+    document.getElementById('boot-bar').style.width=((i+1)/a.length*100)+'%';
+  },l.d);
 });
 
-setTimeout(() => {
+setTimeout(()=>{
   document.getElementById('boot').classList.add('fade-out');
-  setTimeout(() => {
-    document.getElementById('boot').style.display = 'none';
-    document.getElementById('terminal').style.display = 'block';
-    typeInto('tw-pi', 'lab_info.json | jq', 36);
-  }, 600);
-}, 1500);
+  setTimeout(()=>{
+    document.getElementById('boot').style.display='none';
+    document.getElementById('terminal').style.display='block';
+    typeInto('tw-pi','lab_info.json | jq',36);
+  },600);
+},1500);
 
-function typeInto(id, text, speed, cb) {
-  const el = document.getElementById(id); if (!el) { cb && cb(); return; }
-  let i = 0; el.textContent = ''; el.classList.add('ptyped');
-  const t = setInterval(() => {
-    el.textContent += text[i++];
-    if (i >= text.length) { clearInterval(t); el.classList.remove('ptyped'); cb && cb(); }
-  }, speed || 36);
+function typeInto(id,text,speed,cb){
+  const el=document.getElementById(id); if(!el){cb&&cb();return;}
+  let i=0; el.textContent=''; el.classList.add('ptyped');
+  const t=setInterval(()=>{
+    el.textContent+=text[i++];
+    if(i>=text.length){clearInterval(t);el.classList.remove('ptyped');cb&&cb();}
+  },speed||36);
 }
+
+/* ══════════════════════════════════════════════════════════
+   MEMBERS — team.json driven, con badge map y fallback
+══════════════════════════════════════════════════════════ */
+
+/*
+  ESTRUCTURA ESPERADA DE team.json
+  (colócalo en: https://raw.githubusercontent.com/Moya-Lab/Moya-Lab/main/team.json)
+
+  {
+    "members": [
+      {
+        "github":  "amoyabeltran",        ← username GitHub (obligatorio para avatar)
+        "name":    "Ana Moya Beltrán",
+        "role":    "Principal Investigator",
+        "sub":     "Research Asst. Prof. · UTEM",
+        "email":   "amoya@utem.cl",
+        "emoji":   "👑",                  ← fallback si el avatar no carga
+        "badge":   "pi",                  ← "pi" | "phd" | "msc" | "ra" | "extern"
+        "pi":      true                   ← tarjeta destacada (solo PI)
+      },
+      {
+        "github":  "fcabezasmera",
+        "name":    "Fausto Cabezas-Mera",
+        "role":    "PhD Candidate",
+        "sub":     "DIASMA · Biología Computacional",
+        "email":   "fcabezasme@utem.cl",
+        "emoji":   "🌱",
+        "badge":   "phd"
+      }
+    ]
+  }
+*/
+
+/* Datos CORE hardcodeados — usados si team.json falla */
+const CORE_FALLBACK = [
+  { github:'amoyabeltran', name:'Ana Moya Beltrán',   role:'Principal Investigator',
+    sub:'Research Asst. Prof. · UTEM',        email:'amoya@utem.cl',       emoji:'👑', badge:'pi',  pi:true },
+  { github:'fcabezasmera', name:'Fausto Cabezas-Mera', role:'PhD Candidate',
+    sub:'DIASMA · Biología Computacional',    email:'fcabezasme@utem.cl',  emoji:'🌱', badge:'phd' },
+];
+
+/* Badge labels legibles */
+const BADGE_LABEL = { pi:'PI', phd:'PhD', msc:'MSc', ra:'Res. Asst.', extern:'External' };
+
+/* Avatar URL pública de GitHub — sin API, sin rate limit */
+const ghAvatar = (username, size=80) =>
+  `https://github.com/${username}.png?size=${size}`;
+
+/* Construye una tarjeta de miembro */
+function buildMemberCard(m) {
+  const avStyle   = m.pi ? 'position:relative;border-color:rgba(0,255,65,.3);width:50px;height:50px' : '';
+  const ring      = m.pi ? `<div class="pi-ring"></div>` : '';
+  const badgeHTML = m.badge && BADGE_LABEL[m.badge]
+    ? `<span class="mem-badge ${m.badge}">${BADGE_LABEL[m.badge]}</span>` : '';
+  const emailHTML = m.email
+    ? `<a class="mem-email" href="mailto:${m.email}" onclick="event.stopPropagation()">✉ ${m.email}</a>` : '';
+  const profileURL = m.github
+    ? `https://github.com/${m.github}` : (m.url || '#');
+
+  /* Avatar: imagen GitHub + emoji como fallback visible si falla */
+  const avatarHTML = m.github
+    ? `<img src="${ghAvatar(m.github)}"
+            alt="${m.name}"
+            loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+       <span class="av-fallback" style="display:none">${m.emoji || '🧬'}</span>`
+    : `<span class="av-fallback">${m.emoji || '🧬'}</span>`;
+
+  return `
+    <div class="mem-card${m.pi ? ' pi-card' : ''}"
+         onclick="window.open('${profileURL}','_blank')"
+         title="${m.name} · ${m.role}">
+      <div class="mem-av" style="${avStyle}">
+        ${avatarHTML}${ring}
+      </div>
+      <div class="mem-name">${m.name}</div>
+      <div class="mem-role">${m.role}</div>
+      <div class="mem-sub">${m.sub || ''}</div>
+      ${badgeHTML}
+      ${emailHTML}
+    </div>`;
+}
+
+/* Tarjeta "Join the Lab" */
+const JOIN_CARD = `
+  <div class="mem-card mem-join" onclick="window.open('mailto:amoya@utem.cl','_blank')" title="Open positions">
+    <div class="mem-av" style="border-style:dashed;font-size:16px">➕</div>
+    <div class="mem-name" style="color:var(--dim)">Join the Lab</div>
+    <div class="mem-role" style="color:#2a4a2a">Open positions</div>
+    <div class="mem-sub">amoya@utem.cl</div>
+  </div>`;
+
+/* Renderiza la grilla con un array de miembros */
+function renderMembers(members) {
+  const box = document.getElementById('membersContainer');
+  const cards = members.map(buildMemberCard).join('');
+  box.innerHTML = `<div class="mem-grid">${cards}${JOIN_CARD}</div>`;
+}
+
+/* Carga principal: team.json desde el repo */
+async function loadMembers() {
+  const badge  = document.getElementById('teamBadge');
+  const source = document.getElementById('memberSource');
+
+  /* URL del archivo — ajusta la rama si es necesario */
+  const JSON_URL =
+    'https://raw.githubusercontent.com/Moya-Lab/Moya-Lab/main/team.json';
+
+  try {
+    const r = await fetch(JSON_URL, { signal: AbortSignal.timeout(7000) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+
+    const data = await r.json();
+    const members = data.members;
+
+    if (!Array.isArray(members) || members.length === 0)
+      throw new Error('empty or malformed team.json');
+
+    renderMembers(members);
+    badge.textContent  = `${members.length} members`;
+    badge.style.color  = 'var(--g)';
+    source.innerHTML   = `# source: <span>team.json @ GitHub</span> · ${new Date().toLocaleTimeString()}`;
+
+  } catch (err) {
+    /* Fallback silencioso al array CORE hardcodeado */
+    console.warn('[members] team.json failed, using fallback:', err.message);
+    renderMembers(CORE_FALLBACK);
+    badge.textContent = `${CORE_FALLBACK.length} members`;
+    badge.style.color = 'var(--am)';
+    source.innerHTML  =
+      `# <span style="color:var(--am)">fallback · team.json unreachable</span> · ${new Date().toLocaleTimeString()}`;
+  }
+}
+
+loadMembers();
+
 
 /* ══ NCBI STATS ══ */
-function animNum(el, n, tsEl, src) {
-  const dur = 1500, t0 = performance.now();
-  (function step(now) {
-    const p = Math.min((now - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.floor(e * n).toLocaleString('en-US');
-    if (p < 1) requestAnimationFrame(step);
-    else { el.textContent = n.toLocaleString('en-US'); if (tsEl) tsEl.textContent = `${src} · ${new Date().toLocaleTimeString()}`; }
+function animNum(el,n,tsEl,src){
+  const dur=1500,t0=performance.now();
+  (function step(now){
+    const p=Math.min((now-t0)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(e*n).toLocaleString('en-US');
+    if(p<1)requestAnimationFrame(step);
+    else{el.textContent=n.toLocaleString('en-US');if(tsEl)tsEl.textContent=`${src} · ${new Date().toLocaleTimeString()}`;}
   })(performance.now());
 }
-const FB = { nuccore: 263000000, protein: 763000000, assembly: 4200000, pubmed: 37000000 };
-(async () => {
-  const dbs = [
-    { db: 'nuccore', el: 'cntNucleotide', ts: 'tsNucleotide', src: 'NCBI nuccore' },
-    { db: 'protein',  el: 'cntProtein',   ts: 'tsProtein',   src: 'NCBI Protein' },
-    { db: 'assembly', el: 'cntGenome',    ts: 'tsGenome',    src: 'NCBI Assembly' },
-    { db: 'pubmed',   el: 'cntPubmed',    ts: 'tsPubmed',    src: 'NCBI PubMed' },
+const FB={nuccore:263000000,protein:763000000,assembly:4200000,pubmed:37000000};
+(async()=>{
+  const dbs=[
+    {db:'nuccore',el:'cntNucleotide',ts:'tsNucleotide',src:'NCBI nuccore'},
+    {db:'protein', el:'cntProtein',  ts:'tsProtein',  src:'NCBI Protein'},
+    {db:'assembly',el:'cntGenome',   ts:'tsGenome',   src:'NCBI Assembly'},
+    {db:'pubmed',  el:'cntPubmed',   ts:'tsPubmed',   src:'NCBI PubMed'},
   ];
-  const log = document.getElementById('statsLog');
-  const res = await Promise.allSettled(dbs.map(async ({ db }) => {
-    const r = await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi?db=${db}&retmode=json&tool=moya-lab&email=amoya@utem.cl`, { signal: AbortSignal.timeout(8000) });
-    if (!r.ok) throw 0;
-    const d = await r.json();
-    const info = Array.isArray(d.einforesult?.dbinfo) ? d.einforesult.dbinfo[0] : d.einforesult?.dbinfo;
-    const c = parseInt(info?.count ?? '0', 10); if (!c) throw 0; return c;
+  const log=document.getElementById('statsLog');
+  const res=await Promise.allSettled(dbs.map(async({db})=>{
+    const r=await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi?db=${db}&retmode=json&tool=moya-lab&email=amoya@utem.cl`,{signal:AbortSignal.timeout(8000)});
+    if(!r.ok)throw 0;
+    const d=await r.json();
+    const info=Array.isArray(d.einforesult?.dbinfo)?d.einforesult.dbinfo[0]:d.einforesult?.dbinfo;
+    const c=parseInt(info?.count??'0',10);if(!c)throw 0;return c;
   }));
-  let live = 0;
-  res.forEach((r, i) => {
-    const { el, ts, src } = dbs[i], elV = document.getElementById(el), elT = document.getElementById(ts);
-    if (r.status === 'fulfilled') { animNum(elV, r.value, elT, src); live++; }
-    else { animNum(elV, FB[dbs[i].db], elT, `${src} · cached ≈ 2025`); elV.title = 'Live fetch failed'; }
+  let live=0;
+  res.forEach((r,i)=>{
+    const{el,ts,src}=dbs[i],elV=document.getElementById(el),elT=document.getElementById(ts);
+    if(r.status==='fulfilled'){animNum(elV,r.value,elT,src);live++;}
+    else{animNum(elV,FB[dbs[i].db],elT,`${src} · cached ≈ 2025`);elV.title='Live fetch failed';}
   });
-  const ts = new Date().toLocaleTimeString();
-  log.innerHTML = live === 4
-    ? `<span style="color:var(--g)"># ✓ All live · NCBI eutils · ${ts}</span>`
-    : live > 0 ? `<span style="color:var(--am)"># ${live}/4 live · ${4 - live} cached · ${ts}</span>`
-    : `<span style="color:var(--dim)"># Cached ≈ 2025 (NCBI unreachable)</span>`;
-})();
-
-/* ══ MEMBERS ══ */
-const CORE = [
-  { name: 'Ana Moya Beltrán', role: 'Principal Investigator', sub: 'Research Asst. Prof. · UTEM', email: 'amoya@utem.cl', emoji: '👑', url: 'https://github.com/Moya-Lab', pi: true },
-  { name: 'Fausto Cabezas-Mera', role: 'PhD Candidate', sub: 'DIASMA · Biología Computacional', email: 'fcabezasme@utem.cl', emoji: '🌱', url: 'https://github.com/fcabezasmera' },
-];
-(async () => {
-  const box = document.getElementById('membersContainer');
-  let ghExtra = '';
-  try {
-    const r = await fetch('https://api.github.com/orgs/Moya-Lab/members', { headers: { Accept: 'application/vnd.github+json' }, signal: AbortSignal.timeout(7000) });
-    if (r.ok) (await r.json() || []).forEach(m => {
-      if (['moya', 'cabezas', 'amoya', 'fausto'].some(k => m.login.toLowerCase().includes(k))) return;
-      ghExtra += `<div class="mem-card" onclick="window.open('${m.html_url}','_blank')"><div class="mem-av"><img src="${m.avatar_url}&s=80" alt="${m.login}" loading="lazy"/></div><div class="mem-name">@${m.login}</div><div class="mem-role">Lab Member</div></div>`;
-    });
-  } catch {}
-  const coreHTML = CORE.map(m => {
-    const ring = m.pi ? `<div style="position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(0,255,65,.22);animation:ring 4s ease-in-out infinite;will-change:opacity"></div>` : '';
-    const avStyle = m.pi ? 'position:relative;border-color:rgba(0,255,65,.3);width:50px;height:50px;font-size:22px' : '';
-    return `<div class="mem-card${m.pi ? ' pi-card' : ''}" onclick="window.open('${m.url}','_blank')">
-      <div class="mem-av" style="${avStyle}"><span>${m.emoji}</span>${ring}</div>
-      <div class="mem-name">${m.name}</div><div class="mem-role">${m.role}</div>
-      <div class="mem-sub">${m.sub}</div>
-      <a class="mem-email" href="mailto:${m.email}">✉ ${m.email}</a></div>`;
-  }).join('');
-  box.innerHTML = `<div class="mem-grid">${coreHTML}${ghExtra}
-    <div class="mem-card mem-join" onclick="window.open('mailto:amoya@utem.cl','_blank')">
-      <div class="mem-av" style="border-style:dashed;font-size:16px">➕</div>
-      <div class="mem-name" style="color:var(--dim)">Join the Lab</div>
-      <div class="mem-role" style="color:#2a4a2a">Open positions</div>
-      <div class="mem-sub">amoya@utem.cl</div></div></div>`;
+  const ts=new Date().toLocaleTimeString();
+  log.innerHTML=live===4
+    ?`<span style="color:var(--g)"># ✓ All live · NCBI eutils · ${ts}</span>`
+    :live>0?`<span style="color:var(--am)"># ${live}/4 live · ${4-live} cached · ${ts}</span>`
+    :`<span style="color:var(--dim)"># Cached ≈ 2025 (NCBI unreachable)</span>`;
 })();
 
 /* ══ SPOTLIGHT ══ */
-const WIKI = ['Bioinformatics','Computational_biology','Metagenomics','Genomics','Transcriptomics','Proteomics','Multi-omics','Systems_biology','Machine_learning','Deep_learning','Protein_structure_prediction','AlphaFold','CRISPR','Genome_editing','Synthetic_biology','Microbiome','Microbial_ecology','Acidithiobacillus','Biomining','Phylogenetics','Phylogenomics','Molecular_evolution','Horizontal_gene_transfer','RNA-Seq','Single-cell_sequencing','Pan-genome','Genome_assembly','Epigenomics','Next-generation_sequencing','Gene_regulatory_network','Metagenome-assembled_genome'];
-let _lf = -1;
-async function loadNextFact() {
-  let i; do { i = Math.floor(Math.random() * WIKI.length); } while (i === _lf); _lf = i;
-  const topic = WIKI[i], label = topic.replace(/_/g, ' ').replace(/\(.*?\)/, '').trim();
-  const te = document.getElementById('factText'), im = document.getElementById('factImage');
-  document.getElementById('factTag').textContent = label;
-  document.getElementById('spotTopic').textContent = label;
-  te.style.opacity = '0'; im.classList.add('hidden');
-  try {
-    const r = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic)}`);
-    if (!r.ok) throw 0;
-    const d = await r.json();
-    setTimeout(() => {
-      const ex = d.extract ?? '';
-      te.textContent = ex.length > 270 ? ex.slice(0, 267) + '…' : ex; te.style.opacity = '1';
-      if (d.thumbnail?.source) { im.src = d.thumbnail.source; im.classList.remove('hidden'); }
-      document.getElementById('factLink').href = d.content_urls?.desktop?.page ?? '#';
-    }, 240);
-  } catch { setTimeout(() => { te.textContent = '⚠ Could not load summary.'; te.style.opacity = '1'; }, 240); }
+const WIKI=['Bioinformatics','Computational_biology','Metagenomics','Genomics','Transcriptomics','Proteomics','Multi-omics','Systems_biology','Machine_learning','Deep_learning','Protein_structure_prediction','AlphaFold','CRISPR','Genome_editing','Synthetic_biology','Microbiome','Microbial_ecology','Acidithiobacillus','Biomining','Phylogenetics','Phylogenomics','Molecular_evolution','Horizontal_gene_transfer','RNA-Seq','Single-cell_sequencing','Pan-genome','Genome_assembly','Epigenomics','Next-generation_sequencing','Gene_regulatory_network','Metagenome-assembled_genome'];
+let _lf=-1;
+async function loadNextFact(){
+  let i;do{i=Math.floor(Math.random()*WIKI.length);}while(i===_lf);_lf=i;
+  const topic=WIKI[i],label=topic.replace(/_/g,' ').replace(/\(.*?\)/,'').trim();
+  const te=document.getElementById('factText'),im=document.getElementById('factImage');
+  document.getElementById('factTag').textContent=label;
+  document.getElementById('spotTopic').textContent=label;
+  te.style.opacity='0';im.classList.add('hidden');
+  try{
+    const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic)}`);
+    if(!r.ok)throw 0;
+    const d=await r.json();
+    setTimeout(()=>{
+      const ex=d.extract??'';
+      te.textContent=ex.length>270?ex.slice(0,267)+'…':ex;te.style.opacity='1';
+      if(d.thumbnail?.source){im.src=d.thumbnail.source;im.classList.remove('hidden');}
+      document.getElementById('factLink').href=d.content_urls?.desktop?.page??'#';
+    },240);
+  }catch{setTimeout(()=>{te.textContent='⚠ Could not load summary.';te.style.opacity='1';},240);}
 }
-loadNextFact(); setInterval(loadNextFact, 28000);
+loadNextFact();setInterval(loadNextFact,28000);
 
 /* ══ LAB PUBLICATIONS ══ */
-let _pubs = [], _pp = 0, _pt = null;
-const PUB_N = 3, PUB_MS = 9000;
-function renderPubs(page) {
-  const box = document.getElementById('pubContainer'), pager = document.getElementById('pubPager');
-  const dots = document.getElementById('pubDots'), info = document.getElementById('pubInfo');
-  const fill = document.getElementById('pubBarFill'), bw = document.getElementById('pubBarWrap');
-  const pages = Math.ceil(_pubs.length / PUB_N);
-  _pp = ((page % pages) + pages) % pages;
-  const slice = _pubs.slice(_pp * PUB_N, (_pp + 1) * PUB_N);
-  box.style.opacity = '0';
-  setTimeout(() => {
-    box.innerHTML = slice.map(p => {
-      const hash = '#' + Math.random().toString(16).slice(2, 9).toUpperCase(), href = p.href || '#';
-      return `<div class="pub-entry" onclick="window.open('${href}','_blank')">
-        <div class="pub-hash">commit ${hash} · ${p.year || '—'}</div>
+let _pubs=[],_pp=0,_pt=null;
+const PUB_N=3,PUB_MS=9000;
+function renderPubs(page){
+  const box=document.getElementById('pubContainer'),pager=document.getElementById('pubPager');
+  const dots=document.getElementById('pubDots'),info=document.getElementById('pubInfo');
+  const fill=document.getElementById('pubBarFill'),bw=document.getElementById('pubBarWrap');
+  const pages=Math.ceil(_pubs.length/PUB_N);
+  _pp=((page%pages)+pages)%pages;
+  const slice=_pubs.slice(_pp*PUB_N,(_pp+1)*PUB_N);
+  box.style.opacity='0';
+  setTimeout(()=>{
+    box.innerHTML=slice.map(p=>{
+      const hash='#'+Math.random().toString(16).slice(2,9).toUpperCase(),href=p.href||'#';
+      return`<div class="pub-entry" onclick="window.open('${href}','_blank')">
+        <div class="pub-hash">commit ${hash} · ${p.year||'—'}</div>
         <div class="pub-title">${p.title}</div>
         <div class="pub-meta">
-          ${p.journal ? `<span class="jnl">${p.journal}</span>` : ''}
-          ${p.authors ? `<span class="auth">${p.authors}</span>` : ''}
-          <span class="yr">${p.year || ''}</span>
-          ${p.cit ? `<span class="cit">⭐ ${p.cit}</span>` : ''}
+          ${p.journal?`<span class="jnl">${p.journal}</span>`:''}
+          ${p.authors?`<span class="auth">${p.authors}</span>`:''}
+          <span class="yr">${p.year||''}</span>
+          ${p.cit?`<span class="cit">⭐ ${p.cit}</span>`:''}
           <a class="lnk" href="${href}" target="_blank" onclick="event.stopPropagation()">→ view</a>
         </div></div>`;
-    }).join(''); box.style.opacity = '1';
-  }, 200);
-  dots.innerHTML = Array.from({ length: pages }, (_, i) => `<div class="pdot${i === _pp ? ' active' : ''}" onclick="renderPubs(${i})"></div>`).join('');
-  info.textContent = `${_pp * PUB_N + 1}–${Math.min((_pp + 1) * PUB_N, _pubs.length)} / ${_pubs.length}`;
-  pager.style.display = 'flex'; bw.style.display = 'block';
-  clearInterval(_pt); fill.style.transition = 'none'; fill.style.width = '0%';
-  requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.transition = `width ${PUB_MS}ms linear`; fill.style.width = '100%'; }));
-  _pt = setInterval(() => renderPubs(_pp + 1), PUB_MS);
+    }).join('');box.style.opacity='1';
+  },200);
+  dots.innerHTML=Array.from({length:pages},(_,i)=>`<div class="pdot${i===_pp?' active':''}" onclick="renderPubs(${i})"></div>`).join('');
+  info.textContent=`${_pp*PUB_N+1}–${Math.min((_pp+1)*PUB_N,_pubs.length)} / ${_pubs.length}`;
+  pager.style.display='flex';bw.style.display='block';
+  clearInterval(_pt);fill.style.transition='none';fill.style.width='0%';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{fill.style.transition=`width ${PUB_MS}ms linear`;fill.style.width='100%';}));
+  _pt=setInterval(()=>renderPubs(_pp+1),PUB_MS);
 }
-function stepPubs(dir) { renderPubs(_pp + dir); }
-(async () => {
-  const box = document.getElementById('pubContainer'), meta = document.getElementById('pubMeta');
-  async function fromORCID() {
-    const r = await fetch('https://pub.orcid.org/v3.0/0000-0002-6924-5087/works', { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(10000) });
-    if (!r.ok) throw 0;
-    const data = await r.json(), groups = data.group || []; if (!groups.length) throw 0;
-    return groups.map(g => {
-      const s = g['work-summary'][0];
-      const doi = (s['external-ids']?.['external-id'] || []).find(e => e['external-id-type'] === 'doi')?.['external-id-value'];
-      return { title: s.title?.title?.value || 'Untitled', year: s['publication-date']?.year?.value || '', journal: s['journal-title']?.value || '', href: doi ? `https://doi.org/${doi}` : (s.url?.value || '#') };
-    }).sort((a, b) => (b.year || 0) - (a.year || 0));
+function stepPubs(dir){renderPubs(_pp+dir);}
+(async()=>{
+  const box=document.getElementById('pubContainer'),meta=document.getElementById('pubMeta');
+  async function fromORCID(){
+    const r=await fetch('https://pub.orcid.org/v3.0/0000-0002-6924-5087/works',{headers:{Accept:'application/json'},signal:AbortSignal.timeout(10000)});
+    if(!r.ok)throw 0;
+    const data=await r.json(),groups=data.group||[];if(!groups.length)throw 0;
+    return groups.map(g=>{
+      const s=g['work-summary'][0];
+      const doi=(s['external-ids']?.['external-id']||[]).find(e=>e['external-id-type']==='doi')?.['external-id-value'];
+      return{title:s.title?.title?.value||'Untitled',year:s['publication-date']?.year?.value||'',journal:s['journal-title']?.value||'',href:doi?`https://doi.org/${doi}`:(s.url?.value||'#')};
+    }).sort((a,b)=>(b.year||0)-(a.year||0));
   }
-  async function fromSS() {
-    const s = await fetch('https://api.semanticscholar.org/graph/v1/author/search?query=Ana+Moya-Beltr%C3%A1n&fields=name,externalIds,authorId', { signal: AbortSignal.timeout(9000) });
-    if (!s.ok) throw 0;
-    const sd = await s.json();
-    const author = (sd.data || []).find(a => a.externalIds?.ORCID === '0000-0002-6924-5087' || (a.name || '').toLowerCase().includes('moya-beltr'));
-    if (!author) throw 0;
-    const p = await fetch(`https://api.semanticscholar.org/graph/v1/author/${author.authorId}/papers?fields=title,year,venue,authors,externalIds,citationCount&limit=50`, { signal: AbortSignal.timeout(9000) });
-    if (!p.ok) throw 0; const pd = await p.json();
-    return (pd.data || []).sort((a, b) => (b.year || 0) - (a.year || 0)).map(p => ({ title: p.title || 'Untitled', year: p.year, journal: p.venue, href: p.externalIds?.DOI ? `https://doi.org/${p.externalIds.DOI}` : `https://www.semanticscholar.org/paper/${p.paperId}`, authors: (p.authors || []).slice(0, 3).map(a => a.name).join(', '), cit: p.citationCount || 0 }));
+  async function fromSS(){
+    const s=await fetch('https://api.semanticscholar.org/graph/v1/author/search?query=Ana+Moya-Beltr%C3%A1n&fields=name,externalIds,authorId',{signal:AbortSignal.timeout(9000)});
+    if(!s.ok)throw 0;
+    const sd=await s.json();
+    const author=(sd.data||[]).find(a=>a.externalIds?.ORCID==='0000-0002-6924-5087'||(a.name||'').toLowerCase().includes('moya-beltr'));
+    if(!author)throw 0;
+    const p=await fetch(`https://api.semanticscholar.org/graph/v1/author/${author.authorId}/papers?fields=title,year,venue,authors,externalIds,citationCount&limit=50`,{signal:AbortSignal.timeout(9000)});
+    if(!p.ok)throw 0;const pd=await p.json();
+    return(pd.data||[]).sort((a,b)=>(b.year||0)-(a.year||0)).map(p=>({title:p.title||'Untitled',year:p.year,journal:p.venue,href:p.externalIds?.DOI?`https://doi.org/${p.externalIds.DOI}`:`https://www.semanticscholar.org/paper/${p.paperId}`,authors:(p.authors||[]).slice(0,3).map(a=>a.name).join(', '),cit:p.citationCount||0}));
   }
-  try {
-    const papers = await fromORCID().catch(() => fromSS());
-    if (!papers.length) throw 0;
-    _pubs = papers;
-    if (papers[0]?.year) document.getElementById('pubYearTag').textContent = `· latest ${papers[0].year}`;
-    meta.textContent = `# ORCID · ${papers.length} works · 3/page`;
+  try{
+    const papers=await fromORCID().catch(()=>fromSS());
+    if(!papers.length)throw 0;
+    _pubs=papers;
+    if(papers[0]?.year)document.getElementById('pubYearTag').textContent=`· latest ${papers[0].year}`;
+    meta.textContent=`# ORCID · ${papers.length} works · 3/page`;
     renderPubs(0);
-  } catch {
-    box.innerHTML = `<div class="er">⚠ Could not load publications.</div>
+  }catch{
+    box.innerHTML=`<div class="er">⚠ Could not load publications.</div>
       <div style="margin-top:6px;font-size:10px">
         <a href="https://scholar.google.com/citations?user=vYrLnT4AAAAJ" target="_blank" style="color:var(--cy);text-decoration:none;display:block">→ Google Scholar</a>
         <a href="https://www.researchgate.net/profile/Ana-Moya-Beltran" target="_blank" style="color:var(--cy);text-decoration:none;display:block">→ ResearchGate</a>
@@ -670,35 +774,35 @@ function stepPubs(dir) { renderPubs(_pp + dir); }
 })();
 
 /* ══ FIELD PAPERS ══ */
-const QUERIES = ['multi-omics data integration','metagenomics machine learning','omics systems biology','computational biology deep learning','pangenomics bacterial evolution','RNA-seq differential expression','horizontal gene transfer bacteria','biomining acidithiobacillus genomics','microbiome omics integration','environmental metagenomics','epigenomics DNA methylation','protein structure prediction AI','metagenome assembled genomes','CRISPR genome editing bacteria','taxonomic classification metagenomics'];
-function shuffle(a) { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
-async function fetchPapers() {
-  const box = document.getElementById('papersContainer'), meta = document.getElementById('papersMeta'), qEl = document.getElementById('paperQuery');
-  box.innerHTML = `<div class="ld"><div class="sp"></div> Fetching…</div>`;
-  const q = QUERIES[Math.floor(Math.random() * QUERIES.length)]; qEl.textContent = `"${q}"`;
-  try {
-    const r = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(q)}&rows=12&sort=published&order=desc&select=title,author,published,DOI,container-title`);
-    if (!r.ok) throw 0;
-    const d = await r.json();
-    const items = shuffle((d.message?.items ?? []).map(p => ({
-      title: Array.isArray(p.title) ? p.title[0] : (p.title ?? 'Untitled'),
-      journal: Array.isArray(p['container-title']) ? p['container-title'][0] : '',
-      href: p.DOI ? `https://doi.org/${p.DOI}` : '#',
-      date: p.published?.['date-parts']?.[0]?.join('-') ?? '',
-      authors: (p.author ?? []).slice(0, 3).map(a => `${a.given?.[0] ?? ''}. ${a.family ?? ''}`.trim()).join(', '),
-    }))).slice(0, 3);
-    if (!items.length) throw 0;
-    box.innerHTML = items.map(p => `
+const QUERIES=['multi-omics data integration','metagenomics machine learning','omics systems biology','computational biology deep learning','pangenomics bacterial evolution','RNA-seq differential expression','horizontal gene transfer bacteria','biomining acidithiobacillus genomics','microbiome omics integration','environmental metagenomics','epigenomics DNA methylation','protein structure prediction AI','metagenome assembled genomes','CRISPR genome editing bacteria','taxonomic classification metagenomics'];
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+async function fetchPapers(){
+  const box=document.getElementById('papersContainer'),meta=document.getElementById('papersMeta'),qEl=document.getElementById('paperQuery');
+  box.innerHTML=`<div class="ld"><div class="sp"></div> Fetching…</div>`;
+  const q=QUERIES[Math.floor(Math.random()*QUERIES.length)];qEl.textContent=`"${q}"`;
+  try{
+    const r=await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(q)}&rows=12&sort=published&order=desc&select=title,author,published,DOI,container-title`);
+    if(!r.ok)throw 0;
+    const d=await r.json();
+    const items=shuffle((d.message?.items??[]).map(p=>({
+      title:Array.isArray(p.title)?p.title[0]:(p.title??'Untitled'),
+      journal:Array.isArray(p['container-title'])?p['container-title'][0]:'',
+      href:p.DOI?`https://doi.org/${p.DOI}`:'#',
+      date:p.published?.['date-parts']?.[0]?.join('-')??'',
+      authors:(p.author??[]).slice(0,3).map(a=>`${a.given?.[0]??''}. ${a.family??''}`.trim()).join(', '),
+    }))).slice(0,3);
+    if(!items.length)throw 0;
+    box.innerHTML=items.map(p=>`
       <div class="pub-entry" onclick="window.open('${p.href}','_blank')">
         <div class="pub-title">${p.title}</div>
         <div class="pub-meta">
-          ${p.journal ? `<span class="jnl">${p.journal}</span>` : ''}
-          ${p.authors ? `<span class="auth">${p.authors}</span>` : ''}
+          ${p.journal?`<span class="jnl">${p.journal}</span>`:''}
+          ${p.authors?`<span class="auth">${p.authors}</span>`:''}
           <span class="yr">${p.date}</span>
           <a class="lnk" href="${p.href}" target="_blank" onclick="event.stopPropagation()">→ view</a>
         </div></div>`).join('');
-    meta.textContent = `# "${q}" · 3 random · ${new Date().toLocaleTimeString()}`;
-  } catch { box.innerHTML = `<div class="er">⚠ Could not load papers.</div>`; }
+    meta.textContent=`# "${q}" · 3 random · ${new Date().toLocaleTimeString()}`;
+  }catch{box.innerHTML=`<div class="er">⚠ Could not load papers.</div>`;}
 }
 fetchPapers();
 
@@ -706,1034 +810,360 @@ fetchPapers();
 /* ══════════════════════════════════════════════════════════════════════
    MOYA-LAB GAME ENGINE v2 — Modular · Low-CPU · 6 Scientific Modes
 ══════════════════════════════════════════════════════════════════════ */
-(() => {
+(()=>{
   'use strict';
+  const GC=document.getElementById('gameCanvas');
+  const GX=GC.getContext('2d');
+  const W=GC.width,H=GC.height;
+  const MAX_LIVES=9,MAX_POOL=52,MAX_POPUPS=8;
+  const WGCNA_MOD=['#1BB8AD','#4477CC','#8B6914','#FFD700','#3CB371','#CC4444'];
+  const WGCNA_NM=['turq.','blue','brown','yellow','green','red'];
 
-  /* ── [CONFIG] ─────────────────────────────────────────────────────── */
-  const GC  = document.getElementById('gameCanvas');
-  const GX  = GC.getContext('2d');
-  const W   = GC.width, H = GC.height;
-  const MAX_LIVES  = 9;
-  const MAX_POOL   = 52;   // particle pool size
-  const MAX_POPUPS = 8;
-  const WGCNA_MOD  = ['#1BB8AD','#4477CC','#8B6914','#FFD700','#3CB371','#CC4444'];
-  const WGCNA_NM   = ['turq.','blue','brown','yellow','green','red'];
-
-  /* ── [MODES] ──────────────────────────────────────────────────────── */
-  const MODES = [
-    {
-      id:'A', label:'MULTI-OMICS INTEGRATOR',
-      title:'omics_integration.py — Multi-omics Data Fusion',
-      cmd:'python omics_integration.py', args:' --layers genomic,transcriptomic,proteomic,metabolomic',
-      agent:'ML-INTEGRATOR', metric:'INTEG.',
-      // Player: double-ring circle = integration hub
-      pShape:'dblcircle', pCol:'#00ffff',
-      // Objective A: small circle (genomic read)
-      aName:'genomic read',   aCol:'#00ff41', aShape:'circle',
-      // Objective B: hexagon (metabolite — multi-angular structure)
-      bName:'metabolite',     bCol:'#ffb000', bShape:'hex',
-      // Toxin: triangle
-      tCol:'#ff4444', tName:'batch effect',
-      lCol:'#00ff41',
-      bgSeq:'ATCGATCGGCTAGCTATCGATCG',
-      tags:{ a:['r=.91','r=.87','r=.94'], b:['MET','LIP','AMI'] },
-      epochs:['QC · NORMALIZATION','FEATURE EXTRACTION','DIM. REDUCTION','NETWORK FUSION','PATHWAY ENRICHMENT','BIOLOGICAL VALIDATION','MODEL CONVERGENCE'],
-      death:['BATCH EFFECT FATAL · integration aborted','VARIANCE UNEXPLAINED · model diverged','SILHOUETTE < 0 · clusters collapsed','MISSING LAYER · pipeline halted'],
-      victory:'OMICS INTEGRATION COMPLETE · multi-layer network assembled',
-      leg1:'🟢 genomic read +1', leg2:'🔷 metabolite +3',
-    },
-    {
-      id:'B', label:'METAGENOMIC BINNING AGENT',
-      title:'metabat2_sim.py — Metagenomic Binning · AMD Consortium',
-      cmd:'python metabat2_sim.py', args:' --mode binning --env AMD-Chile',
-      agent:'BINNING-AGENT', metric:'COMPLET.',
-      // Player: pentagon = MetaBAT2 binning agent
-      pShape:'pentagon', pCol:'#00ffff',
-      aName:'quality contig',  aCol:'#00ff41', aShape:'circle',
-      bName:'chimeric contig', bCol:'#ffb000', bShape:'diamond',
-      tCol:'#ff4444', tName:'contamination read',
-      lCol:'#00ff41',
-      bgSeq:'GCGCAATCGGCATGCTAGCTATCG',
-      tags:{ a:['GC:42%','GC:38%','GC:51%'], b:['CHM','CHM?','!'] },
-      epochs:['Acidithiobacillus ferrooxidans','Leptospirillum ferriphilum','Ferroplasma acidiphilum','Sulfolobus metallicus','Thiomonas intermedia','Acidiphilium cryptum','Candidatus Micrarchaeum'],
-      death:['BIN CONTAMINATION >10% · CheckM failed','HOST DNA SATURATION · human reads dominant','TAXONOMIC CONFLICT · assembly fragmented','ASSEMBLY GRAPH DISCONNECTED · N50 collapsed'],
-      victory:'HIGH-QUALITY MAG RECOVERED · CheckM completeness 95%',
-      leg1:'🟢 contig +1', leg2:'🔷 chimeric contig +3',
-    },
-    {
-      id:'C', label:'ESM-2 PROTEIN PREDICTOR',
-      title:'esm2_predict.py — Protein Function · AlphaFold AMD',
-      cmd:'python esm2_predict.py', args:' --model ESM-2 --plddt-threshold 90',
-      agent:'ESM-2 MODEL', metric:'pLDDT',
-      // Player: horizontal ellipse = polymerase/sliding clamp shape
-      pShape:'ellipse', pCol:'#00ff41',
-      aName:'uncharact. protein', aCol:'#00ff41', aShape:'diamond',
-      bName:'novel enzyme pLDDT>90', bCol:'#ffb000', bShape:'hex',
-      tCol:'#ff5555', tName:'false positive',
-      lCol:'#28c882',
-      bgSeq:'MKVLSPADKTNVKAAWGKVGAHAG',
-      tags:{ a:['UNK','PRED','UNK?'], b:['94%','91%','97%'] },
-      epochs:['Sulfur oxidoreductases','Iron oxidases Fe²⁺/Fe³⁺','Heavy metal transporters','Biofilm matrix proteins','Electron transfer chains','Quorum sensing factors','Novel AMD-specific enzymes'],
-      death:['MODEL DIVERGED · loss=NaN','FALSE POSITIVE RATE >40%','EMBEDDING COLLAPSE · latent space corrupted','PRECISION BELOW THRESHOLD · recall failed'],
-      victory:'FUNCTIONAL ANNOTATION COMPLETE · 847 novel enzymes predicted',
-      leg1:'🟢 protein +1', leg2:'🔷 novel enzyme (pLDDT>90) +3',
-    },
-    {
-      id:'D', label:'TAXONOMIC CLASSIFIER · Kraken2',
-      title:'kraken2_sim.py — Taxonomic Classification · AMD Metagenome',
-      cmd:'python kraken2_sim.py', args:' --db AMD-k2db --confidence 0.1',
-      agent:'KRAKEN2-AGENT', metric:'CLASSIF.',
-      // Player: circle with crosshair = classifier scope
-      pShape:'crosshair', pCol:'#00ffff',
-      aName:'unclassified read', aCol:'#00ff41', aShape:'circle',
-      bName:'rare taxa <0.1%',   bCol:'#ffb000', bShape:'hex',
-      tCol:'#ff6644', tName:'host contamination',
-      lCol:'#00ffff',
-      bgSeq:'TGCATGCATGCAATGCATGCATGC',
-      tags:{ a:['P','C','O','F','G','S'], b:['<0.1%','RARE'] },
-      epochs:['PHYLUM rank','CLASS rank','ORDER rank','FAMILY rank','GENUS rank','SPECIES rank · strain'],
-      death:['MISCLASSIFICATION CASCADE · k-mer conflict','HOST DNA SATURATION · dominant','INDEX OUT OF BOUNDS · db mismatch','CONFIDENCE FAILED · ambiguous k-mers'],
-      victory:'TAXONOMIC PROFILE COMPLETE · 847 taxa · Shannon H=4.2',
-      leg1:'🟢 unclassified read +1', leg2:'🔷 rare taxa (<0.1%) +3',
-    },
-    {
-      id:'E', label:'GRN RECONSTRUCTOR · WGCNA',
-      title:'wgcna_sim.py — Gene Regulatory Network · A. ferrooxidans',
-      cmd:'python wgcna_sim.py', args:' --soft-threshold 6 --minModSize 30',
-      agent:'WGCNA-AGENT', metric:'MODULE Q',
-      // Player: small circle with 4 radiating edges = network node
-      pShape:'netnode', pCol:'#00ff41',
-      aName:'co-expr. gene r>0.8', aCol:'#00ff41', aShape:'circle',
-      bName:'hub gene',           bCol:'#ffb000', bShape:'hex',
-      tCol:'#ff4444', tName:'spurious correlation',
-      lCol:'#00ff41',
-      bgSeq:'CCGGTTAACCGGTTAACCGGTTAA',
-      tags:{ a:['r=.83','r=.91','r=.88'], b:['HUB','k=47','k=31'] },
-      epochs:['CONTROL condition','Fe²⁺ oxidative stress','Cu²⁺ metal stress','pH 1.5 extreme acid','BIOFILM formation','RECOVERY phase'],
-      death:['SCALE-FREE TOPOLOGY LOST · power β failed','SOFT THRESHOLD R²<0.8','CORRELATION MATRIX SINGULAR · collapsed','CONFOUNDERS DETECTED · batch error'],
-      victory:'NETWORK CONVERGED · 12 modules · 340 hub genes identified',
-      leg1:'🟢 co-expr. gene (r>0.8) +1', leg2:'🔷 hub gene +3',
-    },
-    {
-      id:'F', label:'PANGENOME EXPLORER · PPanGGOLiN',
-      title:'ppanggolin_sim.py — Pangenome · A. ferrooxidans 847 strains',
-      cmd:'python ppanggolin_sim.py', args:' --strains 847 --mode persistent',
-      agent:'PANGENOME-AGENT', metric:'CORE',
-      // Player: hexagon outline = genome-browser hex grid
-      pShape:'hexagon', pCol:'#bf5fff',
-      aName:'core gene >99%',     aCol:'#00ff41', aShape:'rect',
-      bName:'accessory gene 15-99%', bCol:'#ffb000', bShape:'diamond',
-      tCol:'#ff4444', tName:'transposable element',
-      lCol:'#bf5fff',
-      bgSeq:'AACCGGTTAACCGGTTAACCGGTT',
-      tags:{ a:['CORE','≥99%','COG:J'], b:['ACC','∂=0.4','COG:L'] },
-      epochs:['ATACAMA · Chile','RÍO TINTO · Spain','IRON MOUNTAIN · USA','EQUITY SILVER · Canada','ZHONGTIAOSHAN · China','VICTORIA MINE · Australia','SOCOMPA · Argentina'],
-      death:['PAN-GENOME OPEN · no convergence','HORIZONTAL TRANSFER · topology broken','ASSEMBLY FRAGMENTED · N50<10kb','CORE EROSION · ancestral genes lost'],
-      victory:'PAN-GENOME CLOSED · core=1,247 genes · accessory=4,891 genes',
-      leg1:'🟢 core gene +1', leg2:'🔷 accessory gene +3',
-    },
+  const MODES=[
+    {id:'A',label:'MULTI-OMICS INTEGRATOR',title:'omics_integration.py — Multi-omics Data Fusion',cmd:'python omics_integration.py',args:' --layers genomic,transcriptomic,proteomic,metabolomic',agent:'ML-INTEGRATOR',metric:'INTEG.',pShape:'dblcircle',pCol:'#00ffff',aName:'genomic read',aCol:'#00ff41',aShape:'circle',bName:'metabolite',bCol:'#ffb000',bShape:'hex',tCol:'#ff4444',tName:'batch effect',lCol:'#00ff41',bgSeq:'ATCGATCGGCTAGCTATCGATCG',tags:{a:['r=.91','r=.87','r=.94'],b:['MET','LIP','AMI']},epochs:['QC · NORMALIZATION','FEATURE EXTRACTION','DIM. REDUCTION','NETWORK FUSION','PATHWAY ENRICHMENT','BIOLOGICAL VALIDATION','MODEL CONVERGENCE'],death:['BATCH EFFECT FATAL · integration aborted','VARIANCE UNEXPLAINED · model diverged','SILHOUETTE < 0 · clusters collapsed','MISSING LAYER · pipeline halted'],victory:'OMICS INTEGRATION COMPLETE · multi-layer network assembled',leg1:'🟢 genomic read +1',leg2:'🔷 metabolite +3'},
+    {id:'B',label:'METAGENOMIC BINNING AGENT',title:'metabat2_sim.py — Metagenomic Binning · AMD Consortium',cmd:'python metabat2_sim.py',args:' --mode binning --env AMD-Chile',agent:'BINNING-AGENT',metric:'COMPLET.',pShape:'pentagon',pCol:'#00ffff',aName:'quality contig',aCol:'#00ff41',aShape:'circle',bName:'chimeric contig',bCol:'#ffb000',bShape:'diamond',tCol:'#ff4444',tName:'contamination read',lCol:'#00ff41',bgSeq:'GCGCAATCGGCATGCTAGCTATCG',tags:{a:['GC:42%','GC:38%','GC:51%'],b:['CHM','CHM?','!']},epochs:['Acidithiobacillus ferrooxidans','Leptospirillum ferriphilum','Ferroplasma acidiphilum','Sulfolobus metallicus','Thiomonas intermedia','Acidiphilium cryptum','Candidatus Micrarchaeum'],death:['BIN CONTAMINATION >10% · CheckM failed','HOST DNA SATURATION · human reads dominant','TAXONOMIC CONFLICT · assembly fragmented','ASSEMBLY GRAPH DISCONNECTED · N50 collapsed'],victory:'HIGH-QUALITY MAG RECOVERED · CheckM completeness 95%',leg1:'🟢 contig +1',leg2:'🔷 chimeric contig +3'},
+    {id:'C',label:'ESM-2 PROTEIN PREDICTOR',title:'esm2_predict.py — Protein Function · AlphaFold AMD',cmd:'python esm2_predict.py',args:' --model ESM-2 --plddt-threshold 90',agent:'ESM-2 MODEL',metric:'pLDDT',pShape:'ellipse',pCol:'#00ff41',aName:'uncharact. protein',aCol:'#00ff41',aShape:'diamond',bName:'novel enzyme pLDDT>90',bCol:'#ffb000',bShape:'hex',tCol:'#ff5555',tName:'false positive',lCol:'#28c882',bgSeq:'MKVLSPADKTNVKAAWGKVGAHAG',tags:{a:['UNK','PRED','UNK?'],b:['94%','91%','97%']},epochs:['Sulfur oxidoreductases','Iron oxidases Fe²⁺/Fe³⁺','Heavy metal transporters','Biofilm matrix proteins','Electron transfer chains','Quorum sensing factors','Novel AMD-specific enzymes'],death:['MODEL DIVERGED · loss=NaN','FALSE POSITIVE RATE >40%','EMBEDDING COLLAPSE · latent space corrupted','PRECISION BELOW THRESHOLD · recall failed'],victory:'FUNCTIONAL ANNOTATION COMPLETE · 847 novel enzymes predicted',leg1:'🟢 protein +1',leg2:'🔷 novel enzyme (pLDDT>90) +3'},
+    {id:'D',label:'TAXONOMIC CLASSIFIER · Kraken2',title:'kraken2_sim.py — Taxonomic Classification · AMD Metagenome',cmd:'python kraken2_sim.py',args:' --db AMD-k2db --confidence 0.1',agent:'KRAKEN2-AGENT',metric:'CLASSIF.',pShape:'crosshair',pCol:'#00ffff',aName:'unclassified read',aCol:'#00ff41',aShape:'circle',bName:'rare taxa <0.1%',bCol:'#ffb000',bShape:'hex',tCol:'#ff6644',tName:'host contamination',lCol:'#00ffff',bgSeq:'TGCATGCATGCAATGCATGCATGC',tags:{a:['P','C','O','F','G','S'],b:['<0.1%','RARE']},epochs:['PHYLUM rank','CLASS rank','ORDER rank','FAMILY rank','GENUS rank','SPECIES rank · strain'],death:['MISCLASSIFICATION CASCADE · k-mer conflict','HOST DNA SATURATION · dominant','INDEX OUT OF BOUNDS · db mismatch','CONFIDENCE FAILED · ambiguous k-mers'],victory:'TAXONOMIC PROFILE COMPLETE · 847 taxa · Shannon H=4.2',leg1:'🟢 unclassified read +1',leg2:'🔷 rare taxa (<0.1%) +3'},
+    {id:'E',label:'GRN RECONSTRUCTOR · WGCNA',title:'wgcna_sim.py — Gene Regulatory Network · A. ferrooxidans',cmd:'python wgcna_sim.py',args:' --soft-threshold 6 --minModSize 30',agent:'WGCNA-AGENT',metric:'MODULE Q',pShape:'netnode',pCol:'#00ff41',aName:'co-expr. gene r>0.8',aCol:'#00ff41',aShape:'circle',bName:'hub gene',bCol:'#ffb000',bShape:'hex',tCol:'#ff4444',tName:'spurious correlation',lCol:'#00ff41',bgSeq:'CCGGTTAACCGGTTAACCGGTTAA',tags:{a:['r=.83','r=.91','r=.88'],b:['HUB','k=47','k=31']},epochs:['CONTROL condition','Fe²⁺ oxidative stress','Cu²⁺ metal stress','pH 1.5 extreme acid','BIOFILM formation','RECOVERY phase'],death:['SCALE-FREE TOPOLOGY LOST · power β failed','SOFT THRESHOLD R²<0.8','CORRELATION MATRIX SINGULAR · collapsed','CONFOUNDERS DETECTED · batch error'],victory:'NETWORK CONVERGED · 12 modules · 340 hub genes identified',leg1:'🟢 co-expr. gene (r>0.8) +1',leg2:'🔷 hub gene +3'},
+    {id:'F',label:'PANGENOME EXPLORER · PPanGGOLiN',title:'ppanggolin_sim.py — Pangenome · A. ferrooxidans 847 strains',cmd:'python ppanggolin_sim.py',args:' --strains 847 --mode persistent',agent:'PANGENOME-AGENT',metric:'CORE',pShape:'hexagon',pCol:'#bf5fff',aName:'core gene >99%',aCol:'#00ff41',aShape:'rect',bName:'accessory gene 15-99%',bCol:'#ffb000',bShape:'diamond',tCol:'#ff4444',tName:'transposable element',lCol:'#bf5fff',bgSeq:'AACCGGTTAACCGGTTAACCGGTT',tags:{a:['CORE','≥99%','COG:J'],b:['ACC','∂=0.4','COG:L']},epochs:['ATACAMA · Chile','RÍO TINTO · Spain','IRON MOUNTAIN · USA','EQUITY SILVER · Canada','ZHONGTIAOSHAN · China','VICTORIA MINE · Australia','SOCOMPA · Argentina'],death:['PAN-GENOME OPEN · no convergence','HORIZONTAL TRANSFER · topology broken','ASSEMBLY FRAGMENTED · N50<10kb','CORE EROSION · ancestral genes lost'],victory:'PAN-GENOME CLOSED · core=1,247 genes · accessory=4,891 genes',leg1:'🟢 core gene +1',leg2:'🔷 accessory gene +3'},
   ];
 
-  const IONS = ['Fe³⁺','Cu²⁺','As⁵⁺'];
+  const IONS=['Fe³⁺','Cu²⁺','As⁵⁺'];
+  let MODE,G,P,nodes,toxins,frame=0;
+  let _bgCanvas=null,_bgKey='';
+  let _skX=0,_skY=0,_skT=0;
+  const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+  const shake=(i)=>{_skT=10;_skX=i;_skY=i*0.6;};
+  const pool=Array.from({length:MAX_POOL},()=>({x:0,y:0,vx:0,vy:0,life:0,max:1,col:'#fff',alive:false,trail:false}));
 
-  /* ── [STATE] ──────────────────────────────────────────────────────── */
-  let MODE, G, P, nodes, toxins, frame = 0;
-  let _bgCanvas = null, _bgKey = '';
-  // Screen shake state
-  let _skX = 0, _skY = 0, _skT = 0;
-
-  const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
-  const shake = (i) => { _skT = 10; _skX = i; _skY = i * 0.6; };
-
-  /* ── [PARTICLE POOL] ──────────────────────────────────────────────── */
-  const pool = Array.from({ length: MAX_POOL }, () => ({
-    x: 0, y: 0, vx: 0, vy: 0, life: 0, max: 1, col: '#fff', alive: false, trail: false
-  }));
-
-  function pfx(x, y, col, n) {
-    n = n || 5;
-    let added = 0;
-    for (let i = 0; i < MAX_POOL && added < n; i++) {
-      if (!pool[i].alive) {
-        const a = (Math.PI * 2 / n) * added, p = pool[i];
-        p.x = x; p.y = y;
-        p.vx = Math.cos(a) * (0.8 + Math.random() * 1.5);
-        p.vy = Math.sin(a) * (0.8 + Math.random() * 1.5);
-        p.life = 0; p.max = 16 + Math.random() * 10;
-        p.col = col; p.alive = true; p.trail = false;
-        added++;
+  function pfx(x,y,col,n){
+    n=n||5;let added=0;
+    for(let i=0;i<MAX_POOL&&added<n;i++){
+      if(!pool[i].alive){
+        const a=(Math.PI*2/n)*added,p=pool[i];
+        p.x=x;p.y=y;p.vx=Math.cos(a)*(0.8+Math.random()*1.5);p.vy=Math.sin(a)*(0.8+Math.random()*1.5);
+        p.life=0;p.max=16+Math.random()*10;p.col=col;p.alive=true;p.trail=false;added++;
       }
     }
   }
-
-  function addTrail(x, y) {
-    for (let i = 0; i < MAX_POOL; i++) {
-      if (!pool[i].alive) {
-        const p = pool[i];
-        p.x = x; p.y = y; p.vx = 0; p.vy = 0;
-        p.life = 0; p.max = 6;
-        p.col = 'rgba(0,210,210,0.14)'; p.alive = true; p.trail = true;
-        return;
+  function addTrail(x,y){
+    for(let i=0;i<MAX_POOL;i++){
+      if(!pool[i].alive){
+        const p=pool[i];p.x=x;p.y=y;p.vx=0;p.vy=0;p.life=0;p.max=6;p.col='rgba(0,210,210,0.14)';p.alive=true;p.trail=true;return;
       }
     }
   }
-
-  function addPopup(x, y, text, col) {
-    if (G.popups.length >= MAX_POPUPS) G.popups.shift();
-    G.popups.push({ x, y, text, col, life: 0, max: 32 });
+  function addPopup(x,y,text,col){
+    if(G.popups.length>=MAX_POPUPS)G.popups.shift();
+    G.popups.push({x,y,text,col,life:0,max:32});
   }
-
-  /* ── [SPAWNER] ────────────────────────────────────────────────────── */
-  function mkNode() {
-    const r = Math.random();
-    // l=life(rare), p=powerup, b=rare-objective, a=common-objective
-    const t = r < 0.014 ? 'l' : r < 0.042 ? 'p' : r < 0.22 ? 'b' : 'a';
-    const tagArr = (MODE.tags?.[t] || MODE.tags?.['a'] || []);
-    const n = {
-      x: 30 + Math.random() * (W - 60),
-      y: 30 + Math.random() * (H - 50),
-      t, a: Math.random() * Math.PI * 2,
-      vx: (Math.random() - 0.5) * 0.52,
-      vy: (Math.random() - 0.5) * 0.52,
-      tag: tagArr[Math.floor(Math.random() * tagArr.length)] || '',
-    };
-    if (MODE.id === 'E' && t === 'a') n.module = WGCNA_MOD[Math.floor(Math.random() * WGCNA_MOD.length)];
+  function mkNode(){
+    const r=Math.random();
+    const t=r<0.014?'l':r<0.042?'p':r<0.22?'b':'a';
+    const tagArr=(MODE.tags?.[t]||MODE.tags?.['a']||[]);
+    const n={x:30+Math.random()*(W-60),y:30+Math.random()*(H-50),t,a:Math.random()*Math.PI*2,vx:(Math.random()-.5)*.52,vy:(Math.random()-.5)*.52,tag:tagArr[Math.floor(Math.random()*tagArr.length)]||''};
+    if(MODE.id==='E'&&t==='a')n.module=WGCNA_MOD[Math.floor(Math.random()*WGCNA_MOD.length)];
     return n;
   }
-
-  function spawnNodes() {
-    nodes = Array.from({ length: Math.min(5 + G.epoch, 11) }, mkNode);
-  }
-
-  function spawnToxins() {
-    const spd = 0.88 + G.epoch * 0.15, count = Math.min(2 + G.epoch, 9);
-    toxins = Array.from({ length: count }, (_, idx) => {
-      let tx, ty;
-      do { tx = 30 + Math.random() * (W - 60); ty = 30 + Math.random() * (H - 50); }
-      while (dist({ x: tx, y: ty }, P) < 95);
-      const ang = Math.random() * Math.PI * 2;
-      const ion = IONS[Math.floor(Math.random() * 3)];
-      const szM = ion === 'Fe³⁺' ? 1.32 : ion === 'Cu²⁺' ? 0.72 : 1.0;
-      const spM = ion === 'Fe³⁺' ? 0.72 : ion === 'Cu²⁺' ? 1.35 : 1.0;
-      const v = spd * (0.55 + Math.random() * 0.68);
-      return {
-        x: tx, y: ty,
-        vx: Math.cos(ang) * v * spM, vy: Math.sin(ang) * v * spM,
-        rot: 0, sz: (7 + Math.random() * 3) * szM,
-        ion, erratic: ion === 'As⁵⁺', erraticT: 0,
-        homing: idx === 0,
-      };
+  function spawnNodes(){nodes=Array.from({length:Math.min(5+G.epoch,11)},mkNode);}
+  function spawnToxins(){
+    const spd=0.88+G.epoch*0.15,count=Math.min(2+G.epoch,9);
+    toxins=Array.from({length:count},(_,idx)=>{
+      let tx,ty;
+      do{tx=30+Math.random()*(W-60);ty=30+Math.random()*(H-50);}while(dist({x:tx,y:ty},P)<95);
+      const ang=Math.random()*Math.PI*2,ion=IONS[Math.floor(Math.random()*3)];
+      const szM=ion==='Fe³⁺'?1.32:ion==='Cu²⁺'?0.72:1.0,spM=ion==='Fe³⁺'?0.72:ion==='Cu²⁺'?1.35:1.0;
+      const v=spd*(0.55+Math.random()*0.68);
+      return{x:tx,y:ty,vx:Math.cos(ang)*v*spM,vy:Math.sin(ang)*v*spM,rot:0,sz:(7+Math.random()*3)*szM,ion,erratic:ion==='As⁵⁺',erraticT:0,homing:idx===0};
     });
   }
-
-  /* ── [RESET] ──────────────────────────────────────────────────────── */
-  let _globalHi = parseInt(localStorage.getItem('moyalab_hi') || '0', 10);
-
-  function pickMode() {
-    MODE = MODES[Math.floor(Math.random() * MODES.length)];
-    document.getElementById('gameTitle').textContent = MODE.title;
-    document.getElementById('gameCmd').textContent = MODE.cmd;
-    document.getElementById('gameArgs').textContent = MODE.args;
-    document.getElementById('leg1').textContent = MODE.leg1;
-    document.getElementById('leg2').textContent = MODE.leg2;
+  let _globalHi=parseInt(localStorage.getItem('moyalab_hi')||'0',10);
+  function pickMode(){
+    MODE=MODES[Math.floor(Math.random()*MODES.length)];
+    document.getElementById('gameTitle').textContent=MODE.title;
+    document.getElementById('gameCmd').textContent=MODE.cmd;
+    document.getElementById('gameArgs').textContent=MODE.args;
+    document.getElementById('leg1').textContent=MODE.leg1;
+    document.getElementById('leg2').textContent=MODE.leg2;
   }
-
-  function reset() {
+  function reset(){
     pickMode();
-    G = {
-      score: 0, lives: 6, epoch: 1, seqs: 0, need: 8,
-      over: false, won: false, inv: 0, glt: 0,
-      epochAnim: 0, modeAnim: 90,
-      hi: _globalHi,
-      combo: 0, comboT: 0, streak: 0,
-      loss: 1.0,
-      flash: 0, flashR: 0, flashG: 0, flashB: 0, // flash color components
-      killerIon: '', deathMsg: '',
-      popups: [],
-    };
-    P = { x: W / 2, y: H / 2, sz: 8, popScale: 1.0 };
-    nodes = []; toxins = [];
-    // Clear particle pool
-    for (let i = 0; i < MAX_POOL; i++) pool[i].alive = false;
-    frame = 0;
-    spawnNodes(); spawnToxins();
+    G={score:0,lives:6,epoch:1,seqs:0,need:8,over:false,won:false,inv:0,glt:0,epochAnim:0,modeAnim:90,hi:_globalHi,combo:0,comboT:0,streak:0,loss:1.0,flash:0,flashR:0,flashG:0,flashB:0,killerIon:'',deathMsg:'',popups:[]};
+    P={x:W/2,y:H/2,sz:8,popScale:1.0};
+    nodes=[];toxins=[];
+    for(let i=0;i<MAX_POOL;i++)pool[i].alive=false;
+    frame=0;spawnNodes();spawnToxins();
   }
-
-  /* ── [BACKGROUND CACHE] ───────────────────────────────────────────── */
-  function buildBg() {
-    const key = `${MODE.id}-${G.epoch}`;
-    if (_bgKey === key) return;
-    _bgKey = key;
-    if (!_bgCanvas) { _bgCanvas = document.createElement('canvas'); _bgCanvas.width = W; _bgCanvas.height = H; }
-    const bx = _bgCanvas.getContext('2d');
-    bx.clearRect(0, 0, W, H);
-    const seq = (MODE.bgSeq || 'ATCG').repeat(5);
-    bx.font = '7px "JetBrains Mono"';
-    bx.fillStyle = MODE.id === 'C' ? 'rgba(0,255,200,0.017)' : 'rgba(0,255,65,0.018)';
-    let si = G.epoch * 9;
-    for (let y2 = 28; y2 < H; y2 += 11)
-      for (let x2 = 0; x2 < W; x2 += 9) { bx.fillText(seq[si % seq.length], x2, y2); si++; }
+  function buildBg(){
+    const key=`${MODE.id}-${G.epoch}`;if(_bgKey===key)return;_bgKey=key;
+    if(!_bgCanvas){_bgCanvas=document.createElement('canvas');_bgCanvas.width=W;_bgCanvas.height=H;}
+    const bx=_bgCanvas.getContext('2d');bx.clearRect(0,0,W,H);
+    const seq=(MODE.bgSeq||'ATCG').repeat(5);
+    bx.font='7px "JetBrains Mono"';bx.fillStyle=MODE.id==='C'?'rgba(0,255,200,0.017)':'rgba(0,255,65,0.018)';
+    let si=G.epoch*9;
+    for(let y2=28;y2<H;y2+=11)for(let x2=0;x2<W;x2+=9){bx.fillText(seq[si%seq.length],x2,y2);si++;}
   }
+  const keys={};
+  document.addEventListener('keydown',e=>{
+    keys[e.key]=true;
+    if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))e.preventDefault();
+    if((e.key==='r'||e.key==='R')&&(G.over||G.won))reset();
+  },{passive:false});
+  document.addEventListener('keyup',e=>{keys[e.key]=false;},{passive:true});
 
-  /* ── [INPUT] ──────────────────────────────────────────────────────── */
-  const keys = {};
-  document.addEventListener('keydown', e => {
-    keys[e.key] = true;
-    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
-    if ((e.key === 'r' || e.key === 'R') && (G.over || G.won)) reset();
-  }, { passive: false });
-  document.addEventListener('keyup', e => { keys[e.key] = false; }, { passive: true });
-
-  /* ── [UPDATE] — physics only, never touches canvas ───────────────── */
-  function update() {
-    if (G.over || G.won) { G.glt++; return; }
-
-    // Player movement
-    const mvL = keys['ArrowLeft']  || keys['a'] || keys['A'];
-    const mvR = keys['ArrowRight'] || keys['d'] || keys['D'];
-    const mvU = keys['ArrowUp']    || keys['w'] || keys['W'];
-    const mvD = keys['ArrowDown']  || keys['s'] || keys['S'];
-    if (mvL && P.x > P.sz)       P.x -= 3.2;
-    if (mvR && P.x < W - P.sz)   P.x += 3.2;
-    if (mvU && P.y > P.sz + 20)  P.y -= 3.2;
-    if (mvD && P.y < H - P.sz)   P.y += 3.2;
-    if ((mvL || mvR || mvU || mvD) && Math.random() < 0.38) addTrail(P.x, P.y);
-
-    // Pop-scale decay (collect feedback)
-    if (P.popScale > 1.0) P.popScale = Math.max(1.0, P.popScale - 0.045);
-
-    // Shake decay
-    if (_skT > 0) _skT--;
-
-    // Toxin movement
-    for (const t of toxins) {
-      if (t.erratic) {
-        if (++t.erraticT > 65 + Math.random() * 38) {
-          const sp = Math.hypot(t.vx, t.vy), na = Math.random() * Math.PI * 2;
-          t.vx = Math.cos(na) * sp; t.vy = Math.sin(na) * sp; t.erraticT = 0;
-        }
-      }
-      if (t.homing) {
-        const dx = P.x - t.x, dy = P.y - t.y, d = Math.hypot(dx, dy) || 1;
-        t.vx += dx / d * 0.033; t.vy += dy / d * 0.033;
-        const sp = Math.hypot(t.vx, t.vy);
-        if (sp > 2.25) { t.vx = t.vx / sp * 2.25; t.vy = t.vy / sp * 2.25; }
-      }
-      t.x += t.vx; t.y += t.vy; t.rot += 0.054;
-      if (t.x < 10 || t.x > W - 10) t.vx *= -1;
-      if (t.y < 24 || t.y > H - 10) t.vy *= -1;
+  function update(){
+    if(G.over||G.won){G.glt++;return;}
+    const mvL=keys['ArrowLeft']||keys['a']||keys['A'];
+    const mvR=keys['ArrowRight']||keys['d']||keys['D'];
+    const mvU=keys['ArrowUp']||keys['w']||keys['W'];
+    const mvD=keys['ArrowDown']||keys['s']||keys['S'];
+    if(mvL&&P.x>P.sz)P.x-=3.2;if(mvR&&P.x<W-P.sz)P.x+=3.2;
+    if(mvU&&P.y>P.sz+20)P.y-=3.2;if(mvD&&P.y<H-P.sz)P.y+=3.2;
+    if((mvL||mvR||mvU||mvD)&&Math.random()<0.38)addTrail(P.x,P.y);
+    if(P.popScale>1.0)P.popScale=Math.max(1.0,P.popScale-0.045);
+    if(_skT>0)_skT--;
+    for(const t of toxins){
+      if(t.erratic){if(++t.erraticT>65+Math.random()*38){const sp=Math.hypot(t.vx,t.vy),na=Math.random()*Math.PI*2;t.vx=Math.cos(na)*sp;t.vy=Math.sin(na)*sp;t.erraticT=0;}}
+      if(t.homing){const dx=P.x-t.x,dy=P.y-t.y,d=Math.hypot(dx,dy)||1;t.vx+=dx/d*0.033;t.vy+=dy/d*0.033;const sp=Math.hypot(t.vx,t.vy);if(sp>2.25){t.vx=t.vx/sp*2.25;t.vy=t.vy/sp*2.25;}}
+      t.x+=t.vx;t.y+=t.vy;t.rot+=0.054;
+      if(t.x<10||t.x>W-10)t.vx*=-1;if(t.y<24||t.y>H-10)t.vy*=-1;
     }
-
-    // Node drift (gentle)
-    for (const n of nodes) {
-      n.a += 0.044;
-      n.x += n.vx; n.y += n.vy;
-      if (n.x < 20 || n.x > W - 20) n.vx *= -1;
-      if (n.y < 25 || n.y > H - 20) n.vy *= -1;
-    }
-
-    // Node collision / collection
-    nodes = nodes.filter(n => {
-      if (dist(P, n) > P.sz + 9) return true;
-      // Collected!
-      if (n.t === 'p') {
-        G.inv = Math.max(G.inv, 120); G.score += 2;
-        G.flash = 5; G.flashR = 191; G.flashG = 95; G.flashB = 255;
-        pfx(n.x, n.y, '#bf5fff', 6);
-        addPopup(n.x, n.y, 'SHIELD!', '#bf5fff');
-        P.popScale = 1.3;
-        return false;
-      }
-      if (n.t === 'l') {
-        if (G.lives < MAX_LIVES) G.lives++;
-        G.flash = 6; G.flashR = 0; G.flashG = 255; G.flashB = 65;
-        pfx(n.x, n.y, MODE.lCol, 8);
-        addPopup(n.x, n.y, '+LIFE ♥', MODE.lCol);
-        P.popScale = 1.45;
-        return false;
-      }
-      const pts = n.t === 'b' ? 3 : 1;
-      G.score += pts; G.seqs++; G.streak++;
-      G.loss = Math.max(0.001, 1 / (G.score + 1));
-      G.comboT = 82; G.combo++;
-      P.popScale = n.t === 'b' ? 1.38 : 1.18;
-      if (n.t === 'b') {
-        G.flash = 3; G.flashR = 255; G.flashG = 176; G.flashB = 0;
-        pfx(n.x, n.y, MODE.bCol, 7);
-      } else {
-        G.flash = 2; G.flashR = 0; G.flashG = 255; G.flashB = 65;
-        pfx(n.x, n.y, MODE.aCol, 4);
-      }
-      addPopup(n.x, n.y - 10, n.t === 'b' ? '+3' : '+1', n.t === 'b' ? MODE.bCol : MODE.aCol);
-      if (G.seqs >= G.need) {
-        if (G.epoch >= MODE.epochs.length) { G.won = true; return false; }
-        G.epoch++; G.seqs = 0; G.need = Math.ceil(G.need * 1.28);
-        G.epochAnim = 105; G.flash = 7; G.flashR = 0; G.flashG = 200; G.flashB = 255;
-        spawnToxins();
-      }
+    for(const n of nodes){n.a+=0.044;n.x+=n.vx;n.y+=n.vy;if(n.x<20||n.x>W-20)n.vx*=-1;if(n.y<25||n.y>H-20)n.vy*=-1;}
+    nodes=nodes.filter(n=>{
+      if(dist(P,n)>P.sz+9)return true;
+      if(n.t==='p'){G.inv=Math.max(G.inv,120);G.score+=2;G.flash=5;G.flashR=191;G.flashG=95;G.flashB=255;pfx(n.x,n.y,'#bf5fff',6);addPopup(n.x,n.y,'SHIELD!','#bf5fff');P.popScale=1.3;return false;}
+      if(n.t==='l'){if(G.lives<MAX_LIVES)G.lives++;G.flash=6;G.flashR=0;G.flashG=255;G.flashB=65;pfx(n.x,n.y,MODE.lCol,8);addPopup(n.x,n.y,'+LIFE ♥',MODE.lCol);P.popScale=1.45;return false;}
+      const pts=n.t==='b'?3:1;G.score+=pts;G.seqs++;G.streak++;G.loss=Math.max(0.001,1/(G.score+1));G.comboT=82;G.combo++;P.popScale=n.t==='b'?1.38:1.18;
+      if(n.t==='b'){G.flash=3;G.flashR=255;G.flashG=176;G.flashB=0;pfx(n.x,n.y,MODE.bCol,7);}
+      else{G.flash=2;G.flashR=0;G.flashG=255;G.flashB=65;pfx(n.x,n.y,MODE.aCol,4);}
+      addPopup(n.x,n.y-10,n.t==='b'?'+3':'+1',n.t==='b'?MODE.bCol:MODE.aCol);
+      if(G.seqs>=G.need){if(G.epoch>=MODE.epochs.length){G.won=true;return false;}G.epoch++;G.seqs=0;G.need=Math.ceil(G.need*1.28);G.epochAnim=105;G.flash=7;G.flashR=0;G.flashG=200;G.flashB=255;spawnToxins();}
       return false;
     });
-    if (!nodes.length) spawnNodes();
-
-    // Timers
-    if (G.comboT > 0) G.comboT--; else G.combo = 0;
-    if (G.flash > 0) G.flash--;
-    if (G.epochAnim > 0) G.epochAnim--;
-    if (G.modeAnim > 0) G.modeAnim--;
-
-    // Popup decay
-    G.popups = G.popups.filter(p => { p.y -= 0.62; p.life++; return p.life < p.max; });
-
-    // Toxin collision
-    if (G.inv <= 0) {
-      for (const t of toxins) {
-        if (dist(P, t) < P.sz + t.sz - 3) {
-          G.lives--; G.inv = 86; G.streak = 0; G.combo = 0; G.comboT = 0;
-          G.killerIon = t.ion;
-          shake(4); G.flash = 9; G.flashR = 255; G.flashG = 44; G.flashB = 44;
-          pfx(P.x, P.y, '#ff4444', 8);
-          if (G.lives <= 0) {
-            G.over = true;
-            G.deathMsg = MODE.death[Math.floor(Math.random() * MODE.death.length)];
-            if (G.score > _globalHi) { _globalHi = G.score; localStorage.setItem('moyalab_hi', String(_globalHi)); }
-            G.hi = _globalHi;
-          }
+    if(!nodes.length)spawnNodes();
+    if(G.comboT>0)G.comboT--;else G.combo=0;
+    if(G.flash>0)G.flash--;if(G.epochAnim>0)G.epochAnim--;if(G.modeAnim>0)G.modeAnim--;
+    G.popups=G.popups.filter(p=>{p.y-=0.62;p.life++;return p.life<p.max;});
+    if(G.inv<=0){
+      for(const t of toxins){
+        if(dist(P,t)<P.sz+t.sz-3){
+          G.lives--;G.inv=86;G.streak=0;G.combo=0;G.comboT=0;G.killerIon=t.ion;
+          shake(4);G.flash=9;G.flashR=255;G.flashG=44;G.flashB=44;pfx(P.x,P.y,'#ff4444',8);
+          if(G.lives<=0){G.over=true;G.deathMsg=MODE.death[Math.floor(Math.random()*MODE.death.length)];if(G.score>_globalHi){_globalHi=G.score;localStorage.setItem('moyalab_hi',String(_globalHi));}G.hi=_globalHi;}
           break;
         }
       }
-    } else { G.inv--; }
-
-    // Particle pool update
-    for (const p of pool) {
-      if (!p.alive) continue;
-      p.x += p.vx; p.y += p.vy; p.vx *= 0.87; p.vy *= 0.87; p.life++;
-      if (p.life >= p.max) p.alive = false;
-    }
+    }else{G.inv--;}
+    for(const p of pool){if(!p.alive)continue;p.x+=p.vx;p.y+=p.vy;p.vx*=0.87;p.vy*=0.87;p.life++;if(p.life>=p.max)p.alive=false;}
   }
 
-  /* ── [RENDERER] — canvas only, never mutates state ──────────────── */
+  const dNA=[],dNB=[],dNP=[],dNL=[];
+  function hexPath(x,y,r,rot){GX.beginPath();for(let i=0;i<6;i++){const a=rot+(Math.PI/3)*i;i?GX.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r):GX.moveTo(x+Math.cos(a)*r,y+Math.sin(a)*r);}GX.closePath();}
+  function pentPath(x,y,r,rot){GX.beginPath();for(let i=0;i<5;i++){const a=rot+(Math.PI*2/5)*i-Math.PI/2;i?GX.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r):GX.moveTo(x+Math.cos(a)*r,y+Math.sin(a)*r);}GX.closePath();}
+  function triPath(x,y,sz,rot){const cos=Math.cos(rot),sin=Math.sin(rot);const ax=-sin*(-sz),ay=cos*(-sz);const bx2=cos*(sz*.72)-sin*(sz*.58),by2=sin*(sz*.72)+cos*(sz*.58);const cx2=cos*(-sz*.72)-sin*(sz*.58),cy2=sin*(-sz*.72)+cos*(sz*.58);GX.beginPath();GX.moveTo(x+ax,y+ay);GX.lineTo(x+bx2,y+by2);GX.lineTo(x+cx2,y+cy2);GX.closePath();}
 
-  // Node buckets (re-classified per frame, reuse same arrays)
-  const dNA = [], dNB = [], dNP = [], dNL = [];
-
-  /* Geometry helpers */
-  function hexPath(x, y, r, rot) {
-    GX.beginPath();
-    for (let i = 0; i < 6; i++) {
-      const a = rot + (Math.PI / 3) * i;
-      i ? GX.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r)
-        : GX.moveTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
-    }
-    GX.closePath();
+  function drawBackground(){
+    GX.strokeStyle='rgba(0,55,16,0.04)';GX.lineWidth=1;
+    for(let x=0;x<W;x+=40){GX.beginPath();GX.moveTo(x,20);GX.lineTo(x,H);GX.stroke();}
+    for(let y=20;y<H;y+=40){GX.beginPath();GX.moveTo(0,y);GX.lineTo(W,y);GX.stroke();}
+    GX.drawImage(_bgCanvas,0,0);
   }
-
-  function pentPath(x, y, r, rot) {
-    GX.beginPath();
-    for (let i = 0; i < 5; i++) {
-      const a = rot + (Math.PI * 2 / 5) * i - Math.PI / 2;
-      i ? GX.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r)
-        : GX.moveTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
-    }
-    GX.closePath();
+  function drawParticles(){
+    for(let i=0;i<MAX_POOL;i++){const p=pool[i];if(!p.alive)continue;const alpha=(1-p.life/p.max)*(p.trail?0.5:0.72);GX.globalAlpha=Math.max(0,alpha);GX.fillStyle=p.col;GX.beginPath();GX.arc(p.x,p.y,p.trail?3:2,0,Math.PI*2);GX.fill();}
+    GX.globalAlpha=1;
   }
-
-  // Rotated triangle for toxins (avoids save/restore per toxin)
-  function triPath(x, y, sz, rot) {
-    const cos = Math.cos(rot), sin = Math.sin(rot);
-    const ax = -sin * (-sz), ay = cos * (-sz);
-    const bx2 = cos * (sz * .72) - sin * (sz * .58), by2 = sin * (sz * .72) + cos * (sz * .58);
-    const cx2 = cos * (-sz * .72) - sin * (sz * .58), cy2 = sin * (-sz * .72) + cos * (sz * .58);
-    GX.beginPath();
-    GX.moveTo(x + ax, y + ay); GX.lineTo(x + bx2, y + by2); GX.lineTo(x + cx2, y + cy2);
-    GX.closePath();
+  function drawEdges(){
+    if(MODE.id!=='A'&&MODE.id!=='E')return;
+    GX.lineWidth=0.5;
+    for(let i=0;i<nodes.length;i++){for(let j=i+1;j<nodes.length;j++){const d=dist(nodes[i],nodes[j]);if(d>=112)continue;const alpha=(1-d/112)*0.065;if(MODE.id==='E'&&nodes[i].module&&nodes[i].module===nodes[j].module)GX.strokeStyle=nodes[i].module+'38';else GX.strokeStyle=`rgba(0,255,65,${alpha})`;GX.beginPath();GX.moveTo(nodes[i].x,nodes[i].y);GX.lineTo(nodes[j].x,nodes[j].y);GX.stroke();}}
   }
-
-  function drawBackground() {
-    // Sparse grid — drawn once, low opacity
-    GX.strokeStyle = 'rgba(0,55,16,0.04)'; GX.lineWidth = 1;
-    for (let x = 0; x < W; x += 40) { GX.beginPath(); GX.moveTo(x, 20); GX.lineTo(x, H); GX.stroke(); }
-    for (let y = 20; y < H; y += 40) { GX.beginPath(); GX.moveTo(0, y); GX.lineTo(W, y); GX.stroke(); }
-    GX.drawImage(_bgCanvas, 0, 0);
-  }
-
-  function drawParticles() {
-    for (let i = 0; i < MAX_POOL; i++) {
-      const p = pool[i]; if (!p.alive) continue;
-      const alpha = (1 - p.life / p.max) * (p.trail ? 0.5 : 0.72);
-      GX.globalAlpha = Math.max(0, alpha);
-      GX.fillStyle = p.col;
-      GX.beginPath(); GX.arc(p.x, p.y, p.trail ? 3 : 2, 0, Math.PI * 2); GX.fill();
-    }
-    GX.globalAlpha = 1;
-  }
-
-  function drawEdges() {
-    if (MODE.id !== 'A' && MODE.id !== 'E') return;
-    GX.lineWidth = 0.5;
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const d = dist(nodes[i], nodes[j]); if (d >= 112) continue;
-        const alpha = (1 - d / 112) * 0.065;
-        if (MODE.id === 'E' && nodes[i].module && nodes[i].module === nodes[j].module)
-          GX.strokeStyle = nodes[i].module + '38';
-        else
-          GX.strokeStyle = `rgba(0,255,65,${alpha})`;
-        GX.beginPath(); GX.moveTo(nodes[i].x, nodes[i].y); GX.lineTo(nodes[j].x, nodes[j].y); GX.stroke();
+  function drawNodes(){
+    GX.shadowBlur=7;
+    for(const n of dNA){
+      const col=(MODE.id==='E'&&n.module)?n.module:MODE.aCol,r=4.0+Math.sin(n.a)*1.0;
+      GX.shadowColor=col;GX.fillStyle=col;
+      switch(MODE.aShape){
+        case 'hex':hexPath(n.x,n.y,r,n.a*0.25);break;
+        case 'diamond':GX.beginPath();GX.moveTo(n.x,n.y-r*1.35);GX.lineTo(n.x+r*0.85,n.y);GX.lineTo(n.x,n.y+r*1.35);GX.lineTo(n.x-r*0.85,n.y);GX.closePath();break;
+        case 'rect':GX.beginPath();GX.rect(n.x-r*0.85,n.y-r*0.6,r*1.7,r*1.2);break;
+        default:GX.beginPath();GX.arc(n.x,n.y,r,0,Math.PI*2);
       }
+      GX.fill();GX.shadowBlur=0;GX.strokeStyle=col+'2A';GX.lineWidth=1;GX.beginPath();GX.arc(n.x,n.y,r+5,0,Math.PI*2);GX.stroke();GX.shadowBlur=7;
     }
+    GX.shadowBlur=9;
+    for(const n of dNB){
+      const r=5.5+Math.sin(n.a)*0.8;GX.shadowColor=MODE.bCol;GX.fillStyle=MODE.bCol+'1A';GX.strokeStyle=MODE.bCol;GX.lineWidth=1.5;hexPath(n.x,n.y,r,n.a*0.26);GX.fill();GX.stroke();GX.shadowBlur=0;GX.font='bold 7px "JetBrains Mono"';GX.fillStyle=MODE.bCol;GX.textAlign='center';GX.textBaseline='middle';GX.fillText('+3',n.x,n.y);GX.shadowBlur=9;
+    }
+    GX.shadowBlur=12;
+    for(const n of dNP){
+      GX.shadowColor='#bf5fff';GX.fillStyle='#bf5fff';GX.beginPath();
+      for(let i=0;i<8;i++){const a=n.a+(Math.PI/4)*i,r=i%2===0?7:3.5;i===0?GX.moveTo(n.x+Math.cos(a)*r,n.y+Math.sin(a)*r):GX.lineTo(n.x+Math.cos(a)*r,n.y+Math.sin(a)*r);}
+      GX.closePath();GX.fill();GX.shadowBlur=0;GX.font='5px "JetBrains Mono"';GX.fillStyle='rgba(191,95,255,0.82)';GX.textAlign='center';GX.textBaseline='top';GX.fillText('SHIELD',n.x,n.y+9);GX.shadowBlur=12;
+    }
+    GX.shadowBlur=10;const blinkOn=Math.floor(frame/5)%2===0;
+    for(const n of dNL){GX.shadowColor=MODE.lCol;GX.strokeStyle=MODE.lCol;GX.lineWidth=2;GX.beginPath();GX.moveTo(n.x,n.y-7);GX.lineTo(n.x,n.y+7);GX.stroke();GX.beginPath();GX.moveTo(n.x-7,n.y);GX.lineTo(n.x+7,n.y);GX.stroke();if(blinkOn){GX.globalAlpha=0.38;GX.lineWidth=1;GX.beginPath();GX.arc(n.x,n.y,11,0,Math.PI*2);GX.stroke();GX.globalAlpha=1;}}
+    GX.shadowBlur=0;GX.font='5px "JetBrains Mono"';GX.textAlign='center';GX.textBaseline='top';
+    for(const n of dNA){if(!n.tag)continue;GX.fillStyle=((MODE.id==='E'&&n.module)?n.module:MODE.aCol)+'70';GX.fillText(n.tag,n.x,n.y+9);}
+    for(const n of dNB){if(!n.tag)continue;GX.fillStyle=MODE.bCol+'70';GX.fillText(n.tag,n.x,n.y+10);}
   }
-
-  function drawNodes() {
-    // All nodes with glow grouped
-    GX.shadowBlur = 7;
-
-    // Type A
-    for (const n of dNA) {
-      const col = (MODE.id === 'E' && n.module) ? n.module : MODE.aCol;
-      const r = 4.0 + Math.sin(n.a) * 1.0;
-      GX.shadowColor = col; GX.fillStyle = col;
-      // Shape dispatch
-      switch (MODE.aShape) {
-        case 'hex': hexPath(n.x, n.y, r, n.a * 0.25); break;
-        case 'diamond':
-          GX.beginPath(); GX.moveTo(n.x, n.y - r * 1.35); GX.lineTo(n.x + r * 0.85, n.y);
-          GX.lineTo(n.x, n.y + r * 1.35); GX.lineTo(n.x - r * 0.85, n.y); GX.closePath(); break;
-        case 'rect':
-          GX.beginPath(); GX.rect(n.x - r * 0.85, n.y - r * 0.6, r * 1.7, r * 1.2); break;
-        default: GX.beginPath(); GX.arc(n.x, n.y, r, 0, Math.PI * 2);
-      }
-      GX.fill();
-      // Soft outer ring
-      GX.shadowBlur = 0; GX.strokeStyle = col + '2A'; GX.lineWidth = 1;
-      GX.beginPath(); GX.arc(n.x, n.y, r + 5, 0, Math.PI * 2); GX.stroke();
-      GX.shadowBlur = 7;
-    }
-
-    // Type B — always hexagon with +3 label
-    GX.shadowBlur = 9;
-    for (const n of dNB) {
-      const r = 5.5 + Math.sin(n.a) * 0.8;
-      GX.shadowColor = MODE.bCol;
-      GX.fillStyle = MODE.bCol + '1A'; GX.strokeStyle = MODE.bCol; GX.lineWidth = 1.5;
-      hexPath(n.x, n.y, r, n.a * 0.26); GX.fill(); GX.stroke();
-      GX.shadowBlur = 0; GX.font = 'bold 7px "JetBrains Mono"';
-      GX.fillStyle = MODE.bCol; GX.textAlign = 'center'; GX.textBaseline = 'middle';
-      GX.fillText('+3', n.x, n.y);
-      GX.shadowBlur = 9;
-    }
-
-    // Power-up star
-    GX.shadowBlur = 12;
-    for (const n of dNP) {
-      GX.shadowColor = '#bf5fff'; GX.fillStyle = '#bf5fff';
-      GX.beginPath();
-      for (let i = 0; i < 8; i++) {
-        const a = n.a + (Math.PI / 4) * i, r = i % 2 === 0 ? 7 : 3.5;
-        i === 0 ? GX.moveTo(n.x + Math.cos(a)*r, n.y + Math.sin(a)*r)
-                : GX.lineTo(n.x + Math.cos(a)*r, n.y + Math.sin(a)*r);
-      }
-      GX.closePath(); GX.fill();
-      GX.shadowBlur = 0; GX.font = '5px "JetBrains Mono"';
-      GX.fillStyle = 'rgba(191,95,255,0.82)'; GX.textAlign = 'center'; GX.textBaseline = 'top';
-      GX.fillText('SHIELD', n.x, n.y + 9);
-      GX.shadowBlur = 12;
-    }
-
-    // Life pickup — blinking cross
-    GX.shadowBlur = 10;
-    const blinkOn = Math.floor(frame / 5) % 2 === 0;
-    for (const n of dNL) {
-      GX.shadowColor = MODE.lCol; GX.strokeStyle = MODE.lCol; GX.lineWidth = 2;
-      GX.beginPath(); GX.moveTo(n.x, n.y - 7); GX.lineTo(n.x, n.y + 7); GX.stroke();
-      GX.beginPath(); GX.moveTo(n.x - 7, n.y); GX.lineTo(n.x + 7, n.y); GX.stroke();
-      if (blinkOn) {
-        GX.globalAlpha = 0.38; GX.lineWidth = 1;
-        GX.beginPath(); GX.arc(n.x, n.y, 11, 0, Math.PI * 2); GX.stroke();
-        GX.globalAlpha = 1;
-      }
-    }
-
-    // Tags (no shadow — cheap text)
-    GX.shadowBlur = 0; GX.font = '5px "JetBrains Mono"';
-    GX.textAlign = 'center'; GX.textBaseline = 'top';
-    for (const n of dNA) {
-      if (!n.tag) continue;
-      GX.fillStyle = ((MODE.id === 'E' && n.module) ? n.module : MODE.aCol) + '70';
-      GX.fillText(n.tag, n.x, n.y + 9);
-    }
-    for (const n of dNB) {
-      if (!n.tag) continue;
-      GX.fillStyle = MODE.bCol + '70';
-      GX.fillText(n.tag, n.x, n.y + 10);
-    }
-  }
-
-  function drawToxins() {
-    // Homing guide lines first (cheap, setLineDash only called when needed)
-    GX.setLineDash([3, 5]);
-    GX.lineWidth = 0.5;
-    for (const t of toxins) {
-      if (!t.homing || G.over || G.won) continue;
-      GX.strokeStyle = `rgba(255,125,0,${0.11 + Math.sin(frame * 0.07) * 0.04})`;
-      GX.beginPath(); GX.moveTo(t.x, t.y); GX.lineTo(P.x, P.y); GX.stroke();
-    }
+  function drawToxins(){
+    GX.setLineDash([3,5]);GX.lineWidth=0.5;
+    for(const t of toxins){if(!t.homing||G.over||G.won)continue;GX.strokeStyle=`rgba(255,125,0,${0.11+Math.sin(frame*0.07)*0.04})`;GX.beginPath();GX.moveTo(t.x,t.y);GX.lineTo(P.x,P.y);GX.stroke();}
     GX.setLineDash([]);
-
-    // Toxin shapes — grouped shadow to avoid per-toxin save/restore
-    GX.shadowBlur = 8;
-    for (const t of toxins) {
-      const col = t.homing ? '#ff8800' : MODE.tCol;
-      GX.shadowColor = col; GX.fillStyle = col;
-      triPath(t.x, t.y, t.sz, t.rot);
-      GX.fill();
-      // Homing pulse ring (no save needed — just strokeRect on same transform)
-      if (t.homing) {
-        GX.shadowBlur = 0;
-        GX.strokeStyle = `rgba(255,130,0,${0.26 + Math.sin(frame * 0.13) * 0.14})`;
-        GX.lineWidth = 1; GX.beginPath(); GX.arc(t.x, t.y, t.sz + 5, 0, Math.PI * 2); GX.stroke();
-        GX.shadowBlur = 8;
-      }
+    GX.shadowBlur=8;
+    for(const t of toxins){
+      const col=t.homing?'#ff8800':MODE.tCol;GX.shadowColor=col;GX.fillStyle=col;triPath(t.x,t.y,t.sz,t.rot);GX.fill();
+      if(t.homing){GX.shadowBlur=0;GX.strokeStyle=`rgba(255,130,0,${0.26+Math.sin(frame*0.13)*0.14})`;GX.lineWidth=1;GX.beginPath();GX.arc(t.x,t.y,t.sz+5,0,Math.PI*2);GX.stroke();GX.shadowBlur=8;}
     }
-
-    // Ion labels — no shadow, cheap
-    GX.shadowBlur = 0; GX.font = '6px "JetBrains Mono"';
-    GX.textAlign = 'center'; GX.textBaseline = 'middle';
-    for (const t of toxins) {
-      GX.fillStyle = t.homing ? 'rgba(255,125,0,0.6)' : 'rgba(255,95,95,0.58)';
-      GX.fillText(t.ion, t.x, t.y + t.sz + 7);
-    }
+    GX.shadowBlur=0;GX.font='6px "JetBrains Mono"';GX.textAlign='center';GX.textBaseline='middle';
+    for(const t of toxins){GX.fillStyle=t.homing?'rgba(255,125,0,0.6)':'rgba(255,95,95,0.58)';GX.fillText(t.ion,t.x,t.y+t.sz+7);}
   }
-
-  function drawDangerRing() {
-    if (G.over || G.won) return;
-    let closest = Infinity;
-    for (const t of toxins) { const d = dist(P, t); if (d < closest) closest = d; }
-    if (closest < 60) {
-      GX.strokeStyle = `rgba(255,68,68,${(1 - closest / 60) * 0.38})`;
-      GX.lineWidth = 2; GX.shadowColor = '#ff4444'; GX.shadowBlur = 5;
-      GX.beginPath(); GX.arc(P.x, P.y, P.sz + 7, 0, Math.PI * 2); GX.stroke();
-      GX.shadowBlur = 0;
-    }
+  function drawDangerRing(){
+    if(G.over||G.won)return;let closest=Infinity;
+    for(const t of toxins){const d=dist(P,t);if(d<closest)closest=d;}
+    if(closest<60){GX.strokeStyle=`rgba(255,68,68,${(1-closest/60)*0.38})`;GX.lineWidth=2;GX.shadowColor='#ff4444';GX.shadowBlur=5;GX.beginPath();GX.arc(P.x,P.y,P.sz+7,0,Math.PI*2);GX.stroke();GX.shadowBlur=0;}
   }
-
-  function drawPlayer() {
-    const blink = G.inv > 0 && Math.floor(G.inv / 5) % 2 === 0;
+  function drawPlayer(){
+    const blink=G.inv>0&&Math.floor(G.inv/5)%2===0;
+    GX.save();GX.globalAlpha=blink?0.2:1;GX.translate(P.x,P.y);GX.scale(P.popScale,P.popScale);
+    GX.shadowBlur=13;GX.shadowColor=MODE.pCol;GX.fillStyle=MODE.pCol;const r=P.sz;
+    switch(MODE.pShape){
+      case 'dblcircle':GX.beginPath();GX.arc(0,0,r,0,Math.PI*2);GX.fill();GX.shadowBlur=0;GX.strokeStyle=MODE.pCol+'AA';GX.lineWidth=1.5;GX.beginPath();GX.arc(0,0,r+5,0,Math.PI*2);GX.stroke();GX.strokeStyle=MODE.pCol+'3A';GX.lineWidth=1;GX.beginPath();GX.arc(0,0,r+10,0,Math.PI*2);GX.stroke();break;
+      case 'pentagon':pentPath(0,0,r+2,frame*0.011);GX.fill();GX.shadowBlur=0;GX.strokeStyle=MODE.pCol+'44';GX.lineWidth=1;GX.beginPath();GX.arc(0,0,r+7,0,Math.PI*2);GX.stroke();break;
+      case 'ellipse':GX.scale(1.55,0.75);GX.beginPath();GX.arc(0,0,r,0,Math.PI*2);GX.fill();GX.scale(1/1.55,1/0.75);GX.shadowBlur=0;GX.strokeStyle=MODE.pCol+'44';GX.lineWidth=1;GX.beginPath();GX.arc(0,0,r+6,0,Math.PI*2);GX.stroke();break;
+      case 'crosshair':GX.beginPath();GX.arc(0,0,r,0,Math.PI*2);GX.fill();GX.shadowBlur=0;GX.strokeStyle='rgba(0,0,0,0.65)';GX.lineWidth=1.5;GX.beginPath();GX.moveTo(-r-5,0);GX.lineTo(r+5,0);GX.stroke();GX.beginPath();GX.moveTo(0,-r-5);GX.lineTo(0,r+5);GX.stroke();GX.strokeStyle=MODE.pCol+'44';GX.lineWidth=1;GX.beginPath();GX.arc(0,0,r+7,0,Math.PI*2);GX.stroke();break;
+      case 'netnode':{GX.beginPath();GX.arc(0,0,r*0.65,0,Math.PI*2);GX.fill();GX.shadowBlur=0;GX.strokeStyle=MODE.pCol+'55';GX.lineWidth=1;const nk=4,baseA=frame*0.014;for(let i=0;i<nk;i++){const a=(Math.PI*2/nk)*i+baseA,ex=Math.cos(a)*(r+8),ey=Math.sin(a)*(r+8);GX.beginPath();GX.moveTo(Math.cos(a)*r*.65,Math.sin(a)*r*.65);GX.lineTo(ex,ey);GX.stroke();GX.fillStyle=MODE.pCol+'88';GX.beginPath();GX.arc(ex,ey,2.5,0,Math.PI*2);GX.fill();GX.fillStyle=MODE.pCol;}break;}
+      case 'hexagon':hexPath(0,0,r+3,frame*0.01);GX.fill();GX.shadowBlur=0;GX.strokeStyle=MODE.pCol+'44';GX.lineWidth=1;hexPath(0,0,r+9,-frame*0.008);GX.stroke();break;
+      default:GX.beginPath();GX.arc(0,0,r,0,Math.PI*2);GX.fill();
+    }
+    GX.restore();
+  }
+  function drawPopups(){
+    GX.font='bold 10px "JetBrains Mono"';GX.textAlign='center';GX.textBaseline='middle';GX.shadowBlur=4;
+    for(const p of G.popups){const alpha=p.life<6?p.life/6:1-((p.life-6)/(p.max-6));GX.globalAlpha=Math.max(0,alpha);GX.fillStyle=p.col;GX.shadowColor=p.col;GX.fillText(p.text,p.x,p.y);}
+    GX.globalAlpha=1;GX.shadowBlur=0;
+  }
+  function drawCombo(){
+    if(G.combo<3||G.comboT<=0)return;
+    const sz=Math.min(17,7.5+G.combo*0.75),col=G.combo>8?'#ff4444':G.combo>5?'#ffb000':'#00ffff';
+    GX.globalAlpha=Math.min(1,G.comboT/16);GX.font=`bold ${sz}px "JetBrains Mono"`;GX.textAlign='center';GX.textBaseline='middle';GX.fillStyle=col;GX.shadowColor=col;GX.shadowBlur=8;GX.fillText(`BATCH ×${G.combo}`,P.x,P.y-30);GX.globalAlpha=1;GX.shadowBlur=0;
+  }
+  function drawHUD(){
+    GX.fillStyle='rgba(3,5,4,0.94)';GX.fillRect(0,0,W,20);
+    GX.font='bold 9px "JetBrains Mono"';GX.textAlign='left';
+    GX.fillStyle='#1a4a1a';GX.fillText(MODE.metric+':',7,13);
+    GX.fillStyle='#d0d0d0';GX.fillText(String(G.score).padStart(5,'0'),53,13);
+    GX.fillStyle='#1a3a3a';GX.fillText('EPOCH:',105,13);
+    GX.fillStyle='#00ffff';GX.fillText(`${G.epoch}/${MODE.epochs.length}`,150,13);
+    GX.fillStyle='#080808';GX.fillRect(182,5,52,8);
+    GX.fillStyle='rgba(0,255,65,0.62)';GX.fillRect(182,5,52*(G.seqs/G.need),8);
+    GX.strokeStyle='rgba(0,255,65,0.12)';GX.lineWidth=1;GX.strokeRect(182,5,52,8);
+    GX.font='6px "JetBrains Mono"';GX.fillStyle='#1a2a1a';GX.textAlign='center';GX.fillText('XP',208,11);
+    GX.font='8px "JetBrains Mono"';GX.textAlign='left';
+    GX.fillStyle='#1a3a1a';GX.fillText('LOSS:',244,13);
+    GX.fillStyle=G.loss<0.1?'#00ff41':G.loss<0.5?'#ffb000':'#ff8800';GX.fillText(G.loss.toFixed(3),280,13);
+    if(G.streak>0){GX.fillStyle='rgba(0,255,255,0.35)';GX.fillText(`STK:${G.streak}`,328,13);}
+    GX.fillStyle='rgba(255,68,68,0.45)';GX.fillText(`ION:${String(toxins.length).padStart(2,'0')}`,372,13);
+    GX.font='7px "JetBrains Mono"';GX.fillStyle='rgba(191,95,255,0.4)';GX.fillText(`[${MODE.id}]`,418,13);
+    const epN=(MODE.epochs[Math.min(G.epoch-1,MODE.epochs.length-1)]||'').replace(/_/g,' ');
+    GX.font='6px "JetBrains Mono"';GX.fillStyle='rgba(0,195,195,0.25)';GX.fillText(epN.length>22?epN.slice(0,20)+'…':epN,434,13);
+    if(G.hi>0){GX.fillStyle='#1a2a1a';GX.font='8px "JetBrains Mono"';GX.textAlign='center';GX.fillText(`BEST:${String(G.hi).padStart(5,'0')}`,W-88,13);}
+    GX.font='8px "JetBrains Mono"';GX.textAlign='left';
+    GX.fillStyle='rgba(0,255,65,0.26)';GX.fillText('MEM:',W-78,13);
+    for(let i=0;i<MAX_LIVES;i++){const active=i<G.lives,extra=i>=6;GX.fillStyle=active?(extra?'#ffb000':'#00ff41'):'#111';if(active&&extra){GX.shadowColor='#ffb000';GX.shadowBlur=3;}GX.fillRect(W-43+i*5,7,4,6);GX.shadowBlur=0;}
+  }
+  function drawHeatmap(){
+    const cx=W-82,cy=H-80,sz=15,labels=['G','T','P','M'];
+    GX.save();GX.globalAlpha=0.6;GX.fillStyle='rgba(0,0,0,0.5)';GX.fillRect(cx-14,cy-16,72,80);
+    GX.font='6px "JetBrains Mono"';GX.fillStyle='rgba(0,255,65,0.36)';GX.textAlign='left';GX.fillText('CORR MATRIX',cx-12,cy-6);
+    for(let i=0;i<4;i++){for(let j=0;j<4;j++){const v=i===j?1:Math.abs(Math.sin(frame*0.012+i*1.28+j*0.72))*0.8+0.12;const rv=v>0.5?Math.floor((v-0.5)*2*240):0,gv=Math.floor(v<0.5?v*2*148:(1-v)*2*148),bv=v<0.5?Math.floor((1-v*2)*175):0;GX.fillStyle=`rgb(${rv},${gv},${bv})`;GX.fillRect(cx+j*sz,cy+i*sz,sz-1,sz-1);}GX.fillStyle='rgba(0,255,65,0.42)';GX.textAlign='center';GX.fillText(labels[i],cx-6,cy+i*sz+9);GX.fillText(labels[i],cx+i*sz+7,cy-2);}
+    GX.restore();
+  }
+  function drawCoverage(){
+    const bx=10,by=H-46,bw=W-20,bh=26;
+    GX.save();GX.globalAlpha=0.5;GX.fillStyle='rgba(0,0,0,0.5)';GX.fillRect(bx,by-12,bw,bh+14);
+    GX.font='5px "JetBrains Mono"';GX.fillStyle='rgba(0,255,65,0.3)';GX.textAlign='left';GX.fillText('COVERAGE DEPTH (×)',bx,by-4);
+    const bars=Math.floor(bw/3),sp=Math.max(1,Math.floor(bars/(G.epoch+2)));
+    for(let i=0;i<bars;i++){const base=Math.sin(i*0.15+frame*0.006)*0.27+0.52,v=Math.max(0.04,Math.min(1,base+Math.sin(i*0.8+frame*0.016)*0.15)),isSpike=i%sp===0;GX.fillStyle=isSpike?'rgba(255,176,0,0.7)':`rgba(0,255,65,${v*0.48+0.07})`;GX.fillRect(bx+i*3,by+bh-(isSpike?bh:v*bh),2,isSpike?bh:v*bh);}
+    GX.font='5px "JetBrains Mono"';GX.fillStyle='rgba(255,176,0,0.45)';GX.textAlign='right';GX.fillText('▲ chimeric spike',bx+bw,by+bh+10);GX.restore();
+  }
+  function drawSSTrack(){
+    const tx=10,ty=22,tw=W-20,th=9;
+    GX.save();GX.globalAlpha=0.58;GX.fillStyle='rgba(0,0,0,0.48)';GX.fillRect(tx,ty,tw,th);
+    let x=tx,i=0,seed=G.score*13;
+    while(x<tx+tw){const tp=['H','E','C'][(seed+i*7)%3],maxL=tp==='H'?55:tp==='E'?38:18,len=Math.min(((seed*3+i*11)%maxL)+10,tx+tw-x);if(tp==='H'){GX.strokeStyle='rgba(255,176,0,0.62)';GX.lineWidth=1.5;GX.beginPath();for(let xi=0;xi<=len;xi+=5){const py=ty+(xi/5%2===0?1:th-2);xi===0?GX.moveTo(x+xi,py):GX.lineTo(x+xi,py);}GX.stroke();}else if(tp==='E'){GX.fillStyle='rgba(0,200,255,0.4)';GX.fillRect(x,ty+2,len-4,th-4);}else{GX.strokeStyle='rgba(80,80,80,0.3)';GX.lineWidth=1;GX.beginPath();GX.moveTo(x,ty+th/2);GX.lineTo(x+len,ty+th/2);GX.stroke();}x+=len;i++;}
+    GX.font='5px "JetBrains Mono"';GX.fillStyle='rgba(255,176,0,0.36)';GX.textAlign='right';GX.textBaseline='top';GX.fillText('α-helix  β-sheet  coil',tx+tw,ty+th+2);GX.restore();
+  }
+  function drawTaxoTree(){
+    const RANKS=['Kingdom','Phylum','Class','Order','Family','Genus','Species'],tx=W-114,ty=30,sp=(H-65)/7;
+    GX.save();GX.globalAlpha=0.48;GX.fillStyle='rgba(0,0,0,0.42)';GX.fillRect(tx-4,ty-14,108,sp*7+18);
+    GX.font='6px "JetBrains Mono"';GX.fillStyle='rgba(0,255,255,0.3)';GX.textAlign='left';GX.fillText('k-mer TAXONOMY',tx-2,ty-5);
+    RANKS.forEach((rank,i)=>{const y=ty+i*sp+sp/2,solved=i<G.epoch,current=i===Math.min(G.epoch,6);if(i<RANKS.length-1){GX.strokeStyle=solved?'rgba(0,255,65,0.3)':'rgba(0,255,65,0.05)';GX.lineWidth=1;GX.beginPath();GX.moveTo(tx+5,y+3);GX.lineTo(tx+5,y+sp);GX.stroke();}if(current){GX.shadowColor='#00ffff';GX.shadowBlur=7;}GX.fillStyle=current?'#00ffff':solved?'#00ff41':'#111';GX.beginPath();GX.arc(tx+5,y,current?4.2:2.8,0,Math.PI*2);GX.fill();GX.shadowBlur=0;GX.font=`${current?'bold ':''}7px "JetBrains Mono"`;GX.fillStyle=current?'#00ffff':solved?'rgba(0,255,65,0.5)':'rgba(0,255,65,0.08)';GX.fillText(rank,tx+13,y+2.5);});
+    GX.restore();
+  }
+  function drawModuleLegend(){
+    const mx=10,my=H-54;
+    GX.save();GX.globalAlpha=0.55;GX.fillStyle='rgba(0,0,0,0.46)';GX.fillRect(mx-2,my-12,WGCNA_MOD.length*22+4,34);
+    GX.font='6px "JetBrains Mono"';GX.fillStyle='rgba(0,255,65,0.3)';GX.textAlign='left';GX.fillText('WGCNA MODULES',mx,my-4);
+    const counts={};nodes.filter(n=>n.module).forEach(n=>{counts[n.module]=(counts[n.module]||0)+1;});
+    const dominant=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0]?.[0];
+    WGCNA_MOD.forEach((col,i)=>{const x=mx+i*22;GX.fillStyle=col;GX.fillRect(x,my,18,9);if(col===dominant){GX.strokeStyle='#fff';GX.lineWidth=1;GX.strokeRect(x,my,18,9);}GX.fillStyle=col+'CC';GX.textAlign='center';GX.fillText(WGCNA_NM[i],x+9,my+19);});
+    GX.restore();
+  }
+  function drawPAMatrix(){
+    const strains=MODE.epochs,genes=14,cw=11,ch=8,mx=10,my=H-strains.length*ch-22;
+    GX.save();GX.globalAlpha=0.55;GX.fillStyle='rgba(0,0,0,0.46)';GX.fillRect(mx-2,my-12,genes*cw+72,strains.length*ch+18);
+    GX.font='5px "JetBrains Mono"';GX.fillStyle='rgba(0,255,65,0.3)';GX.textAlign='left';GX.fillText('PAN-GENOME MATRIX',mx,my-4);
+    const coreT=Math.floor(genes*0.4);
+    strains.forEach((strain,i)=>{GX.fillStyle=i<G.epoch?'rgba(0,255,65,0.36)':'rgba(0,255,65,0.07)';GX.fillText(strain.slice(0,10),mx+genes*cw+3,my+i*ch+ch-1);for(let j=0;j<genes;j++){const isCore=j<coreT,present=isCore||((i*7+j*3+G.epoch)%17%3!==0);GX.fillStyle=present?(isCore?'rgba(0,255,65,0.66)':'rgba(0,200,200,0.36)'):'rgba(5,5,5,0.8)';GX.fillRect(mx+j*cw,my+i*ch,cw-1,ch-1);}});
+    GX.restore();
+  }
+  function drawModeViz(){switch(MODE.id){case 'A':drawHeatmap();break;case 'B':drawCoverage();break;case 'C':drawSSTrack();break;case 'D':drawTaxoTree();break;case 'E':drawModuleLegend();break;case 'F':drawPAMatrix();break;}}
+  function drawModeIntro(){
+    if(G.modeAnim<=0)return;const f=Math.min(1,G.modeAnim/14)*Math.min(1,G.modeAnim/74);
+    GX.save();GX.globalAlpha=f;GX.fillStyle='rgba(0,0,0,0.72)';GX.fillRect(0,H/2-40,W,74);
+    GX.font='bold 14px "JetBrains Mono"';GX.textAlign='center';GX.fillStyle='#bf5fff';GX.shadowColor='#bf5fff';GX.shadowBlur=13;GX.fillText(`// MODE ${MODE.id}: ${MODE.label}`,W/2,H/2-18);
+    GX.shadowBlur=0;GX.font='8px "JetBrains Mono"';GX.fillStyle='#5a3a7a';GX.fillText(`agent: ${MODE.agent}  ·  toxin: ${MODE.tName}  ·  lives: ${G.lives}/${MAX_LIVES}`,W/2,H/2+2);
+    GX.fillStyle='#2a1a3a';GX.fillText(`EPOCH 1 · ${MODE.epochs[0]}`,W/2,H/2+16);GX.restore();
+  }
+  function drawEpochAnim(){
+    if(G.epochAnim<=0||G.won)return;const f=Math.min(1,G.epochAnim/14)*Math.min(1,G.epochAnim/84);
+    const epN=MODE.epochs[Math.min(G.epoch-1,MODE.epochs.length-1)];
+    GX.save();GX.globalAlpha=f;GX.fillStyle='rgba(0,0,0,0.64)';GX.fillRect(0,H/2-30,W,56);
+    GX.font='bold 13px "JetBrains Mono"';GX.textAlign='center';GX.fillStyle='#00ffff';GX.shadowColor='#00ffff';GX.shadowBlur=12;GX.fillText(`── EPOCH ${G.epoch} · ${epN} ──`,W/2,H/2-12);
+    GX.shadowBlur=0;GX.font='8px "JetBrains Mono"';GX.fillStyle='#2a5a5a';GX.fillText(`${MODE.tName}s=${toxins.length}  ·  reads_needed=${G.need}  ·  loss=${G.loss.toFixed(3)}`,W/2,H/2+8);GX.restore();
+  }
+  function drawVictory(){
+    if(!G.won)return;GX.fillStyle='rgba(3,5,4,0.92)';GX.fillRect(0,0,W,H);
+    GX.font='bold 17px "JetBrains Mono"';GX.textAlign='center';GX.fillStyle='#00ff41';GX.shadowColor='#00ff41';GX.shadowBlur=18;GX.fillText('✓ SIMULATION COMPLETE',W/2,H/2-34);
+    GX.shadowBlur=0;GX.font='10px "JetBrains Mono"';GX.fillStyle='#28c882';GX.fillText(MODE.victory,W/2,H/2-14);
+    GX.font='9px "JetBrains Mono"';GX.fillStyle='#2a5a3a';GX.fillText(`reads=${G.score}  ·  epochs=${MODE.epochs.length}  ·  lives_remaining=${G.lives}`,W/2,H/2+4);
+    GX.fillStyle='#1a4a2a';GX.fillText(`mode: ${MODE.label}`,W/2,H/2+20);GX.fillStyle='#00ff41';GX.fillText('[ R — run new simulation mode ]',W/2,H/2+40);GX.textAlign='left';
+  }
+  function drawGameOver(){
+    if(!G.over)return;GX.fillStyle='rgba(3,5,4,0.92)';GX.fillRect(0,0,W,H);
+    const go=G.glt%8<2?(Math.random()-.5)*3.2:0;GX.save();GX.translate(go,0);
+    GX.font='bold 14px "JetBrains Mono"';GX.textAlign='center';GX.fillStyle='#ff4444';GX.shadowColor='#ff4444';GX.shadowBlur=10;GX.fillText(G.deathMsg,W/2,H/2-32);GX.restore();
+    GX.shadowBlur=0;GX.textAlign='center';GX.font='9px "JetBrains Mono"';GX.fillStyle='#2a4a2a';GX.fillText(`reads=${G.score}  ·  epoch=${G.epoch}/${MODE.epochs.length}  ·  killer: ${G.killerIon}`,W/2,H/2-14);
+    GX.fillStyle='#1a3a1a';GX.fillText(`mode: ${MODE.label}`,W/2,H/2+2);
+    if(G.score>=G.hi&&G.hi>0){GX.fillStyle='#ffb000';GX.fillText('★ NEW RECORD ★',W/2,H/2+18);}
+    GX.fillStyle='#00ff41';GX.fillText('[ R — reinitialize with new mode ]',W/2,H/2+36);GX.textAlign='left';
+  }
+  function draw(){
+    dNA.length=0;dNB.length=0;dNP.length=0;dNL.length=0;
+    for(const n of nodes){if(n.t==='a')dNA.push(n);else if(n.t==='b')dNB.push(n);else if(n.t==='p')dNP.push(n);else if(n.t==='l')dNL.push(n);}
     GX.save();
-    GX.globalAlpha = blink ? 0.2 : 1;
-    GX.translate(P.x, P.y);
-    GX.scale(P.popScale, P.popScale);
-    GX.shadowBlur = 13; GX.shadowColor = MODE.pCol; GX.fillStyle = MODE.pCol;
-    const r = P.sz;
-
-    switch (MODE.pShape) {
-      case 'dblcircle':  // Mode A: Integration hub — two concentric rings
-        GX.beginPath(); GX.arc(0, 0, r, 0, Math.PI * 2); GX.fill();
-        GX.shadowBlur = 0; GX.strokeStyle = MODE.pCol + 'AA'; GX.lineWidth = 1.5;
-        GX.beginPath(); GX.arc(0, 0, r + 5, 0, Math.PI * 2); GX.stroke();
-        GX.strokeStyle = MODE.pCol + '3A'; GX.lineWidth = 1;
-        GX.beginPath(); GX.arc(0, 0, r + 10, 0, Math.PI * 2); GX.stroke();
-        break;
-
-      case 'pentagon':  // Mode B: Binning agent
-        pentPath(0, 0, r + 2, frame * 0.011);
-        GX.fill();
-        GX.shadowBlur = 0; GX.strokeStyle = MODE.pCol + '44'; GX.lineWidth = 1;
-        GX.beginPath(); GX.arc(0, 0, r + 7, 0, Math.PI * 2); GX.stroke();
-        break;
-
-      case 'ellipse':  // Mode C: Polymerase — elongated shape
-        GX.scale(1.55, 0.75);
-        GX.beginPath(); GX.arc(0, 0, r, 0, Math.PI * 2); GX.fill();
-        GX.scale(1 / 1.55, 1 / 0.75);
-        GX.shadowBlur = 0; GX.strokeStyle = MODE.pCol + '44'; GX.lineWidth = 1;
-        GX.beginPath(); GX.arc(0, 0, r + 6, 0, Math.PI * 2); GX.stroke();
-        break;
-
-      case 'crosshair':  // Mode D: Classifier scope
-        GX.beginPath(); GX.arc(0, 0, r, 0, Math.PI * 2); GX.fill();
-        GX.shadowBlur = 0; GX.strokeStyle = 'rgba(0,0,0,0.65)'; GX.lineWidth = 1.5;
-        GX.beginPath(); GX.moveTo(-r - 5, 0); GX.lineTo(r + 5, 0); GX.stroke();
-        GX.beginPath(); GX.moveTo(0, -r - 5); GX.lineTo(0, r + 5); GX.stroke();
-        GX.strokeStyle = MODE.pCol + '44'; GX.lineWidth = 1;
-        GX.beginPath(); GX.arc(0, 0, r + 7, 0, Math.PI * 2); GX.stroke();
-        break;
-
-      case 'netnode': {  // Mode E: Network node with 4 radiating edges
-        GX.beginPath(); GX.arc(0, 0, r * 0.65, 0, Math.PI * 2); GX.fill();
-        GX.shadowBlur = 0; GX.strokeStyle = MODE.pCol + '55'; GX.lineWidth = 1;
-        const nk = 4, baseA = frame * 0.014;
-        for (let i = 0; i < nk; i++) {
-          const a = (Math.PI * 2 / nk) * i + baseA;
-          const ex = Math.cos(a) * (r + 8), ey = Math.sin(a) * (r + 8);
-          GX.beginPath(); GX.moveTo(Math.cos(a) * r * .65, Math.sin(a) * r * .65);
-          GX.lineTo(ex, ey); GX.stroke();
-          GX.fillStyle = MODE.pCol + '88'; GX.beginPath(); GX.arc(ex, ey, 2.5, 0, Math.PI * 2); GX.fill();
-          GX.fillStyle = MODE.pCol;
-        }
-        break;
-      }
-
-      case 'hexagon':  // Mode F: Genome browser
-        hexPath(0, 0, r + 3, frame * 0.01); GX.fill();
-        GX.shadowBlur = 0; GX.strokeStyle = MODE.pCol + '44'; GX.lineWidth = 1;
-        hexPath(0, 0, r + 9, -frame * 0.008); GX.stroke();
-        break;
-
-      default:
-        GX.beginPath(); GX.arc(0, 0, r, 0, Math.PI * 2); GX.fill();
-    }
+    if(_skT>0){const si=_skT/10;GX.translate((Math.random()-.5)*_skX*si,(Math.random()-.5)*_skY*si);}
+    GX.clearRect(0,0,W,H);drawBackground();drawModeViz();
+    if(G.flash>0){GX.globalAlpha=G.flash*0.011;GX.fillStyle=`rgb(${G.flashR},${G.flashG},${G.flashB})`;GX.fillRect(0,0,W,H);GX.globalAlpha=1;}
+    drawParticles();drawEdges();drawNodes();drawToxins();drawDangerRing();drawPlayer();drawPopups();drawCombo();drawHUD();drawModeIntro();drawEpochAnim();drawVictory();drawGameOver();
     GX.restore();
   }
-
-  function drawPopups() {
-    GX.font = 'bold 10px "JetBrains Mono"';
-    GX.textAlign = 'center'; GX.textBaseline = 'middle';
-    GX.shadowBlur = 4;
-    for (const p of G.popups) {
-      const alpha = p.life < 6 ? p.life / 6 : 1 - ((p.life - 6) / (p.max - 6));
-      GX.globalAlpha = Math.max(0, alpha);
-      GX.fillStyle = p.col; GX.shadowColor = p.col;
-      GX.fillText(p.text, p.x, p.y);
-    }
-    GX.globalAlpha = 1; GX.shadowBlur = 0;
-  }
-
-  function drawCombo() {
-    if (G.combo < 3 || G.comboT <= 0) return;
-    const sz = Math.min(17, 7.5 + G.combo * 0.75);
-    const col = G.combo > 8 ? '#ff4444' : G.combo > 5 ? '#ffb000' : '#00ffff';
-    GX.globalAlpha = Math.min(1, G.comboT / 16);
-    GX.font = `bold ${sz}px "JetBrains Mono"`;
-    GX.textAlign = 'center'; GX.textBaseline = 'middle';
-    GX.fillStyle = col; GX.shadowColor = col; GX.shadowBlur = 8;
-    GX.fillText(`BATCH ×${G.combo}`, P.x, P.y - 30);
-    GX.globalAlpha = 1; GX.shadowBlur = 0;
-  }
-
-  function drawHUD() {
-    GX.fillStyle = 'rgba(3,5,4,0.94)'; GX.fillRect(0, 0, W, 20);
-    GX.font = 'bold 9px "JetBrains Mono"'; GX.textAlign = 'left';
-    GX.fillStyle = '#1a4a1a'; GX.fillText(MODE.metric + ':', 7, 13);
-    GX.fillStyle = '#d0d0d0'; GX.fillText(String(G.score).padStart(5, '0'), 53, 13);
-    GX.fillStyle = '#1a3a3a'; GX.fillText('EPOCH:', 105, 13);
-    GX.fillStyle = '#00ffff'; GX.fillText(`${G.epoch}/${MODE.epochs.length}`, 150, 13);
-    // XP bar
-    GX.fillStyle = '#080808'; GX.fillRect(182, 5, 52, 8);
-    GX.fillStyle = 'rgba(0,255,65,0.62)'; GX.fillRect(182, 5, 52 * (G.seqs / G.need), 8);
-    GX.strokeStyle = 'rgba(0,255,65,0.12)'; GX.lineWidth = 1; GX.strokeRect(182, 5, 52, 8);
-    GX.font = '6px "JetBrains Mono"'; GX.fillStyle = '#1a2a1a'; GX.textAlign = 'center';
-    GX.fillText('XP', 208, 11);
-    // Loss
-    GX.font = '8px "JetBrains Mono"'; GX.textAlign = 'left';
-    GX.fillStyle = '#1a3a1a'; GX.fillText('LOSS:', 244, 13);
-    GX.fillStyle = G.loss < 0.1 ? '#00ff41' : G.loss < 0.5 ? '#ffb000' : '#ff8800';
-    GX.fillText(G.loss.toFixed(3), 280, 13);
-    if (G.streak > 0) { GX.fillStyle = 'rgba(0,255,255,0.35)'; GX.fillText(`STK:${G.streak}`, 328, 13); }
-    GX.fillStyle = 'rgba(255,68,68,0.45)'; GX.fillText(`ION:${String(toxins.length).padStart(2,'0')}`, 372, 13);
-    GX.font = '7px "JetBrains Mono"'; GX.fillStyle = 'rgba(191,95,255,0.4)'; GX.fillText(`[${MODE.id}]`, 418, 13);
-    const epN = (MODE.epochs[Math.min(G.epoch - 1, MODE.epochs.length - 1)] || '').replace(/_/g, ' ');
-    GX.font = '6px "JetBrains Mono"'; GX.fillStyle = 'rgba(0,195,195,0.25)';
-    GX.fillText(epN.length > 22 ? epN.slice(0, 20) + '…' : epN, 434, 13);
-    // Hi-score
-    if (G.hi > 0) {
-      GX.fillStyle = '#1a2a1a'; GX.font = '8px "JetBrains Mono"'; GX.textAlign = 'center';
-      GX.fillText(`BEST:${String(G.hi).padStart(5,'0')}`, W - 88, 13);
-    }
-    // Lives — 9 slots, extra ones in amber
-    GX.font = '8px "JetBrains Mono"'; GX.textAlign = 'left';
-    GX.fillStyle = 'rgba(0,255,65,0.26)'; GX.fillText('MEM:', W - 78, 13);
-    for (let i = 0; i < MAX_LIVES; i++) {
-      const active = i < G.lives;
-      const extra = i >= 6;  // extra lives (7-9) shown in amber
-      GX.fillStyle = active ? (extra ? '#ffb000' : '#00ff41') : '#111';
-      if (active && extra) { GX.shadowColor = '#ffb000'; GX.shadowBlur = 3; }
-      GX.fillRect(W - 43 + i * 5, 7, 4, 6);
-      GX.shadowBlur = 0;
-    }
-  }
-
-  /* ── Mode-specific scientific visualizations ── */
-
-  function drawHeatmap() { // Mode A — inter-omic correlation matrix
-    const cx = W - 82, cy = H - 80, sz = 15;
-    const labels = ['G','T','P','M'];
-    GX.save(); GX.globalAlpha = 0.6;
-    GX.fillStyle = 'rgba(0,0,0,0.5)'; GX.fillRect(cx - 14, cy - 16, 72, 80);
-    GX.font = '6px "JetBrains Mono"'; GX.fillStyle = 'rgba(0,255,65,0.36)'; GX.textAlign = 'left';
-    GX.fillText('CORR MATRIX', cx - 12, cy - 6);
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 4; j++) {
-        const v = i === j ? 1 : Math.abs(Math.sin(frame * 0.012 + i * 1.28 + j * 0.72)) * 0.8 + 0.12;
-        const rv = v > 0.5 ? Math.floor((v - 0.5) * 2 * 240) : 0;
-        const gv = Math.floor(v < 0.5 ? v * 2 * 148 : (1 - v) * 2 * 148);
-        const bv = v < 0.5 ? Math.floor((1 - v * 2) * 175) : 0;
-        GX.fillStyle = `rgb(${rv},${gv},${bv})`;
-        GX.fillRect(cx + j * sz, cy + i * sz, sz - 1, sz - 1);
-      }
-      GX.fillStyle = 'rgba(0,255,65,0.42)'; GX.textAlign = 'center';
-      GX.fillText(labels[i], cx - 6, cy + i * sz + 9);
-      GX.fillText(labels[i], cx + i * sz + 7, cy - 2);
-    }
-    GX.restore();
-  }
-
-  function drawCoverage() { // Mode B — contig coverage depth
-    const bx = 10, by = H - 46, bw = W - 20, bh = 26;
-    GX.save(); GX.globalAlpha = 0.5;
-    GX.fillStyle = 'rgba(0,0,0,0.5)'; GX.fillRect(bx, by - 12, bw, bh + 14);
-    GX.font = '5px "JetBrains Mono"'; GX.fillStyle = 'rgba(0,255,65,0.3)'; GX.textAlign = 'left';
-    GX.fillText('COVERAGE DEPTH (×)', bx, by - 4);
-    const bars = Math.floor(bw / 3), sp = Math.max(1, Math.floor(bars / (G.epoch + 2)));
-    for (let i = 0; i < bars; i++) {
-      const base = Math.sin(i * 0.15 + frame * 0.006) * 0.27 + 0.52;
-      const v = Math.max(0.04, Math.min(1, base + Math.sin(i * 0.8 + frame * 0.016) * 0.15));
-      const isSpike = i % sp === 0;
-      GX.fillStyle = isSpike ? 'rgba(255,176,0,0.7)' : `rgba(0,255,65,${v * 0.48 + 0.07})`;
-      GX.fillRect(bx + i * 3, by + bh - (isSpike ? bh : v * bh), 2, isSpike ? bh : v * bh);
-    }
-    GX.font = '5px "JetBrains Mono"'; GX.fillStyle = 'rgba(255,176,0,0.45)';
-    GX.textAlign = 'right'; GX.fillText('▲ chimeric spike', bx + bw, by + bh + 10);
-    GX.restore();
-  }
-
-  function drawSSTrack() { // Mode C — secondary structure track
-    const tx = 10, ty = 22, tw = W - 20, th = 9;
-    GX.save(); GX.globalAlpha = 0.58;
-    GX.fillStyle = 'rgba(0,0,0,0.48)'; GX.fillRect(tx, ty, tw, th);
-    let x = tx, i = 0, seed = G.score * 13;
-    while (x < tx + tw) {
-      const tp = ['H','E','C'][(seed + i * 7) % 3];
-      const maxL = tp === 'H' ? 55 : tp === 'E' ? 38 : 18;
-      const len = Math.min(((seed * 3 + i * 11) % maxL) + 10, tx + tw - x);
-      if (tp === 'H') {
-        GX.strokeStyle = 'rgba(255,176,0,0.62)'; GX.lineWidth = 1.5;
-        GX.beginPath();
-        for (let xi = 0; xi <= len; xi += 5) {
-          const py = ty + (xi / 5 % 2 === 0 ? 1 : th - 2);
-          xi === 0 ? GX.moveTo(x + xi, py) : GX.lineTo(x + xi, py);
-        }
-        GX.stroke();
-      } else if (tp === 'E') {
-        GX.fillStyle = 'rgba(0,200,255,0.4)'; GX.fillRect(x, ty + 2, len - 4, th - 4);
-      } else {
-        GX.strokeStyle = 'rgba(80,80,80,0.3)'; GX.lineWidth = 1;
-        GX.beginPath(); GX.moveTo(x, ty + th / 2); GX.lineTo(x + len, ty + th / 2); GX.stroke();
-      }
-      x += len; i++;
-    }
-    GX.font = '5px "JetBrains Mono"'; GX.fillStyle = 'rgba(255,176,0,0.36)';
-    GX.textAlign = 'right'; GX.textBaseline = 'top';
-    GX.fillText('α-helix  β-sheet  coil', tx + tw, ty + th + 2);
-    GX.restore();
-  }
-
-  function drawTaxoTree() { // Mode D — Kraken2 hierarchical ranks
-    const RANKS = ['Kingdom','Phylum','Class','Order','Family','Genus','Species'];
-    const tx = W - 114, ty = 30, sp = (H - 65) / 7;
-    GX.save(); GX.globalAlpha = 0.48;
-    GX.fillStyle = 'rgba(0,0,0,0.42)'; GX.fillRect(tx - 4, ty - 14, 108, sp * 7 + 18);
-    GX.font = '6px "JetBrains Mono"'; GX.fillStyle = 'rgba(0,255,255,0.3)'; GX.textAlign = 'left';
-    GX.fillText('k-mer TAXONOMY', tx - 2, ty - 5);
-    RANKS.forEach((rank, i) => {
-      const y = ty + i * sp + sp / 2;
-      const solved = i < G.epoch, current = i === Math.min(G.epoch, 6);
-      if (i < RANKS.length - 1) {
-        GX.strokeStyle = solved ? 'rgba(0,255,65,0.3)' : 'rgba(0,255,65,0.05)';
-        GX.lineWidth = 1; GX.beginPath(); GX.moveTo(tx + 5, y + 3); GX.lineTo(tx + 5, y + sp); GX.stroke();
-      }
-      if (current) { GX.shadowColor = '#00ffff'; GX.shadowBlur = 7; }
-      GX.fillStyle = current ? '#00ffff' : solved ? '#00ff41' : '#111';
-      GX.beginPath(); GX.arc(tx + 5, y, current ? 4.2 : 2.8, 0, Math.PI * 2); GX.fill();
-      GX.shadowBlur = 0;
-      GX.font = `${current ? 'bold ' : ''}7px "JetBrains Mono"`;
-      GX.fillStyle = current ? '#00ffff' : solved ? 'rgba(0,255,65,0.5)' : 'rgba(0,255,65,0.08)';
-      GX.fillText(rank, tx + 13, y + 2.5);
-    });
-    GX.restore();
-  }
-
-  function drawModuleLegend() { // Mode E — WGCNA color modules
-    const mx = 10, my = H - 54;
-    GX.save(); GX.globalAlpha = 0.55;
-    GX.fillStyle = 'rgba(0,0,0,0.46)'; GX.fillRect(mx - 2, my - 12, WGCNA_MOD.length * 22 + 4, 34);
-    GX.font = '6px "JetBrains Mono"'; GX.fillStyle = 'rgba(0,255,65,0.3)'; GX.textAlign = 'left';
-    GX.fillText('WGCNA MODULES', mx, my - 4);
-    const counts = {};
-    nodes.filter(n => n.module).forEach(n => { counts[n.module] = (counts[n.module] || 0) + 1; });
-    const dominant = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0];
-    WGCNA_MOD.forEach((col, i) => {
-      const x = mx + i * 22;
-      GX.fillStyle = col; GX.fillRect(x, my, 18, 9);
-      if (col === dominant) { GX.strokeStyle = '#fff'; GX.lineWidth = 1; GX.strokeRect(x, my, 18, 9); }
-      GX.fillStyle = col + 'CC'; GX.textAlign = 'center';
-      GX.fillText(WGCNA_NM[i], x + 9, my + 19);
-    });
-    GX.restore();
-  }
-
-  function drawPAMatrix() { // Mode F — presence/absence genome matrix
-    const strains = MODE.epochs, genes = 14;
-    const cw = 11, ch = 8, mx = 10, my = H - strains.length * ch - 22;
-    GX.save(); GX.globalAlpha = 0.55;
-    GX.fillStyle = 'rgba(0,0,0,0.46)'; GX.fillRect(mx - 2, my - 12, genes * cw + 72, strains.length * ch + 18);
-    GX.font = '5px "JetBrains Mono"'; GX.fillStyle = 'rgba(0,255,65,0.3)'; GX.textAlign = 'left';
-    GX.fillText('PAN-GENOME MATRIX', mx, my - 4);
-    const coreT = Math.floor(genes * 0.4);
-    strains.forEach((strain, i) => {
-      GX.fillStyle = i < G.epoch ? 'rgba(0,255,65,0.36)' : 'rgba(0,255,65,0.07)';
-      GX.fillText(strain.slice(0, 10), mx + genes * cw + 3, my + i * ch + ch - 1);
-      for (let j = 0; j < genes; j++) {
-        const isCore = j < coreT, present = isCore || ((i * 7 + j * 3 + G.epoch) % 17 % 3 !== 0);
-        GX.fillStyle = present ? (isCore ? 'rgba(0,255,65,0.66)' : 'rgba(0,200,200,0.36)') : 'rgba(5,5,5,0.8)';
-        GX.fillRect(mx + j * cw, my + i * ch, cw - 1, ch - 1);
-      }
-    });
-    GX.restore();
-  }
-
-  function drawModeViz() {
-    switch (MODE.id) {
-      case 'A': drawHeatmap(); break;
-      case 'B': drawCoverage(); break;
-      case 'C': drawSSTrack(); break;
-      case 'D': drawTaxoTree(); break;
-      case 'E': drawModuleLegend(); break;
-      case 'F': drawPAMatrix(); break;
-    }
-  }
-
-  function drawModeIntro() {
-    if (G.modeAnim <= 0) return;
-    const f = Math.min(1, G.modeAnim / 14) * Math.min(1, G.modeAnim / 74);
-    GX.save(); GX.globalAlpha = f;
-    GX.fillStyle = 'rgba(0,0,0,0.72)'; GX.fillRect(0, H / 2 - 40, W, 74);
-    GX.font = 'bold 14px "JetBrains Mono"'; GX.textAlign = 'center';
-    GX.fillStyle = '#bf5fff'; GX.shadowColor = '#bf5fff'; GX.shadowBlur = 13;
-    GX.fillText(`// MODE ${MODE.id}: ${MODE.label}`, W / 2, H / 2 - 18);
-    GX.shadowBlur = 0; GX.font = '8px "JetBrains Mono"'; GX.fillStyle = '#5a3a7a';
-    GX.fillText(`agent: ${MODE.agent}  ·  toxin: ${MODE.tName}  ·  lives: ${G.lives}/${MAX_LIVES}`, W / 2, H / 2 + 2);
-    GX.fillStyle = '#2a1a3a'; GX.fillText(`EPOCH 1 · ${MODE.epochs[0]}`, W / 2, H / 2 + 16);
-    GX.restore();
-  }
-
-  function drawEpochAnim() {
-    if (G.epochAnim <= 0 || G.won) return;
-    const f = Math.min(1, G.epochAnim / 14) * Math.min(1, G.epochAnim / 84);
-    const epN = MODE.epochs[Math.min(G.epoch - 1, MODE.epochs.length - 1)];
-    GX.save(); GX.globalAlpha = f;
-    GX.fillStyle = 'rgba(0,0,0,0.64)'; GX.fillRect(0, H / 2 - 30, W, 56);
-    GX.font = 'bold 13px "JetBrains Mono"'; GX.textAlign = 'center';
-    GX.fillStyle = '#00ffff'; GX.shadowColor = '#00ffff'; GX.shadowBlur = 12;
-    GX.fillText(`── EPOCH ${G.epoch} · ${epN} ──`, W / 2, H / 2 - 12);
-    GX.shadowBlur = 0; GX.font = '8px "JetBrains Mono"'; GX.fillStyle = '#2a5a5a';
-    GX.fillText(`${MODE.tName}s=${toxins.length}  ·  reads_needed=${G.need}  ·  loss=${G.loss.toFixed(3)}`, W / 2, H / 2 + 8);
-    GX.restore();
-  }
-
-  function drawVictory() {
-    if (!G.won) return;
-    GX.fillStyle = 'rgba(3,5,4,0.92)'; GX.fillRect(0, 0, W, H);
-    GX.font = 'bold 17px "JetBrains Mono"'; GX.textAlign = 'center';
-    GX.fillStyle = '#00ff41'; GX.shadowColor = '#00ff41'; GX.shadowBlur = 18;
-    GX.fillText('✓ SIMULATION COMPLETE', W / 2, H / 2 - 34);
-    GX.shadowBlur = 0; GX.font = '10px "JetBrains Mono"'; GX.fillStyle = '#28c882';
-    GX.fillText(MODE.victory, W / 2, H / 2 - 14);
-    GX.font = '9px "JetBrains Mono"'; GX.fillStyle = '#2a5a3a';
-    GX.fillText(`reads=${G.score}  ·  epochs=${MODE.epochs.length}  ·  lives_remaining=${G.lives}`, W / 2, H / 2 + 4);
-    GX.fillStyle = '#1a4a2a'; GX.fillText(`mode: ${MODE.label}`, W / 2, H / 2 + 20);
-    GX.fillStyle = '#00ff41'; GX.fillText('[ R — run new simulation mode ]', W / 2, H / 2 + 40);
-    GX.textAlign = 'left';
-  }
-
-  function drawGameOver() {
-    if (!G.over) return;
-    GX.fillStyle = 'rgba(3,5,4,0.92)'; GX.fillRect(0, 0, W, H);
-    const go = G.glt % 8 < 2 ? (Math.random() - 0.5) * 3.2 : 0;
-    GX.save(); GX.translate(go, 0);
-    GX.font = 'bold 14px "JetBrains Mono"'; GX.textAlign = 'center';
-    GX.fillStyle = '#ff4444'; GX.shadowColor = '#ff4444'; GX.shadowBlur = 10;
-    GX.fillText(G.deathMsg, W / 2, H / 2 - 32);
-    GX.restore();
-    GX.shadowBlur = 0; GX.textAlign = 'center';
-    GX.font = '9px "JetBrains Mono"'; GX.fillStyle = '#2a4a2a';
-    GX.fillText(`reads=${G.score}  ·  epoch=${G.epoch}/${MODE.epochs.length}  ·  killer: ${G.killerIon}`, W / 2, H / 2 - 14);
-    GX.fillStyle = '#1a3a1a'; GX.fillText(`mode: ${MODE.label}`, W / 2, H / 2 + 2);
-    if (G.score >= G.hi && G.hi > 0) { GX.fillStyle = '#ffb000'; GX.fillText('★ NEW RECORD ★', W / 2, H / 2 + 18); }
-    GX.fillStyle = '#00ff41'; GX.fillText('[ R — reinitialize with new mode ]', W / 2, H / 2 + 36);
-    GX.textAlign = 'left';
-  }
-
-  /* ── [DRAW] — main render call ────────────────────────────────────── */
-  function draw() {
-    // Classify nodes into typed buckets (1 pass, reuse arrays)
-    dNA.length = 0; dNB.length = 0; dNP.length = 0; dNL.length = 0;
-    for (const n of nodes) {
-      if      (n.t === 'a') dNA.push(n);
-      else if (n.t === 'b') dNB.push(n);
-      else if (n.t === 'p') dNP.push(n);
-      else if (n.t === 'l') dNL.push(n);
-    }
-
-    // Screen shake transform
-    GX.save();
-    if (_skT > 0) {
-      const si = _skT / 10;
-      GX.translate((Math.random() - 0.5) * _skX * si, (Math.random() - 0.5) * _skY * si);
-    }
-
-    GX.clearRect(0, 0, W, H);
-    drawBackground();
-    drawModeViz();
-
-    // Color flash overlay (variable color, no save/restore)
-    if (G.flash > 0) {
-      GX.globalAlpha = G.flash * 0.011;
-      GX.fillStyle = `rgb(${G.flashR},${G.flashG},${G.flashB})`;
-      GX.fillRect(0, 0, W, H);
-      GX.globalAlpha = 1;
-    }
-
-    drawParticles();
-    drawEdges();
-    drawNodes();
-    drawToxins();
-    drawDangerRing();
-    drawPlayer();
-    drawPopups();
-    drawCombo();
-    drawHUD();
-    drawModeIntro();
-    drawEpochAnim();
-    drawVictory();
-    drawGameOver();
-
-    GX.restore();
-  }
-
-  /* ── [FULLSCREEN] ─────────────────────────────────────────────────── */
-  window.toggleFS = function () {
-    const wrapper = document.getElementById('gameWrapper');
-    if (!document.fullscreenElement) wrapper.requestFullscreen?.().catch(() => {});
-    else document.exitFullscreen?.();
-  };
-  document.addEventListener('fullscreenchange', () => {
-    const btn = document.getElementById('fsBtn');
-    if (btn) btn.textContent = document.fullscreenElement ? '✕ EXIT' : '⛶ FULL';
-  });
-
-  /* ── [LOOP] ───────────────────────────────────────────────────────── */
-  function loop() {
-    frame++;
-    update();
-    buildBg();
-    draw();
-    requestAnimationFrame(loop);
-  }
-
-  reset();
-  loop();
-
-})(); // end game IIFE
+  window.toggleFS=function(){const wrapper=document.getElementById('gameWrapper');if(!document.fullscreenElement)wrapper.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.();};
+  document.addEventListener('fullscreenchange',()=>{const btn=document.getElementById('fsBtn');if(btn)btn.textContent=document.fullscreenElement?'✕ EXIT':'⛶ FULL';});
+  function loop(){frame++;update();buildBg();draw();requestAnimationFrame(loop);}
+  reset();loop();
+})();
 </script>
 </body>
 </html>
