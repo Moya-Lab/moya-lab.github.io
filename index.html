@@ -544,35 +544,67 @@ setInterval(()=>{
 },1000);
 
 /* ══ BOOT ══ */
-document.getElementById('boot-ascii').textContent=
-`MOYA-LAB
-Computational Biology Lab
-UTEM · Santiago, Chile`;
+document.getElementById('boot-ascii').textContent =
+` ███╗   ███╗ ██████╗ ██╗   ██╗ █████╗       ██╗      █████╗ ██████╗
+ ████╗ ████║██╔═══██╗╚██╗ ██╔╝██╔══██╗      ██║     ██╔══██╗██╔══██╗
+ ██╔████╔██║██║   ██║ ╚████╔╝ ███████║      ██║     ███████║██████╔╝
+ ██║╚██╔╝██║██║   ██║  ╚██╔╝  ██╔══██║      ██║     ██╔══██║██╔══██╗
+ ██║ ╚═╝ ██║╚██████╔╝   ██║   ██║  ██║      ███████╗██║  ██║██████╔╝
+ ╚═╝     ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝      ╚══════╝╚═╝  ╚═╝╚═════╝`;
 
 [
-  {t:'initializing landing page',c:'info',d:0},
-  {t:'loading genomics, metagenomics and AI modules',c:'ok',d:120},
-  {t:'warming up sample pipelines',c:'ok',d:260},
-  {t:'calibrating interactive assay',c:'ok',d:420},
-  {t:'preparing member and publication panels',c:'ok',d:580},
-  {t:'ready to explore',c:'info',d:760},
-].forEach((l,i,a)=>{
-  setTimeout(()=>{
-    const d=document.createElement('div');
-    d.className=l.c;
-    d.textContent=l.t;
+  { t: 'MOYA-LAB // Computational Biology · UTEM', c: 'info', d: 0 },
+  { t: 'Modelling Omics Yielding Analytics · Santiago, Chile', c: 'info', d: 120 },
+  { t: '', c: '', d: 200 },
+
+  { t: '[ INIT ] Booting bioinformatics environment', c: 'ok', d: 320 },
+  { t: '[ INIT ] Loading genome indexing modules', c: 'ok', d: 420 },
+  { t: '[ INIT ] Allocating memory for omics pipelines', c: 'ok', d: 520 },
+
+  { t: '', c: '', d: 600 },
+
+  { t: '[ LINK ] NCBI eutils → handshake established', c: 'ok', d: 720 },
+  { t: '[ LINK ] ORCID API → authenticated', c: 'ok', d: 820 },
+  { t: '[ LINK ] CrossRef → metadata stream ready', c: 'ok', d: 900 },
+
+  { t: '', c: '', d: 980 },
+
+  { t: '[ DATA ] Fetching lab members → team.json', c: 'ok', d: 1080 },
+  { t: '[ DATA ] Syncing publications → ORCID record', c: 'ok', d: 1160 },
+  { t: '[ DATA ] Preparing live genomic stats', c: 'ok', d: 1240 },
+
+  { t: '', c: '', d: 1320 },
+
+  { t: '[ AI ] Initializing simulation engine (v3)', c: 'ok', d: 1420 },
+  { t: '[ AI ] Loading models: VAMB · ESM-2 · DeepMicrobes', c: 'ok', d: 1520 },
+
+  { t: '', c: '', d: 1600 },
+
+  { t: '[ OK ] System integrity check passed', c: 'ok', d: 1700 },
+  { t: '[ OK ] All systems nominal', c: 'ok', d: 1780 },
+
+  { t: '', c: '', d: 1860 },
+
+  { t: 'Access granted.', c: 'info', d: 1980 },
+  { t: 'Welcome, researcher.', c: 'info', d: 2100 },
+].forEach((l, i, a) => {
+  setTimeout(() => {
+    const d = document.createElement('div');
+    d.className = l.c;
+    d.textContent = l.t;
     document.getElementById('boot-log').appendChild(d);
-    document.getElementById('boot-bar').style.width=((i+1)/a.length*100)+'%';
-  },l.d);
+    document.getElementById('boot-bar').style.width = ((i + 1) / a.length * 100) + '%';
+  }, l.d);
 });
-setTimeout(()=>{
+
+setTimeout(() => {
   document.getElementById('boot').classList.add('fade-out');
-  setTimeout(()=>{
-    document.getElementById('boot').style.display='none';
-    document.getElementById('terminal').style.display='block';
-    typeInto('tw-pi','lab_info.json | jq',28);
-  },450);
-},1150);
+  setTimeout(() => {
+    document.getElementById('boot').style.display = 'none';
+    document.getElementById('terminal').style.display = 'block';
+    typeInto('tw-pi', 'lab_info.json | jq', 28);
+  }, 450);
+}, 2350);
 
 function typeInto(id,text,speed,cb){
   const el=document.getElementById(id);if(!el){cb&&cb();return;}
