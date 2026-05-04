@@ -19,20 +19,19 @@
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
-  padding-top:22px;cursor:none;background-color:var(--bg);
+  padding-top:22px;cursor:none;background-color:#050705;
   background-image:
-    radial-gradient(ellipse 90% 55% at 0% 0%,rgba(0,45,18,.55) 0%,transparent 65%),
-    radial-gradient(ellipse 70% 50% at 100% 100%,rgba(0,18,35,.6) 0%,transparent 60%),
-    radial-gradient(circle at 1px 1px,rgba(0,255,65,.035) 1px,transparent 0);
-  background-size:100% 100%,100% 100%,30px 30px;
+    radial-gradient(circle at 50% 0%,rgba(0,255,120,.08),transparent 28%),
+    radial-gradient(circle at 100% 100%,rgba(0,180,255,.05),transparent 32%),
+    linear-gradient(180deg,#070a08 0%,#040606 100%);
   background-attachment:scroll}
 #overlay{position:fixed;inset:0;pointer-events:none;z-index:8000;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.035) 2px,rgba(0,0,0,.035) 4px);
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.02) 2px,rgba(0,0,0,.02) 4px);
   animation:flicker 24s infinite}
 @keyframes flicker{0%,100%{opacity:1}93%{opacity:.96}94%{opacity:1}98%{opacity:.97}99%{opacity:1}}
 #vignette{position:fixed;inset:0;pointer-events:none;z-index:2;
   background:radial-gradient(circle at center,transparent 45%,rgba(0,0,0,.2) 75%,rgba(0,0,0,.52) 100%);
-  opacity:.8}
+  opacity:.55}
 #cursor{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
 #cursor::before,#cursor::after{content:'';position:absolute;background:var(--cy)}
 #cursor::before{width:1px;height:100%;left:50%;top:0}
@@ -41,7 +40,7 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 /* ── BIO RAIN ── */
 #bio-rain{
   position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;
-  mix-blend-mode:screen;opacity:.58
+  mix-blend-mode:screen;opacity:.42
 }
 .bio-drop{
   position:absolute;top:-12vh;
@@ -259,13 +258,38 @@ footer .hi{color:#223222}
 @media (max-width: 768px){
   body{cursor:auto}
   #cursor{display:none}
-  #overlay{opacity:.35}
-  #dna-ticker{height:18px}
-  #terminal{padding:12px 12px 34px}
+  #overlay{opacity:.18}
+  #dna-ticker{height:16px}
+  #terminal{padding:10px 10px 28px}
   .row,.row.r-4060{grid-template-columns:1fr}
   .lab-status{display:none}
-  .lab-banner{padding:14px}
-  .wb{padding:16px}
+  .lab-banner{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    padding:12px
+  }
+  .lab-logo{font-size:22px}
+  .lab-name{font-size:13px}
+  .lab-tag{font-size:9.5px;line-height:1.45}
+  .lab-chips{gap:5px}
+  .chip{font-size:7px;padding:2px 6px}
+  .wb{padding:14px}
+  .wbar{padding:7px 10px}
+  .wt{font-size:9px}
+  .btn{font-size:8px;padding:4px 8px}
+  #boot{padding:18px 14px}
+  #boot-ascii{font-size:clamp(6px,1.8vw,10px);line-height:1.06}
+  #boot-log{font-size:10px;line-height:1.55;max-width:100%}
+  #bio-rain{display:none}
+}
+@media (max-width: 480px){
+  .lab-chips .chip:nth-child(n+5){display:none}
+  .pi-grid{gap:12px}
+  .pi-name{font-size:12px}
+  .pi-role{font-size:8.5px}
+  .kv{font-size:9px}
+  .kk{width:72px}
 }
 
 </style>
