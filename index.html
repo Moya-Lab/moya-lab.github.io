@@ -46,10 +46,11 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .dSep{color:#0d1a0d;margin:0 14px;font-size:8px}
 
 /* ── VISIT COUNTER ── */
-#visit-ctr{display:flex;align-items:center;gap:5px;padding:0 10px;
+#visit-ctr{display:flex;align-items:center;gap:5px;padding:0 12px;
   border-left:1px solid rgba(0,255,65,.1);font-size:8px;letter-spacing:1px;
   color:var(--cy);white-space:nowrap;flex-shrink:0;height:22px;
-  background:rgba(4,6,5,.97)}
+  background:rgba(4,6,5,.97);text-transform:uppercase}
+@media(max-width:560px){#visit-ctr{padding:0 8px;gap:4px}#visit-ctr span:first-child{display:none}}
 #visit-ctr .vc-dot{width:5px;height:5px;border-radius:50%;background:var(--cy);
   animation:blink 2s ease-in-out infinite}
 #visit-ctr .vc-val{color:#e0e0e0;font-weight:700}
@@ -111,20 +112,23 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .sc.on{color:var(--g);border-color:rgba(0,255,65,.22);background:rgba(0,255,65,.04);
   display:flex;align-items:center;gap:5px}
 @media(max-width:560px){.lab-status{display:none}}
-.pi-grid{display:grid;grid-template-columns:60px 1fr;gap:14px;align-items:start;padding:8px 0}
-@media(max-width:460px){.pi-grid{grid-template-columns:1fr}}
-.pi-av{width:56px;height:56px;border-radius:50%;border:2px solid rgba(0,255,65,.15);
+.pi-grid{display:grid;grid-template-columns:minmax(78px,96px) minmax(0,1fr);gap:18px;align-items:center;padding:12px 0}
+@media(max-width:560px){.pi-grid{grid-template-columns:1fr;gap:14px;text-align:left}.pi-av{margin:0 auto 2px}}
+.pi-grid>div:last-child{display:grid;gap:7px;min-width:0}
+.pi-av{width:78px;height:78px;border-radius:50%;border:2px solid rgba(0,255,65,.15);
   background:#080808;display:flex;align-items:center;justify-content:center;
-  font-size:24px;position:relative;flex-shrink:0}
+  font-size:24px;position:relative;flex-shrink:0;overflow:hidden}
+.pi-av img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
+.pi-av .av-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;pointer-events:none;background:#080808}
+.pi-name{font-size:14px;font-weight:700;color:#e0e0e0;margin-bottom:2px}
+.pi-role{font-size:9px;color:var(--cy);letter-spacing:.7px;margin-bottom:4px}
+.kv{display:grid;grid-template-columns:78px minmax(0,1fr);gap:8px;margin-bottom:0;font-size:10px;align-items:start}
+.kk{color:var(--dim);width:auto;flex-shrink:0;font-size:9px;padding-top:1px}
+.kv-v{color:#909090;min-width:0;line-height:1.5}
+.lnks{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 @keyframes ring{0%,100%{opacity:.2}50%{opacity:.5}}
 .pi-ring{position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(0,255,65,.18);
   animation:ring 4s ease-in-out infinite;will-change:opacity}
-.pi-name{font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:6px}
-.pi-role{font-size:9px;color:var(--cy);letter-spacing:.7px;margin-bottom:7px}
-.kv{display:flex;margin-bottom:7px;font-size:10px}
-.kk{color:var(--dim);width:72px;flex-shrink:0;font-size:9px}
-.kv-v{color:#909090}.kv-v a{color:var(--cy);text-decoration:none}.kv-v a:hover{text-decoration:underline}
-.lnks{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
 .diasma{margin-top:12px;padding-top:11px;border-top:1px solid rgba(0,255,65,.07)}
 .diasma-head{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px}
 .dbadge{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--cy);
@@ -236,7 +240,7 @@ footer .hi{color:#223222}
 <div id="overlay"></div>
 <div id="dna-ticker">
   <div class="dna-track" id="dnaTrack"></div>
-  <div id="visit-ctr">
+  <div id="visit-ctr" title="Local visit counter">
     <span class="vc-dot"></span>
     <span>VISITS</span>
     <span class="vc-val" id="visitCount">···</span>
@@ -281,7 +285,12 @@ footer .hi{color:#223222}
         <div class="pr"><span class="pu">moya-lab</span><span class="ps">$ </span><span class="pc">cat </span><span class="pa" id="tw-pi"></span></div>
         <div class="sys-line"><span class="blink-dot"></span>&nbsp;LAB ONLINE · assembling team · building pipelines · chasing microbes</div>
         <div class="pi-grid">
-          <div class="pi-av"><span>👑</span><div class="pi-ring"></div></div>
+          <div class="pi-av">
+            <img src="https://github.com/amoyabeltran.png?size=180" alt="Ana Moya Beltrán" loading="lazy"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <span class="av-fallback" style="display:none">AM</span>
+            <div class="pi-ring"></div>
+          </div>
           <div>
             <div class="pi-name">Ana Moya Beltrán</div>
             <div class="pi-role">Principal Investigator · Research Assistant Professor</div>
@@ -537,8 +546,6 @@ function typeInto(id,text,speed,cb){
 
 /* ══ MEMBERS ══ */
 const CORE_FALLBACK=[
-  {github:'amoyabeltran',name:'Ana Moya Beltrán',role:'Principal Investigator',
-   sub:'Research Asst. Prof. · UTEM',email:'amoya@utem.cl',emoji:'👑',badge:'pi',pi:true},
   {github:'fcabezasmera',name:'Fausto Cabezas-Mera',role:'PhD Candidate',
    sub:'DIASMA · Biología Computacional',email:'fcabezasme@utem.cl',emoji:'🌱',badge:'phd'},
 ];
@@ -569,7 +576,9 @@ const JOIN_CARD=`<div class="mem-card mem-join" onclick="window.open('mailto:amo
   <div class="mem-role" style="color:#2a4a2a">Open positions</div>
   <div class="mem-sub">amoya@utem.cl</div></div>`;
 function renderMembers(members){
-  document.getElementById('membersContainer').innerHTML=`<div class="mem-grid">${members.map(buildMemberCard).join('')}${JOIN_CARD}</div>`;
+  const visibleMembers=members.filter(m=>!(m.pi||String(m.github||'').toLowerCase()==='amoyabeltran'));
+  document.getElementById('membersContainer').innerHTML=`<div class="mem-grid">${visibleMembers.map(buildMemberCard).join('')}${JOIN_CARD}</div>`;
+  return visibleMembers;
 }
 async function loadMembers(){
   const badge=document.getElementById('teamBadge'),source=document.getElementById('memberSource');
@@ -579,10 +588,12 @@ async function loadMembers(){
     if(!r.ok)throw new Error(`HTTP ${r.status}`);
     const data=await r.json(),members=data.members;
     if(!Array.isArray(members)||members.length===0)throw new Error('empty');
-    renderMembers(members);badge.textContent=`${members.length} members`;badge.style.color='var(--g)';
+    const visibleMembers=renderMembers(members);
+    badge.textContent=`${visibleMembers.length} members`;badge.style.color='var(--g)';
     source.innerHTML=`# source: <span>team.json @ GitHub</span> · ${new Date().toLocaleTimeString()}`;
   }catch(err){
-    renderMembers(CORE_FALLBACK);badge.textContent=`${CORE_FALLBACK.length} members`;badge.style.color='var(--am)';
+    const visibleMembers=renderMembers(CORE_FALLBACK);
+    badge.textContent=`${visibleMembers.length} members`;badge.style.color='var(--am)';
     source.innerHTML=`# <span style="color:var(--am)">fallback · team.json unreachable</span> · ${new Date().toLocaleTimeString()}`;
   }
 }
