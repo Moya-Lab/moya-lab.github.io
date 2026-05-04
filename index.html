@@ -24,8 +24,8 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
     radial-gradient(ellipse 90% 55% at 0% 0%,rgba(0,45,18,.7) 0%,transparent 65%),
     radial-gradient(ellipse 70% 50% at 100% 100%,rgba(0,18,35,.75) 0%,transparent 60%),
     radial-gradient(circle at 1px 1px,rgba(0,255,65,.04) 1px,transparent 0);
-  background-size:100% 100%,100% 100%,30px 30px;background-attachment:fixed}
-/* Overlay / Cursor */
+  background-size:100% 100%,100% 100%,30px 30px;
+  background-attachment:fixed}
 #overlay{position:fixed;inset:0;pointer-events:none;z-index:8000;
   background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 4px);
   animation:flicker 18s infinite}
@@ -34,37 +34,37 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 #cursor::before,#cursor::after{content:'';position:absolute;background:var(--cy)}
 #cursor::before{width:1px;height:100%;left:50%;top:0}
 #cursor::after{width:100%;height:1px;top:50%;left:0}
-/* DNA ticker */
-#dna-ticker{position:fixed;top:0;left:0;right:0;height:22px;background:rgba(4,6,5,.97);
-  border-bottom:1px solid rgba(0,255,65,.08);overflow:hidden;z-index:500;display:flex;align-items:center}
+#dna-ticker{position:fixed;top:0;left:0;right:0;height:22px;
+  background:rgba(4,6,5,.97);border-bottom:1px solid rgba(0,255,65,.08);
+  overflow:hidden;z-index:500;display:flex;align-items:center}
 .dna-track{display:flex;white-space:nowrap;font-size:9px;letter-spacing:1.2px;
-  opacity:.4;animation:dnaScroll 80s linear infinite;will-change:transform}
+  opacity:.44;animation:dnaScroll 90s linear infinite}
 @keyframes dnaScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .dA{color:#00ff41}.dT{color:#ff4444}.dC{color:#4488ff}.dG{color:#ffb000}
-.dSep{color:#0d1a0d;margin:0 12px;font-size:8px}
-/* Boot */
+.dSep{color:#0d1a0d;margin:0 14px;font-size:8px}
 #boot{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;
   flex-direction:column;justify-content:center;align-items:flex-start;
   padding:40px clamp(20px,6vw,80px);transition:opacity .6s}
 #boot.fade-out{opacity:0;pointer-events:none}
-#boot-ascii{font-size:clamp(5px,1.1vw,10px);line-height:1.2;color:var(--g);white-space:pre;
+#boot-ascii{font-size:clamp(5.5px,1.2vw,10px);line-height:1.2;color:var(--g);white-space:pre;
   text-shadow:0 0 12px rgba(0,255,65,.35);margin-bottom:20px}
 #boot-log{font-size:12px;line-height:2.1;max-width:600px}
 #boot-log .ok{color:var(--g)}#boot-log .info{color:var(--cy)}
 .bbar-wrap{width:min(420px,80vw);height:2px;background:#111;margin-top:18px;overflow:hidden}
 #boot-bar{height:100%;width:0%;background:var(--g);transition:width .08s linear}
-/* Layout */
 #terminal{display:none;max-width:1100px;margin:0 auto;padding:16px 20px 48px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.row.r-6040{grid-template-columns:60fr 40fr}
+.row.r-4060{grid-template-columns:60fr 40fr}
 .row>.win{margin-bottom:0}
-@media(max-width:760px){.row,.row.r-6040{grid-template-columns:1fr}}
-/* Windows */
+@media(max-width:760px){.row,.row.r-4060{grid-template-columns:1fr}}
+@media(max-width:480px){.wb{padding:12px 14px}}
 .win{background:var(--bg2);border:1px solid var(--br);border-radius:5px;margin-bottom:14px;
-  overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.4);transition:border-color .15s}
+  overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(0,255,65,.03);
+  transition:border-color .15s}
 .win:hover{border-color:rgba(0,255,65,.2)}
 .wbar{background:rgba(4,5,4,.99);border-bottom:1px solid var(--br);
-  padding:6px 13px;display:flex;align-items:center;gap:7px;user-select:none}
+  padding:6px 13px;display:flex;align-items:center;gap:7px;user-select:none;transition:background .15s}
+.win:hover .wbar{background:rgba(8,14,10,.99)}
 .dots{display:flex;gap:5px}
 .dot{width:9px;height:9px;border-radius:50%}
 .dr{background:#ff5f57}.dy{background:#febc2e}.dg{background:#28c840}
@@ -74,11 +74,13 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
   border:1px solid rgba(255,176,0,.22);padding:1px 6px;border-radius:2px;
   background:rgba(255,176,0,.04);white-space:nowrap;margin-left:auto}
 .wb{padding:16px 20px}
-/* Prompt */
+.sys-line{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,255,65,.11);background:rgba(0,255,65,.03);padding:3px 12px;border-radius:2px;font-size:9px;letter-spacing:1.5px;color:var(--g);margin-bottom:12px}
+#sec-about{display:flex;flex-direction:column}
+#sec-about .wb{display:flex;flex-direction:column;flex:1}
+#sec-about .diasma{margin-top:auto}
 .pr{font-size:11px;margin-bottom:11px;line-height:1.5;word-break:break-all;color:var(--dim)}
 .pu{color:var(--g)}.ps{color:var(--g)}.pc{color:#d0d0d0}.pa{color:var(--am)}.pf{color:var(--cy)}
 .ptyped{border-right:2px solid var(--g)}
-/* Lab banner */
 .lab-banner{display:flex;align-items:center;gap:14px;padding:13px 16px;margin-bottom:14px;
   background:rgba(0,255,65,.025);border:1px solid rgba(0,255,65,.13);border-radius:5px}
 .lab-logo{font-size:28px;flex-shrink:0}
@@ -91,59 +93,70 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .chip.am{color:var(--am);border-color:rgba(255,176,0,.2);background:rgba(255,176,0,.03)}
 .chip.vi{color:var(--vi);border-color:rgba(191,95,255,.2);background:rgba(191,95,255,.03)}
 .lab-status{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
-.sc{font-size:8px;letter-spacing:1.2px;text-transform:uppercase;padding:3px 9px;border-radius:2px;border:1px solid;white-space:nowrap}
+.sc{font-size:8px;letter-spacing:1.2px;text-transform:uppercase;padding:3px 9px;
+  border-radius:2px;border:1px solid;white-space:nowrap}
 .sc.wip{color:var(--am);border-color:rgba(255,176,0,.28);background:rgba(255,176,0,.04)}
-.sc.on{color:var(--g);border-color:rgba(0,255,65,.22);background:rgba(0,255,65,.04);display:flex;align-items:center;gap:5px}
+.sc.on{color:var(--g);border-color:rgba(0,255,65,.22);background:rgba(0,255,65,.04);
+  display:flex;align-items:center;gap:5px}
 @media(max-width:560px){.lab-status{display:none}}
-/* PI section */
-.sys-line{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,255,65,.11);
-  background:rgba(0,255,65,.03);padding:3px 12px;border-radius:2px;font-size:9px;
-  letter-spacing:1.5px;color:var(--g);margin-bottom:12px;flex-shrink:0}
-.pi-grid{display:grid;grid-template-columns:66px 1fr;gap:14px;align-items:start;padding:4px 0 10px}
+.pi-grid{display:grid;grid-template-columns:60px 1fr;gap:14px;align-items:start;padding:8px 0}
 @media(max-width:460px){.pi-grid{grid-template-columns:1fr}}
-.pi-av{width:62px;height:62px;border-radius:50%;border:2px solid rgba(0,255,65,.2);
-  background:#080808;position:relative;flex-shrink:0;overflow:hidden}
-.pi-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
-.pi-av .av-fb{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:24px}
+.pi-av{width:56px;height:56px;border-radius:50%;border:2px solid rgba(0,255,65,.15);
+  background:#080808;display:flex;align-items:center;justify-content:center;
+  font-size:24px;position:relative;flex-shrink:0}
 @keyframes ring{0%,100%{opacity:.2}50%{opacity:.5}}
-.pi-ring{position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(0,255,65,.2);
-  animation:ring 4s ease-in-out infinite;pointer-events:none}
-.pi-name{font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:5px}
-.pi-role{font-size:9px;color:var(--cy);letter-spacing:.7px;margin-bottom:9px}
-.kv{display:flex;gap:8px;margin-bottom:6px;font-size:10px;align-items:baseline}
-.kk{color:var(--dim);width:86px;flex-shrink:0;font-size:8.5px;letter-spacing:.4px;text-transform:uppercase}
-.kv-v{color:#909090;line-height:1.4}
-.kv-v a{color:var(--cy);text-decoration:none}.kv-v a:hover{text-decoration:underline}
-.lnks{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.diasma{padding-top:11px;border-top:1px solid rgba(0,255,65,.07);margin-top:auto}
+.pi-ring{position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(0,255,65,.18);
+  animation:ring 4s ease-in-out infinite;will-change:opacity}
+.pi-name{font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:6px}
+.pi-role{font-size:9px;color:var(--cy);letter-spacing:.7px;margin-bottom:7px}
+.kv{display:flex;margin-bottom:7px;font-size:10px}
+.kk{color:var(--dim);width:72px;flex-shrink:0;font-size:9px}
+.kv-v{color:#909090}.kv-v a{color:var(--cy);text-decoration:none}.kv-v a:hover{text-decoration:underline}
+.lnks{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.diasma{margin-top:12px;padding-top:11px;border-top:1px solid rgba(0,255,65,.07)}
 .diasma-head{display:flex;align-items:flex-start;gap:9px;margin-bottom:8px}
 .dbadge{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--cy);
   border:1px solid rgba(0,255,255,.17);padding:2px 7px;border-radius:2px;flex-shrink:0;margin-top:2px}
 .dtitle{font-size:11px;color:#d0d0d0;font-weight:700;line-height:1.4}
 .dsub{font-size:9px;color:var(--mu);margin-top:2px;line-height:1.5}
-/* PI window flex layout */
-#sec-about{display:flex;flex-direction:column}
-#sec-about .wb{display:flex;flex-direction:column;flex:1;height:100%}
-/* Members */
+
+/* ── MEMBERS ── */
 .mem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .mem-card{background:rgba(5,8,6,.95);border:1px solid var(--br);border-radius:4px;
   padding:13px 10px;text-align:center;cursor:none;
   transition:border-color .15s,transform .15s;
-  display:flex;flex-direction:column;align-items:center;min-height:130px;justify-content:center}
+  display:flex;flex-direction:column;align-items:center;
+  min-height:130px;justify-content:center}
 .mem-card:hover{border-color:var(--g);transform:translateY(-2px)}
+.mem-card.pi-card{border-color:rgba(0,255,65,.22);background:rgba(0,255,65,.025)}
+.mem-card.pi-card:hover{border-color:rgba(0,255,65,.4)}
+.mem-card.pi-card .mem-name{font-size:11px;color:#e0e0e0}
+.mem-card.pi-card .mem-role{color:var(--g)}
 .mem-av{width:44px;height:44px;border-radius:50%;border:1px solid var(--br);
-  margin-bottom:7px;background:#080808;overflow:hidden;flex-shrink:0;position:relative}
+  margin-bottom:7px;display:flex;align-items:center;justify-content:center;
+  font-size:19px;background:#080808;overflow:hidden;flex-shrink:0;position:relative}
 .mem-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.mem-av .av-fb{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:18px}
+/* avatar fallback emoji — shown if img fails */
+.mem-av .av-fallback{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:19px;pointer-events:none}
 .mem-name{font-size:10px;color:var(--g);margin-bottom:2px;font-weight:600;line-height:1.3}
 .mem-role{font-size:8px;color:var(--dim);letter-spacing:.5px;line-height:1.4}
 .mem-sub{font-size:7px;color:#2a3a2a;margin-top:1px}
+.mem-badge{font-size:7px;letter-spacing:.8px;text-transform:uppercase;
+  margin-top:5px;padding:1px 6px;border-radius:2px;border:1px solid}
+.mem-badge.pi{color:var(--g);border-color:rgba(0,255,65,.2);background:rgba(0,255,65,.04)}
+.mem-badge.phd{color:var(--cy);border-color:rgba(0,255,255,.2);background:rgba(0,255,255,.03)}
+.mem-badge.msc{color:var(--am);border-color:rgba(255,176,0,.2);background:rgba(255,176,0,.03)}
+.mem-badge.ra{color:var(--vi);border-color:rgba(191,95,255,.2);background:rgba(191,95,255,.03)}
+.mem-badge.extern{color:#888;border-color:rgba(128,128,128,.2);background:rgba(128,128,128,.03)}
 .mem-email{font-size:8px;color:var(--cy);text-decoration:none;margin-top:5px;opacity:.65;transition:opacity .15s}
 .mem-email:hover{opacity:1}
 .mem-join{border-style:dashed;opacity:.5}.mem-join:hover{opacity:1;border-color:var(--dim)}
-.mem-source{font-size:7px;color:#1a3a1a;text-align:right;margin-top:8px}
+/* source tag on top-right of team window */
+.mem-source{font-size:7px;color:#1a3a1a;text-align:right;margin-top:8px;letter-spacing:.5px}
 .mem-source span{color:var(--dim)}
-/* Stats */
+.mem-error{font-size:9px;color:var(--rd);padding:6px 0}
+
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .stat-chip{background:rgba(5,8,6,.95);border:1px solid var(--br);border-radius:4px;padding:11px 13px}
 .stat-lbl{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
@@ -153,14 +166,6 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .stat-chip:nth-child(2) .stat-val{color:var(--cy)}
 .stat-chip:nth-child(3) .stat-val{color:#28c882}
 .stat-chip:nth-child(4) .stat-val{color:var(--am)}
-/* Spotlight */
-.spot-layout{display:flex;gap:12px;align-items:flex-start}
-.spot-img{width:58px;height:58px;object-fit:cover;border:1px solid var(--br);border-radius:3px;flex-shrink:0;background:#080808}
-.spot-img.hidden{display:none}
-.spot-tag{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cy);
-  border:1px solid rgba(0,255,255,.16);padding:2px 7px;border-radius:2px;display:inline-block;margin-bottom:6px}
-#factText{font-size:10px;color:var(--mu);line-height:1.8;min-height:40px;transition:opacity .3s}
-/* Publications */
 .pub-entry{border-left:2px solid rgba(0,255,65,.1);padding:6px 0 6px 12px;margin-bottom:8px;
   cursor:none;transition:border-color .15s;border-radius:0 3px 3px 0}
 .pub-entry:hover{border-color:var(--g);background:rgba(0,255,65,.016)}
@@ -174,14 +179,18 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .pub-pager{display:flex;align-items:center;justify-content:space-between;
   margin-top:10px;padding-top:8px;border-top:1px solid rgba(0,255,65,.05)}
 .pub-dots-wrap{display:flex;gap:4px}
-.pdot{width:5px;height:5px;border-radius:50%;border:1px solid rgba(0,255,65,.2);cursor:none}
+.pdot{width:5px;height:5px;border-radius:50%;border:1px solid rgba(0,255,65,.2);transition:background .15s;cursor:none}
 .pdot.active{background:var(--g);border-color:var(--g)}
 .pub-info{font-size:8px;color:var(--dim)}
 .pub-btns{display:flex;gap:5px}
 .pub-bar{width:100%;height:1px;background:rgba(0,255,65,.05);margin-top:6px;overflow:hidden}
 .pub-bar-fill{height:100%;background:var(--g);width:0%}
-.snote{font-size:9px;color:#1c2c1c;text-align:right;margin-top:6px}
-/* Buttons / misc */
+.spot-layout{display:flex;gap:12px;align-items:flex-start}
+.spot-img{width:58px;height:58px;object-fit:cover;border:1px solid var(--br);border-radius:3px;flex-shrink:0;background:#080808}
+.spot-img.hidden{display:none}
+.spot-tag{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cy);
+  border:1px solid rgba(0,255,255,.16);padding:2px 7px;border-radius:2px;display:inline-block;margin-bottom:6px}
+#factText{font-size:10px;color:var(--mu);line-height:1.8;min-height:40px;transition:opacity .3s}
 .btn{font-family:var(--mono);font-size:9px;letter-spacing:.7px;padding:4px 11px;
   border:1px solid var(--br);border-radius:2px;background:transparent;
   color:var(--g);cursor:none;transition:background .12s;text-decoration:none;display:inline-block}
@@ -191,36 +200,30 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .btn.am{color:var(--am);border-color:rgba(255,176,0,.15)}.btn.am:hover{background:rgba(255,176,0,.04)}
 .ld{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:10px;padding:10px 0}
 .sp{width:9px;height:9px;border:1.5px solid #182818;border-top-color:var(--g);
-  border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+  border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;will-change:transform}
 @keyframes spin{to{transform:rotate(360deg)}}
 .er{color:var(--rd);font-size:10px;padding:8px 0}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
 .blink-dot{width:5px;height:5px;border-radius:50%;background:var(--g);
-  animation:blink 1.5s ease-in-out infinite;display:inline-block}
-/* Game */
-#sec-game{content-visibility:auto;contain-intrinsic-size:0 440px}
-#gameWrapper{position:relative;width:100%;line-height:0}
+  animation:blink 1.5s ease-in-out infinite;will-change:opacity;display:inline-block}
+.snote{font-size:9px;color:#1c2c1c;text-align:right;margin-top:6px}
+#sec-pubs,#sec-game{content-visibility:auto;contain-intrinsic-size:0 420px}
+
+/* ── GAME ── */
+#gameWrapper{position:relative;display:block;width:100%}
 #gameCanvas{background:#030505;border:1px solid var(--br);border-radius:3px;
-  display:block;width:100%;height:auto}
+  display:block;width:100%;height:auto;max-width:100%}
 #fsBtn{position:absolute;top:28px;right:9px;font-family:var(--mono);font-size:8px;
   letter-spacing:.8px;padding:3px 9px;border:1px solid rgba(0,255,65,.18);
-  background:rgba(6,8,6,.92);color:var(--g);cursor:pointer;border-radius:2px;
-  z-index:10;transition:background .12s;user-select:none}
-#fsBtn:hover{background:rgba(0,255,65,.08)}
-/* Fullscreen: wrapper fills screen, canvas resized by JS */
-#gameWrapper:fullscreen,#gameWrapper:-webkit-full-screen{
-  background:#060808;display:flex;align-items:center;justify-content:center;
-  width:100vw;height:100vh}
-#gameWrapper:fullscreen #gameCanvas,#gameWrapper:-webkit-full-screen #gameCanvas{
-  width:100vw;height:100vh;max-width:none;border:none;border-radius:0}
-#gameWrapper:fullscreen #fsBtn,#gameWrapper:-webkit-full-screen #fsBtn{
-  position:fixed;top:12px;right:12px}
-.game-keys{font-size:9px;color:var(--dim);margin-top:8px;display:flex;gap:14px;flex-wrap:wrap;line-height:1}
-.key{display:inline-block;background:#0a0a0a;border:1px solid #181818;
-  border-radius:2px;padding:1px 5px;font-size:8px;color:#3a3a3a}
-/* Footer */
-footer{margin-top:24px;padding-bottom:16px;font-size:9px;color:#162016;
-  letter-spacing:1.2px;text-align:center;line-height:2.2}
+  background:rgba(6,8,6,.88);color:var(--g);cursor:pointer;border-radius:2px;
+  z-index:10;transition:background .12s,border-color .12s;user-select:none}
+#fsBtn:hover{background:rgba(0,255,65,.07);border-color:rgba(0,255,65,.35)}
+#gameWrapper:fullscreen,#gameWrapper:-webkit-full-screen{display:flex;align-items:center;justify-content:center;background:#060808}
+#gameWrapper:fullscreen #gameCanvas,#gameWrapper:-webkit-full-screen #gameCanvas{width:auto;height:auto;max-width:100vw;max-height:100vh;border:none}
+#gameWrapper:fullscreen #fsBtn,#gameWrapper:-webkit-full-screen #fsBtn{position:fixed;top:12px;right:12px}
+.game-keys{font-size:9px;color:var(--dim);margin-top:8px;display:flex;gap:14px;flex-wrap:wrap}
+.key{display:inline-block;background:#0a0a0a;border:1px solid #181818;border-radius:2px;padding:1px 5px;font-size:8px;color:#3a3a3a}
+footer{margin-top:24px;padding-bottom:16px;font-size:9px;color:#162016;letter-spacing:1.2px;text-align:center;line-height:2}
 footer .hi{color:#223222}
 </style>
 </head>
@@ -236,8 +239,6 @@ footer .hi{color:#223222}
 </div>
 
 <div id="terminal">
-
-  <!-- BANNER -->
   <div class="lab-banner">
     <div class="lab-logo">🧬</div>
     <div>
@@ -258,9 +259,7 @@ footer .hi{color:#223222}
     </div>
   </div>
 
-  <!-- ROW 1: PI Info + Team -->
-  <div class="row r-6040">
-
+  <div class="row r-4060">
     <div id="sec-about" class="win">
       <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
@@ -271,23 +270,18 @@ footer .hi{color:#223222}
         <div class="pr"><span class="pu">moya-lab</span><span class="ps">$ </span><span class="pc">cat </span><span class="pa" id="tw-pi"></span></div>
         <div class="sys-line"><span class="blink-dot"></span>&nbsp;LAB ONLINE · assembling team · building pipelines · chasing microbes</div>
         <div class="pi-grid">
-          <div class="pi-av">
-            <img src="https://github.com/amoyabeltran.png?size=120" alt="Ana Moya Beltrán" loading="eager"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <span class="av-fb">👑</span>
-            <div class="pi-ring"></div>
-          </div>
+          <div class="pi-av"><span>👑</span><div class="pi-ring"></div></div>
           <div>
             <div class="pi-name">Ana Moya Beltrán</div>
             <div class="pi-role">Principal Investigator · Research Assistant Professor</div>
-            <div class="kv"><span class="kk">Institution</span><span class="kv-v">Universidad Tecnológica Metropolitana (UTEM)</span></div>
-            <div class="kv"><span class="kk">Affiliation</span><span class="kv-v">Depto. Informática y Computación, Fac. Ingeniería</span></div>
+            <div class="kv"><span class="kk">INSTITUTION</span><span class="kv-v">Universidad Tecnológica Metropolitana (UTEM)</span></div>
+            <div class="kv"><span class="kk">AFFILIATION</span><span class="kv-v">Departamento de Informática y Computación, Fac. Ingeniería</span></div>
             <div class="kv"><span class="kk">PhD</span><span class="kv-v">Biotecnología · Univ. Andrés Bello · 2020</span></div>
-            <div class="kv"><span class="kk">Location</span><span class="kv-v">Ñuñoa, Santiago, Chile</span></div>
+            <div class="kv"><span class="kk">LOCATION</span><span class="kv-v">Ñuñoa, Santiago, Chile</span></div>
             <div class="lnks">
-              <a class="btn cy" href="mailto:amoya@utem.cl">→ Contact</a>
+              <a class="btn cy" href="mailto:amoya@utem.cl" target="_blank">→ Contact</a>
               <a class="btn cy" href="https://scholar.google.com/citations?user=vYrLnT4AAAAJ" target="_blank">→ Scholar</a>
-              <a class="btn"    href="https://www.researchgate.net/profile/Ana-Moya-Beltran" target="_blank">→ RG</a>
+              <a class="btn"    href="https://www.researchgate.net/profile/Ana-Moya-Beltran" target="_blank">→ ResearchGate</a>
               <a class="btn vi" href="https://orcid.org/0000-0002-6924-5087" target="_blank">→ ORCID</a>
               <a class="btn am" href="https://github.com/amoyabeltran" target="_blank">→ GitHub</a>
             </div>
@@ -304,14 +298,15 @@ footer .hi{color:#223222}
           <div class="lnks">
             <a class="btn cy" href="https://postgrado.utem.cl/doctorado-iasma/" target="_blank">→ DIASMA</a>
             <a class="btn cy" href="https://investigacion.utem.cl/" target="_blank">→ Investigación</a>
-            <a class="btn"    href="https://informatica.utem.cl/" target="_blank">→ CS Dept.</a>
+            <a class="btn"    href="https://informatica.utem.cl/" target="_blank">→ Computer Science</a>
             <a class="btn vi" href="https://postgrado.utem.cl" target="_blank">→ Postgrado</a>
-            <a class="btn am" href="https://www.instagram.com/doctorado.iasma/" target="_blank">→ @iasma</a>
+            <a class="btn am" href="https://www.instagram.com/doctorado.iasma/" target="_blank">→ @doctorado.iasma</a>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- ══ TEAM WINDOW ══ -->
     <div id="sec-team" class="win">
       <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
@@ -319,15 +314,18 @@ footer .hi{color:#223222}
         <span class="wbadge" id="teamBadge">loading…</span>
       </div>
       <div class="wb">
-        <div class="pr"><span class="pu">moya-lab</span><span class="ps">$ </span><span class="pc">curl -s </span><span class="pf">team.json | jq '.members[]'</span></div>
+        <div class="pr">
+          <span class="pu">moya-lab</span><span class="ps">$ </span>
+          <span class="pc">curl -s </span>
+          <span class="pf">team.json</span>
+        </div>
         <div id="membersContainer"><div class="ld"><div class="sp"></div> Fetching team.json…</div></div>
         <div class="mem-source" id="memberSource"></div>
       </div>
     </div>
   </div>
 
-  <!-- ROW 2: NCBI Stats + Spotlight -->
-  <div class="row">
+  <div id="sec-data" class="row">
     <div class="win">
       <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
@@ -344,7 +342,8 @@ footer .hi{color:#223222}
         <div id="statsLog" style="margin-top:9px;font-size:9px;color:var(--dim)"># Connecting…</div>
       </div>
     </div>
-    <div class="win">
+
+    <div id="sec-spot" class="win">
       <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
         <span class="wt">wiki_spotlight · <span id="spotTopic" style="color:var(--cy);font-size:9px">…</span></span>
@@ -366,8 +365,7 @@ footer .hi{color:#223222}
     </div>
   </div>
 
-  <!-- ROW 3: Publications -->
-  <div class="row" style="content-visibility:auto;contain-intrinsic-size:0 360px">
+  <div id="sec-pubs" class="row">
     <div class="win">
       <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
@@ -388,6 +386,7 @@ footer .hi{color:#223222}
         <div class="snote" id="pubMeta"></div>
       </div>
     </div>
+
     <div class="win">
       <div class="wbar">
         <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
@@ -404,7 +403,6 @@ footer .hi{color:#223222}
     </div>
   </div>
 
-  <!-- GAME -->
   <div id="sec-game" class="win">
     <div class="wbar">
       <div class="dots"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div>
@@ -413,17 +411,20 @@ footer .hi{color:#223222}
     <div class="wb">
       <div class="pr"><span class="pu">moya-lab</span><span class="ps">$ </span><span class="pc" id="gameCmd">./omics_sim</span><span class="pf" id="gameArgs"></span></div>
       <div id="gameWrapper">
-        <canvas id="gameCanvas" width="860" height="400"></canvas>
+        <canvas id="gameCanvas" width="860" height="380"></canvas>
         <button id="fsBtn" onclick="toggleFS()">⛶ FULL</button>
       </div>
-      <div class="game-keys" id="gameControls">
-        <span><span class="key">R</span> restart / new mode</span>
+      <div class="game-keys">
+        <span><span class="key">↑↓←→</span>/<span class="key">WASD</span> move</span>
+        <span id="leg1"></span><span id="leg2"></span>
+        <span>🔴 avoid toxins &nbsp;🟣 shield power-up &nbsp;💚 +life pickup</span>
+        <span><span class="key">R</span> restart / new mode &nbsp;<span class="key">⛶</span> fullscreen</span>
       </div>
     </div>
   </div>
 
   <footer>
-    <div style="color:#0b140b;margin-bottom:3px">────────────────────────────────────────────────</div>
+    <div style="color:#0b140b;margin-bottom:3px">───────────────────────────────────────────────</div>
     <div>© 2026 <span class="hi">MOYA-LAB</span> · <span class="hi">Modelling Omics Yielding Analytics</span> · <span class="hi">UTEM · Santiago, Chile</span></div>
     <div style="margin-top:3px;color:#0b140b">uptime: <span id="uptime">00:00:00</span> · moya-lab.github.io</div>
   </footer>
@@ -436,27 +437,24 @@ footer .hi{color:#223222}
 document.addEventListener('mousemove', e => {
   const c = document.getElementById('cursor');
   c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px';
-}, {passive:true});
+}, { passive: true });
 
 /* ══ DNA TICKER ══ */
 (() => {
-  const B = 'ATCGATCGGCTAGCTATCGATCGATAATCG';
-  const M = {A:'dA',T:'dT',C:'dC',G:'dG'};
+  const B = 'ATCGATCGGCTAGCTATCGATCGATAATCGGCTATCGATCGATCGGCTAGCTATCGATCGATAATCGATCG';
+  const M = { A:'dA', T:'dT', C:'dC', G:'dG' };
+  let u = ''; while (u.length < 600) u += B; u = u.slice(0,600);
   let h = '';
-  for(let k=0;k<2;k++){
-    for(let i=0;i<280;i++) h += `<span class="${M[B[i%B.length]]}">${B[i%B.length]}</span>`;
-    h += '<span class="dSep">///</span>';
-  }
+  for (let k = 0; k < 2; k++) { for (const c of u) h += `<span class="${M[c]}">${c}</span>`; h += '<span class="dSep">///</span>'; }
   document.getElementById('dnaTrack').innerHTML = h;
 })();
 
 /* ══ UPTIME ══ */
 const _T0 = Date.now();
 setInterval(() => {
-  const s = Math.floor((Date.now()-_T0)/1000);
-  const el = document.getElementById('uptime');
-  if(el) el.textContent = [Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(n=>String(n).padStart(2,'0')).join(':');
-}, 1000);
+  const s = Math.floor((Date.now()-_T0)/1000), el = document.getElementById('uptime');
+  if (el) el.textContent = [Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(n=>String(n).padStart(2,'0')).join(':');
+},1000);
 
 /* ══ BOOT ══ */
 document.getElementById('boot-ascii').textContent =
@@ -469,172 +467,255 @@ document.getElementById('boot-ascii').textContent =
 
 [{t:'MOYA-LAB // Computational Biology Lab · UTEM',c:'ok',d:0},
  {t:'Modelling Omics Yielding Analytics · Santiago, Chile',c:'info',d:100},
- {t:'',c:'',d:180},
- {t:'[ OK ] Genome indexer loaded',c:'ok',d:280},
+ {t:'',c:'',d:170},
+ {t:'[ OK ] Genome indexer loaded',c:'ok',d:270},
  {t:'[ OK ] NCBI eutils: connecting…',c:'ok',d:370},
  {t:'[ OK ] ORCID API: ready',c:'ok',d:450},
  {t:'[ OK ] team.json: fetching…',c:'ok',d:530},
  {t:'[ OK ] All systems nominal.',c:'ok',d:690},
- {t:'',c:'',d:760},
- {t:'Welcome, researcher.',c:'info',d:830},
-].forEach((l,i,a) => {
-  setTimeout(() => {
-    const d = document.createElement('div'); d.className = l.c; d.textContent = l.t;
+ {t:'',c:'',d:750},
+ {t:'Welcome, researcher.',c:'info',d:820},
+].forEach((l,i,a)=>{
+  setTimeout(()=>{
+    const d=document.createElement('div'); d.className=l.c; d.textContent=l.t;
     document.getElementById('boot-log').appendChild(d);
-    document.getElementById('boot-bar').style.width = ((i+1)/a.length*100)+'%';
-  }, l.d);
+    document.getElementById('boot-bar').style.width=((i+1)/a.length*100)+'%';
+  },l.d);
 });
-setTimeout(() => {
-  const boot = document.getElementById('boot');
-  boot.classList.add('fade-out');
-  setTimeout(() => {
-    boot.style.display = 'none';
-    document.getElementById('terminal').style.display = 'block';
+
+setTimeout(()=>{
+  document.getElementById('boot').classList.add('fade-out');
+  setTimeout(()=>{
+    document.getElementById('boot').style.display='none';
+    document.getElementById('terminal').style.display='block';
     typeInto('tw-pi','lab_info.json | jq',36);
-  }, 600);
-}, 1550);
+  },600);
+},1500);
 
-function typeInto(id, text, speed, cb) {
-  const el = document.getElementById(id); if(!el){cb&&cb();return;}
-  let i = 0; el.textContent = ''; el.classList.add('ptyped');
-  const t = setInterval(() => {
-    el.textContent += text[i++];
-    if(i >= text.length){clearInterval(t);el.classList.remove('ptyped');cb&&cb();}
-  }, speed||36);
+function typeInto(id,text,speed,cb){
+  const el=document.getElementById(id); if(!el){cb&&cb();return;}
+  let i=0; el.textContent=''; el.classList.add('ptyped');
+  const t=setInterval(()=>{
+    el.textContent+=text[i++];
+    if(i>=text.length){clearInterval(t);el.classList.remove('ptyped');cb&&cb();}
+  },speed||36);
 }
 
-/* ══ MEMBERS (PI excluded) ══ */
+/* ══════════════════════════════════════════════════════════
+   MEMBERS — team.json driven, con badge map y fallback
+══════════════════════════════════════════════════════════ */
+
+/*
+  ESTRUCTURA ESPERADA DE team.json
+  (colócalo en: https://raw.githubusercontent.com/Moya-Lab/Moya-Lab/main/team.json)
+
+  {
+    "members": [
+      {
+        "github":  "amoyabeltran",        ← username GitHub (obligatorio para avatar)
+        "name":    "Ana Moya Beltrán",
+        "role":    "Principal Investigator",
+        "sub":     "Research Asst. Prof. · UTEM",
+        "email":   "amoya@utem.cl",
+        "emoji":   "👑",                  ← fallback si el avatar no carga
+        "badge":   "pi",                  ← "pi" | "phd" | "msc" | "ra" | "extern"
+        "pi":      true                   ← tarjeta destacada (solo PI)
+      },
+      {
+        "github":  "fcabezasmera",
+        "name":    "Fausto Cabezas-Mera",
+        "role":    "PhD Candidate",
+        "sub":     "DIASMA · Biología Computacional",
+        "email":   "fcabezasme@utem.cl",
+        "emoji":   "🌱",
+        "badge":   "phd"
+      }
+    ]
+  }
+*/
+
+/* Datos CORE hardcodeados — usados si team.json falla */
 const CORE_FALLBACK = [
-  {github:'fcabezasmera',name:'Fausto Cabezas-Mera',role:'PhD Candidate',
-   sub:'DIASMA · Biología Computacional',email:'fcabezasme@utem.cl',emoji:'🌱'},
+  { github:'amoyabeltran', name:'Ana Moya Beltrán',   role:'Principal Investigator',
+    sub:'Research Asst. Prof. · UTEM',        email:'amoya@utem.cl',       emoji:'👑', badge:'pi',  pi:true },
+  { github:'fcabezasmera', name:'Fausto Cabezas-Mera', role:'PhD Candidate',
+    sub:'DIASMA · Biología Computacional',    email:'fcabezasme@utem.cl',  emoji:'🌱', badge:'phd' },
 ];
+
+/* Badge labels legibles */
+const BADGE_LABEL = { pi:'PI', phd:'PhD', msc:'MSc', ra:'Res. Asst.', extern:'External' };
+
+/* Avatar URL pública de GitHub — sin API, sin rate limit */
+const ghAvatar = (username, size=80) =>
+  `https://github.com/${username}.png?size=${size}`;
+
+/* Construye una tarjeta de miembro */
 function buildMemberCard(m) {
-  const emailHTML = m.email ? `<a class="mem-email" href="mailto:${m.email}" onclick="event.stopPropagation()">✉ ${m.email}</a>` : '';
-  const profileURL = m.github ? `https://github.com/${m.github}` : (m.url||'#');
+  const avStyle   = m.pi ? 'position:relative;border-color:rgba(0,255,65,.3);width:50px;height:50px' : '';
+  const ring      = m.pi ? `<div class="pi-ring"></div>` : '';
+  const badgeHTML = m.badge && BADGE_LABEL[m.badge]
+    ? `<span class="mem-badge ${m.badge}">${BADGE_LABEL[m.badge]}</span>` : '';
+  const emailHTML = m.email
+    ? `<a class="mem-email" href="mailto:${m.email}" onclick="event.stopPropagation()">✉ ${m.email}</a>` : '';
+  const profileURL = m.github
+    ? `https://github.com/${m.github}` : (m.url || '#');
+
+  /* Avatar: imagen GitHub + emoji como fallback visible si falla */
   const avatarHTML = m.github
-    ? `<img src="https://github.com/${m.github}.png?size=80" alt="${m.name}" loading="lazy"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-       <span class="av-fb">${m.emoji||'🧬'}</span>`
-    : `<span class="av-fb" style="display:flex">${m.emoji||'🧬'}</span>`;
-  return `<div class="mem-card" onclick="window.open('${profileURL}','_blank')" title="${m.name}">
-    <div class="mem-av">${avatarHTML}</div>
-    <div class="mem-name">${m.name}</div>
-    <div class="mem-role">${m.role}</div>
-    <div class="mem-sub">${m.sub||''}</div>
-    ${emailHTML}
+    ? `<img src="${ghAvatar(m.github)}"
+            alt="${m.name}"
+            loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+       <span class="av-fallback" style="display:none">${m.emoji || '🧬'}</span>`
+    : `<span class="av-fallback">${m.emoji || '🧬'}</span>`;
+
+  return `
+    <div class="mem-card${m.pi ? ' pi-card' : ''}"
+         onclick="window.open('${profileURL}','_blank')"
+         title="${m.name} · ${m.role}">
+      <div class="mem-av" style="${avStyle}">
+        ${avatarHTML}${ring}
+      </div>
+      <div class="mem-name">${m.name}</div>
+      <div class="mem-role">${m.role}</div>
+      <div class="mem-sub">${m.sub || ''}</div>
+      ${badgeHTML}
+      ${emailHTML}
+    </div>`;
+}
+
+/* Tarjeta "Join the Lab" */
+const JOIN_CARD = `
+  <div class="mem-card mem-join" onclick="window.open('mailto:amoya@utem.cl','_blank')" title="Open positions">
+    <div class="mem-av" style="border-style:dashed;font-size:16px">➕</div>
+    <div class="mem-name" style="color:var(--dim)">Join the Lab</div>
+    <div class="mem-role" style="color:#2a4a2a">Open positions</div>
+    <div class="mem-sub">amoya@utem.cl</div>
   </div>`;
-}
-const JOIN_CARD = `<div class="mem-card mem-join" onclick="window.open('mailto:amoya@utem.cl','_blank')">
-  <div class="mem-av" style="border-style:dashed;font-size:16px;display:flex;align-items:center;justify-content:center">➕</div>
-  <div class="mem-name" style="color:var(--dim)">Join the Lab</div>
-  <div class="mem-role" style="color:#2a4a2a">Open positions</div>
-  <div class="mem-sub">amoya@utem.cl</div>
-</div>`;
+
+/* Renderiza la grilla con un array de miembros */
 function renderMembers(members) {
-  document.getElementById('membersContainer').innerHTML =
-    `<div class="mem-grid">${members.map(buildMemberCard).join('')}${JOIN_CARD}</div>`;
+  const box = document.getElementById('membersContainer');
+  const cards = members.map(buildMemberCard).join('');
+  box.innerHTML = `<div class="mem-grid">${cards}${JOIN_CARD}</div>`;
 }
+
+/* Carga principal: team.json desde el repo */
 async function loadMembers() {
-  const badge = document.getElementById('teamBadge'), source = document.getElementById('memberSource');
+  const badge  = document.getElementById('teamBadge');
+  const source = document.getElementById('memberSource');
+
+  /* URL del archivo — ajusta la rama si es necesario */
+  const JSON_URL =
+    'https://raw.githubusercontent.com/Moya-Lab/Moya-Lab/main/team.json';
+
   try {
-    const r = await fetch('https://raw.githubusercontent.com/Moya-Lab/Moya-Lab/main/team.json',{signal:AbortSignal.timeout(7000)});
-    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const r = await fetch(JSON_URL, { signal: AbortSignal.timeout(7000) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+
     const data = await r.json();
-    const members = (data.members||[]).filter(m => !m.pi);
-    if(!members.length) throw new Error('empty');
+    const members = data.members;
+
+    if (!Array.isArray(members) || members.length === 0)
+      throw new Error('empty or malformed team.json');
+
     renderMembers(members);
-    badge.textContent = `${members.length} members`; badge.style.color = 'var(--g)';
-    source.innerHTML = `# source: <span>team.json @ GitHub</span> · ${new Date().toLocaleTimeString()}`;
-  } catch(err) {
+    badge.textContent  = `${members.length} members`;
+    badge.style.color  = 'var(--g)';
+    source.innerHTML   = `# source: <span>team.json @ GitHub</span> · ${new Date().toLocaleTimeString()}`;
+
+  } catch (err) {
+    /* Fallback silencioso al array CORE hardcodeado */
+    console.warn('[members] team.json failed, using fallback:', err.message);
     renderMembers(CORE_FALLBACK);
-    badge.textContent = `${CORE_FALLBACK.length} members`; badge.style.color = 'var(--am)';
-    source.innerHTML = `# <span style="color:var(--am)">fallback · team.json unreachable</span>`;
+    badge.textContent = `${CORE_FALLBACK.length} members`;
+    badge.style.color = 'var(--am)';
+    source.innerHTML  =
+      `# <span style="color:var(--am)">fallback · team.json unreachable</span> · ${new Date().toLocaleTimeString()}`;
   }
 }
+
 loadMembers();
 
+
 /* ══ NCBI STATS ══ */
-function animNum(el, n, tsEl, src) {
-  const dur=1400, t0=performance.now();
+function animNum(el,n,tsEl,src){
+  const dur=1500,t0=performance.now();
   (function step(now){
-    const p=Math.min((now-t0)/dur,1), e=1-Math.pow(1-p,3);
+    const p=Math.min((now-t0)/dur,1),e=1-Math.pow(1-p,3);
     el.textContent=Math.floor(e*n).toLocaleString('en-US');
-    if(p<1) requestAnimationFrame(step);
+    if(p<1)requestAnimationFrame(step);
     else{el.textContent=n.toLocaleString('en-US');if(tsEl)tsEl.textContent=`${src} · ${new Date().toLocaleTimeString()}`;}
   })(performance.now());
 }
-const NCBI_FB = {nuccore:263000000,protein:763000000,assembly:4200000,pubmed:37000000};
-(async () => {
-  const dbs = [
+const FB={nuccore:263000000,protein:763000000,assembly:4200000,pubmed:37000000};
+(async()=>{
+  const dbs=[
     {db:'nuccore',el:'cntNucleotide',ts:'tsNucleotide',src:'NCBI nuccore'},
     {db:'protein', el:'cntProtein',  ts:'tsProtein',  src:'NCBI Protein'},
     {db:'assembly',el:'cntGenome',   ts:'tsGenome',   src:'NCBI Assembly'},
     {db:'pubmed',  el:'cntPubmed',   ts:'tsPubmed',   src:'NCBI PubMed'},
   ];
-  const log = document.getElementById('statsLog');
-  const res = await Promise.allSettled(dbs.map(async ({db}) => {
-    const r = await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi?db=${db}&retmode=json&tool=moya-lab&email=amoya@utem.cl`,{signal:AbortSignal.timeout(8000)});
-    if(!r.ok) throw 0;
-    const d = await r.json();
-    const info = Array.isArray(d.einforesult?.dbinfo)?d.einforesult.dbinfo[0]:d.einforesult?.dbinfo;
-    const c = parseInt(info?.count??'0',10); if(!c) throw 0; return c;
+  const log=document.getElementById('statsLog');
+  const res=await Promise.allSettled(dbs.map(async({db})=>{
+    const r=await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi?db=${db}&retmode=json&tool=moya-lab&email=amoya@utem.cl`,{signal:AbortSignal.timeout(8000)});
+    if(!r.ok)throw 0;
+    const d=await r.json();
+    const info=Array.isArray(d.einforesult?.dbinfo)?d.einforesult.dbinfo[0]:d.einforesult?.dbinfo;
+    const c=parseInt(info?.count??'0',10);if(!c)throw 0;return c;
   }));
-  let live = 0;
-  res.forEach((r,i) => {
-    const {el,ts,src,db} = dbs[i], elV=document.getElementById(el), elT=document.getElementById(ts);
+  let live=0;
+  res.forEach((r,i)=>{
+    const{el,ts,src}=dbs[i],elV=document.getElementById(el),elT=document.getElementById(ts);
     if(r.status==='fulfilled'){animNum(elV,r.value,elT,src);live++;}
-    else{animNum(elV,NCBI_FB[db],elT,`${src} · cached`);elV.title='Live fetch failed';}
+    else{animNum(elV,FB[dbs[i].db],elT,`${src} · cached ≈ 2025`);elV.title='Live fetch failed';}
   });
-  const ts = new Date().toLocaleTimeString();
-  log.innerHTML = live===4
-    ? `<span style="color:var(--g)"># ✓ All live · NCBI eutils · ${ts}</span>`
-    : live>0 ? `<span style="color:var(--am)"># ${live}/4 live · ${4-live} cached · ${ts}</span>`
-    : `<span style="color:var(--dim)"># Cached ≈ 2025 (NCBI unreachable)</span>`;
+  const ts=new Date().toLocaleTimeString();
+  log.innerHTML=live===4
+    ?`<span style="color:var(--g)"># ✓ All live · NCBI eutils · ${ts}</span>`
+    :live>0?`<span style="color:var(--am)"># ${live}/4 live · ${4-live} cached · ${ts}</span>`
+    :`<span style="color:var(--dim)"># Cached ≈ 2025 (NCBI unreachable)</span>`;
 })();
 
 /* ══ SPOTLIGHT ══ */
-const WIKI = ['Bioinformatics','Computational_biology','Metagenomics','Genomics','Transcriptomics',
-  'Proteomics','Multi-omics','Systems_biology','Machine_learning','Protein_structure_prediction',
-  'AlphaFold','CRISPR','Microbiome','Microbial_ecology','Acidithiobacillus','Biomining',
-  'Phylogenomics','Horizontal_gene_transfer','RNA-Seq','Pan-genome','Metagenome-assembled_genome',
-  'Next-generation_sequencing','Gene_regulatory_network','Single-cell_sequencing'];
-let _lastFact = -1;
-async function loadNextFact() {
-  let i; do{i=Math.floor(Math.random()*WIKI.length);}while(i===_lastFact); _lastFact=i;
-  const topic=WIKI[i], label=topic.replace(/_/g,' ');
-  const te=document.getElementById('factText'), im=document.getElementById('factImage');
+const WIKI=['Bioinformatics','Computational_biology','Metagenomics','Genomics','Transcriptomics','Proteomics','Multi-omics','Systems_biology','Machine_learning','Deep_learning','Protein_structure_prediction','AlphaFold','CRISPR','Genome_editing','Synthetic_biology','Microbiome','Microbial_ecology','Acidithiobacillus','Biomining','Phylogenetics','Phylogenomics','Molecular_evolution','Horizontal_gene_transfer','RNA-Seq','Single-cell_sequencing','Pan-genome','Genome_assembly','Epigenomics','Next-generation_sequencing','Gene_regulatory_network','Metagenome-assembled_genome'];
+let _lf=-1;
+async function loadNextFact(){
+  let i;do{i=Math.floor(Math.random()*WIKI.length);}while(i===_lf);_lf=i;
+  const topic=WIKI[i],label=topic.replace(/_/g,' ').replace(/\(.*?\)/,'').trim();
+  const te=document.getElementById('factText'),im=document.getElementById('factImage');
   document.getElementById('factTag').textContent=label;
   document.getElementById('spotTopic').textContent=label;
-  te.style.opacity='0'; im.classList.add('hidden');
+  te.style.opacity='0';im.classList.add('hidden');
   try{
     const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic)}`);
-    if(!r.ok) throw 0;
+    if(!r.ok)throw 0;
     const d=await r.json();
     setTimeout(()=>{
-      const ex=d.extract||'';
-      te.textContent=ex.length>270?ex.slice(0,267)+'…':ex; te.style.opacity='1';
+      const ex=d.extract??'';
+      te.textContent=ex.length>270?ex.slice(0,267)+'…':ex;te.style.opacity='1';
       if(d.thumbnail?.source){im.src=d.thumbnail.source;im.classList.remove('hidden');}
-      document.getElementById('factLink').href=d.content_urls?.desktop?.page||'#';
+      document.getElementById('factLink').href=d.content_urls?.desktop?.page??'#';
     },240);
   }catch{setTimeout(()=>{te.textContent='⚠ Could not load summary.';te.style.opacity='1';},240);}
 }
-loadNextFact(); setInterval(loadNextFact, 30000);
+loadNextFact();setInterval(loadNextFact,28000);
 
-/* ══ PUBLICATIONS ══ */
-let _pubs=[], _pp=0, _pt=null;
-const PUB_N=3, PUB_MS=9000;
-function renderPubs(page) {
-  const box=document.getElementById('pubContainer'), pager=document.getElementById('pubPager');
-  const dots=document.getElementById('pubDots'), info=document.getElementById('pubInfo');
-  const fill=document.getElementById('pubBarFill'), bw=document.getElementById('pubBarWrap');
+/* ══ LAB PUBLICATIONS ══ */
+let _pubs=[],_pp=0,_pt=null;
+const PUB_N=3,PUB_MS=9000;
+function renderPubs(page){
+  const box=document.getElementById('pubContainer'),pager=document.getElementById('pubPager');
+  const dots=document.getElementById('pubDots'),info=document.getElementById('pubInfo');
+  const fill=document.getElementById('pubBarFill'),bw=document.getElementById('pubBarWrap');
   const pages=Math.ceil(_pubs.length/PUB_N);
   _pp=((page%pages)+pages)%pages;
   const slice=_pubs.slice(_pp*PUB_N,(_pp+1)*PUB_N);
   box.style.opacity='0';
   setTimeout(()=>{
     box.innerHTML=slice.map(p=>{
-      const hash='#'+Math.random().toString(16).slice(2,9).toUpperCase(), href=p.href||'#';
-      return `<div class="pub-entry" onclick="window.open('${href}','_blank')">
+      const hash='#'+Math.random().toString(16).slice(2,9).toUpperCase(),href=p.href||'#';
+      return`<div class="pub-entry" onclick="window.open('${href}','_blank')">
         <div class="pub-hash">commit ${hash} · ${p.year||'—'}</div>
         <div class="pub-title">${p.title}</div>
         <div class="pub-meta">
@@ -644,48 +725,43 @@ function renderPubs(page) {
           ${p.cit?`<span class="cit">⭐ ${p.cit}</span>`:''}
           <a class="lnk" href="${href}" target="_blank" onclick="event.stopPropagation()">→ view</a>
         </div></div>`;
-    }).join(''); box.style.opacity='1';
+    }).join('');box.style.opacity='1';
   },200);
   dots.innerHTML=Array.from({length:pages},(_,i)=>`<div class="pdot${i===_pp?' active':''}" onclick="renderPubs(${i})"></div>`).join('');
   info.textContent=`${_pp*PUB_N+1}–${Math.min((_pp+1)*PUB_N,_pubs.length)} / ${_pubs.length}`;
-  pager.style.display='flex'; bw.style.display='block';
-  clearInterval(_pt); fill.style.transition='none'; fill.style.width='0%';
+  pager.style.display='flex';bw.style.display='block';
+  clearInterval(_pt);fill.style.transition='none';fill.style.width='0%';
   requestAnimationFrame(()=>requestAnimationFrame(()=>{fill.style.transition=`width ${PUB_MS}ms linear`;fill.style.width='100%';}));
   _pt=setInterval(()=>renderPubs(_pp+1),PUB_MS);
 }
 function stepPubs(dir){renderPubs(_pp+dir);}
 (async()=>{
-  const box=document.getElementById('pubContainer'), meta=document.getElementById('pubMeta');
+  const box=document.getElementById('pubContainer'),meta=document.getElementById('pubMeta');
   async function fromORCID(){
-    const r=await fetch('https://pub.orcid.org/v3.0/0000-0002-6924-5087/works',
-      {headers:{Accept:'application/json'},signal:AbortSignal.timeout(10000)});
-    if(!r.ok) throw 0;
-    const data=await r.json(), groups=data.group||[]; if(!groups.length) throw 0;
+    const r=await fetch('https://pub.orcid.org/v3.0/0000-0002-6924-5087/works',{headers:{Accept:'application/json'},signal:AbortSignal.timeout(10000)});
+    if(!r.ok)throw 0;
+    const data=await r.json(),groups=data.group||[];if(!groups.length)throw 0;
     return groups.map(g=>{
       const s=g['work-summary'][0];
       const doi=(s['external-ids']?.['external-id']||[]).find(e=>e['external-id-type']==='doi')?.['external-id-value'];
-      return{title:s.title?.title?.value||'Untitled',year:s['publication-date']?.year?.value||'',
-        journal:s['journal-title']?.value||'',href:doi?`https://doi.org/${doi}`:(s.url?.value||'#')};
+      return{title:s.title?.title?.value||'Untitled',year:s['publication-date']?.year?.value||'',journal:s['journal-title']?.value||'',href:doi?`https://doi.org/${doi}`:(s.url?.value||'#')};
     }).sort((a,b)=>(b.year||0)-(a.year||0));
   }
   async function fromSS(){
     const s=await fetch('https://api.semanticscholar.org/graph/v1/author/search?query=Ana+Moya-Beltr%C3%A1n&fields=name,externalIds,authorId',{signal:AbortSignal.timeout(9000)});
-    if(!s.ok) throw 0;
+    if(!s.ok)throw 0;
     const sd=await s.json();
     const author=(sd.data||[]).find(a=>a.externalIds?.ORCID==='0000-0002-6924-5087'||(a.name||'').toLowerCase().includes('moya-beltr'));
-    if(!author) throw 0;
+    if(!author)throw 0;
     const p=await fetch(`https://api.semanticscholar.org/graph/v1/author/${author.authorId}/papers?fields=title,year,venue,authors,externalIds,citationCount&limit=50`,{signal:AbortSignal.timeout(9000)});
-    if(!p.ok) throw 0; const pd=await p.json();
-    return(pd.data||[]).sort((a,b)=>(b.year||0)-(a.year||0)).map(p=>({
-      title:p.title||'Untitled',year:p.year,journal:p.venue,
-      href:p.externalIds?.DOI?`https://doi.org/${p.externalIds.DOI}`:`https://www.semanticscholar.org/paper/${p.paperId}`,
-      authors:(p.authors||[]).slice(0,3).map(a=>a.name).join(', '),cit:p.citationCount||0}));
+    if(!p.ok)throw 0;const pd=await p.json();
+    return(pd.data||[]).sort((a,b)=>(b.year||0)-(a.year||0)).map(p=>({title:p.title||'Untitled',year:p.year,journal:p.venue,href:p.externalIds?.DOI?`https://doi.org/${p.externalIds.DOI}`:`https://www.semanticscholar.org/paper/${p.paperId}`,authors:(p.authors||[]).slice(0,3).map(a=>a.name).join(', '),cit:p.citationCount||0}));
   }
   try{
     const papers=await fromORCID().catch(()=>fromSS());
-    if(!papers.length) throw 0;
+    if(!papers.length)throw 0;
     _pubs=papers;
-    if(papers[0]?.year) document.getElementById('pubYearTag').textContent=`· latest ${papers[0].year}`;
+    if(papers[0]?.year)document.getElementById('pubYearTag').textContent=`· latest ${papers[0].year}`;
     meta.textContent=`# ORCID · ${papers.length} works · 3/page`;
     renderPubs(0);
   }catch{
@@ -698,28 +774,24 @@ function stepPubs(dir){renderPubs(_pp+dir);}
 })();
 
 /* ══ FIELD PAPERS ══ */
-const QUERIES=['multi-omics data integration','metagenomics machine learning',
-  'pangenomics bacterial evolution','RNA-seq differential expression',
-  'horizontal gene transfer bacteria','biomining acidithiobacillus genomics',
-  'microbiome omics integration','metagenome assembled genomes',
-  'WGCNA gene regulatory network','taxonomic classification metagenomics'];
+const QUERIES=['multi-omics data integration','metagenomics machine learning','omics systems biology','computational biology deep learning','pangenomics bacterial evolution','RNA-seq differential expression','horizontal gene transfer bacteria','biomining acidithiobacillus genomics','microbiome omics integration','environmental metagenomics','epigenomics DNA methylation','protein structure prediction AI','metagenome assembled genomes','CRISPR genome editing bacteria','taxonomic classification metagenomics'];
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 async function fetchPapers(){
   const box=document.getElementById('papersContainer'),meta=document.getElementById('papersMeta'),qEl=document.getElementById('paperQuery');
   box.innerHTML=`<div class="ld"><div class="sp"></div> Fetching…</div>`;
-  const q=QUERIES[Math.floor(Math.random()*QUERIES.length)]; qEl.textContent=`"${q}"`;
+  const q=QUERIES[Math.floor(Math.random()*QUERIES.length)];qEl.textContent=`"${q}"`;
   try{
     const r=await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(q)}&rows=12&sort=published&order=desc&select=title,author,published,DOI,container-title`);
-    if(!r.ok) throw 0;
+    if(!r.ok)throw 0;
     const d=await r.json();
-    const all=(d.message?.items??[]).map(p=>({
+    const items=shuffle((d.message?.items??[]).map(p=>({
       title:Array.isArray(p.title)?p.title[0]:(p.title??'Untitled'),
       journal:Array.isArray(p['container-title'])?p['container-title'][0]:'',
       href:p.DOI?`https://doi.org/${p.DOI}`:'#',
       date:p.published?.['date-parts']?.[0]?.join('-')??'',
       authors:(p.author??[]).slice(0,3).map(a=>`${a.given?.[0]??''}. ${a.family??''}`.trim()).join(', '),
-    }));
-    const items=all.sort(()=>Math.random()-.5).slice(0,3);
-    if(!items.length) throw 0;
+    }))).slice(0,3);
+    if(!items.length)throw 0;
     box.innerHTML=items.map(p=>`
       <div class="pub-entry" onclick="window.open('${p.href}','_blank')">
         <div class="pub-title">${p.title}</div>
@@ -736,850 +808,362 @@ fetchPapers();
 
 
 /* ══════════════════════════════════════════════════════════════════════
-   MOYA-LAB GAME ENGINE v5
-   4 Scientific Game Modes — completely distinct mechanics
-   Mode A: Arcade dodge & collect (MetaBAT2 Binning)
-   Mode B: Catch/Classify breakout (Kraken2 Classifier)
-   Mode C: Snake co-expression chain (WGCNA)
-   Mode D: Territory painter (PPanGGOLiN Pangenome)
+   MOYA-LAB GAME ENGINE v2 — Modular · Low-CPU · 6 Scientific Modes
 ══════════════════════════════════════════════════════════════════════ */
-(() => {
-'use strict';
+(()=>{
+  'use strict';
+  const GC=document.getElementById('gameCanvas');
+  const GX=GC.getContext('2d');
+  const W=GC.width,H=GC.height;
+  const MAX_LIVES=9,MAX_POOL=52,MAX_POPUPS=8;
+  const WGCNA_MOD=['#1BB8AD','#4477CC','#8B6914','#FFD700','#3CB371','#CC4444'];
+  const WGCNA_NM=['turq.','blue','brown','yellow','green','red'];
 
-const GC = document.getElementById('gameCanvas');
-const GX = GC.getContext('2d');
-let CW = GC.width, CH = GC.height;
-const ORIG_W = 860, ORIG_H = 400;
+  const MODES=[
+    {id:'A',label:'MULTI-OMICS INTEGRATOR',title:'omics_integration.py — Multi-omics Data Fusion',cmd:'python omics_integration.py',args:' --layers genomic,transcriptomic,proteomic,metabolomic',agent:'ML-INTEGRATOR',metric:'INTEG.',pShape:'dblcircle',pCol:'#00ffff',aName:'genomic read',aCol:'#00ff41',aShape:'circle',bName:'metabolite',bCol:'#ffb000',bShape:'hex',tCol:'#ff4444',tName:'batch effect',lCol:'#00ff41',bgSeq:'ATCGATCGGCTAGCTATCGATCG',tags:{a:['r=.91','r=.87','r=.94'],b:['MET','LIP','AMI']},epochs:['QC · NORMALIZATION','FEATURE EXTRACTION','DIM. REDUCTION','NETWORK FUSION','PATHWAY ENRICHMENT','BIOLOGICAL VALIDATION','MODEL CONVERGENCE'],death:['BATCH EFFECT FATAL · integration aborted','VARIANCE UNEXPLAINED · model diverged','SILHOUETTE < 0 · clusters collapsed','MISSING LAYER · pipeline halted'],victory:'OMICS INTEGRATION COMPLETE · multi-layer network assembled',leg1:'🟢 genomic read +1',leg2:'🔷 metabolite +3'},
+    {id:'B',label:'METAGENOMIC BINNING AGENT',title:'metabat2_sim.py — Metagenomic Binning · AMD Consortium',cmd:'python metabat2_sim.py',args:' --mode binning --env AMD-Chile',agent:'BINNING-AGENT',metric:'COMPLET.',pShape:'pentagon',pCol:'#00ffff',aName:'quality contig',aCol:'#00ff41',aShape:'circle',bName:'chimeric contig',bCol:'#ffb000',bShape:'diamond',tCol:'#ff4444',tName:'contamination read',lCol:'#00ff41',bgSeq:'GCGCAATCGGCATGCTAGCTATCG',tags:{a:['GC:42%','GC:38%','GC:51%'],b:['CHM','CHM?','!']},epochs:['Acidithiobacillus ferrooxidans','Leptospirillum ferriphilum','Ferroplasma acidiphilum','Sulfolobus metallicus','Thiomonas intermedia','Acidiphilium cryptum','Candidatus Micrarchaeum'],death:['BIN CONTAMINATION >10% · CheckM failed','HOST DNA SATURATION · human reads dominant','TAXONOMIC CONFLICT · assembly fragmented','ASSEMBLY GRAPH DISCONNECTED · N50 collapsed'],victory:'HIGH-QUALITY MAG RECOVERED · CheckM completeness 95%',leg1:'🟢 contig +1',leg2:'🔷 chimeric contig +3'},
+    {id:'C',label:'ESM-2 PROTEIN PREDICTOR',title:'esm2_predict.py — Protein Function · AlphaFold AMD',cmd:'python esm2_predict.py',args:' --model ESM-2 --plddt-threshold 90',agent:'ESM-2 MODEL',metric:'pLDDT',pShape:'ellipse',pCol:'#00ff41',aName:'uncharact. protein',aCol:'#00ff41',aShape:'diamond',bName:'novel enzyme pLDDT>90',bCol:'#ffb000',bShape:'hex',tCol:'#ff5555',tName:'false positive',lCol:'#28c882',bgSeq:'MKVLSPADKTNVKAAWGKVGAHAG',tags:{a:['UNK','PRED','UNK?'],b:['94%','91%','97%']},epochs:['Sulfur oxidoreductases','Iron oxidases Fe²⁺/Fe³⁺','Heavy metal transporters','Biofilm matrix proteins','Electron transfer chains','Quorum sensing factors','Novel AMD-specific enzymes'],death:['MODEL DIVERGED · loss=NaN','FALSE POSITIVE RATE >40%','EMBEDDING COLLAPSE · latent space corrupted','PRECISION BELOW THRESHOLD · recall failed'],victory:'FUNCTIONAL ANNOTATION COMPLETE · 847 novel enzymes predicted',leg1:'🟢 protein +1',leg2:'🔷 novel enzyme (pLDDT>90) +3'},
+    {id:'D',label:'TAXONOMIC CLASSIFIER · Kraken2',title:'kraken2_sim.py — Taxonomic Classification · AMD Metagenome',cmd:'python kraken2_sim.py',args:' --db AMD-k2db --confidence 0.1',agent:'KRAKEN2-AGENT',metric:'CLASSIF.',pShape:'crosshair',pCol:'#00ffff',aName:'unclassified read',aCol:'#00ff41',aShape:'circle',bName:'rare taxa <0.1%',bCol:'#ffb000',bShape:'hex',tCol:'#ff6644',tName:'host contamination',lCol:'#00ffff',bgSeq:'TGCATGCATGCAATGCATGCATGC',tags:{a:['P','C','O','F','G','S'],b:['<0.1%','RARE']},epochs:['PHYLUM rank','CLASS rank','ORDER rank','FAMILY rank','GENUS rank','SPECIES rank · strain'],death:['MISCLASSIFICATION CASCADE · k-mer conflict','HOST DNA SATURATION · dominant','INDEX OUT OF BOUNDS · db mismatch','CONFIDENCE FAILED · ambiguous k-mers'],victory:'TAXONOMIC PROFILE COMPLETE · 847 taxa · Shannon H=4.2',leg1:'🟢 unclassified read +1',leg2:'🔷 rare taxa (<0.1%) +3'},
+    {id:'E',label:'GRN RECONSTRUCTOR · WGCNA',title:'wgcna_sim.py — Gene Regulatory Network · A. ferrooxidans',cmd:'python wgcna_sim.py',args:' --soft-threshold 6 --minModSize 30',agent:'WGCNA-AGENT',metric:'MODULE Q',pShape:'netnode',pCol:'#00ff41',aName:'co-expr. gene r>0.8',aCol:'#00ff41',aShape:'circle',bName:'hub gene',bCol:'#ffb000',bShape:'hex',tCol:'#ff4444',tName:'spurious correlation',lCol:'#00ff41',bgSeq:'CCGGTTAACCGGTTAACCGGTTAA',tags:{a:['r=.83','r=.91','r=.88'],b:['HUB','k=47','k=31']},epochs:['CONTROL condition','Fe²⁺ oxidative stress','Cu²⁺ metal stress','pH 1.5 extreme acid','BIOFILM formation','RECOVERY phase'],death:['SCALE-FREE TOPOLOGY LOST · power β failed','SOFT THRESHOLD R²<0.8','CORRELATION MATRIX SINGULAR · collapsed','CONFOUNDERS DETECTED · batch error'],victory:'NETWORK CONVERGED · 12 modules · 340 hub genes identified',leg1:'🟢 co-expr. gene (r>0.8) +1',leg2:'🔷 hub gene +3'},
+    {id:'F',label:'PANGENOME EXPLORER · PPanGGOLiN',title:'ppanggolin_sim.py — Pangenome · A. ferrooxidans 847 strains',cmd:'python ppanggolin_sim.py',args:' --strains 847 --mode persistent',agent:'PANGENOME-AGENT',metric:'CORE',pShape:'hexagon',pCol:'#bf5fff',aName:'core gene >99%',aCol:'#00ff41',aShape:'rect',bName:'accessory gene 15-99%',bCol:'#ffb000',bShape:'diamond',tCol:'#ff4444',tName:'transposable element',lCol:'#bf5fff',bgSeq:'AACCGGTTAACCGGTTAACCGGTT',tags:{a:['CORE','≥99%','COG:J'],b:['ACC','∂=0.4','COG:L']},epochs:['ATACAMA · Chile','RÍO TINTO · Spain','IRON MOUNTAIN · USA','EQUITY SILVER · Canada','ZHONGTIAOSHAN · China','VICTORIA MINE · Australia','SOCOMPA · Argentina'],death:['PAN-GENOME OPEN · no convergence','HORIZONTAL TRANSFER · topology broken','ASSEMBLY FRAGMENTED · N50<10kb','CORE EROSION · ancestral genes lost'],victory:'PAN-GENOME CLOSED · core=1,247 genes · accessory=4,891 genes',leg1:'🟢 core gene +1',leg2:'🔷 accessory gene +3'},
+  ];
 
-/* ── Particle pool (shared, lightweight) ── */
-const POOL_SZ = 16;
-const pool = Array.from({length:POOL_SZ}, () => ({alive:false,x:0,y:0,vx:0,vy:0,life:0,max:1,col:'#fff'}));
-function pfx(x, y, col, n=4) {
-  let added = 0;
-  for(let i=0;i<POOL_SZ&&added<n;i++) {
-    if(!pool[i].alive) {
-      const a=(Math.PI*2/n)*added, p=pool[i];
-      p.x=x;p.y=y;p.vx=Math.cos(a)*(1+Math.random()*1.5);p.vy=Math.sin(a)*(1+Math.random()*1.5);
-      p.life=0;p.max=16+Math.random()*8;p.col=col;p.alive=true;added++;
+  const IONS=['Fe³⁺','Cu²⁺','As⁵⁺'];
+  let MODE,G,P,nodes,toxins,frame=0;
+  let _bgCanvas=null,_bgKey='';
+  let _skX=0,_skY=0,_skT=0;
+  const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+  const shake=(i)=>{_skT=10;_skX=i;_skY=i*0.6;};
+  const pool=Array.from({length:MAX_POOL},()=>({x:0,y:0,vx:0,vy:0,life:0,max:1,col:'#fff',alive:false,trail:false}));
+
+  function pfx(x,y,col,n){
+    n=n||5;let added=0;
+    for(let i=0;i<MAX_POOL&&added<n;i++){
+      if(!pool[i].alive){
+        const a=(Math.PI*2/n)*added,p=pool[i];
+        p.x=x;p.y=y;p.vx=Math.cos(a)*(0.8+Math.random()*1.5);p.vy=Math.sin(a)*(0.8+Math.random()*1.5);
+        p.life=0;p.max=16+Math.random()*10;p.col=col;p.alive=true;p.trail=false;added++;
+      }
     }
   }
-}
-function updateParticles() {
-  for(const p of pool){if(!p.alive)continue;p.x+=p.vx;p.y+=p.vy;p.vx*=0.88;p.vy*=0.88;p.life++;if(p.life>=p.max)p.alive=false;}
-}
-function drawParticles() {
-  for(const p of pool){if(!p.alive)continue;
-    GX.globalAlpha=Math.max(0,(1-p.life/p.max)*0.8);GX.fillStyle=p.col;
-    GX.beginPath();GX.arc(p.x,p.y,2,0,Math.PI*2);GX.fill();}
-  GX.globalAlpha=1;
-}
-
-/* ── Popup text ── */
-function mkPopups(){return [];}
-function addPopup(arr,x,y,text,col){if(arr.length>=5)arr.shift();arr.push({x,y,text,col,life:0,max:28});}
-function updatePopups(arr){return arr.filter(p=>{p.y-=0.5;p.life++;return p.life<p.max;});}
-function drawPopups(arr){
-  GX.font='bold 9px JetBrains Mono';GX.textAlign='center';GX.textBaseline='middle';
-  for(const p of arr){const al=p.life<5?p.life/5:1-(p.life-5)/(p.max-5);GX.globalAlpha=Math.max(0,al);GX.fillStyle=p.col;GX.fillText(p.text,p.x,p.y);}
-  GX.globalAlpha=1;GX.textBaseline='alphabetic';
-}
-
-/* ── Background (offscreen, generated once per mode) ── */
-let bgCanvas = document.createElement('canvas');
-function buildBg(modeId) {
-  bgCanvas.width=CW; bgCanvas.height=CH;
-  const bx=bgCanvas.getContext('2d');
-  bx.clearRect(0,0,CW,CH);
-  // Faint grid
-  bx.strokeStyle='rgba(0,55,16,0.03)';bx.lineWidth=1;
-  for(let x=0;x<CW;x+=40){bx.beginPath();bx.moveTo(x,21);bx.lineTo(x,CH);bx.stroke();}
-  for(let y=21;y<CH;y+=40){bx.beginPath();bx.moveTo(0,y);bx.lineTo(CW,y);bx.stroke();}
-
-  if(modeId==='A') {
-    // De Bruijn assembly graph
-    const pts=Array.from({length:28},()=>({x:Math.random()*CW,y:22+Math.random()*(CH-22)}));
-    bx.strokeStyle='rgba(0,90,35,0.1)';bx.lineWidth=0.8;
-    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
-      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
-      if(d<130){bx.beginPath();bx.moveTo(pts[i].x,pts[i].y);bx.lineTo(pts[j].x,pts[j].y);bx.stroke();}
+  function addTrail(x,y){
+    for(let i=0;i<MAX_POOL;i++){
+      if(!pool[i].alive){
+        const p=pool[i];p.x=x;p.y=y;p.vx=0;p.vy=0;p.life=0;p.max=6;p.col='rgba(0,210,210,0.14)';p.alive=true;p.trail=true;return;
+      }
     }
-    bx.fillStyle='rgba(0,80,30,0.18)';
-    for(const p of pts){bx.beginPath();bx.arc(p.x,p.y,2.5,0,Math.PI*2);bx.fill();}
-  } else if(modeId==='B') {
-    // DNA sequence watermark
-    const seq='ATCGATCGGCTAGCTATCGATCG';
-    const cols={A:'rgba(0,255,65,0.016)',T:'rgba(255,68,68,0.016)',C:'rgba(68,136,255,0.016)',G:'rgba(255,176,0,0.016)'};
-    bx.font='7px JetBrains Mono'; let si=0;
-    for(let y=28;y<CH;y+=11)for(let x=0;x<CW;x+=9){const ch=seq[si%seq.length];bx.fillStyle=cols[ch]||'rgba(255,255,255,0.01)';bx.fillText(ch,x,y);si++;}
-  } else if(modeId==='C') {
-    // Network graph (co-expression)
-    const pts=Array.from({length:36},()=>({x:Math.random()*CW,y:22+Math.random()*(CH-22)}));
-    bx.strokeStyle='rgba(0,70,25,0.07)';bx.lineWidth=0.5;
-    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
-      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
-      if(d<75){bx.beginPath();bx.moveTo(pts[i].x,pts[i].y);bx.lineTo(pts[j].x,pts[j].y);bx.stroke();}
-    }
-    bx.fillStyle='rgba(0,100,40,0.2)';
-    for(const p of pts){bx.beginPath();bx.arc(p.x,p.y,1.5,0,Math.PI*2);bx.fill();}
-  } else {
-    // Phylogenetic tree
-    function drawBranch(bx,x,y,ang,len,depth){
-      if(depth===0||len<4)return;
-      const ex=x+Math.cos(ang)*len, ey=y+Math.sin(ang)*len;
-      bx.beginPath();bx.moveTo(x,y);bx.lineTo(ex,ey);bx.stroke();
-      const sp=0.38+Math.random()*0.25;
-      drawBranch(bx,ex,ey,ang-sp,len*0.68,depth-1);
-      drawBranch(bx,ex,ey,ang+sp,len*0.68,depth-1);
-    }
-    bx.strokeStyle='rgba(0,55,25,0.11)';bx.lineWidth=0.7;
-    drawBranch(bx,CW*0.18,CH,-Math.PI/2,55,6);
-    drawBranch(bx,CW*0.5,CH,-Math.PI/2,50,6);
-    drawBranch(bx,CW*0.82,CH,-Math.PI/2,55,6);
   }
-}
-
-/* ── Shared HUD + overlays ── */
-function drawHUD(g, md) {
-  GX.fillStyle='rgba(3,5,4,0.94)';GX.fillRect(0,0,CW,21);
-  GX.font='bold 9px JetBrains Mono';GX.textAlign='left';
-  GX.fillStyle='#1a4a1a';GX.fillText(md.metric+':',7,13);
-  GX.fillStyle='#d0d0d0';GX.fillText(String(g.score).padStart(5,'0'),60,13);
-  GX.fillStyle='#1a3a3a';GX.fillText('EPOCH:',112,13);
-  GX.fillStyle=md.pCol;GX.fillText(`${g.epoch}/${md.epochs.length}`,160,13);
-  // XP bar
-  GX.fillStyle='#080808';GX.fillRect(192,5,50,9);
-  GX.fillStyle='rgba(0,255,65,.55)';GX.fillRect(192,5,50*(Math.min(1,g.seqs/g.need)),9);
-  GX.strokeStyle='rgba(0,255,65,.1)';GX.lineWidth=1;GX.strokeRect(192,5,50,9);
-  GX.font='5px JetBrains Mono';GX.fillStyle='#1a2a1a';GX.textAlign='center';GX.fillText('XP',217,11);
-  // Mode label
-  GX.font='7px JetBrains Mono';GX.textAlign='left';GX.fillStyle='rgba(191,95,255,.35)';
-  GX.fillText(`[${md.id}]`,258,13);
-  const epN=md.epochs[Math.min(g.epoch-1,md.epochs.length-1)]||'';
-  GX.fillStyle='rgba(0,195,195,.25)';GX.fillText(epN.length>20?epN.slice(0,18)+'…':epN,280,13);
-  // Hi score
-  if(g.hi>0){GX.fillStyle='#1a2a1a';GX.font='8px JetBrains Mono';GX.textAlign='center';GX.fillText(`BEST:${String(g.hi).padStart(5,'0')}`,CW-54,13);}
-  // Lives
-  for(let i=0;i<MAX_LIVES;i++){GX.fillStyle=i<g.lives?'#00ff41':'#111';GX.fillRect(CW-28+i*3,7,2.5,5);}
-  GX.textAlign='left';
-}
-function drawFlash(g){
-  if(g.flash>0){GX.globalAlpha=g.flash*0.012;GX.fillStyle=`rgb(${g.fR},${g.fG},${g.fB})`;GX.fillRect(0,0,CW,CH);GX.globalAlpha=1;}
-}
-function drawIntro(g, md){
-  if(g.modeAnim<=0)return;
-  const f=Math.min(1,g.modeAnim/12)*Math.min(1,g.modeAnim/68);
-  GX.save();GX.globalAlpha=f;GX.fillStyle='rgba(0,0,0,0.8)';GX.fillRect(0,H2-44,CW,82);
-  GX.font='bold 14px JetBrains Mono';GX.textAlign='center';GX.fillStyle=md.pCol;
-  GX.fillText(`// MODE ${md.id}: ${md.label}`,CW/2,H2-18);
-  GX.font='8px JetBrains Mono';GX.fillStyle=md.pCol+'55';
-  GX.fillText(`${md.controls}  ·  epochs: ${md.epochs.length}`,CW/2,H2+4);
-  GX.fillStyle=md.pCol+'30';GX.fillText(`EPOCH 1 · ${md.epochs[0]}`,CW/2,H2+20);
-  GX.restore();
-}
-function drawEpochAnim(g, md){
-  if(g.epochAnim<=0)return;
-  const f=Math.min(1,g.epochAnim/12)*Math.min(1,g.epochAnim/78);
-  const epN=md.epochs[Math.min(g.epoch-1,md.epochs.length-1)];
-  GX.save();GX.globalAlpha=f;GX.fillStyle='rgba(0,0,0,0.7)';GX.fillRect(0,H2-28,CW,52);
-  GX.font='bold 12px JetBrains Mono';GX.textAlign='center';GX.fillStyle='#00ffff';
-  GX.fillText(`── EPOCH ${g.epoch} · ${epN} ──`,CW/2,H2-10);
-  GX.font='8px JetBrains Mono';GX.fillStyle='rgba(0,200,200,.4)';
-  GX.fillText(`needed: ${g.need}  ·  lives: ${g.lives}`,CW/2,H2+8);
-  GX.restore();
-}
-function drawOver(g, md){
-  if(!g.over)return;
-  GX.fillStyle='rgba(3,5,4,0.94)';GX.fillRect(0,0,CW,CH);
-  const go=g.glt%8<2?(Math.random()-.5)*3:0;
-  GX.save();GX.translate(go,0);
-  GX.font='bold 13px JetBrains Mono';GX.textAlign='center';GX.fillStyle='#ff4444';
-  GX.fillText(g.deathMsg,CW/2,H2-36);GX.restore();
-  GX.font='9px JetBrains Mono';GX.fillStyle='#2a4a2a';
-  GX.fillText(`score: ${g.score}  ·  epoch: ${g.epoch}/${md.epochs.length}`,CW/2,H2-14);
-  GX.fillStyle='#1a3a1a';GX.fillText(`mode: [${md.id}] ${md.label}`,CW/2,H2+4);
-  if(g.score>=g.hi&&g.hi>0){GX.fillStyle='#ffb000';GX.fillText('★ NEW RECORD ★',CW/2,H2+22);}
-  GX.fillStyle='#00ff41';GX.fillText('[ R — new simulation mode ]',CW/2,H2+42);
-}
-function drawWin(g, md){
-  if(!g.won)return;
-  GX.fillStyle='rgba(3,5,4,0.94)';GX.fillRect(0,0,CW,CH);
-  GX.font='bold 15px JetBrains Mono';GX.textAlign='center';GX.fillStyle='#00ff41';
-  GX.fillText('✓ SIMULATION COMPLETE',CW/2,H2-36);
-  GX.font='9px JetBrains Mono';GX.fillStyle='#28c882';GX.fillText(md.victory,CW/2,H2-16);
-  GX.fillStyle='#2a5a3a';GX.fillText(`score: ${g.score}  ·  lives_left: ${g.lives}`,CW/2,H2+4);
-  GX.fillStyle='#00ff41';GX.fillText('[ R — run new simulation mode ]',CW/2,H2+28);
-}
-function tickCommon(g){if(g.flash>0)g.flash--;if(g.modeAnim>0)g.modeAnim--;if(g.epochAnim>0)g.epochAnim--;}
-
-/* ── State ── */
-const MAX_LIVES = 6;
-let CUR_MODE = 0;
-let H2 = CH/2; // center height, updated on resize
-let _hi = parseInt(localStorage.getItem('moyalab_hi')||'0',10);
-let frame = 0;
-const keys = {};
-
-/* ══════════════════
-   MODE DEFINITIONS
-══════════════════ */
-const MDEFS = [
-  {
-    id:'A', label:'BINNING AGENT · MetaBAT2',
-    title:'metabat2_sim.py — Metagenomic Binning · AMD Consortium',
-    cmd:'python metabat2_sim.py', args:' --env AMD-Chile --min-contig 2500',
-    metric:'BIN%', pCol:'#00ffff',
-    epochs:['Acidithiobacillus','Leptospirillum','Ferroplasma','Sulfolobus','Thiomonas','Acidiphilium'],
-    death:['BIN CONTAMINATION >10% · CheckM failed','HOST DNA SATURATION · reads dominant','ASSEMBLY GRAPH DISCONNECTED · N50 collapsed'],
-    victory:'HIGH-QUALITY MAGs RECOVERED · CheckM completeness ≥95%',
-    controls:'↑↓←→/WASD move · SPACE dash',
-    leg1:'🟢 contig +1', leg2:'🔷 chimeric contig +3',
-  },
-  {
-    id:'B', label:'CLASSIFIER · Kraken2',
-    title:'kraken2_sim.py — k-mer Read Classification · AMD Sample',
-    cmd:'python kraken2_sim.py', args:' --db standard --confidence 0.15',
-    metric:'k-mer%', pCol:'#bf5fff',
-    epochs:['Phylum','Class','Order','Family','Genus','Species · strain'],
-    death:['HOST DNA CONTAMINATION · sample rejected','MISCLASSIFICATION CASCADE · k-mer conflict','CONFIDENCE FAILED · reads ambiguous'],
-    victory:'TAXONOMIC PROFILE COMPLETE · Shannon H=4.2 · 847 taxa classified',
-    controls:'←→/AD move paddle · catch reads in their lane',
-    leg1:'🟢 catch reads in correct lane', leg2:'🔴 avoid HOST DNA reads',
-  },
-  {
-    id:'C', label:'GRN · WGCNA Co-expression',
-    title:'wgcna_sim.py — Gene Regulatory Network · A. ferrooxidans',
-    cmd:'python wgcna_sim.py', args:' --soft-threshold 6 --minModSize 30',
-    metric:'CHAIN', pCol:'#00ff41',
-    epochs:['Control','Fe²⁺ stress','Cu²⁺ stress','pH 1.5 acid','Biofilm','Recovery'],
-    death:['MODULE COLLAPSE · chain hit own body','SCALE-FREE TOPOLOGY LOST · hit obstacle','BOUNDARY ERROR · chain left grid'],
-    victory:'CO-EXPRESSION MODULE COMPLETE · 340 hub genes identified',
-    controls:'↑↓←→ change direction · avoid own chain and obstacles',
-    leg1:'🟢 gene +1 (chain grows)', leg2:'🔷 hub gene +3 (chain grows more)',
-  },
-  {
-    id:'D', label:'PANGENOME EXPLORER · PPanGGOLiN',
-    title:'ppanggolin_sim.py — Pangenome Territory · 847 strains',
-    cmd:'python ppanggolin_sim.py', args:' --strains 847 --mode persistent',
-    metric:'COVER%', pCol:'#bf5fff',
-    epochs:['Atacama · Chile','Río Tinto · Spain','Iron Mountain · USA','Equity Silver · Canada','Zhongtiaoshan · China','Socompa · Argentina'],
-    death:['TRANSPOSON OVERFLOW · genome erased','HORIZONTAL TRANSFER · topology collapsed','CORE EROSION · ancestral genes lost'],
-    victory:'PAN-GENOME CLOSED · core=1,247 · accessory=4,891 genes',
-    controls:'↑↓←→/WASD move · paint core (left) and accessory (right) zones',
-    leg1:'🟢 paint core/accessory cells', leg2:'🔴 avoid transposons',
-  },
-];
-
-function setUI(md){
-  document.getElementById('gameTitle').textContent = md.title;
-  document.getElementById('gameCmd').textContent   = md.cmd;
-  document.getElementById('gameArgs').textContent  = md.args;
-  document.getElementById('gameControls').innerHTML =
-    `<span><span class="key">R</span> restart / new mode</span>
-     <span>${md.controls}</span>
-     <span>${md.leg1} &nbsp; ${md.leg2}</span>`;
-}
-
-/* ═══════════════════════════════════════════
-   MODE A — ARCADE: dodge & collect
-═══════════════════════════════════════════ */
-let gA = {};
-function initA(){
-  gA={score:0,lives:MAX_LIVES,epoch:1,seqs:0,need:7,over:false,won:false,glt:0,
-    hi:_hi,flash:0,fR:0,fG:0,fB:0,modeAnim:80,epochAnim:0,deathMsg:'',popups:mkPopups(),
-    P:{x:CW/2,y:CH/2,sz:8,scale:1},pvx:0,pvy:0,inv:0,dashT:0,dashCD:0,
-    nodes:[],toxins:[]};
-  for(let i=0;i<POOL_SZ;i++)pool[i].alive=false;
-  spawnNodesA(); spawnToxinsA();
-}
-function spawnNodesA(){
-  const count=Math.min(4+gA.epoch,8);
-  gA.nodes=Array.from({length:count},()=>{
+  function addPopup(x,y,text,col){
+    if(G.popups.length>=MAX_POPUPS)G.popups.shift();
+    G.popups.push({x,y,text,col,life:0,max:32});
+  }
+  function mkNode(){
     const r=Math.random();
-    const t=r<0.02?'l':r<0.05?'p':r<0.22?'b':'a';
-    return{x:24+Math.random()*(CW-48),y:28+Math.random()*(CH-52),
-      t,a:Math.random()*Math.PI*2,vx:(Math.random()-.5)*.65,vy:(Math.random()-.5)*.65};
-  });
-}
-function spawnToxinsA(){
-  const count=Math.min(2+gA.epoch,7);
-  const spd=1.8+gA.epoch*.22;
-  gA.toxins=Array.from({length:count},(_,idx)=>{
-    let tx,ty;
-    do{tx=24+Math.random()*(CW-48);ty=28+Math.random()*(CH-52);}
-    while(Math.hypot(tx-gA.P.x,ty-gA.P.y)<100);
-    const ang=Math.random()*Math.PI*2,v=spd*(0.5+Math.random()*.7);
-    return{x:tx,y:ty,vx:Math.cos(ang)*v,vy:Math.sin(ang)*v,rot:0,sz:7+Math.random()*3,
-      homing:idx===0&&gA.epoch>=3};
-  });
-}
-function updateA(){
-  const g=gA; if(g.over||g.won){g.glt++;return;}
-  // Player movement with inertia
-  const L=keys['ArrowLeft']||keys['a']||keys['A'];
-  const R=keys['ArrowRight']||keys['d']||keys['D'];
-  const U=keys['ArrowUp']||keys['w']||keys['W'];
-  const D=keys['ArrowDown']||keys['s']||keys['S'];
-  if(L)g.pvx-=0.7;if(R)g.pvx+=0.7;if(U)g.pvy-=0.7;if(D)g.pvy+=0.7;
-  g.pvx*=0.84;g.pvy*=0.84;
-  const curMax=g.dashT>0?14:5.5;
-  const spd=Math.hypot(g.pvx,g.pvy);
-  if(spd>curMax){g.pvx=g.pvx/spd*curMax;g.pvy=g.pvy/spd*curMax;}
-  g.P.x=Math.max(g.P.sz,Math.min(CW-g.P.sz,g.P.x+g.pvx));
-  g.P.y=Math.max(g.P.sz+21,Math.min(CH-g.P.sz,g.P.y+g.pvy));
-  if(g.dashT>0)g.dashT--;if(g.dashCD>0)g.dashCD--;
-  if(g.P.scale>1)g.P.scale=Math.max(1,g.P.scale-.04);
-  // Toxins
-  for(const t of g.toxins){
-    if(t.homing){const dx=g.P.x-t.x,dy=g.P.y-t.y,d=Math.hypot(dx,dy)||1;t.vx+=dx/d*.05;t.vy+=dy/d*.05;const ts=Math.hypot(t.vx,t.vy);const mx=1.8+gA.epoch*.22*1.2;if(ts>mx){t.vx=t.vx/ts*mx;t.vy=t.vy/ts*mx;}}
-    t.x+=t.vx;t.y+=t.vy;t.rot+=.07;
-    if(t.x<10||t.x>CW-10)t.vx*=-1;if(t.y<24||t.y>CH-10)t.vy*=-1;
+    const t=r<0.014?'l':r<0.042?'p':r<0.22?'b':'a';
+    const tagArr=(MODE.tags?.[t]||MODE.tags?.['a']||[]);
+    const n={x:30+Math.random()*(W-60),y:30+Math.random()*(H-50),t,a:Math.random()*Math.PI*2,vx:(Math.random()-.5)*.52,vy:(Math.random()-.5)*.52,tag:tagArr[Math.floor(Math.random()*tagArr.length)]||''};
+    if(MODE.id==='E'&&t==='a')n.module=WGCNA_MOD[Math.floor(Math.random()*WGCNA_MOD.length)];
+    return n;
   }
-  // Nodes
-  for(const n of g.nodes){n.a+=.04;n.x+=n.vx;n.y+=n.vy;if(n.x<18||n.x>CW-18)n.vx*=-1;if(n.y<26||n.y>CH-18)n.vy*=-1;}
-  // Collection
-  g.nodes=g.nodes.filter(n=>{
-    if(Math.hypot(g.P.x-n.x,g.P.y-n.y)>g.P.sz+9)return true;
-    if(n.t==='p'){g.inv=Math.max(g.inv,110);g.score+=2;g.flash=5;g.fR=191;g.fG=95;g.fB=255;pfx(n.x,n.y,'#bf5fff',5);addPopup(g.popups,n.x,n.y-12,'SHIELD!','#bf5fff');g.P.scale=1.3;return false;}
-    if(n.t==='l'){if(g.lives<MAX_LIVES)g.lives++;g.flash=5;g.fR=0;g.fG=255;g.fB=65;pfx(n.x,n.y,'#00ff41',6);addPopup(g.popups,n.x,n.y-12,'+LIFE ♥','#00ff41');g.P.scale=1.4;return false;}
-    const pts=n.t==='b'?3:1;g.score+=pts;g.seqs++;g.P.scale=n.t==='b'?1.3:1.15;
-    if(n.t==='b'){g.flash=3;g.fR=255;g.fG=176;g.fB=0;pfx(n.x,n.y,'#ffb000',6);}
-    else{g.flash=2;g.fR=0;g.fG=255;g.fB=65;pfx(n.x,n.y,'#00ff41',4);}
-    addPopup(g.popups,n.x,n.y-10,n.t==='b'?'+3':'+1',n.t==='b'?'#ffb000':'#00ff41');
-    if(g.seqs>=g.need){
-      if(g.epoch>=MDEFS[0].epochs.length){g.won=true;return false;}
-      g.epoch++;g.seqs=0;g.need=Math.ceil(g.need*1.3);g.epochAnim=90;g.flash=7;g.fR=0;g.fG=200;g.fB=255;spawnToxinsA();
-    }
-    return false;
-  });
-  if(!g.nodes.length)spawnNodesA();
-  // Collision
-  if(g.inv<=0){
-    for(const t of g.toxins){
-      if(Math.hypot(g.P.x-t.x,g.P.y-t.y)<g.P.sz+t.sz-3){
-        g.lives--;g.inv=80;g.flash=9;g.fR=255;g.fG=44;g.fB=44;pfx(g.P.x,g.P.y,'#ff4444',6);
-        g.pvx=(Math.random()-.5)*7;g.pvy=(Math.random()-.5)*7;
-        if(g.lives<=0){g.over=true;g.deathMsg=MDEFS[0].death[Math.floor(Math.random()*3)];if(g.score>_hi){_hi=g.score;localStorage.setItem('moyalab_hi',String(_hi));}g.hi=_hi;}
-        break;
-      }
-    }
-  }else{g.inv--;}
-  g.popups=updatePopups(g.popups);
-  updateParticles(); tickCommon(g);
-}
-function drawA(){
-  const g=gA;
-  GX.clearRect(0,0,CW,CH); GX.drawImage(bgCanvas,0,0,CW,CH);
-  drawFlash(g); drawParticles();
-  // Direction telegraphs on toxins
-  GX.setLineDash([2,5]);GX.lineWidth=.6;
-  for(const t of g.toxins){GX.strokeStyle=t.homing?'rgba(255,130,0,.2)':'rgba(255,80,80,.15)';GX.beginPath();GX.moveTo(t.x,t.y);GX.lineTo(t.x+t.vx*10,t.y+t.vy*10);GX.stroke();}
-  GX.setLineDash([]);
-  // Toxins
-  for(const t of g.toxins){
-    const col=t.homing?'#ff8800':'#ff5544';
-    // Hitbox circle (faint)
-    GX.strokeStyle=col+'18';GX.lineWidth=1;GX.beginPath();GX.arc(t.x,t.y,t.sz+g.P.sz-3,0,Math.PI*2);GX.stroke();
-    GX.fillStyle=col;
-    const r=t.rot;GX.beginPath();GX.moveTo(t.x+Math.cos(r)*t.sz,t.y+Math.sin(r)*t.sz);
-    GX.lineTo(t.x+Math.cos(r+2.094)*t.sz,t.y+Math.sin(r+2.094)*t.sz);
-    GX.lineTo(t.x+Math.cos(r+4.189)*t.sz,t.y+Math.sin(r+4.189)*t.sz);
-    GX.closePath();GX.fill();
-    GX.font='5px JetBrains Mono';GX.fillStyle=col+'80';GX.textAlign='center';
-    GX.fillText(t.homing?'HOME':'ION',t.x,t.y+t.sz+8);
+  function spawnNodes(){nodes=Array.from({length:Math.min(5+G.epoch,11)},mkNode);}
+  function spawnToxins(){
+    const spd=0.88+G.epoch*0.15,count=Math.min(2+G.epoch,9);
+    toxins=Array.from({length:count},(_,idx)=>{
+      let tx,ty;
+      do{tx=30+Math.random()*(W-60);ty=30+Math.random()*(H-50);}while(dist({x:tx,y:ty},P)<95);
+      const ang=Math.random()*Math.PI*2,ion=IONS[Math.floor(Math.random()*3)];
+      const szM=ion==='Fe³⁺'?1.32:ion==='Cu²⁺'?0.72:1.0,spM=ion==='Fe³⁺'?0.72:ion==='Cu²⁺'?1.35:1.0;
+      const v=spd*(0.55+Math.random()*0.68);
+      return{x:tx,y:ty,vx:Math.cos(ang)*v*spM,vy:Math.sin(ang)*v*spM,rot:0,sz:(7+Math.random()*3)*szM,ion,erratic:ion==='As⁵⁺',erraticT:0,homing:idx===0};
+    });
   }
-  // Nodes
-  for(const n of g.nodes){
-    const r=4+Math.sin(n.a)*.9;
-    if(n.t==='p'){
-      GX.fillStyle='#bf5fff';GX.beginPath();
-      for(let i=0;i<8;i++){const a=n.a+Math.PI/4*i,sr=i%2===0?7:3.5;i?GX.lineTo(n.x+Math.cos(a)*sr,n.y+Math.sin(a)*sr):GX.moveTo(n.x+Math.cos(a)*sr,n.y+Math.sin(a)*sr);}
-      GX.closePath();GX.fill();
-      GX.font='5px JetBrains Mono';GX.fillStyle='rgba(191,95,255,.8)';GX.textAlign='center';GX.fillText('SHIELD',n.x,n.y+12);
-    }else if(n.t==='l'){
-      GX.strokeStyle='#00ff41';GX.lineWidth=2;GX.beginPath();GX.moveTo(n.x,n.y-7);GX.lineTo(n.x,n.y+7);GX.stroke();GX.beginPath();GX.moveTo(n.x-7,n.y);GX.lineTo(n.x+7,n.y);GX.stroke();
-    }else if(n.t==='b'){
-      GX.fillStyle='#ffb00022';GX.strokeStyle='#ffb000';GX.lineWidth=1.5;
-      GX.beginPath();for(let i=0;i<6;i++){const a=n.a+Math.PI/3*i;i?GX.lineTo(n.x+Math.cos(a)*(r+1.5),n.y+Math.sin(a)*(r+1.5)):GX.moveTo(n.x+Math.cos(a)*(r+1.5),n.y+Math.sin(a)*(r+1.5));}
-      GX.closePath();GX.fill();GX.stroke();
-      GX.font='bold 7px JetBrains Mono';GX.fillStyle='#ffb000';GX.textAlign='center';GX.fillText('+3',n.x,n.y+2.5);
-    }else{
-      GX.fillStyle='#00ffff';GX.beginPath();GX.arc(n.x,n.y,r,0,Math.PI*2);GX.fill();
-      GX.strokeStyle='#00ffff28';GX.lineWidth=1;GX.beginPath();GX.arc(n.x,n.y,r+5,0,Math.PI*2);GX.stroke();
-    }
+  let _globalHi=parseInt(localStorage.getItem('moyalab_hi')||'0',10);
+  function pickMode(){
+    MODE=MODES[Math.floor(Math.random()*MODES.length)];
+    document.getElementById('gameTitle').textContent=MODE.title;
+    document.getElementById('gameCmd').textContent=MODE.cmd;
+    document.getElementById('gameArgs').textContent=MODE.args;
+    document.getElementById('leg1').textContent=MODE.leg1;
+    document.getElementById('leg2').textContent=MODE.leg2;
   }
-  // Danger ring
-  let closest=Infinity;for(const t of g.toxins){const d=Math.hypot(g.P.x-t.x,g.P.y-t.y);if(d<closest)closest=d;}
-  if(closest<65&&!g.over&&!g.won){GX.strokeStyle=`rgba(255,68,68,${(1-closest/65)*.4})`;GX.lineWidth=2;GX.beginPath();GX.arc(g.P.x,g.P.y,g.P.sz+7,0,Math.PI*2);GX.stroke();}
-  // Dash trail
-  if(g.dashT>0){GX.globalAlpha=(g.dashT/20)*.3;GX.strokeStyle='#00ffff';GX.lineWidth=g.P.sz*2;GX.lineCap='round';GX.beginPath();GX.moveTo(g.P.x-g.pvx*3,g.P.y-g.pvy*3);GX.lineTo(g.P.x,g.P.y);GX.stroke();GX.globalAlpha=1;GX.lineCap='butt';}
-  // Player
-  const blink=g.inv>0&&Math.floor(g.inv/5)%2===0;
-  GX.save();GX.globalAlpha=blink?.18:1;GX.translate(g.P.x,g.P.y);GX.scale(g.P.scale,g.P.scale);
-  GX.fillStyle=g.dashT>0?'#ffffff':'#00ffff';GX.beginPath();GX.arc(0,0,g.P.sz,0,Math.PI*2);GX.fill();
-  GX.strokeStyle=(g.dashT>0?'#ffffff':'#00ffff')+'55';GX.lineWidth=1.5;GX.beginPath();GX.arc(0,0,g.P.sz+5,0,Math.PI*2);GX.stroke();
-  GX.strokeStyle=(g.dashT>0?'#ffffff':'#00ffff')+'20';GX.lineWidth=1;GX.beginPath();GX.arc(0,0,g.P.sz+11+Math.sin(frame*.07)*2,0,Math.PI*2);GX.stroke();
-  GX.restore();
-  // Dash indicator
-  GX.font='bold 9px JetBrains Mono';GX.textAlign='left';
-  GX.fillStyle=g.dashCD===0?'#00ffff':'rgba(0,255,255,.2)';GX.fillText('⚡',7,CH-6);
-  if(g.dashCD>0){GX.fillStyle='#060f0f';GX.fillRect(18,CH-13,22,6);GX.fillStyle='rgba(0,255,255,.5)';GX.fillRect(18,CH-13,22*(1-g.dashCD/120),6);}
-  drawPopups(g.popups);
-  drawHUD(g,MDEFS[0]);drawIntro(g,MDEFS[0]);drawEpochAnim(g,MDEFS[0]);drawOver(g,MDEFS[0]);drawWin(g,MDEFS[0]);
-}
+  function reset(){
+    pickMode();
+    G={score:0,lives:6,epoch:1,seqs:0,need:8,over:false,won:false,inv:0,glt:0,epochAnim:0,modeAnim:90,hi:_globalHi,combo:0,comboT:0,streak:0,loss:1.0,flash:0,flashR:0,flashG:0,flashB:0,killerIon:'',deathMsg:'',popups:[]};
+    P={x:W/2,y:H/2,sz:8,popScale:1.0};
+    nodes=[];toxins=[];
+    for(let i=0;i<MAX_POOL;i++)pool[i].alive=false;
+    frame=0;spawnNodes();spawnToxins();
+  }
+  function buildBg(){
+    const key=`${MODE.id}-${G.epoch}`;if(_bgKey===key)return;_bgKey=key;
+    if(!_bgCanvas){_bgCanvas=document.createElement('canvas');_bgCanvas.width=W;_bgCanvas.height=H;}
+    const bx=_bgCanvas.getContext('2d');bx.clearRect(0,0,W,H);
+    const seq=(MODE.bgSeq||'ATCG').repeat(5);
+    bx.font='7px "JetBrains Mono"';bx.fillStyle=MODE.id==='C'?'rgba(0,255,200,0.017)':'rgba(0,255,65,0.018)';
+    let si=G.epoch*9;
+    for(let y2=28;y2<H;y2+=11)for(let x2=0;x2<W;x2+=9){bx.fillText(seq[si%seq.length],x2,y2);si++;}
+  }
+  const keys={};
+  document.addEventListener('keydown',e=>{
+    keys[e.key]=true;
+    if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))e.preventDefault();
+    if((e.key==='r'||e.key==='R')&&(G.over||G.won))reset();
+  },{passive:false});
+  document.addEventListener('keyup',e=>{keys[e.key]=false;},{passive:true});
 
-/* ═══════════════════════════════════════════
-   MODE B — BREAKOUT/CATCH: Kraken2 Classifier
-   Paddle moves left-right, reads fall from top
-═══════════════════════════════════════════ */
-const B_LANES = [
-  {name:'BACTERIA', abbr:'BAC', col:'#00ff41'},
-  {name:'ARCHAEA',  abbr:'ARC', col:'#00ffff'},
-  {name:'EUKARYOTA',abbr:'EUK', col:'#bf5fff'},
-];
-let gB = {};
-function initB(){
-  gB={score:0,lives:MAX_LIVES,epoch:1,seqs:0,need:10,over:false,won:false,glt:0,
-    hi:_hi,flash:0,fR:0,fG:0,fB:0,modeAnim:80,epochAnim:0,deathMsg:'',popups:mkPopups(),
-    paddle:{x:CW/2-55,w:110,h:9},reads:[],spawnT:0,spawnInterval:72};
-}
-function spawnReadB(){
-  const isHost=Math.random()<0.18;
-  const lane=Math.floor(Math.random()*3);
-  const laneW=CW/3;
-  gB.reads.push({
-    x:(lane+.5)*laneW+(Math.random()-.5)*(laneW-50),
-    y:25,vy:1.6+gB.epoch*.32+Math.random()*.5,
-    lane,isHost,w:50,h:14,
-  });
-}
-function updateB(){
-  const g=gB; if(g.over||g.won){g.glt++;return;}
-  const L=keys['ArrowLeft']||keys['a']||keys['A'];
-  const R=keys['ArrowRight']||keys['d']||keys['D'];
-  const paddleSpd=4.8+g.epoch*.25;
-  if(L)g.paddle.x-=paddleSpd; if(R)g.paddle.x+=paddleSpd;
-  g.paddle.x=Math.max(0,Math.min(CW-g.paddle.w,g.paddle.x));
-  if(++g.spawnT>=g.spawnInterval){g.spawnT=0;g.spawnInterval=Math.max(26,72-g.epoch*8);spawnReadB();}
-  const py=CH-38;
-  g.reads=g.reads.filter(r=>{
-    r.y+=r.vy;
-    if(r.y+r.h/2>py&&r.y-r.h/2<py+g.paddle.h&&r.x>g.paddle.x&&r.x<g.paddle.x+g.paddle.w){
-      if(r.isHost){
-        g.lives--;g.flash=9;g.fR=255;g.fG=44;g.fB=44;
-        addPopup(g.popups,r.x,py-22,'HOST DNA!','#ff4444');pfx(r.x,py,'#ff4444',5);
-        if(g.lives<=0){g.over=true;g.deathMsg=MDEFS[1].death[0];if(g.score>_hi){_hi=g.score;localStorage.setItem('moyalab_hi',String(_hi));}g.hi=_hi;}
-      }else{
-        const paddleLane=Math.min(2,Math.floor((g.paddle.x+g.paddle.w/2)/(CW/3)));
-        if(paddleLane===r.lane){
-          g.score+=2;g.seqs++;g.flash=3;g.fR=0;g.fG=200;g.fB=100;
-          addPopup(g.popups,r.x,py-22,'+2 ✓',B_LANES[r.lane].col);pfx(r.x,py,B_LANES[r.lane].col,4);
-          if(g.seqs>=g.need){
-            if(g.epoch>=MDEFS[1].epochs.length){g.won=true;}
-            else{g.epoch++;g.seqs=0;g.need=Math.ceil(g.need*1.3);g.epochAnim=90;g.flash=7;g.fR=0;g.fG=200;g.fB=255;}
-          }
-        }else{
-          g.score=Math.max(0,g.score-1);g.flash=5;g.fR=255;g.fG=120;g.fB=0;
-          addPopup(g.popups,r.x,py-22,'wrong lane','#ff8800');
-        }
-      }
+  function update(){
+    if(G.over||G.won){G.glt++;return;}
+    const mvL=keys['ArrowLeft']||keys['a']||keys['A'];
+    const mvR=keys['ArrowRight']||keys['d']||keys['D'];
+    const mvU=keys['ArrowUp']||keys['w']||keys['W'];
+    const mvD=keys['ArrowDown']||keys['s']||keys['S'];
+    if(mvL&&P.x>P.sz)P.x-=3.2;if(mvR&&P.x<W-P.sz)P.x+=3.2;
+    if(mvU&&P.y>P.sz+20)P.y-=3.2;if(mvD&&P.y<H-P.sz)P.y+=3.2;
+    if((mvL||mvR||mvU||mvD)&&Math.random()<0.38)addTrail(P.x,P.y);
+    if(P.popScale>1.0)P.popScale=Math.max(1.0,P.popScale-0.045);
+    if(_skT>0)_skT--;
+    for(const t of toxins){
+      if(t.erratic){if(++t.erraticT>65+Math.random()*38){const sp=Math.hypot(t.vx,t.vy),na=Math.random()*Math.PI*2;t.vx=Math.cos(na)*sp;t.vy=Math.sin(na)*sp;t.erraticT=0;}}
+      if(t.homing){const dx=P.x-t.x,dy=P.y-t.y,d=Math.hypot(dx,dy)||1;t.vx+=dx/d*0.033;t.vy+=dy/d*0.033;const sp=Math.hypot(t.vx,t.vy);if(sp>2.25){t.vx=t.vx/sp*2.25;t.vy=t.vy/sp*2.25;}}
+      t.x+=t.vx;t.y+=t.vy;t.rot+=0.054;
+      if(t.x<10||t.x>W-10)t.vx*=-1;if(t.y<24||t.y>H-10)t.vy*=-1;
+    }
+    for(const n of nodes){n.a+=0.044;n.x+=n.vx;n.y+=n.vy;if(n.x<20||n.x>W-20)n.vx*=-1;if(n.y<25||n.y>H-20)n.vy*=-1;}
+    nodes=nodes.filter(n=>{
+      if(dist(P,n)>P.sz+9)return true;
+      if(n.t==='p'){G.inv=Math.max(G.inv,120);G.score+=2;G.flash=5;G.flashR=191;G.flashG=95;G.flashB=255;pfx(n.x,n.y,'#bf5fff',6);addPopup(n.x,n.y,'SHIELD!','#bf5fff');P.popScale=1.3;return false;}
+      if(n.t==='l'){if(G.lives<MAX_LIVES)G.lives++;G.flash=6;G.flashR=0;G.flashG=255;G.flashB=65;pfx(n.x,n.y,MODE.lCol,8);addPopup(n.x,n.y,'+LIFE ♥',MODE.lCol);P.popScale=1.45;return false;}
+      const pts=n.t==='b'?3:1;G.score+=pts;G.seqs++;G.streak++;G.loss=Math.max(0.001,1/(G.score+1));G.comboT=82;G.combo++;P.popScale=n.t==='b'?1.38:1.18;
+      if(n.t==='b'){G.flash=3;G.flashR=255;G.flashG=176;G.flashB=0;pfx(n.x,n.y,MODE.bCol,7);}
+      else{G.flash=2;G.flashR=0;G.flashG=255;G.flashB=65;pfx(n.x,n.y,MODE.aCol,4);}
+      addPopup(n.x,n.y-10,n.t==='b'?'+3':'+1',n.t==='b'?MODE.bCol:MODE.aCol);
+      if(G.seqs>=G.need){if(G.epoch>=MODE.epochs.length){G.won=true;return false;}G.epoch++;G.seqs=0;G.need=Math.ceil(G.need*1.28);G.epochAnim=105;G.flash=7;G.flashR=0;G.flashG=200;G.flashB=255;spawnToxins();}
       return false;
-    }
-    return r.y<CH+20;
-  });
-  g.popups=updatePopups(g.popups); tickCommon(g);
-}
-function drawB(){
-  const g=gB;
-  GX.clearRect(0,0,CW,CH); GX.drawImage(bgCanvas,0,0,CW,CH);
-  // Lane backgrounds
-  for(let i=0;i<3;i++){
-    GX.fillStyle=B_LANES[i].col+'08';GX.fillRect(CW/3*i,22,CW/3,CH-22);
-    GX.font='7px JetBrains Mono';GX.textAlign='center';GX.fillStyle=B_LANES[i].col+'28';
-    GX.fillText(B_LANES[i].name,CW/3*(i+.5),35);
-  }
-  GX.strokeStyle='rgba(0,255,65,.07)';GX.lineWidth=1;GX.setLineDash([4,5]);
-  for(let i=1;i<3;i++){GX.beginPath();GX.moveTo(CW/3*i,22);GX.lineTo(CW/3*i,CH);GX.stroke();}
-  GX.setLineDash([]);
-  drawFlash(g);
-  // Reads
-  for(const r of g.reads){
-    const col=r.isHost?'#ff4444':B_LANES[r.lane].col;
-    const lbl=r.isHost?'HOST':B_LANES[r.lane].abbr;
-    GX.fillStyle=col+'18';GX.fillRect(r.x-r.w/2,r.y-r.h/2,r.w,r.h);
-    GX.strokeStyle=col;GX.lineWidth=r.isHost?1.8:1;GX.strokeRect(r.x-r.w/2,r.y-r.h/2,r.w,r.h);
-    GX.font='bold 7px JetBrains Mono';GX.fillStyle=col;GX.textAlign='center';GX.fillText(lbl,r.x,r.y+2.5);
-    if(r.isHost){GX.fillStyle='#ff4444';GX.beginPath();GX.moveTo(r.x,r.y-r.h/2-5);GX.lineTo(r.x-4,r.y-r.h/2-1);GX.lineTo(r.x+4,r.y-r.h/2-1);GX.closePath();GX.fill();}
-  }
-  // Paddle
-  const py=CH-38;
-  const paddleLane=Math.min(2,Math.floor((g.paddle.x+g.paddle.w/2)/(CW/3)));
-  GX.fillStyle=B_LANES[paddleLane].col+'18';GX.fillRect(g.paddle.x,py-3,g.paddle.w,g.paddle.h+3);
-  GX.fillStyle='#00ffff22';GX.fillRect(g.paddle.x,py,g.paddle.w,g.paddle.h);
-  GX.strokeStyle='#00ffff';GX.lineWidth=1.5;GX.strokeRect(g.paddle.x,py,g.paddle.w,g.paddle.h);
-  GX.font='6px JetBrains Mono';GX.fillStyle=B_LANES[paddleLane].col+'90';GX.textAlign='center';
-  GX.fillText(B_LANES[paddleLane].abbr,g.paddle.x+g.paddle.w/2,py-5);
-  // Score hint
-  GX.font='8px JetBrains Mono';GX.textAlign='left';GX.fillStyle='rgba(0,255,65,.25)';
-  GX.fillText(`classified: ${g.seqs}/${g.need}`,8,CH-6);
-  drawPopups(g.popups);
-  drawHUD(g,MDEFS[1]);drawIntro(g,MDEFS[1]);drawEpochAnim(g,MDEFS[1]);drawOver(g,MDEFS[1]);drawWin(g,MDEFS[1]);
-}
-
-/* ═══════════════════════════════════════════
-   MODE C — SNAKE: WGCNA Co-expression Chain
-   Grid-based snake, grows by collecting genes
-═══════════════════════════════════════════ */
-const C_CELL = 16;
-let gC = {};
-let cCols=0, cRows=0;
-function initC(){
-  cCols=Math.floor(CW/C_CELL);
-  cRows=Math.floor((CH-22)/C_CELL);
-  const sc=Math.floor(cCols/2), sr=Math.floor(cRows/2);
-  gC={score:0,lives:MAX_LIVES,epoch:1,seqs:0,need:5,over:false,won:false,glt:0,
-    hi:_hi,flash:0,fR:0,fG:0,fB:0,modeAnim:80,epochAnim:0,deathMsg:'',popups:mkPopups(),
-    body:[{c:sc,r:sr},{c:sc,r:sr+1},{c:sc,r:sr+2}],
-    dir:{dc:0,dr:-1},nextDir:{dc:0,dr:-1},
-    tick:0,interval:9,genes:[],obstacles:[]};
-  spawnGeneC(); spawnObstaclesC();
-}
-function spawnGeneC(){
-  const occ=new Set([...gC.body,...gC.obstacles].map(s=>`${s.c},${s.r}`));
-  let c,r,tries=0;
-  do{c=1+Math.floor(Math.random()*(cCols-2));r=1+Math.floor(Math.random()*(cRows-2));tries++;}
-  while(occ.has(`${c},${r}`)&&tries<100);
-  gC.genes.push({c,r,hub:Math.random()<0.22});
-}
-function spawnObstaclesC(){
-  const occ=new Set(gC.body.map(s=>`${s.c},${s.r}`));
-  const count=Math.min(1+gC.epoch,6);
-  gC.obstacles=[];
-  for(let i=0;i<count;i++){
-    let c,r,tries=0;
-    do{c=1+Math.floor(Math.random()*(cCols-2));r=1+Math.floor(Math.random()*(cRows-2));tries++;}
-    while((occ.has(`${c},${r}`)||gC.obstacles.some(o=>o.c===c&&o.r===r))&&tries<100);
-    if(tries<100){gC.obstacles.push({c,r});occ.add(`${c},${r}`);}
-  }
-}
-function keyC(e){
-  if(gC.over||gC.won)return;
-  const {dc,dr}=gC.dir;
-  if((e.key==='ArrowUp'   ||e.key==='w'||e.key==='W')&&dr===0)gC.nextDir={dc:0,dr:-1};
-  if((e.key==='ArrowDown' ||e.key==='s'||e.key==='S')&&dr===0)gC.nextDir={dc:0,dr:1};
-  if((e.key==='ArrowLeft' ||e.key==='a'||e.key==='A')&&dc===0)gC.nextDir={dc:-1,dr:0};
-  if((e.key==='ArrowRight'||e.key==='d'||e.key==='D')&&dc===0)gC.nextDir={dc:1,dr:0};
-}
-function resetSnakeBody(){
-  const h=gC.body[0];
-  gC.body=[{c:h.c,r:h.r},{c:h.c,r:h.r+1},{c:h.c,r:h.r+2}];
-  gC.dir={dc:0,dr:-1};gC.nextDir={dc:0,dr:-1};
-}
-function updateC(){
-  const g=gC; if(g.over||g.won){g.glt++;return;}
-  if(++g.tick<g.interval){g.popups=updatePopups(g.popups);tickCommon(g);return;}
-  g.tick=0; g.dir=g.nextDir;
-  const head=g.body[0];
-  const nc=head.c+g.dir.dc, nr=head.r+g.dir.dr;
-  // Wall
-  if(nc<0||nc>=cCols||nr<0||nr>=cRows){
-    g.lives--;g.flash=8;g.fR=255;g.fG=44;g.fB=44;
-    addPopup(g.popups,(nc+.5)*C_CELL,(nr+.5)*C_CELL+22,'BOUNDARY!','#ff4444');
-    resetSnakeBody();
-    if(g.lives<=0){g.over=true;g.deathMsg=MDEFS[2].death[2];if(g.score>_hi){_hi=g.score;localStorage.setItem('moyalab_hi',String(_hi));}g.hi=_hi;}
-    g.popups=updatePopups(g.popups);tickCommon(g);return;
-  }
-  // Self
-  if(g.body.some(s=>s.c===nc&&s.r===nr)){
-    g.lives--;g.flash=8;g.fR=255;g.fG=44;g.fB=44;
-    addPopup(g.popups,(nc+.5)*C_CELL,(nr+.5)*C_CELL+22,'MODULE COLLAPSE!','#ff4444');
-    resetSnakeBody();
-    if(g.lives<=0){g.over=true;g.deathMsg=MDEFS[2].death[0];if(g.score>_hi){_hi=g.score;localStorage.setItem('moyalab_hi',String(_hi));}g.hi=_hi;}
-    g.popups=updatePopups(g.popups);tickCommon(g);return;
-  }
-  // Obstacle
-  if(g.obstacles.some(o=>o.c===nc&&o.r===nr)){
-    g.lives--;g.flash=7;g.fR=255;g.fG=100;g.fB=0;
-    addPopup(g.popups,(nc+.5)*C_CELL,(nr+.5)*C_CELL+22,'SPURIOUS!','#ffb000');
-    resetSnakeBody();
-    if(g.lives<=0){g.over=true;g.deathMsg=MDEFS[2].death[1];if(g.score>_hi){_hi=g.score;localStorage.setItem('moyalab_hi',String(_hi));}g.hi=_hi;}
-    g.popups=updatePopups(g.popups);tickCommon(g);return;
-  }
-  // Move
-  g.body.unshift({c:nc,r:nr});
-  let ate=false;
-  g.genes=g.genes.filter(gene=>{
-    if(gene.c!==nc||gene.r!==nr)return true;
-    const pts=gene.hub?3:1;g.score+=pts;g.seqs++;
-    g.flash=3;g.fR=gene.hub?255:0;g.fG=gene.hub?176:255;g.fB=gene.hub?0:65;
-    addPopup(g.popups,(nc+.5)*C_CELL,nr*C_CELL+22-12,gene.hub?'+3 HUB':'+1',gene.hub?'#ffb000':'#00ff41');
-    ate=true;
-    if(g.seqs>=g.need){
-      if(g.epoch>=MDEFS[2].epochs.length){g.won=true;}
-      else{g.epoch++;g.seqs=0;g.need=Math.ceil(g.need*1.3);g.epochAnim=90;g.flash=7;g.fR=0;g.fG=200;g.fB=255;g.interval=Math.max(5,9-g.epoch);spawnObstaclesC();}
-    }
-    return false;
-  });
-  if(ate){if(g.body.length<60)spawnGeneC();}
-  else{g.body.pop();}
-  if(!g.genes.length)spawnGeneC();
-  g.popups=updatePopups(g.popups);tickCommon(g);
-}
-function drawC(){
-  const g=gC; const CS=C_CELL;
-  GX.clearRect(0,0,CW,CH); GX.drawImage(bgCanvas,0,0,CW,CH);
-  drawFlash(g);
-  // Faint grid
-  GX.strokeStyle='rgba(0,255,65,.025)';GX.lineWidth=.5;
-  for(let c=0;c<=cCols;c++){GX.beginPath();GX.moveTo(c*CS,22);GX.lineTo(c*CS,CH);GX.stroke();}
-  for(let r=0;r<=cRows;r++){GX.beginPath();GX.moveTo(0,r*CS+22);GX.lineTo(CW,r*CS+22);GX.stroke();}
-  // Co-expression edges (body connections)
-  GX.strokeStyle='rgba(0,255,65,.05)';GX.lineWidth=.5;
-  for(let i=0;i<g.body.length-1;i++){
-    GX.beginPath();GX.moveTo((g.body[i].c+.5)*CS,(g.body[i].r+.5)*CS+22);
-    GX.lineTo((g.body[i+1].c+.5)*CS,(g.body[i+1].r+.5)*CS+22);GX.stroke();
-  }
-  // Obstacles (spurious correlations)
-  GX.fillStyle='rgba(255,176,0,.14)';GX.strokeStyle='#ffb000';GX.lineWidth=1;
-  for(const o of g.obstacles){
-    GX.fillRect(o.c*CS+2,o.r*CS+22+2,CS-4,CS-4);
-    GX.strokeRect(o.c*CS+2,o.r*CS+22+2,CS-4,CS-4);
-    GX.font='7px JetBrains Mono';GX.fillStyle='rgba(255,176,0,.65)';GX.textAlign='center';
-    GX.fillText('✗',(o.c+.5)*CS,(o.r+.5)*CS+22+2.5);
-  }
-  // Genes (food)
-  for(const gene of g.genes){
-    const gx=(gene.c+.5)*CS, gy=gene.r*CS+22+CS/2;
-    const col=gene.hub?'#ffb000':'#00ff41';
-    GX.fillStyle=col+'20';GX.strokeStyle=col;GX.lineWidth=gene.hub?1.5:1;
-    GX.beginPath();
-    if(gene.hub){for(let i=0;i<6;i++){const a=Math.PI/3*i-Math.PI/6;i?GX.lineTo(gx+Math.cos(a)*5.5,gy+Math.sin(a)*5.5):GX.moveTo(gx+Math.cos(a)*5.5,gy+Math.sin(a)*5.5);}GX.closePath();}
-    else{GX.arc(gx,gy,4,0,Math.PI*2);}
-    GX.fill();GX.stroke();
-    GX.font='5px JetBrains Mono';GX.fillStyle=col;GX.textAlign='center';
-    GX.fillText(gene.hub?'hub':'r>.8',gx,gy+CS/2);
-  }
-  // Snake body
-  for(let i=g.body.length-1;i>=0;i--){
-    const seg=g.body[i];
-    const alpha=i===0?1:Math.max(0.15,1-i/g.body.length*.75);
-    GX.globalAlpha=alpha;
-    if(i===0){
-      GX.fillStyle='#00ff41';GX.beginPath();GX.arc((seg.c+.5)*CS,(seg.r+.5)*CS+22,CS/2-1,0,Math.PI*2);GX.fill();
-      GX.strokeStyle='#00ff41';GX.lineWidth=1.5;GX.beginPath();GX.arc((seg.c+.5)*CS,(seg.r+.5)*CS+22,CS/2+2,0,Math.PI*2);GX.stroke();
-    }else{
-      const hue=120+i*1.5;
-      GX.fillStyle=`hsl(${hue},90%,45%)`;
-      GX.fillRect(seg.c*CS+2,seg.r*CS+22+2,CS-4,CS-4);
-    }
-  }
-  GX.globalAlpha=1;
-  // Chain length
-  GX.font='8px JetBrains Mono';GX.textAlign='right';GX.fillStyle='rgba(0,255,65,.3)';
-  GX.fillText(`chain: ${g.body.length}`,CW-8,CH-6);
-  drawPopups(g.popups);
-  drawHUD(g,MDEFS[2]);drawIntro(g,MDEFS[2]);drawEpochAnim(g,MDEFS[2]);drawOver(g,MDEFS[2]);drawWin(g,MDEFS[2]);
-}
-
-/* ═══════════════════════════════════════════
-   MODE D — TERRITORY: PPanGGOLiN Pangenome
-   Paint cells across two zones, avoid transposons
-═══════════════════════════════════════════ */
-const D_CELL = 14;
-let gD = {};
-let dCols=0, dRows=0;
-function initD(){
-  dCols=Math.floor(CW/D_CELL);
-  dRows=Math.floor((CH-22)/D_CELL);
-  gD={score:0,lives:MAX_LIVES,epoch:1,seqs:0,need:Math.floor(dCols*dRows*.26),
-    over:false,won:false,glt:0,hi:_hi,flash:0,fR:0,fG:0,fB:0,
-    modeAnim:80,epochAnim:0,deathMsg:'',popups:mkPopups(),
-    P:{x:CW/2,y:CH/2},pvx:0,pvy:0,inv:0,
-    territory:new Uint8Array(dCols*dRows),
-    painted:0,transposons:[]};
-  spawnTransposonsD();
-}
-function spawnTransposonsD(){
-  const count=Math.min(2+gD.epoch,6);
-  gD.transposons=[];
-  for(let i=0;i<count;i++){
-    let x,y;
-    do{x=D_CELL+Math.random()*(CW-D_CELL*2);y=22+D_CELL+Math.random()*(CH-22-D_CELL*2);}
-    while(Math.hypot(x-gD.P.x,y-gD.P.y)<110);
-    const ang=Math.random()*Math.PI*2,spd=1.1+gD.epoch*.14;
-    gD.transposons.push({x,y,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,rot:0});
-  }
-}
-function updateD(){
-  const g=gD; if(g.over||g.won){g.glt++;return;}
-  const L=keys['ArrowLeft']||keys['a']||keys['A'];
-  const R=keys['ArrowRight']||keys['d']||keys['D'];
-  const U=keys['ArrowUp']||keys['w']||keys['W'];
-  const Dn=keys['ArrowDown']||keys['s']||keys['S'];
-  if(L)g.pvx-=.58;if(R)g.pvx+=.58;if(U)g.pvy-=.58;if(Dn)g.pvy+=.58;
-  g.pvx*=.84;g.pvy*=.84;
-  const spd=Math.hypot(g.pvx,g.pvy);if(spd>4.8){g.pvx=g.pvx/spd*4.8;g.pvy=g.pvy/spd*4.8;}
-  g.P.x=Math.max(D_CELL,Math.min(CW-D_CELL,g.P.x+g.pvx));
-  g.P.y=Math.max(22+D_CELL,Math.min(CH-D_CELL,g.P.y+g.pvy));
-  // Paint cell
-  const pc=Math.floor(g.P.x/D_CELL), pr=Math.floor((g.P.y-22)/D_CELL);
-  if(pc>=0&&pc<dCols&&pr>=0&&pr<dRows){
-    const idx=pr*dCols+pc;
-    if(g.territory[idx]===0){
-      g.territory[idx]=g.P.x<CW/2?1:2; // 1=core(left), 2=accessory(right)
-      g.painted++;g.seqs++;g.score++;
-      if(g.seqs>=g.need){
-        if(g.epoch>=MDEFS[3].epochs.length){g.won=true;}
-        else{
-          g.epoch++;g.territory.fill(0);g.painted=0;g.seqs=0;
-          g.need=Math.floor(dCols*dRows*(.26+g.epoch*.028));
-          g.epochAnim=90;g.flash=7;g.fR=0;g.fG=200;g.fB=255;spawnTransposonsD();
+    });
+    if(!nodes.length)spawnNodes();
+    if(G.comboT>0)G.comboT--;else G.combo=0;
+    if(G.flash>0)G.flash--;if(G.epochAnim>0)G.epochAnim--;if(G.modeAnim>0)G.modeAnim--;
+    G.popups=G.popups.filter(p=>{p.y-=0.62;p.life++;return p.life<p.max;});
+    if(G.inv<=0){
+      for(const t of toxins){
+        if(dist(P,t)<P.sz+t.sz-3){
+          G.lives--;G.inv=86;G.streak=0;G.combo=0;G.comboT=0;G.killerIon=t.ion;
+          shake(4);G.flash=9;G.flashR=255;G.flashG=44;G.flashB=44;pfx(P.x,P.y,'#ff4444',8);
+          if(G.lives<=0){G.over=true;G.deathMsg=MODE.death[Math.floor(Math.random()*MODE.death.length)];if(G.score>_globalHi){_globalHi=G.score;localStorage.setItem('moyalab_hi',String(_globalHi));}G.hi=_globalHi;}
+          break;
         }
       }
+    }else{G.inv--;}
+    for(const p of pool){if(!p.alive)continue;p.x+=p.vx;p.y+=p.vy;p.vx*=0.87;p.vy*=0.87;p.life++;if(p.life>=p.max)p.alive=false;}
+  }
+
+  const dNA=[],dNB=[],dNP=[],dNL=[];
+  function hexPath(x,y,r,rot){GX.beginPath();for(let i=0;i<6;i++){const a=rot+(Math.PI/3)*i;i?GX.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r):GX.moveTo(x+Math.cos(a)*r,y+Math.sin(a)*r);}GX.closePath();}
+  function pentPath(x,y,r,rot){GX.beginPath();for(let i=0;i<5;i++){const a=rot+(Math.PI*2/5)*i-Math.PI/2;i?GX.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r):GX.moveTo(x+Math.cos(a)*r,y+Math.sin(a)*r);}GX.closePath();}
+  function triPath(x,y,sz,rot){const cos=Math.cos(rot),sin=Math.sin(rot);const ax=-sin*(-sz),ay=cos*(-sz);const bx2=cos*(sz*.72)-sin*(sz*.58),by2=sin*(sz*.72)+cos*(sz*.58);const cx2=cos*(-sz*.72)-sin*(sz*.58),cy2=sin*(-sz*.72)+cos*(sz*.58);GX.beginPath();GX.moveTo(x+ax,y+ay);GX.lineTo(x+bx2,y+by2);GX.lineTo(x+cx2,y+cy2);GX.closePath();}
+
+  function drawBackground(){
+    GX.strokeStyle='rgba(0,55,16,0.04)';GX.lineWidth=1;
+    for(let x=0;x<W;x+=40){GX.beginPath();GX.moveTo(x,20);GX.lineTo(x,H);GX.stroke();}
+    for(let y=20;y<H;y+=40){GX.beginPath();GX.moveTo(0,y);GX.lineTo(W,y);GX.stroke();}
+    GX.drawImage(_bgCanvas,0,0);
+  }
+  function drawParticles(){
+    for(let i=0;i<MAX_POOL;i++){const p=pool[i];if(!p.alive)continue;const alpha=(1-p.life/p.max)*(p.trail?0.5:0.72);GX.globalAlpha=Math.max(0,alpha);GX.fillStyle=p.col;GX.beginPath();GX.arc(p.x,p.y,p.trail?3:2,0,Math.PI*2);GX.fill();}
+    GX.globalAlpha=1;
+  }
+  function drawEdges(){
+    if(MODE.id!=='A'&&MODE.id!=='E')return;
+    GX.lineWidth=0.5;
+    for(let i=0;i<nodes.length;i++){for(let j=i+1;j<nodes.length;j++){const d=dist(nodes[i],nodes[j]);if(d>=112)continue;const alpha=(1-d/112)*0.065;if(MODE.id==='E'&&nodes[i].module&&nodes[i].module===nodes[j].module)GX.strokeStyle=nodes[i].module+'38';else GX.strokeStyle=`rgba(0,255,65,${alpha})`;GX.beginPath();GX.moveTo(nodes[i].x,nodes[i].y);GX.lineTo(nodes[j].x,nodes[j].y);GX.stroke();}}
+  }
+  function drawNodes(){
+    GX.shadowBlur=7;
+    for(const n of dNA){
+      const col=(MODE.id==='E'&&n.module)?n.module:MODE.aCol,r=4.0+Math.sin(n.a)*1.0;
+      GX.shadowColor=col;GX.fillStyle=col;
+      switch(MODE.aShape){
+        case 'hex':hexPath(n.x,n.y,r,n.a*0.25);break;
+        case 'diamond':GX.beginPath();GX.moveTo(n.x,n.y-r*1.35);GX.lineTo(n.x+r*0.85,n.y);GX.lineTo(n.x,n.y+r*1.35);GX.lineTo(n.x-r*0.85,n.y);GX.closePath();break;
+        case 'rect':GX.beginPath();GX.rect(n.x-r*0.85,n.y-r*0.6,r*1.7,r*1.2);break;
+        default:GX.beginPath();GX.arc(n.x,n.y,r,0,Math.PI*2);
+      }
+      GX.fill();GX.shadowBlur=0;GX.strokeStyle=col+'2A';GX.lineWidth=1;GX.beginPath();GX.arc(n.x,n.y,r+5,0,Math.PI*2);GX.stroke();GX.shadowBlur=7;
     }
-  }
-  // Transposons
-  for(const t of g.transposons){
-    t.x+=t.vx;t.y+=t.vy;t.rot+=.07;
-    if(t.x<D_CELL||t.x>CW-D_CELL)t.vx*=-1;if(t.y<22+D_CELL||t.y>CH-D_CELL)t.vy*=-1;
-    // Erase cells
-    const tc=Math.floor(t.x/D_CELL),tr=Math.floor((t.y-22)/D_CELL);
-    for(let dc=-1;dc<=1;dc++)for(let dr=-1;dr<=1;dr++){
-      const nc=tc+dc,nr=tr+dr;
-      if(nc>=0&&nc<dCols&&nr>=0&&nr<dRows){const idx=nr*dCols+nc;if(g.territory[idx]>0){g.territory[idx]=0;g.painted=Math.max(0,g.painted-1);}}
+    GX.shadowBlur=9;
+    for(const n of dNB){
+      const r=5.5+Math.sin(n.a)*0.8;GX.shadowColor=MODE.bCol;GX.fillStyle=MODE.bCol+'1A';GX.strokeStyle=MODE.bCol;GX.lineWidth=1.5;hexPath(n.x,n.y,r,n.a*0.26);GX.fill();GX.stroke();GX.shadowBlur=0;GX.font='bold 7px "JetBrains Mono"';GX.fillStyle=MODE.bCol;GX.textAlign='center';GX.textBaseline='middle';GX.fillText('+3',n.x,n.y);GX.shadowBlur=9;
     }
-    // Collision
-    if(g.inv<=0&&Math.hypot(t.x-g.P.x,t.y-g.P.y)<D_CELL*1.4){
-      g.lives--;g.inv=80;g.flash=9;g.fR=255;g.fG=44;g.fB=44;
-      g.pvx=(Math.random()-.5)*8;g.pvy=(Math.random()-.5)*8;
-      addPopup(g.popups,g.P.x,g.P.y-16,'TRANSPOSON!','#ff6644');
-      if(g.lives<=0){g.over=true;g.deathMsg=MDEFS[3].death[Math.floor(Math.random()*3)];if(g.score>_hi){_hi=g.score;localStorage.setItem('moyalab_hi',String(_hi));}g.hi=_hi;}
+    GX.shadowBlur=12;
+    for(const n of dNP){
+      GX.shadowColor='#bf5fff';GX.fillStyle='#bf5fff';GX.beginPath();
+      for(let i=0;i<8;i++){const a=n.a+(Math.PI/4)*i,r=i%2===0?7:3.5;i===0?GX.moveTo(n.x+Math.cos(a)*r,n.y+Math.sin(a)*r):GX.lineTo(n.x+Math.cos(a)*r,n.y+Math.sin(a)*r);}
+      GX.closePath();GX.fill();GX.shadowBlur=0;GX.font='5px "JetBrains Mono"';GX.fillStyle='rgba(191,95,255,0.82)';GX.textAlign='center';GX.textBaseline='top';GX.fillText('SHIELD',n.x,n.y+9);GX.shadowBlur=12;
     }
+    GX.shadowBlur=10;const blinkOn=Math.floor(frame/5)%2===0;
+    for(const n of dNL){GX.shadowColor=MODE.lCol;GX.strokeStyle=MODE.lCol;GX.lineWidth=2;GX.beginPath();GX.moveTo(n.x,n.y-7);GX.lineTo(n.x,n.y+7);GX.stroke();GX.beginPath();GX.moveTo(n.x-7,n.y);GX.lineTo(n.x+7,n.y);GX.stroke();if(blinkOn){GX.globalAlpha=0.38;GX.lineWidth=1;GX.beginPath();GX.arc(n.x,n.y,11,0,Math.PI*2);GX.stroke();GX.globalAlpha=1;}}
+    GX.shadowBlur=0;GX.font='5px "JetBrains Mono"';GX.textAlign='center';GX.textBaseline='top';
+    for(const n of dNA){if(!n.tag)continue;GX.fillStyle=((MODE.id==='E'&&n.module)?n.module:MODE.aCol)+'70';GX.fillText(n.tag,n.x,n.y+9);}
+    for(const n of dNB){if(!n.tag)continue;GX.fillStyle=MODE.bCol+'70';GX.fillText(n.tag,n.x,n.y+10);}
   }
-  if(g.inv>0)g.inv--;
-  g.popups=updatePopups(g.popups);tickCommon(g);
-}
-function drawD(){
-  const g=gD; const CS=D_CELL;
-  GX.clearRect(0,0,CW,CH); GX.drawImage(bgCanvas,0,0,CW,CH);
-  // Zone backgrounds
-  GX.fillStyle='rgba(0,30,10,.14)';GX.fillRect(0,22,CW/2,CH-22);
-  GX.fillStyle='rgba(0,10,30,.14)';GX.fillRect(CW/2,22,CW/2,CH-22);
-  // Territory cells
-  for(let r=0;r<dRows;r++)for(let c=0;c<dCols;c++){
-    const v=g.territory[r*dCols+c];
-    if(v>0){GX.fillStyle=v===1?'rgba(0,255,65,.22)':'rgba(0,200,255,.22)';GX.fillRect(c*CS+1,r*CS+22+1,CS-2,CS-2);}
+  function drawToxins(){
+    GX.setLineDash([3,5]);GX.lineWidth=0.5;
+    for(const t of toxins){if(!t.homing||G.over||G.won)continue;GX.strokeStyle=`rgba(255,125,0,${0.11+Math.sin(frame*0.07)*0.04})`;GX.beginPath();GX.moveTo(t.x,t.y);GX.lineTo(P.x,P.y);GX.stroke();}
+    GX.setLineDash([]);
+    GX.shadowBlur=8;
+    for(const t of toxins){
+      const col=t.homing?'#ff8800':MODE.tCol;GX.shadowColor=col;GX.fillStyle=col;triPath(t.x,t.y,t.sz,t.rot);GX.fill();
+      if(t.homing){GX.shadowBlur=0;GX.strokeStyle=`rgba(255,130,0,${0.26+Math.sin(frame*0.13)*0.14})`;GX.lineWidth=1;GX.beginPath();GX.arc(t.x,t.y,t.sz+5,0,Math.PI*2);GX.stroke();GX.shadowBlur=8;}
+    }
+    GX.shadowBlur=0;GX.font='6px "JetBrains Mono"';GX.textAlign='center';GX.textBaseline='middle';
+    for(const t of toxins){GX.fillStyle=t.homing?'rgba(255,125,0,0.6)':'rgba(255,95,95,0.58)';GX.fillText(t.ion,t.x,t.y+t.sz+7);}
   }
-  // Zone divider
-  GX.strokeStyle='rgba(0,255,65,.1)';GX.lineWidth=1;GX.setLineDash([4,4]);
-  GX.beginPath();GX.moveTo(CW/2,22);GX.lineTo(CW/2,CH);GX.stroke();GX.setLineDash([]);
-  // Zone labels
-  GX.font='8px JetBrains Mono';GX.textAlign='center';
-  GX.fillStyle='rgba(0,255,65,.1)';GX.fillText('CORE GENOME',CW/4,CH-8);
-  GX.fillStyle='rgba(0,200,255,.1)';GX.fillText('ACCESSORY GENOME',CW*3/4,CH-8);
-  drawFlash(g);
-  // Transposons
-  for(const t of g.transposons){
-    GX.fillStyle='#ff664420';GX.strokeStyle='#ff6644';GX.lineWidth=1.5;
-    GX.beginPath();const sz=9,rot=t.rot;
-    GX.moveTo(t.x+Math.cos(rot)*sz,t.y+Math.sin(rot)*sz);
-    GX.lineTo(t.x+Math.cos(rot+2.094)*sz,t.y+Math.sin(rot+2.094)*sz);
-    GX.lineTo(t.x+Math.cos(rot+4.189)*sz,t.y+Math.sin(rot+4.189)*sz);
-    GX.closePath();GX.fill();GX.stroke();
-    GX.font='5px JetBrains Mono';GX.fillStyle='rgba(255,100,68,.7)';GX.textAlign='center';
-    GX.fillText('TnX',t.x,t.y+sz+7);
+  function drawDangerRing(){
+    if(G.over||G.won)return;let closest=Infinity;
+    for(const t of toxins){const d=dist(P,t);if(d<closest)closest=d;}
+    if(closest<60){GX.strokeStyle=`rgba(255,68,68,${(1-closest/60)*0.38})`;GX.lineWidth=2;GX.shadowColor='#ff4444';GX.shadowBlur=5;GX.beginPath();GX.arc(P.x,P.y,P.sz+7,0,Math.PI*2);GX.stroke();GX.shadowBlur=0;}
   }
-  // Player
-  const blink=g.inv>0&&Math.floor(g.inv/5)%2===0;
-  GX.globalAlpha=blink?.18:1;
-  const isCore=g.P.x<CW/2;
-  GX.fillStyle='#bf5fff';GX.beginPath();GX.arc(g.P.x,g.P.y,8,0,Math.PI*2);GX.fill();
-  GX.strokeStyle=(isCore?'#00ff41':'#00ffff')+'55';GX.lineWidth=1.5;
-  GX.beginPath();GX.arc(g.P.x,g.P.y,13,0,Math.PI*2);GX.stroke();
-  GX.globalAlpha=1;
-  // Coverage bar
-  const pct=g.painted/g.need;
-  GX.fillStyle='rgba(0,0,0,.5)';GX.fillRect(0,CH-15,CW,15);
-  const hw=CW/2;
-  const corePainted=Array.from(g.territory).filter(v=>v===1).length;
-  const accPainted=Array.from(g.territory).filter(v=>v===2).length;
-  GX.fillStyle='rgba(0,255,65,.5)';GX.fillRect(0,CH-15,Math.min(hw,corePainted/Math.max(1,g.need/2)*hw),15);
-  GX.fillStyle='rgba(0,200,255,.5)';GX.fillRect(hw,CH-15,Math.min(hw,accPainted/Math.max(1,g.need/2)*hw),15);
-  GX.font='7px JetBrains Mono';GX.textAlign='center';GX.fillStyle='rgba(0,255,65,.55)';
-  GX.fillText(`coverage: ${Math.min(100,(pct*100).toFixed(1))}% / target: ${(g.need/(dCols*dRows)*100).toFixed(0)}%`,CW/2,CH-4);
-  drawPopups(g.popups);
-  drawHUD(g,MDEFS[3]);drawIntro(g,MDEFS[3]);drawEpochAnim(g,MDEFS[3]);drawOver(g,MDEFS[3]);drawWin(g,MDEFS[3]);
-}
-
-/* ══ DISPATCH TABLE ══ */
-const IMPLS = [
-  {init:initA,update:updateA,draw:drawA},
-  {init:initB,update:updateB,draw:drawB},
-  {init:initC,update:updateC,draw:drawC},
-  {init:initD,update:updateD,draw:drawD},
-];
-
-function getG(){return[gA,gB,gC,gD][CUR_MODE];}
-
-/* ══ INPUT ══ */
-document.addEventListener('keydown', e => {
-  keys[e.key] = true;
-  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault();
-  const g = getG();
-  if((e.key==='r'||e.key==='R')&&(g.over||g.won)) reset();
-  // Mode-specific handlers
-  if(CUR_MODE===2) keyC(e);
-  // Dash for mode A
-  if(CUR_MODE===0&&(e.key===' '||e.key==='Shift')&&gA.dashCD===0&&!gA.over&&!gA.won){
-    gA.dashT=18;gA.dashCD=120;
-    pfx(gA.P.x,gA.P.y,'#00ffff',5);addPopup(gA.popups,gA.P.x,gA.P.y-18,'⚡ DASH!','#00ffff');
+  function drawPlayer(){
+    const blink=G.inv>0&&Math.floor(G.inv/5)%2===0;
+    GX.save();GX.globalAlpha=blink?0.2:1;GX.translate(P.x,P.y);GX.scale(P.popScale,P.popScale);
+    GX.shadowBlur=13;GX.shadowColor=MODE.pCol;GX.fillStyle=MODE.pCol;const r=P.sz;
+    switch(MODE.pShape){
+      case 'dblcircle':GX.beginPath();GX.arc(0,0,r,0,Math.PI*2);GX.fill();GX.shadowBlur=0;GX.strokeStyle=MODE.pCol+'AA';GX.lineWidth=1.5;GX.beginPath();GX.arc(0,0,r+5,0,Math.PI*2);GX.stroke();GX.strokeStyle=MODE.pCol+'3A';GX.lineWidth=1;GX.beginPath();GX.arc(0,0,r+10,0,Math.PI*2);GX.stroke();break;
+      case 'pentagon':pentPath(0,0,r+2,frame*0.011);GX.fill();GX.shadowBlur=0;GX.strokeStyle=MODE.pCol+'44';GX.lineWidth=1;GX.beginPath();GX.arc(0,0,r+7,0,Math.PI*2);GX.stroke();break;
+      case 'ellipse':GX.scale(1.55,0.75);GX.beginPath();GX.arc(0,0,r,0,Math.PI*2);GX.fill();GX.scale(1/1.55,1/0.75);GX.shadowBlur=0;GX.strokeStyle=MODE.pCol+'44';GX.lineWidth=1;GX.beginPath();GX.arc(0,0,r+6,0,Math.PI*2);GX.stroke();break;
+      case 'crosshair':GX.beginPath();GX.arc(0,0,r,0,Math.PI*2);GX.fill();GX.shadowBlur=0;GX.strokeStyle='rgba(0,0,0,0.65)';GX.lineWidth=1.5;GX.beginPath();GX.moveTo(-r-5,0);GX.lineTo(r+5,0);GX.stroke();GX.beginPath();GX.moveTo(0,-r-5);GX.lineTo(0,r+5);GX.stroke();GX.strokeStyle=MODE.pCol+'44';GX.lineWidth=1;GX.beginPath();GX.arc(0,0,r+7,0,Math.PI*2);GX.stroke();break;
+      case 'netnode':{GX.beginPath();GX.arc(0,0,r*0.65,0,Math.PI*2);GX.fill();GX.shadowBlur=0;GX.strokeStyle=MODE.pCol+'55';GX.lineWidth=1;const nk=4,baseA=frame*0.014;for(let i=0;i<nk;i++){const a=(Math.PI*2/nk)*i+baseA,ex=Math.cos(a)*(r+8),ey=Math.sin(a)*(r+8);GX.beginPath();GX.moveTo(Math.cos(a)*r*.65,Math.sin(a)*r*.65);GX.lineTo(ex,ey);GX.stroke();GX.fillStyle=MODE.pCol+'88';GX.beginPath();GX.arc(ex,ey,2.5,0,Math.PI*2);GX.fill();GX.fillStyle=MODE.pCol;}break;}
+      case 'hexagon':hexPath(0,0,r+3,frame*0.01);GX.fill();GX.shadowBlur=0;GX.strokeStyle=MODE.pCol+'44';GX.lineWidth=1;hexPath(0,0,r+9,-frame*0.008);GX.stroke();break;
+      default:GX.beginPath();GX.arc(0,0,r,0,Math.PI*2);GX.fill();
+    }
+    GX.restore();
   }
-},{passive:false});
-document.addEventListener('keyup', e => {keys[e.key]=false;},{passive:true});
-
-/* ══ RESET ══ */
-function reset(){
-  CUR_MODE = Math.floor(Math.random()*4);
-  H2 = CH/2;
-  for(let i=0;i<POOL_SZ;i++)pool[i].alive=false;
-  IMPLS[CUR_MODE].init();
-  buildBg(MDEFS[CUR_MODE].id);
-  setUI(MDEFS[CUR_MODE]);
-}
-
-/* ══ FULLSCREEN ══ */
-window.toggleFS = () => {
-  const w = document.getElementById('gameWrapper');
-  if(!document.fullscreenElement) w.requestFullscreen?.().catch(()=>{});
-  else document.exitFullscreen?.();
-};
-document.addEventListener('fullscreenchange', () => {
-  if(document.fullscreenElement){
-    GC.width = window.innerWidth;
-    GC.height = window.innerHeight;
-  } else {
-    GC.width = ORIG_W; GC.height = ORIG_H;
+  function drawPopups(){
+    GX.font='bold 10px "JetBrains Mono"';GX.textAlign='center';GX.textBaseline='middle';GX.shadowBlur=4;
+    for(const p of G.popups){const alpha=p.life<6?p.life/6:1-((p.life-6)/(p.max-6));GX.globalAlpha=Math.max(0,alpha);GX.fillStyle=p.col;GX.shadowColor=p.col;GX.fillText(p.text,p.x,p.y);}
+    GX.globalAlpha=1;GX.shadowBlur=0;
   }
-  CW = GC.width; CH = GC.height; H2 = CH/2;
-  // Rebuild mode-dependent grids
-  if(CUR_MODE===2){cCols=Math.floor(CW/C_CELL);cRows=Math.floor((CH-22)/C_CELL);}
-  if(CUR_MODE===3){
-    dCols=Math.floor(CW/D_CELL);dRows=Math.floor((CH-22)/D_CELL);
-    if(gD.territory!==undefined){gD.territory=new Uint8Array(dCols*dRows);gD.painted=0;gD.seqs=0;}
+  function drawCombo(){
+    if(G.combo<3||G.comboT<=0)return;
+    const sz=Math.min(17,7.5+G.combo*0.75),col=G.combo>8?'#ff4444':G.combo>5?'#ffb000':'#00ffff';
+    GX.globalAlpha=Math.min(1,G.comboT/16);GX.font=`bold ${sz}px "JetBrains Mono"`;GX.textAlign='center';GX.textBaseline='middle';GX.fillStyle=col;GX.shadowColor=col;GX.shadowBlur=8;GX.fillText(`BATCH ×${G.combo}`,P.x,P.y-30);GX.globalAlpha=1;GX.shadowBlur=0;
   }
-  buildBg(MDEFS[CUR_MODE].id);
-  document.getElementById('fsBtn').textContent = document.fullscreenElement?'✕ EXIT':'⛶ FULL';
-});
-
-/* ══ LOOP ══ */
-function loop(){
-  frame++;
-  IMPLS[CUR_MODE].update();
-  IMPLS[CUR_MODE].draw();
-  requestAnimationFrame(loop);
-}
-reset(); loop();
-
-})(); // end game engine
+  function drawHUD(){
+    GX.fillStyle='rgba(3,5,4,0.94)';GX.fillRect(0,0,W,20);
+    GX.font='bold 9px "JetBrains Mono"';GX.textAlign='left';
+    GX.fillStyle='#1a4a1a';GX.fillText(MODE.metric+':',7,13);
+    GX.fillStyle='#d0d0d0';GX.fillText(String(G.score).padStart(5,'0'),53,13);
+    GX.fillStyle='#1a3a3a';GX.fillText('EPOCH:',105,13);
+    GX.fillStyle='#00ffff';GX.fillText(`${G.epoch}/${MODE.epochs.length}`,150,13);
+    GX.fillStyle='#080808';GX.fillRect(182,5,52,8);
+    GX.fillStyle='rgba(0,255,65,0.62)';GX.fillRect(182,5,52*(G.seqs/G.need),8);
+    GX.strokeStyle='rgba(0,255,65,0.12)';GX.lineWidth=1;GX.strokeRect(182,5,52,8);
+    GX.font='6px "JetBrains Mono"';GX.fillStyle='#1a2a1a';GX.textAlign='center';GX.fillText('XP',208,11);
+    GX.font='8px "JetBrains Mono"';GX.textAlign='left';
+    GX.fillStyle='#1a3a1a';GX.fillText('LOSS:',244,13);
+    GX.fillStyle=G.loss<0.1?'#00ff41':G.loss<0.5?'#ffb000':'#ff8800';GX.fillText(G.loss.toFixed(3),280,13);
+    if(G.streak>0){GX.fillStyle='rgba(0,255,255,0.35)';GX.fillText(`STK:${G.streak}`,328,13);}
+    GX.fillStyle='rgba(255,68,68,0.45)';GX.fillText(`ION:${String(toxins.length).padStart(2,'0')}`,372,13);
+    GX.font='7px "JetBrains Mono"';GX.fillStyle='rgba(191,95,255,0.4)';GX.fillText(`[${MODE.id}]`,418,13);
+    const epN=(MODE.epochs[Math.min(G.epoch-1,MODE.epochs.length-1)]||'').replace(/_/g,' ');
+    GX.font='6px "JetBrains Mono"';GX.fillStyle='rgba(0,195,195,0.25)';GX.fillText(epN.length>22?epN.slice(0,20)+'…':epN,434,13);
+    if(G.hi>0){GX.fillStyle='#1a2a1a';GX.font='8px "JetBrains Mono"';GX.textAlign='center';GX.fillText(`BEST:${String(G.hi).padStart(5,'0')}`,W-88,13);}
+    GX.font='8px "JetBrains Mono"';GX.textAlign='left';
+    GX.fillStyle='rgba(0,255,65,0.26)';GX.fillText('MEM:',W-78,13);
+    for(let i=0;i<MAX_LIVES;i++){const active=i<G.lives,extra=i>=6;GX.fillStyle=active?(extra?'#ffb000':'#00ff41'):'#111';if(active&&extra){GX.shadowColor='#ffb000';GX.shadowBlur=3;}GX.fillRect(W-43+i*5,7,4,6);GX.shadowBlur=0;}
+  }
+  function drawHeatmap(){
+    const cx=W-82,cy=H-80,sz=15,labels=['G','T','P','M'];
+    GX.save();GX.globalAlpha=0.6;GX.fillStyle='rgba(0,0,0,0.5)';GX.fillRect(cx-14,cy-16,72,80);
+    GX.font='6px "JetBrains Mono"';GX.fillStyle='rgba(0,255,65,0.36)';GX.textAlign='left';GX.fillText('CORR MATRIX',cx-12,cy-6);
+    for(let i=0;i<4;i++){for(let j=0;j<4;j++){const v=i===j?1:Math.abs(Math.sin(frame*0.012+i*1.28+j*0.72))*0.8+0.12;const rv=v>0.5?Math.floor((v-0.5)*2*240):0,gv=Math.floor(v<0.5?v*2*148:(1-v)*2*148),bv=v<0.5?Math.floor((1-v*2)*175):0;GX.fillStyle=`rgb(${rv},${gv},${bv})`;GX.fillRect(cx+j*sz,cy+i*sz,sz-1,sz-1);}GX.fillStyle='rgba(0,255,65,0.42)';GX.textAlign='center';GX.fillText(labels[i],cx-6,cy+i*sz+9);GX.fillText(labels[i],cx+i*sz+7,cy-2);}
+    GX.restore();
+  }
+  function drawCoverage(){
+    const bx=10,by=H-46,bw=W-20,bh=26;
+    GX.save();GX.globalAlpha=0.5;GX.fillStyle='rgba(0,0,0,0.5)';GX.fillRect(bx,by-12,bw,bh+14);
+    GX.font='5px "JetBrains Mono"';GX.fillStyle='rgba(0,255,65,0.3)';GX.textAlign='left';GX.fillText('COVERAGE DEPTH (×)',bx,by-4);
+    const bars=Math.floor(bw/3),sp=Math.max(1,Math.floor(bars/(G.epoch+2)));
+    for(let i=0;i<bars;i++){const base=Math.sin(i*0.15+frame*0.006)*0.27+0.52,v=Math.max(0.04,Math.min(1,base+Math.sin(i*0.8+frame*0.016)*0.15)),isSpike=i%sp===0;GX.fillStyle=isSpike?'rgba(255,176,0,0.7)':`rgba(0,255,65,${v*0.48+0.07})`;GX.fillRect(bx+i*3,by+bh-(isSpike?bh:v*bh),2,isSpike?bh:v*bh);}
+    GX.font='5px "JetBrains Mono"';GX.fillStyle='rgba(255,176,0,0.45)';GX.textAlign='right';GX.fillText('▲ chimeric spike',bx+bw,by+bh+10);GX.restore();
+  }
+  function drawSSTrack(){
+    const tx=10,ty=22,tw=W-20,th=9;
+    GX.save();GX.globalAlpha=0.58;GX.fillStyle='rgba(0,0,0,0.48)';GX.fillRect(tx,ty,tw,th);
+    let x=tx,i=0,seed=G.score*13;
+    while(x<tx+tw){const tp=['H','E','C'][(seed+i*7)%3],maxL=tp==='H'?55:tp==='E'?38:18,len=Math.min(((seed*3+i*11)%maxL)+10,tx+tw-x);if(tp==='H'){GX.strokeStyle='rgba(255,176,0,0.62)';GX.lineWidth=1.5;GX.beginPath();for(let xi=0;xi<=len;xi+=5){const py=ty+(xi/5%2===0?1:th-2);xi===0?GX.moveTo(x+xi,py):GX.lineTo(x+xi,py);}GX.stroke();}else if(tp==='E'){GX.fillStyle='rgba(0,200,255,0.4)';GX.fillRect(x,ty+2,len-4,th-4);}else{GX.strokeStyle='rgba(80,80,80,0.3)';GX.lineWidth=1;GX.beginPath();GX.moveTo(x,ty+th/2);GX.lineTo(x+len,ty+th/2);GX.stroke();}x+=len;i++;}
+    GX.font='5px "JetBrains Mono"';GX.fillStyle='rgba(255,176,0,0.36)';GX.textAlign='right';GX.textBaseline='top';GX.fillText('α-helix  β-sheet  coil',tx+tw,ty+th+2);GX.restore();
+  }
+  function drawTaxoTree(){
+    const RANKS=['Kingdom','Phylum','Class','Order','Family','Genus','Species'],tx=W-114,ty=30,sp=(H-65)/7;
+    GX.save();GX.globalAlpha=0.48;GX.fillStyle='rgba(0,0,0,0.42)';GX.fillRect(tx-4,ty-14,108,sp*7+18);
+    GX.font='6px "JetBrains Mono"';GX.fillStyle='rgba(0,255,255,0.3)';GX.textAlign='left';GX.fillText('k-mer TAXONOMY',tx-2,ty-5);
+    RANKS.forEach((rank,i)=>{const y=ty+i*sp+sp/2,solved=i<G.epoch,current=i===Math.min(G.epoch,6);if(i<RANKS.length-1){GX.strokeStyle=solved?'rgba(0,255,65,0.3)':'rgba(0,255,65,0.05)';GX.lineWidth=1;GX.beginPath();GX.moveTo(tx+5,y+3);GX.lineTo(tx+5,y+sp);GX.stroke();}if(current){GX.shadowColor='#00ffff';GX.shadowBlur=7;}GX.fillStyle=current?'#00ffff':solved?'#00ff41':'#111';GX.beginPath();GX.arc(tx+5,y,current?4.2:2.8,0,Math.PI*2);GX.fill();GX.shadowBlur=0;GX.font=`${current?'bold ':''}7px "JetBrains Mono"`;GX.fillStyle=current?'#00ffff':solved?'rgba(0,255,65,0.5)':'rgba(0,255,65,0.08)';GX.fillText(rank,tx+13,y+2.5);});
+    GX.restore();
+  }
+  function drawModuleLegend(){
+    const mx=10,my=H-54;
+    GX.save();GX.globalAlpha=0.55;GX.fillStyle='rgba(0,0,0,0.46)';GX.fillRect(mx-2,my-12,WGCNA_MOD.length*22+4,34);
+    GX.font='6px "JetBrains Mono"';GX.fillStyle='rgba(0,255,65,0.3)';GX.textAlign='left';GX.fillText('WGCNA MODULES',mx,my-4);
+    const counts={};nodes.filter(n=>n.module).forEach(n=>{counts[n.module]=(counts[n.module]||0)+1;});
+    const dominant=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0]?.[0];
+    WGCNA_MOD.forEach((col,i)=>{const x=mx+i*22;GX.fillStyle=col;GX.fillRect(x,my,18,9);if(col===dominant){GX.strokeStyle='#fff';GX.lineWidth=1;GX.strokeRect(x,my,18,9);}GX.fillStyle=col+'CC';GX.textAlign='center';GX.fillText(WGCNA_NM[i],x+9,my+19);});
+    GX.restore();
+  }
+  function drawPAMatrix(){
+    const strains=MODE.epochs,genes=14,cw=11,ch=8,mx=10,my=H-strains.length*ch-22;
+    GX.save();GX.globalAlpha=0.55;GX.fillStyle='rgba(0,0,0,0.46)';GX.fillRect(mx-2,my-12,genes*cw+72,strains.length*ch+18);
+    GX.font='5px "JetBrains Mono"';GX.fillStyle='rgba(0,255,65,0.3)';GX.textAlign='left';GX.fillText('PAN-GENOME MATRIX',mx,my-4);
+    const coreT=Math.floor(genes*0.4);
+    strains.forEach((strain,i)=>{GX.fillStyle=i<G.epoch?'rgba(0,255,65,0.36)':'rgba(0,255,65,0.07)';GX.fillText(strain.slice(0,10),mx+genes*cw+3,my+i*ch+ch-1);for(let j=0;j<genes;j++){const isCore=j<coreT,present=isCore||((i*7+j*3+G.epoch)%17%3!==0);GX.fillStyle=present?(isCore?'rgba(0,255,65,0.66)':'rgba(0,200,200,0.36)'):'rgba(5,5,5,0.8)';GX.fillRect(mx+j*cw,my+i*ch,cw-1,ch-1);}});
+    GX.restore();
+  }
+  function drawModeViz(){switch(MODE.id){case 'A':drawHeatmap();break;case 'B':drawCoverage();break;case 'C':drawSSTrack();break;case 'D':drawTaxoTree();break;case 'E':drawModuleLegend();break;case 'F':drawPAMatrix();break;}}
+  function drawModeIntro(){
+    if(G.modeAnim<=0)return;const f=Math.min(1,G.modeAnim/14)*Math.min(1,G.modeAnim/74);
+    GX.save();GX.globalAlpha=f;GX.fillStyle='rgba(0,0,0,0.72)';GX.fillRect(0,H/2-40,W,74);
+    GX.font='bold 14px "JetBrains Mono"';GX.textAlign='center';GX.fillStyle='#bf5fff';GX.shadowColor='#bf5fff';GX.shadowBlur=13;GX.fillText(`// MODE ${MODE.id}: ${MODE.label}`,W/2,H/2-18);
+    GX.shadowBlur=0;GX.font='8px "JetBrains Mono"';GX.fillStyle='#5a3a7a';GX.fillText(`agent: ${MODE.agent}  ·  toxin: ${MODE.tName}  ·  lives: ${G.lives}/${MAX_LIVES}`,W/2,H/2+2);
+    GX.fillStyle='#2a1a3a';GX.fillText(`EPOCH 1 · ${MODE.epochs[0]}`,W/2,H/2+16);GX.restore();
+  }
+  function drawEpochAnim(){
+    if(G.epochAnim<=0||G.won)return;const f=Math.min(1,G.epochAnim/14)*Math.min(1,G.epochAnim/84);
+    const epN=MODE.epochs[Math.min(G.epoch-1,MODE.epochs.length-1)];
+    GX.save();GX.globalAlpha=f;GX.fillStyle='rgba(0,0,0,0.64)';GX.fillRect(0,H/2-30,W,56);
+    GX.font='bold 13px "JetBrains Mono"';GX.textAlign='center';GX.fillStyle='#00ffff';GX.shadowColor='#00ffff';GX.shadowBlur=12;GX.fillText(`── EPOCH ${G.epoch} · ${epN} ──`,W/2,H/2-12);
+    GX.shadowBlur=0;GX.font='8px "JetBrains Mono"';GX.fillStyle='#2a5a5a';GX.fillText(`${MODE.tName}s=${toxins.length}  ·  reads_needed=${G.need}  ·  loss=${G.loss.toFixed(3)}`,W/2,H/2+8);GX.restore();
+  }
+  function drawVictory(){
+    if(!G.won)return;GX.fillStyle='rgba(3,5,4,0.92)';GX.fillRect(0,0,W,H);
+    GX.font='bold 17px "JetBrains Mono"';GX.textAlign='center';GX.fillStyle='#00ff41';GX.shadowColor='#00ff41';GX.shadowBlur=18;GX.fillText('✓ SIMULATION COMPLETE',W/2,H/2-34);
+    GX.shadowBlur=0;GX.font='10px "JetBrains Mono"';GX.fillStyle='#28c882';GX.fillText(MODE.victory,W/2,H/2-14);
+    GX.font='9px "JetBrains Mono"';GX.fillStyle='#2a5a3a';GX.fillText(`reads=${G.score}  ·  epochs=${MODE.epochs.length}  ·  lives_remaining=${G.lives}`,W/2,H/2+4);
+    GX.fillStyle='#1a4a2a';GX.fillText(`mode: ${MODE.label}`,W/2,H/2+20);GX.fillStyle='#00ff41';GX.fillText('[ R — run new simulation mode ]',W/2,H/2+40);GX.textAlign='left';
+  }
+  function drawGameOver(){
+    if(!G.over)return;GX.fillStyle='rgba(3,5,4,0.92)';GX.fillRect(0,0,W,H);
+    const go=G.glt%8<2?(Math.random()-.5)*3.2:0;GX.save();GX.translate(go,0);
+    GX.font='bold 14px "JetBrains Mono"';GX.textAlign='center';GX.fillStyle='#ff4444';GX.shadowColor='#ff4444';GX.shadowBlur=10;GX.fillText(G.deathMsg,W/2,H/2-32);GX.restore();
+    GX.shadowBlur=0;GX.textAlign='center';GX.font='9px "JetBrains Mono"';GX.fillStyle='#2a4a2a';GX.fillText(`reads=${G.score}  ·  epoch=${G.epoch}/${MODE.epochs.length}  ·  killer: ${G.killerIon}`,W/2,H/2-14);
+    GX.fillStyle='#1a3a1a';GX.fillText(`mode: ${MODE.label}`,W/2,H/2+2);
+    if(G.score>=G.hi&&G.hi>0){GX.fillStyle='#ffb000';GX.fillText('★ NEW RECORD ★',W/2,H/2+18);}
+    GX.fillStyle='#00ff41';GX.fillText('[ R — reinitialize with new mode ]',W/2,H/2+36);GX.textAlign='left';
+  }
+  function draw(){
+    dNA.length=0;dNB.length=0;dNP.length=0;dNL.length=0;
+    for(const n of nodes){if(n.t==='a')dNA.push(n);else if(n.t==='b')dNB.push(n);else if(n.t==='p')dNP.push(n);else if(n.t==='l')dNL.push(n);}
+    GX.save();
+    if(_skT>0){const si=_skT/10;GX.translate((Math.random()-.5)*_skX*si,(Math.random()-.5)*_skY*si);}
+    GX.clearRect(0,0,W,H);drawBackground();drawModeViz();
+    if(G.flash>0){GX.globalAlpha=G.flash*0.011;GX.fillStyle=`rgb(${G.flashR},${G.flashG},${G.flashB})`;GX.fillRect(0,0,W,H);GX.globalAlpha=1;}
+    drawParticles();drawEdges();drawNodes();drawToxins();drawDangerRing();drawPlayer();drawPopups();drawCombo();drawHUD();drawModeIntro();drawEpochAnim();drawVictory();drawGameOver();
+    GX.restore();
+  }
+  window.toggleFS=function(){const wrapper=document.getElementById('gameWrapper');if(!document.fullscreenElement)wrapper.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.();};
+  document.addEventListener('fullscreenchange',()=>{const btn=document.getElementById('fsBtn');if(btn)btn.textContent=document.fullscreenElement?'✕ EXIT':'⛶ FULL';});
+  function loop(){frame++;update();buildBg();draw();requestAnimationFrame(loop);}
+  reset();loop();
+})();
 </script>
 </body>
 </html>
