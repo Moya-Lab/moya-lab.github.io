@@ -30,6 +30,9 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
   background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.035) 2px,rgba(0,0,0,.035) 4px);
   animation:flicker 24s infinite}
 @keyframes flicker{0%,100%{opacity:1}93%{opacity:.96}94%{opacity:1}98%{opacity:.97}99%{opacity:1}}
+#vignette{position:fixed;inset:0;pointer-events:none;z-index:2;
+  background:radial-gradient(circle at center,transparent 45%,rgba(0,0,0,.2) 75%,rgba(0,0,0,.52) 100%);
+  opacity:.8}
 #cursor{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
 #cursor::before,#cursor::after{content:'';position:absolute;background:var(--cy)}
 #cursor::before{width:1px;height:100%;left:50%;top:0}
@@ -274,6 +277,7 @@ footer .hi{color:#223222}
   <div class="dna-track" id="dnaTrack"></div>
 </div>
 <div id="bio-rain" aria-hidden="true"></div>
+<div id="vignette" aria-hidden="true"></div>
 
 <div id="boot">
   <pre id="boot-ascii"></pre>
@@ -554,39 +558,45 @@ document.getElementById('boot-ascii').textContent =
 
 [
   { t: 'MOYA-LAB // Computational Biology · UTEM', c: 'info', d: 0 },
-  { t: 'Modelling Omics Yielding Analytics · Santiago, Chile', c: 'info', d: 120 },
-  { t: '', c: '', d: 200 },
+  { t: 'Modelling Omics Yielding Analytics · Santiago, Chile', c: 'info', d: 180 },
+  { t: '', c: '', d: 280 },
 
-  { t: '[ INIT ] Booting bioinformatics environment', c: 'ok', d: 320 },
-  { t: '[ INIT ] Loading genome indexing modules', c: 'ok', d: 420 },
-  { t: '[ INIT ] Allocating memory for omics pipelines', c: 'ok', d: 520 },
+  { t: '[ INIT ] Booting bioinformatics environment', c: 'ok', d: 520 },
+  { t: '[ INIT ] Loading genome indexing modules', c: 'ok', d: 760 },
+  { t: '[ INIT ] Allocating memory for omics pipelines', c: 'ok', d: 1000 },
+  { t: '[ INIT ] Calibrating live canvas overlays', c: 'ok', d: 1220 },
 
-  { t: '', c: '', d: 600 },
+  { t: '', c: '', d: 1380 },
 
-  { t: '[ LINK ] NCBI eutils → handshake established', c: 'ok', d: 720 },
-  { t: '[ LINK ] ORCID API → authenticated', c: 'ok', d: 820 },
-  { t: '[ LINK ] CrossRef → metadata stream ready', c: 'ok', d: 900 },
+  { t: '[ LINK ] NCBI eutils → handshake established', c: 'ok', d: 1620 },
+  { t: '[ LINK ] ORCID API → authenticated', c: 'ok', d: 1860 },
+  { t: '[ LINK ] CrossRef → metadata stream ready', c: 'ok', d: 2080 },
+  { t: '[ LINK ] Wikipedia summary feed → online', c: 'ok', d: 2300 },
 
-  { t: '', c: '', d: 980 },
+  { t: '', c: '', d: 2480 },
 
-  { t: '[ DATA ] Fetching lab members → team.json', c: 'ok', d: 1080 },
-  { t: '[ DATA ] Syncing publications → ORCID record', c: 'ok', d: 1160 },
-  { t: '[ DATA ] Preparing live genomic stats', c: 'ok', d: 1240 },
+  { t: '[ DATA ] Fetching lab members → team.json', c: 'ok', d: 2760 },
+  { t: '[ DATA ] Syncing publications → ORCID record', c: 'ok', d: 3000 },
+  { t: '[ DATA ] Preparing live genomic stats', c: 'ok', d: 3240 },
+  { t: '[ DATA ] Loading theme layers → scanlines / vignette / glow', c: 'ok', d: 3480 },
 
-  { t: '', c: '', d: 1320 },
+  { t: '', c: '', d: 3660 },
 
-  { t: '[ AI ] Initializing simulation engine (v3)', c: 'ok', d: 1420 },
-  { t: '[ AI ] Loading models: VAMB · ESM-2 · DeepMicrobes', c: 'ok', d: 1520 },
+  { t: '[ AI ] Initializing simulation engine (v3)', c: 'ok', d: 3980 },
+  { t: '[ AI ] Loading models: VAMB · ESM-2 · DeepMicrobes', c: 'ok', d: 4220 },
+  { t: '[ AI ] Difficulty curve: progressive', c: 'ok', d: 4460 },
+  { t: '[ AI ] Feedback loop: trail · flash · combo', c: 'ok', d: 4700 },
 
-  { t: '', c: '', d: 1600 },
+  { t: '', c: '', d: 4880 },
 
-  { t: '[ OK ] System integrity check passed', c: 'ok', d: 1700 },
-  { t: '[ OK ] All systems nominal', c: 'ok', d: 1780 },
+  { t: '[ OK ] System integrity check passed', c: 'ok', d: 5180 },
+  { t: '[ OK ] All systems nominal', c: 'ok', d: 5420 },
+  { t: '[ OK ] Access layer unlocked', c: 'ok', d: 5660 },
 
-  { t: '', c: '', d: 1860 },
+  { t: '', c: '', d: 5840 },
 
-  { t: 'Access granted.', c: 'info', d: 1980 },
-  { t: 'Welcome, researcher.', c: 'info', d: 2100 },
+  { t: 'Access granted.', c: 'info', d: 6180 },
+  { t: 'Welcome, researcher.', c: 'info', d: 6500 },
 ].forEach((l, i, a) => {
   setTimeout(() => {
     const d = document.createElement('div');
@@ -604,7 +614,7 @@ setTimeout(() => {
     document.getElementById('terminal').style.display = 'block';
     typeInto('tw-pi', 'lab_info.json | jq', 28);
   }, 450);
-}, 6000);
+}, 7200);
 
 function typeInto(id,text,speed,cb){
   const el=document.getElementById(id);if(!el){cb&&cb();return;}
@@ -1048,7 +1058,10 @@ function spawnPickup(type,col,text){
   addPopup(node.x,node.y,text,col);
 }
 function spawnToxins(){
-  const spd=0.7+G.epoch*0.11,count=Math.min(1+Math.floor(G.epoch*0.8),8);
+  const stage=Math.max(0,G.epoch-1);
+  const mercy=G.lives<=2?-0.14:0;
+  const spd=Math.max(0.46,0.58+stage*0.08+Math.min(0.55,G.score/18000)+mercy);
+  const count=Math.min(1+Math.floor(stage*0.9),9);
   toxins=Array.from({length:count},(_,idx)=>{
     let tx,ty;
     do{tx=30+Math.random()*(W-60);ty=30+Math.random()*(H-50);}while(dist({x:tx,y:ty},P)<100);
@@ -1057,7 +1070,7 @@ function spawnToxins(){
     const spM=ion==='Fe³⁺'?0.72:ion==='Cu²⁺'?1.28:1.0;
     const v=spd*(0.55+Math.random()*0.65);
     return{x:tx,y:ty,vx:Math.cos(ang)*v*spM,vy:Math.sin(ang)*v*spM,rot:0,
-      sz:(7+Math.random()*3)*szM,ion,erratic:ion==='As⁵⁺',erraticT:0,homing:idx===0};
+      sz:(7+Math.random()*3)*szM,ion,erratic:ion==='As⁵⁺',erraticT:0,homing:idx===0||(G.epoch>=4&&idx===1&&Math.random()<0.55)};
   });
 }
 
@@ -1074,7 +1087,7 @@ function pickMode(){
 
 function reset(){
   pickMode();
-  G={score:0,lives:6,epoch:1,seqs:0,need:7,over:false,won:false,inv:0,glt:0,
+  G={score:0,lives:6,epoch:1,seqs:0,need:6,over:false,won:false,inv:0,glt:0,
     epochAnim:0,modeAnim:90,hi:_globalHi,
     combo:0,comboT:0,streak:0,multiplier:1,
     loss:1.0,flash:0,flashR:0,flashG:0,flashB:0,
@@ -1135,7 +1148,7 @@ function update(){
   if(mvU&&P.y>P.sz+20)P.y-=spd;
   if(mvD&&P.y<H-P.sz)P.y+=spd;
 
-  if((mvL||mvR||mvU||mvD)&&!isDashing&&Math.random()<0.3)addTrail(P.x,P.y,MODE.pCol+'22');
+  if((mvL||mvR||mvU||mvD)&&!isDashing&&Math.random()<0.55){addTrail(P.x,P.y,MODE.pCol+'22');if(Math.random()<0.25)addTrail(P.x+(Math.random()-.5)*5,P.y+(Math.random()-.5)*5,MODE.pCol+'18');}
   if(P.popScale>1.0)P.popScale=Math.max(1.0,P.popScale-0.05);
   if(_skT>0)_skT--;
 
@@ -1196,8 +1209,8 @@ function update(){
       pfx(n.x,n.y,MODE.aCol,5);addPopup(n.x,n.y-8,popText,MODE.aCol);
     }
 
-    if(G.combo>0&&G.combo%6===0){
-      if(G.lives<MAX_LIVES&&Math.random()<0.8){
+    if(G.combo>0&&G.combo%4===0){
+      if(G.lives<MAX_LIVES&&Math.random()<0.82){
         spawnPickup('l',MODE.lCol,'+LIFE');
       }else if(Math.random()<0.45){
         spawnPickup('p','#bf5fff','SHIELD');
@@ -1207,7 +1220,7 @@ function update(){
     /* Epoch advance */
     if(G.seqs>=G.need){
       if(G.epoch>=MODE.epochs.length){G.won=true;return false;}
-      G.epoch++;G.seqs=0;G.need=Math.ceil(G.need*1.22);
+      G.epoch++;G.seqs=0;G.need=Math.min(16,Math.ceil(5.5+G.epoch*1.35+G.epoch*G.epoch*0.12));
       G.epochAnim=110;G.flash=9;G.flashR=0;G.flashG=200;G.flashB=255;
       pfx(P.x,P.y,'#00ffff',16,true);
       spawnToxins();
@@ -1349,7 +1362,7 @@ function triPath(x,y,sz,rot){
 function drawParticles(){
   for(let i=0;i<MAX_POOL;i++){
     const p=pool[i];if(!p.alive)continue;
-    const alpha=(1-p.life/p.max)*(p.trail?0.55:0.75);
+    const alpha=(1-p.life/p.max)*(p.trail?0.72:0.78);
     GX.globalAlpha=Math.max(0,alpha);GX.fillStyle=p.col;
     GX.beginPath();GX.arc(p.x,p.y,p.trail?p.sz:p.sz,0,Math.PI*2);GX.fill();
   }
@@ -1615,6 +1628,9 @@ function drawHUD(){
   GX.fillStyle='#1a3a3a';GX.fillText('EP:',120,13);
   GX.fillStyle='#00ffff';GX.fillText(`${G.epoch}/${MODE.epochs.length}`,140,13);
 
+  GX.fillStyle='#1a3a3a';GX.fillText('PH:',170,13);
+  GX.fillStyle='#bf5fff';GX.fillText((MODE.epochs[Math.min(G.epoch-1,MODE.epochs.length-1)]||'').replace(/_/g,' ').slice(0,18),192,13);
+
   GX.fillStyle='#060806';GX.fillRect(178,5,56,8);
   GX.fillStyle='rgba(0,255,65,0.6)';GX.fillRect(178,5,56*(G.seqs/G.need),8);
   GX.strokeStyle='rgba(0,255,65,0.12)';GX.lineWidth=1;GX.strokeRect(178,5,56,8);
@@ -1655,13 +1671,14 @@ function drawModeIntro(){
   if(G.modeAnim<=0)return;
   const f=Math.min(1,G.modeAnim/16)*Math.min(1,G.modeAnim/78);
   GX.save();GX.globalAlpha=f;
-  GX.fillStyle='rgba(0,0,0,0.78)';GX.fillRect(0,H/2-44,W,82);
+  GX.fillStyle='rgba(0,0,0,0.78)';GX.fillRect(0,H/2-48,W,92);
   GX.font='bold 13px "JetBrains Mono"';GX.textAlign='center';
   GX.fillStyle='#bf5fff';GX.shadowColor='#bf5fff';GX.shadowBlur=14;
-  GX.fillText(`// MODE ${MODE.id}: ${MODE.label}`,W/2,H/2-20);
+  GX.fillText(`// MODE ${MODE.id}: ${MODE.label}`,W/2,H/2-24);
   GX.shadowBlur=0;GX.font='8px "JetBrains Mono"';
-  GX.fillStyle='#5a3a7a';GX.fillText(`agent: ${MODE.agent}  ·  toxin: ${MODE.tName}  ·  dash available: SPACE`,W/2,H/2);
-  GX.fillStyle='#2a1a3a';GX.fillText(`EPOCH 1 · ${MODE.epochs[0]}`,W/2,H/2+16);
+  GX.fillStyle='#5a3a7a';GX.fillText(`agent: ${MODE.agent}  ·  toxin: ${MODE.tName}  ·  dash: SPACE  ·  phase: progressive`,W/2,H/2-4);
+  GX.fillStyle='#2a1a3a';GX.fillText(`EPOCH 1 · ${MODE.epochs[0]}`,W/2,H/2+14);
+  GX.fillStyle='#194d4d';GX.fillText('trail · glow · scanlines · vignette · combo rewards',W/2,H/2+30);
   GX.restore();
 }
 
