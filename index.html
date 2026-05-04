@@ -11,27 +11,57 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --g:#7ee787;--g3:rgba(126,231,135,.08);
-  --cy:#8be9fd;--am:#f2c14e;--rd:#ff6b6b;--vi:#c77dff;
-  --bg:#0b0f0d;--bg2:rgba(16,22,18,.96);
-  --br:rgba(126,231,135,.14);--dim:#78907b;--mu:#8fa190;
+  --g:#00ff41;--g3:rgba(0,255,65,.07);
+  --cy:#00ffff;--am:#ffb000;--rd:#ff4444;--vi:#bf5fff;
+  --bg:#060808;--bg2:rgba(10,14,12,.97);
+  --br:rgba(0,255,65,.12);--dim:#4a7a4a;--mu:#5a8a5a;
   --mono:'JetBrains Mono',monospace;
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
   padding-top:22px;cursor:none;background-color:var(--bg);
   background-image:
-    radial-gradient(circle at 1px 1px,rgba(126,231,135,.05) 1px,transparent 0);
-  background-size:26px 26px;
+    radial-gradient(ellipse 90% 55% at 0% 0%,rgba(0,45,18,.55) 0%,transparent 65%),
+    radial-gradient(ellipse 70% 50% at 100% 100%,rgba(0,18,35,.6) 0%,transparent 60%),
+    radial-gradient(circle at 1px 1px,rgba(0,255,65,.035) 1px,transparent 0);
+  background-size:100% 100%,100% 100%,30px 30px;
   background-attachment:scroll}
 #overlay{position:fixed;inset:0;pointer-events:none;z-index:8000;
-  background:linear-gradient(to bottom,rgba(255,255,255,.01),transparent 35%);
-  opacity:.35}
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.035) 2px,rgba(0,0,0,.035) 4px);
+  animation:flicker 24s infinite}
 @keyframes flicker{0%,100%{opacity:1}93%{opacity:.96}94%{opacity:1}98%{opacity:.97}99%{opacity:1}}
 #cursor{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
 #cursor::before,#cursor::after{content:'';position:absolute;background:var(--cy)}
 #cursor::before{width:1px;height:100%;left:50%;top:0}
 #cursor::after{width:100%;height:1px;top:50%;left:0}
+
+/* ── BIO RAIN ── */
+#bio-rain{
+  position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;
+  mix-blend-mode:screen;opacity:.58
+}
+.bio-drop{
+  position:absolute;top:-12vh;
+  color:rgba(0,255,153,.13);
+  text-shadow:0 0 8px rgba(0,255,153,.08);
+  font-size:12px;line-height:1;
+  animation:bioFall linear infinite;
+  will-change:transform
+}
+.bio-drop .bio-char{display:block;transform:translateZ(0)}
+@keyframes bioFall{
+  from{transform:translate3d(0,-12vh,0)}
+  to{transform:translate3d(0,118vh,0)}
+}
+@media(max-width:768px){
+  #bio-rain{opacity:.28}
+  .bio-drop{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  #bio-rain{display:none}
+  #overlay{animation:none}
+  #dna-ticker .dna-track{animation:none}
+}
 
 /* ── DNA TICKER ── */
 #dna-ticker{position:fixed;top:0;left:0;right:0;height:22px;
@@ -42,14 +72,6 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 @keyframes dnaScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .dA{color:#00ff41}.dT{color:#ff4444}.dC{color:#4488ff}.dG{color:#ffb000}
 .dSep{color:#0d1a0d;margin:0 14px;font-size:8px}
-
-/* ── HEADER VISIT COUNTER ── */
-.hdr-visits{display:flex;align-items:center;gap:5px;font-size:8px;letter-spacing:1px;
-  color:var(--cy);padding:3px 9px;border:1px solid rgba(0,255,255,.16);
-  border-radius:2px;background:rgba(0,255,255,.03);white-space:nowrap}
-.hdr-visits .vc-dot{width:5px;height:5px;border-radius:50%;background:var(--cy);
-  animation:blink 2s ease-in-out infinite;flex-shrink:0}
-.hdr-visits .vc-val{color:#e0e0e0;font-weight:700}
 
 #boot{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;
   flex-direction:column;justify-content:center;align-items:flex-start;
@@ -67,48 +89,34 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .row>.win{margin-bottom:0}
 @media(max-width:760px){.row,.row.r-4060{grid-template-columns:1fr}}
 @media(max-width:480px){.wb{padding:12px 14px}}
-@media (max-width: 768px){
-  body{cursor:auto; background-attachment:scroll;}
-  #cursor{display:none}
-  #overlay{display:none}
-  .dna-track{animation:none}
-  .lab-status{display:none}
-  .mem-card,.pub-entry,.btn,.pdot,.win{cursor:auto}
-  #gameCanvas{height:auto}
-}
-@media (prefers-reduced-motion: reduce){
-  html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important}
-  .dna-track,#overlay,#cursor .vc-dot,.blink-dot,.sp,.pi-ring{animation:none !important}
-}
-.win{background:var(--bg2);border:1px solid var(--br);border-radius:5px;margin-bottom:14px;
-  overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.02);
+.win{background:var(--bg2);border:1px solid rgba(0,255,65,.09);border-radius:8px;margin-bottom:14px;
+  overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.32),inset 0 1px 0 rgba(0,255,65,.025);
   transition:border-color .15s}
 .win:hover{border-color:rgba(0,255,65,.2)}
-.wbar{background:rgba(14,18,15,.98);border-bottom:1px solid var(--br);
-  padding:6px 13px;display:flex;align-items:center;gap:7px;user-select:none;transition:background .15s}
+.wbar{background:rgba(4,5,4,.98);border-bottom:1px solid rgba(0,255,65,.09);
+  padding:8px 13px;display:flex;align-items:center;gap:7px;user-select:none;transition:background .15s}
 .win:hover .wbar{background:rgba(8,14,10,.99)}
 .dots{display:flex;gap:5px}
 .dot{width:9px;height:9px;border-radius:50%}
 .dr{background:#ff5f57}.dy{background:#febc2e}.dg{background:#28c840}
-.wt{font-size:10px;color:#cbd5cb;letter-spacing:1px;margin-left:4px;
+.wt{font-size:10px;color:#233223;letter-spacing:1px;margin-left:4px;
   flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .wbadge{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--am);
   border:1px solid rgba(255,176,0,.22);padding:1px 6px;border-radius:2px;
   background:rgba(255,176,0,.04);white-space:nowrap;margin-left:auto}
-.wb{padding:18px 22px}
+.wb{padding:20px 22px}
 .sys-line{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,255,65,.11);background:rgba(0,255,65,.03);padding:3px 12px;border-radius:2px;font-size:9px;letter-spacing:1.5px;color:var(--g);margin-bottom:16px}
 #sec-about{display:flex;flex-direction:column}
 #sec-about .wb{display:flex;flex-direction:column;flex:1}
 #sec-about .diasma{margin-top:auto}
-.pr{font-size:11px;margin-bottom:13px;line-height:1.5;word-break:break-word;color:var(--dim)}
+.pr{font-size:11px;margin-bottom:13px;line-height:1.5;word-break:break-all;color:var(--dim)}
 .pu{color:var(--g)}.ps{color:var(--g)}.pc{color:#d0d0d0}.pa{color:var(--am)}.pf{color:var(--cy)}
 .ptyped{border-right:2px solid var(--g)}
-.lab-banner{display:flex;align-items:center;gap:14px;padding:13px 16px;margin-bottom:14px;
-  background:rgba(0,255,65,.025);border:1px solid rgba(0,255,65,.13);border-radius:5px}
+.lab-banner{display:flex;align-items:center;gap:14px;padding:16px 18px;margin-bottom:14px;
+  background:rgba(0,255,65,.02);border:1px solid rgba(0,255,65,.1);border-radius:8px}
 .lab-logo{font-size:28px;flex-shrink:0}
-.lab-name{font-size:14px;font-weight:700;color:#e0e0e0;letter-spacing:.3px;margin-bottom:3px}
-.lab-tag{font-size:10px;color:var(--mu);line-height:1.5;margin-bottom:7px}
+.lab-name{font-size:15px;font-weight:700;color:#eef2f0;letter-spacing:.2px;margin-bottom:3px}
+.lab-tag{font-size:10.5px;color:#89a18f;line-height:1.55;margin-bottom:7px}
 .lab-chips{display:flex;flex-wrap:wrap;gap:4px}
 .chip{font-size:8px;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;
   border-radius:2px;border:1px solid;color:var(--g);border-color:rgba(0,255,65,.2);background:rgba(0,255,65,.04)}
@@ -147,7 +155,7 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .dtitle{font-size:11px;color:#d0d0d0;font-weight:700;line-height:1.4}
 .dsub{font-size:9px;color:var(--mu);margin-top:2px;line-height:1.5}
 .mem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.mem-card{background:rgba(5,8,6,.95);border:1px solid var(--br);border-radius:4px;
+.mem-card{background:rgba(5,8,6,.92);border:1px solid rgba(0,255,65,.08);border-radius:8px;
   padding:13px 10px;text-align:center;cursor:none;
   transition:border-color .15s,transform .15s;
   display:flex;flex-direction:column;align-items:center;
@@ -169,7 +177,7 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .mem-badge{font-size:7px;letter-spacing:.8px;text-transform:uppercase;
   margin-top:5px;padding:1px 6px;border-radius:2px;border:1px solid}
 .mem-badge.pi{color:var(--g);border-color:rgba(0,255,65,.2);background:rgba(0,255,65,.04)}
-
+.mem-badge.phd{color:var(--cy);border-color:rgba(0,255,255,.2);background:rgba(0,255,255,.03)}
 .mem-badge.msc{color:var(--am);border-color:rgba(255,176,0,.2);background:rgba(255,176,0,.03)}
 .mem-badge.ra{color:var(--vi);border-color:rgba(191,95,255,.2);background:rgba(191,95,255,.03)}
 .mem-badge.extern{color:#888;border-color:rgba(128,128,128,.2);background:rgba(128,128,128,.03)}
@@ -179,7 +187,7 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .mem-source{font-size:7px;color:#1a3a1a;text-align:right;margin-top:8px;letter-spacing:.5px}
 .mem-source span{color:var(--dim)}
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.stat-chip{background:rgba(5,8,6,.95);border:1px solid var(--br);border-radius:4px;padding:11px 13px}
+.stat-chip{background:rgba(5,8,6,.92);border:1px solid rgba(0,255,65,.08);border-radius:8px;padding:11px 13px}
 .stat-lbl{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
 .stat-val{font-size:17px;font-weight:700;letter-spacing:-.5px;min-height:24px;line-height:1;font-variant-numeric:tabular-nums}
 .stat-ts{font-size:7px;color:#1c2c1c;margin-top:3px}
@@ -187,7 +195,7 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .stat-chip:nth-child(2) .stat-val{color:var(--cy)}
 .stat-chip:nth-child(3) .stat-val{color:#28c882}
 .stat-chip:nth-child(4) .stat-val{color:var(--am)}
-.pub-entry{border-left:2px solid rgba(0,255,65,.1);padding:6px 0 6px 12px;margin-bottom:8px;
+.pub-entry{border-left:2px solid rgba(0,255,65,.08);padding:8px 0 8px 12px;margin-bottom:8px;
   cursor:none;transition:border-color .15s;border-radius:0 3px 3px 0}
 .pub-entry:hover{border-color:var(--g);background:rgba(0,255,65,.016)}
 .pub-hash{font-size:9px;color:var(--vi);margin-bottom:1px}
@@ -213,8 +221,8 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
   border:1px solid rgba(0,255,255,.16);padding:2px 7px;border-radius:2px;display:inline-block;margin-bottom:6px}
 #factText{font-size:10px;color:var(--mu);line-height:1.8;min-height:40px;transition:opacity .3s}
 .btn{font-family:var(--mono);font-size:9px;letter-spacing:.7px;padding:4px 11px;
-  border:1px solid var(--br);border-radius:2px;background:transparent;
-  color:var(--g);cursor:none;transition:background .12s;text-decoration:none;display:inline-block}
+  border:1px solid rgba(0,255,65,.12);border-radius:2px;background:transparent;
+  color:var(--g);cursor:none;transition:background .12s,text-shadow .12s;text-decoration:none;display:inline-block}
 .btn:hover{background:var(--g3)}
 .btn.cy{color:var(--cy);border-color:rgba(0,255,255,.15)}.btn.cy:hover{background:rgba(0,255,255,.04)}
 .btn.vi{color:var(--vi);border-color:rgba(191,95,255,.15)}.btn.vi:hover{background:rgba(191,95,255,.04)}
@@ -244,6 +252,19 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 
 footer{margin-top:24px;padding-bottom:16px;font-size:9px;color:#162016;letter-spacing:1.2px;text-align:center;line-height:2}
 footer .hi{color:#223222}
+
+@media (max-width: 768px){
+  body{cursor:auto}
+  #cursor{display:none}
+  #overlay{opacity:.35}
+  #dna-ticker{height:18px}
+  #terminal{padding:12px 12px 34px}
+  .row,.row.r-4060{grid-template-columns:1fr}
+  .lab-status{display:none}
+  .lab-banner{padding:14px}
+  .wb{padding:16px}
+}
+
 </style>
 </head>
 <body>
@@ -252,6 +273,7 @@ footer .hi{color:#223222}
 <div id="dna-ticker">
   <div class="dna-track" id="dnaTrack"></div>
 </div>
+<div id="bio-rain" aria-hidden="true"></div>
 
 <div id="boot">
   <pre id="boot-ascii"></pre>
@@ -264,7 +286,7 @@ footer .hi{color:#223222}
     <div class="lab-logo">🧬</div>
     <div>
       <div class="lab-name">MOYA-LAB — Modelling Omics Yielding Analytics</div>
-      <div class="lab-tag">Computational biology research group · Fac. Ingeniería, UTEM · Santiago, Chile<br>Integrating genomics, metagenomics and AI/ML to understand microbial systems in extreme environments.</div>
+      <div class="lab-tag">Computational biology research group · Fac. Ingeniería, UTEM · Santiago, Chile<br>Genomics, metagenomics, microbiology and AI/ML for environmental and microbial systems.</div>
       <div class="lab-chips">
         <span class="chip">Computational Microbiology</span>
         <span class="chip cy">Omics Sciences</span>
@@ -275,13 +297,8 @@ footer .hi{color:#223222}
       </div>
     </div>
     <div class="lab-status">
-      <span class="sc wip">🚧 In Construction</span>
-      <span class="sc on"><span class="blink-dot"></span>Systems Online</span>
-      <div class="hdr-visits">
-        <span class="vc-dot"></span>
-        <span>VISITS</span>
-        <span class="vc-val" id="visitCountHeader">···</span>
-      </div>
+      <span class="sc wip">🚧 Lab in progress</span>
+      <span class="sc on"><span class="blink-dot"></span>Active systems</span>
     </div>
   </div>
 
@@ -480,22 +497,6 @@ document.addEventListener('mousemove',e=>{
   c.style.left=e.clientX+'px';c.style.top=e.clientY+'px';
 },{passive:true});
 
-/* ══ VISIT COUNTER ══ */
-(()=>{
-  const KEY='moyalab_total_v2';
-  const SESS='moyalab_sess_v2';
-  const BASE=2847;
-  if(!sessionStorage.getItem(SESS)){
-    sessionStorage.setItem(SESS,'1');
-    const v=(parseInt(localStorage.getItem(KEY)||'0')||0)+1;
-    localStorage.setItem(KEY,String(v));
-  }
-  const local=parseInt(localStorage.getItem(KEY)||'1')||1;
-  const total=(local+BASE).toLocaleString('en-US');
-  const elH=document.getElementById('visitCountHeader');
-  if(elH)elH.textContent=total;
-})();
-
 /* ══ DNA TICKER ══ */
 (()=>{
   const B='ATCGATCGGCTAGCTATCGATCGATAATCGGCTATCGATCGATCGGCTAGCTATCGATCGATAATCGATCG';
@@ -504,6 +505,35 @@ document.addEventListener('mousemove',e=>{
   let h='';
   for(let k=0;k<2;k++){for(const c of u)h+=`<span class="${M[c]}">${c}</span>`;h+='<span class="dSep">///</span>';}
   document.getElementById('dnaTrack').innerHTML=h;
+})();
+
+/* ══ BIO RAIN ══ */
+(()=>{
+  const wrap=document.getElementById('bio-rain');
+  if(!wrap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const CHARS=['A','T','C','G','U','K','L','M','N','R','S','V','W','Y'];
+  const count = window.matchMedia('(max-width: 768px)').matches ? 24 : 46;
+  const frag=document.createDocumentFragment();
+  for(let i=0;i<count;i++){
+    const drop=document.createElement('div');
+    drop.className='bio-drop';
+    const ch=document.createElement('span');
+    ch.className='bio-char';
+    ch.textContent=CHARS[Math.floor(Math.random()*CHARS.length)];
+    drop.appendChild(ch);
+    const left=Math.random()*100;
+    const dur=8 + Math.random()*14;
+    const delay=-(Math.random()*dur);
+    const fs=10 + Math.random()*12;
+    const opacity=(0.06 + Math.random()*0.12).toFixed(2);
+    drop.style.left=left+'%';
+    drop.style.animationDuration=dur.toFixed(2)+'s';
+    drop.style.animationDelay=delay.toFixed(2)+'s';
+    drop.style.fontSize=fs+'px';
+    drop.style.opacity=opacity;
+    frag.appendChild(drop);
+  }
+  wrap.appendChild(frag);
 })();
 
 /* ══ UPTIME ══ */
@@ -565,13 +595,13 @@ const CORE_FALLBACK=[
   {github:'fcabezasmera',name:'Fausto Cabezas-Mera',role:'PhD Candidate',
    sub:'DIASMA · Biología Computacional',email:'fcabezasme@utem.cl',emoji:'🌱',badge:'phd'},
 ];
-const BADGE_LABEL={pi:'PI',msc:'MSc',ra:'Res. Asst.',extern:'External'};
+const BADGE_LABEL={pi:'PI',phd:'PhD',msc:'MSc',ra:'Res. Asst.',extern:'External'};
 const ghAvatar=(u,s=80)=>`https://github.com/${u}.png?size=${s}`;
 
 function buildMemberCard(m){
   const avStyle=m.pi?'position:relative;border-color:rgba(0,255,65,.3);width:50px;height:50px':'';
   const ring=m.pi?`<div class="pi-ring"></div>`:'';
-  const badgeHTML=(m.badge && m.badge !== 'phd' && BADGE_LABEL[m.badge]) ? `<span class="mem-badge ${m.badge}">${BADGE_LABEL[m.badge]}</span>` : '';
+  const badgeHTML=m.badge&&BADGE_LABEL[m.badge]?`<span class="mem-badge ${m.badge}">${BADGE_LABEL[m.badge]}</span>`:'';
   const emailHTML=m.email?`<a class="mem-email" href="mailto:${m.email}" onclick="event.stopPropagation()">✉ ${m.email}</a>`:'';
   const profileURL=m.github?`https://github.com/${m.github}`:(m.url||'#');
   const avatarHTML=m.github
@@ -588,7 +618,7 @@ function buildMemberCard(m){
 }
 const JOIN_CARD=`<div class="mem-card mem-join" onclick="window.open('mailto:amoya@utem.cl','_blank')" title="Open positions">
   <div class="mem-av" style="border-style:dashed;font-size:16px">➕</div>
-  <div class="mem-name" style="color:var(--dim)">Join the Lab</div>
+  <div class="mem-name" style="color:var(--dim)">Open positions</div>
   <div class="mem-role" style="color:#2a4a2a">Open positions</div>
   <div class="mem-sub">amoya@utem.cl</div></div>`;
 
