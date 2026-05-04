@@ -74,13 +74,13 @@ body{font-family:var(--mono);color:var(--g);min-height:100vh;overflow-x:hidden;
 .dSep{color:#0d1a0d;margin:0 14px;font-size:8px}
 
 #boot{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;
-  flex-direction:column;justify-content:center;align-items:flex-start;
+  flex-direction:column;justify-content:center;align-items:center;text-align:center;
   padding:40px clamp(20px,6vw,80px);transition:opacity .6s}
 #boot.fade-out{opacity:0;pointer-events:none}
-#boot-ascii{font-size:clamp(5.5px,1.2vw,10px);line-height:1.2;color:var(--g);white-space:pre;
-  text-shadow:0 0 12px rgba(0,255,65,.35);margin-bottom:20px}
-#boot-log{font-size:12px;line-height:2.1;max-width:600px}
-#boot-log .ok{color:var(--g)}#boot-log .info{color:var(--cy)}
+#boot-ascii{font-size:clamp(10px,2.2vw,18px);line-height:1.2;color:var(--cy);white-space:pre;
+  text-shadow:0 0 14px rgba(0,255,255,.18);margin-bottom:16px;letter-spacing:1px}
+#boot-log{font-size:12px;line-height:1.9;max-width:620px}
+#boot-log .ok{color:var(--g);display:block}#boot-log .info{color:var(--cy);display:block}
 .bbar-wrap{width:min(420px,80vw);height:2px;background:#111;margin-top:18px;overflow:hidden}
 #boot-bar{height:100%;width:0%;background:var(--g);transition:width .08s linear}
 #terminal{display:none;max-width:1100px;margin:0 auto;padding:16px 20px 48px}
@@ -545,27 +545,22 @@ setInterval(()=>{
 
 /* ══ BOOT ══ */
 document.getElementById('boot-ascii').textContent=
-` ███╗   ███╗ ██████╗ ██╗   ██╗ █████╗       ██╗      █████╗ ██████╗
- ████╗ ████║██╔═══██╗╚██╗ ██╔╝██╔══██╗      ██║     ██╔══██╗██╔══██╗
- ██╔████╔██║██║   ██║ ╚████╔╝ ███████║      ██║     ███████║██████╔╝
- ██║╚██╔╝██║██║   ██║  ╚██╔╝  ██╔══██║      ██║     ██╔══██║██╔══██╗
- ██║ ╚═╝ ██║╚██████╔╝   ██║   ██║  ██║      ███████╗██║  ██║██████╔╝
- ╚═╝     ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝      ╚══════╝╚═╝  ╚═╝╚═════╝`;
+`MOYA-LAB
+Computational Biology Lab
+UTEM · Santiago, Chile`;
 
-[{t:'MOYA-LAB // Computational Biology Lab · UTEM',c:'ok',d:0},
- {t:'Modelling Omics Yielding Analytics · Santiago, Chile',c:'info',d:100},
- {t:'',c:'',d:170},
- {t:'[ OK ] Genome indexer loaded',c:'ok',d:270},
- {t:'[ OK ] NCBI eutils: connecting…',c:'ok',d:370},
- {t:'[ OK ] ORCID API: ready',c:'ok',d:450},
- {t:'[ OK ] team.json: fetching…',c:'ok',d:530},
- {t:'[ OK ] AI simulation engine: v3 loaded',c:'ok',d:610},
- {t:'[ OK ] All systems nominal.',c:'ok',d:690},
- {t:'',c:'',d:750},
- {t:'Welcome, researcher.',c:'info',d:820},
+[
+  {t:'initializing landing page',c:'info',d:0},
+  {t:'loading genomics, metagenomics and AI modules',c:'ok',d:120},
+  {t:'warming up sample pipelines',c:'ok',d:260},
+  {t:'calibrating interactive assay',c:'ok',d:420},
+  {t:'preparing member and publication panels',c:'ok',d:580},
+  {t:'ready to explore',c:'info',d:760},
 ].forEach((l,i,a)=>{
   setTimeout(()=>{
-    const d=document.createElement('div');d.className=l.c;d.textContent=l.t;
+    const d=document.createElement('div');
+    d.className=l.c;
+    d.textContent=l.t;
     document.getElementById('boot-log').appendChild(d);
     document.getElementById('boot-bar').style.width=((i+1)/a.length*100)+'%';
   },l.d);
@@ -575,9 +570,9 @@ setTimeout(()=>{
   setTimeout(()=>{
     document.getElementById('boot').style.display='none';
     document.getElementById('terminal').style.display='block';
-    typeInto('tw-pi','lab_info.json | jq',36);
-  },600);
-},1500);
+    typeInto('tw-pi','lab_info.json | jq',28);
+  },450);
+},1150);
 
 function typeInto(id,text,speed,cb){
   const el=document.getElementById(id);if(!el){cb&&cb();return;}
@@ -818,7 +813,7 @@ fetchPapers();
 
 
 /* ══════════════════════════════════════════════════════════════════════
-   MOYA-LAB GAME ENGINE v3
+   MOYA-LAB GAME ENGINE
    3 AI × Microbiology Modes — Dash · Magnet · Multiplier · Rich BG
 ══════════════════════════════════════════════════════════════════════ */
 (()=>{
@@ -827,7 +822,8 @@ fetchPapers();
 const GC=document.getElementById('gameCanvas');
 const GX=GC.getContext('2d');
 const W=GC.width,H=GC.height;
-const MAX_LIVES=9,MAX_POOL=64,MAX_POPUPS=10;
+const LOW_POWER=matchMedia('(pointer: coarse)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MAX_LIVES=9,MAX_POOL=LOW_POWER?42:64,MAX_POPUPS=LOW_POWER?7:10;
 const DASH_FRAMES=18,DASH_CD=240,MAGNET_RADIUS=85,MAGNET_FORCE=1.8;
 
 /* ── 3 scientifically-grounded AI + Microbiology Modes ── */
@@ -954,6 +950,7 @@ const MODES=[
 const IONS=['Fe³⁺','Cu²⁺','As⁵⁺'];
 let MODE,G,P,nodes,toxins,frame=0;
 let _bgCanvas=null,_bgKey='';
+let _bonusQueue=[];
 let _skX=0,_skY=0,_skT=0;
 const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const shake=(i)=>{_skT=12;_skX=i;_skY=i*0.6;};
@@ -993,24 +990,39 @@ function addPopup(x,y,text,col){
 }
 
 /* ── Nodes ── */
-function mkNode(){
-  const r=Math.random();
-  const t=r<0.012?'l':r<0.038?'p':r<0.22?'b':'a';
+function mkNodeOfType(t){
   const tagArr=MODE.tags?.[t]||MODE.tags?.['a']||[];
-  return{x:35+Math.random()*(W-70),y:35+Math.random()*(H-55),t,
+  return {x:35+Math.random()*(W-70),y:35+Math.random()*(H-55),t,
     a:Math.random()*Math.PI*2,vx:(Math.random()-.5)*.48,vy:(Math.random()-.5)*.48,
     tag:tagArr[Math.floor(Math.random()*tagArr.length)]||'',
     pulse:0};
 }
+function mkNode(){
+  const r=Math.random();
+  const t=r<0.018?'l':r<0.048?'p':r<0.24?'b':'a';
+  return mkNodeOfType(t);
+}
 function spawnNodes(){nodes=Array.from({length:Math.min(5+G.epoch,12)},mkNode);}
+function spawnPickup(type,col,text){
+  const node=mkNodeOfType(type);
+  let tries=0;
+  while(tries<10 && dist(P,node)<92){
+    node.x=35+Math.random()*(W-70);
+    node.y=35+Math.random()*(H-55);
+    tries++;
+  }
+  node.pulse=0.35;
+  _bonusQueue.push(node);
+  addPopup(node.x,node.y,text,col);
+}
 function spawnToxins(){
-  const spd=0.82+G.epoch*0.14,count=Math.min(2+G.epoch,9);
+  const spd=0.7+G.epoch*0.11,count=Math.min(1+Math.floor(G.epoch*0.8),8);
   toxins=Array.from({length:count},(_,idx)=>{
     let tx,ty;
     do{tx=30+Math.random()*(W-60);ty=30+Math.random()*(H-50);}while(dist({x:tx,y:ty},P)<100);
     const ang=Math.random()*Math.PI*2,ion=IONS[Math.floor(Math.random()*3)];
-    const szM=ion==='Fe³⁺'?1.35:ion==='Cu²⁺'?0.75:1.0;
-    const spM=ion==='Fe³⁺'?0.70:ion==='Cu²⁺'?1.38:1.0;
+    const szM=ion==='Fe³⁺'?1.3:ion==='Cu²⁺'?0.78:1.0;
+    const spM=ion==='Fe³⁺'?0.72:ion==='Cu²⁺'?1.28:1.0;
     const v=spd*(0.55+Math.random()*0.65);
     return{x:tx,y:ty,vx:Math.cos(ang)*v*spM,vy:Math.sin(ang)*v*spM,rot:0,
       sz:(7+Math.random()*3)*szM,ion,erratic:ion==='As⁵⁺',erraticT:0,homing:idx===0};
@@ -1030,7 +1042,7 @@ function pickMode(){
 
 function reset(){
   pickMode();
-  G={score:0,lives:6,epoch:1,seqs:0,need:8,over:false,won:false,inv:0,glt:0,
+  G={score:0,lives:6,epoch:1,seqs:0,need:7,over:false,won:false,inv:0,glt:0,
     epochAnim:0,modeAnim:90,hi:_globalHi,
     combo:0,comboT:0,streak:0,multiplier:1,
     loss:1.0,flash:0,flashR:0,flashG:0,flashB:0,
@@ -1152,17 +1164,28 @@ function update(){
       pfx(n.x,n.y,MODE.aCol,5);addPopup(n.x,n.y-8,popText,MODE.aCol);
     }
 
+    if(G.combo>0&&G.combo%6===0){
+      if(G.lives<MAX_LIVES&&Math.random()<0.8){
+        spawnPickup('l',MODE.lCol,'+LIFE');
+      }else if(Math.random()<0.45){
+        spawnPickup('p','#bf5fff','SHIELD');
+      }
+    }
+
     /* Epoch advance */
     if(G.seqs>=G.need){
       if(G.epoch>=MODE.epochs.length){G.won=true;return false;}
-      G.epoch++;G.seqs=0;G.need=Math.ceil(G.need*1.26);
+      G.epoch++;G.seqs=0;G.need=Math.ceil(G.need*1.22);
       G.epochAnim=110;G.flash=9;G.flashR=0;G.flashG=200;G.flashB=255;
       pfx(P.x,P.y,'#00ffff',16,true);
       spawnToxins();
+      if(G.lives<MAX_LIVES&&Math.random()<0.7)spawnPickup('l',MODE.lCol,'+LIFE');
+      else if(Math.random()<0.35)spawnPickup('p','#bf5fff','SHIELD');
     }
     return false;
   });
 
+  if(_bonusQueue.length){nodes.push(..._bonusQueue);_bonusQueue=[];}
   if(!nodes.length)spawnNodes();
   if(G.comboT>0)G.comboT--;
   else{G.combo=0;G.multiplier=1;}
@@ -1364,6 +1387,7 @@ function drawTaxoLive(){
 }
 
 function drawModeViz(){
+  if(LOW_POWER)return;
   drawUMAPLive();
   drawAttentionLive();
   drawTaxoLive();
